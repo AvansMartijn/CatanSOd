@@ -1,13 +1,12 @@
 package controller;
 
-import model.Dice;
+import model.Player;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Dice dice = new Dice();
-		dice.rollDice();
-		
+		Player player = new Player();
+		player.throwDice();
 
 	}
 
