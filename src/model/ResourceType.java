@@ -1,5 +1,9 @@
 package model;
 
-public class ResourceType {
-
+public enum ResourceType {
+	WOOL,
+	WOOD,
+	IRON,
+	STONE,
+	WHEAT
 }
