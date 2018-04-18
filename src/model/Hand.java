@@ -14,6 +14,14 @@ public class Hand {
 		resources = new ArrayList<Resource>();
 	}
 	
+	// Add Resources
+	public void addResource(Resource resource, int amount) {
+		// For the amount of resources
+		for(int i = 0; i < amount; i++) {
+			addResource(resource);
+		}
+	}
+	
 	// Add Resource
 	public void addResource(Resource resource) {
 		resources.add(resource);
@@ -24,6 +32,5 @@ public class Hand {
 		developmentCards.add(developmentCard);
 	}
 	
-	// TODO add multiple resources with function
 	// TODO randomdraw
 }

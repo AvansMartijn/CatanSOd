@@ -12,8 +12,13 @@ public class Player {
 	public Player(int playerNr) {
 		
 		hand = new Hand();
+		
 		// Assign Color to Player
 		Color[] colors = Color.values();
 		color = colors[playerNr];
+	}
+	
+	public Hand getHand() {
+		return hand;
 	}
 }
