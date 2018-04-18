@@ -18,6 +18,7 @@ public class Player {
 		color = colors[playerNr];
 	}
 	
+	// Get Hand
 	public Hand getHand() {
 		return hand;
 	}
