@@ -33,4 +33,8 @@ public class Hand {
 	}
 	
 	// TODO randomdraw
+	// Randomly draw card
+	public void drawCardRandomly() {
+		
+	}
 }
