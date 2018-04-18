@@ -10,22 +10,10 @@ public class Player {
 	
 	// Constructor
 	public Player(int playerNr) {
-		// Set Player Color
-		switch (playerNr) {
-		case 0:
-			color = color.Red;
-			break;
-		case 1:
-			color = color.White;
-			break;
-		case 2:
-			color = color.Orange;
-			break;
-		case 3:
-			color = color.Blue;
-			break;
-		default:
-			color = null;
-		}
+		
+		hand = new Hand();
+		// Assign Color to Player
+		Color[] colors = Color.values();
+		color = colors[playerNr];
 	}
 }
