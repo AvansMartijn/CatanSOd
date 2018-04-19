@@ -5,17 +5,17 @@ public class LargestArmy {
 	private boolean largestArmy;
 	private int currentLargest;
 	
-	public void checkLargestArmy(int knightAmount) {
+	public boolean checkLargestArmy(int knightAmount) {
 		
 		if (knightAmount >=3) {
 			if (knightAmount > currentLargest) {
-				currentLargest = knightAmount;
 				largestArmy = true;
 			}
 		}
 		else {
 			largestArmy = false;
 		}
+		return largestArmy;
 	}
 	
 	public Boolean getLargestArmy() {
