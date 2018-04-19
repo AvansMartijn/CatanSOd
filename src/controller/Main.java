@@ -1,12 +1,13 @@
 package controller;
 
-import model.Player;
+import dbaccess.Driver;
+import dbaccess.GameDA;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Player player = new Player();
-		player.throwDice();
+		Driver driver = new Driver();
+		driver.loadDriver();
 
 	}
 
