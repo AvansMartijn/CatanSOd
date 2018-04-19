@@ -11,11 +11,14 @@ public class MainDA {
 	private static final String user = "mfghaneg";
 	private static final String password = "Ab12345";
 	protected Connection myConn;
+	private ChatDA chatDA;
+	private AccountDA accountDA;
 
 	public MainDA() {
 		myConn = null;
 	}
-	
+
+
 	public boolean loadDataBaseDriver() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -25,8 +28,8 @@ public class MainDA {
 		}
 		return true;
 	}
-	
-	public boolean makeConnection() {
+
+	public Connection makeConnection() {
 		try {
 			myConn = DriverManager.getConnection(url, user, password);
 		} catch (SQLException ex) {
@@ -34,26 +37,29 @@ public class MainDA {
 			System.out.println("SQLException " + ex.getMessage());
 			System.out.println("SQLState " + ex.getSQLState());
 			System.out.println("VendorError " + ex.getErrorCode());
-			return false;
+			return null;
 		}
-		return true;
+		return myConn;
 	}
 
-
-	public void insertQuery(String query) {
+	public void insertUpdateQuery(String query) {
+		makeConnection();
 		Statement stmt = null;
 		try {
 			stmt = myConn.createStatement();
 			stmt.executeUpdate(query);
 			stmt.close();
+			myConn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void performQuery(String query) {
+	public void selectQuery() {
+		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
+		String query = "SELECT * FROM account";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -62,12 +68,28 @@ public class MainDA {
 				String password = myRs.getString(2); // Number of column
 				System.out.println(username + " pw: " + password);
 			}
-			stmt.close();
 			myRs.close();
+			stmt.close();
+			myConn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public void createChatDA() {
+		chatDA = new ChatDA();
+	}
+	
+	public ChatDA getChatDA() {
+		return chatDA;
+	}
+	
+	public void createAccountDA() {
+		accountDA = new AccountDA();
+	}
+	
+	public AccountDA getAccountDA() {
+		return accountDA;
+	}
 
 }
