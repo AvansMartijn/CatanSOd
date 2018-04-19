@@ -5,7 +5,25 @@ import java.util.ArrayList;
 
 public class Player {
 	
-	public Player() {
+	// Instance variables
+	private Color color;
+	private Hand hand;
+	private LargestArmy largestArmy;
+	private LargestRoad largestRoad;
+	
+	// Constructor
+	public Player(int playerNr) {
+		
+		hand = new Hand();
+		
+		// Assign Color to Player
+		Color[] colors = Color.values();
+		color = colors[playerNr];
+	}
+	
+	// Get Hand
+	public Hand getHand() {
+		return hand;
 	}
 	
 	public void throwDice() {
@@ -40,6 +58,4 @@ public class Player {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
 }

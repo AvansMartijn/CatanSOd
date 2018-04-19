@@ -2,6 +2,7 @@ package model;
 
 public class LargestArmy {
 
+
 	private boolean largestArmy;
 	private int currentLargest;
 	
