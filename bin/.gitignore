@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /model/
 /controller/
-=======
-/controller/
-/model/
->>>>>>> development
+/dbaccess/
 /view/
