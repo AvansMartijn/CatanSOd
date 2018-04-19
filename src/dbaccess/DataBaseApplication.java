@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 public class DataBaseApplication {
 	private Connection m_Conn;
 	private ResultSet res;
@@ -27,27 +26,34 @@ public class DataBaseApplication {
 		return true;
 	}
 
-	public void performQuery(String query) {
+	public void insertQuery(String query) {
+		Statement stmt = null;
+		try {
+			stmt = m_Conn.createStatement();
+			stmt.executeUpdate(query);
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ResultSet performQuery(String query) {
 		Statement stmt = null;
 		try {
 			stmt = m_Conn.createStatement();
 			res = stmt.executeQuery(query);
-			while (res.next()) {
-				String username = res.getString(1);
-				String wachtwoord = res.getString(2);
-				System.out.println(username + ", wachtwoord: " + wachtwoord);
-			}
 			stmt.close();
+			return res;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return null;
 	}
 
 	public boolean makeConnection() {
 		try {
-			m_Conn = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false", "mfghaneg", "Ab12345");
+			m_Conn = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false",
+					"mfghaneg", "Ab12345");
 		} catch (SQLException ex) {
 			System.out.println("Connection failed");
 			System.out.println("SQLException " + ex.getMessage());
@@ -55,7 +61,7 @@ public class DataBaseApplication {
 			System.out.println("VendorError " + ex.getErrorCode());
 			return false;
 		}
-		
+
 		return true;
 	}
 
