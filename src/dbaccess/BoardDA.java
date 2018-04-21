@@ -5,13 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ChatDA extends GameDA {
+public class BoardDA extends GameDA {
 	private Connection myConn;
 
-	public ChatDA() {
+	public BoardDA() {
 	}
 
-	public void addMessage(int idspeler, String bericht) {
+	public void setBoard(int idspeler, String bericht) {
 		makeConnection();
 		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idspeler + ", " + "'" + bericht + "'"
 				+ ");";

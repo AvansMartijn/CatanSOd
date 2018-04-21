@@ -1,7 +1,5 @@
 package model;
 
-public class Bank {
-
 import java.util.ArrayList;
 
 public class Bank {
