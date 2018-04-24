@@ -12,7 +12,6 @@ public class ChatDA extends GameDA {
 	}
 
 	public void addMessage(int idspeler, String bericht) {
-		makeConnection();
 		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idspeler + ", " + "'" + bericht + "'"
 				+ ");";
 		insertUpdateQuery(query);
