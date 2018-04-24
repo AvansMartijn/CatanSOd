@@ -7,10 +7,15 @@ import model.ResourceType;
 public class GameBoardControl {
 	
 	public void createBoard() {
+		createBuildingLocations();
+
+	}
+	
+	private void createBuildingLocations() {
 		BuildingLocation bl1 = new BuildingLocation(1, 3, null);
 		BuildingLocation bl2 = new BuildingLocation(1, 4, null);
 		BuildingLocation bl3 = new BuildingLocation(2, 2, new Harbour(ResourceType.BAKSTEEN));
-		BuildingLocation bl4 = new BuildingLocation(2, 3, null);
+		BuildingLocation bl4 = new BuildingLocation(2, 3, new Harbour(ResourceType.BAKSTEEN));
 		BuildingLocation bl5 = new BuildingLocation(2, 5, new Harbour(ResourceType.HOUT));
 		BuildingLocation bl6 = new BuildingLocation(2, 6, new Harbour(ResourceType.HOUT));
 		BuildingLocation bl7 = new BuildingLocation(3, 1, new Harbour(null));
@@ -61,7 +66,6 @@ public class GameBoardControl {
 		BuildingLocation bl52 = new BuildingLocation(10, 10, new Harbour(ResourceType.ERTS));
 		BuildingLocation bl53 = new BuildingLocation(11, 8, new Harbour(null));
 		BuildingLocation bl54 = new BuildingLocation(11, 9, new Harbour(null));
-
 	}
 
 }
