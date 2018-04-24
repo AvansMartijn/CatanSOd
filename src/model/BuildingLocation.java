@@ -6,6 +6,11 @@ public class BuildingLocation {
 	private Harbour harbour;
 	
 	
+	public BuildingLocation(int x, int y, Harbour harbour) {
+		this.x = x;
+		this.y = y;
+		this.harbour = harbour;
+	}
 	public int getX() {
 		return x;
 	}
