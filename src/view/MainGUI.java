@@ -13,6 +13,10 @@ public class MainGUI extends JFrame {
 		MenuBarGUI menuBar = new MenuBarGUI();	
 		setJMenuBar(menuBar);
 		
+		RegisterLoginPanel register =  new RegisterLoginPanel();
+		add(register);
+		
+		
 		pack();
 		setResizable(true);
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
