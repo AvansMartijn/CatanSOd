@@ -40,7 +40,7 @@ public class MenuBarGUI extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO add testmode
+				//TODO add testmode1
 			}
 		});
 
@@ -48,7 +48,7 @@ public class MenuBarGUI extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO add testmode
+				//TODO add testmode2
 			}
 		});
 
@@ -56,7 +56,7 @@ public class MenuBarGUI extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO add testmode
+				//TODO add testmode3
 			}
 		});
 	}
