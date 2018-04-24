@@ -4,6 +4,7 @@ import java.util.Vector;
 
 public class Robber {
 
+	
 	Tile tile;
 	Vector victims;
 	Robber robber;

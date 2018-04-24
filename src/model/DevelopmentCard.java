@@ -3,9 +3,10 @@ package model;
 public abstract class DevelopmentCard {
 
 	private Resource[] cardCost;
-	
+	Hand hand;
 	// Constructor
 	public DevelopmentCard() {
+		hand = new Hand();
 		ResourceType[] resourceTypes = ResourceType.values();
 		cardCost = new Resource[] {null, null, null}; // TODO dit moet makkelijker kunnen dan met onderstaande methode
 		
