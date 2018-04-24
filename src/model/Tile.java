@@ -1,6 +1,7 @@
 package model;
 
 public class Tile {
+	private int idTile;
 	private int x;
 	private int y;
 	private ResourceType rsType;
