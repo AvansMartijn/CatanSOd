@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import model.ResourceType;
+import model.Tile;
 
 public class BoardDA {
 	private Connection myConn;
@@ -36,20 +37,26 @@ public class BoardDA {
 		mainDA.insertUpdateQuery(query);
 }
 
-	public void getMessages() {
+	public Tile getTile(int tileID) {
+		/**
+		 * Get a tile
+		 */
+		Tile returnTile = null;
+		
 		myConn = mainDA.makeConnection();
 			Statement stmt = null;
 			ResultSet myRs = null;
-			String query = "SELECT tijdstip, speler.username, bericht FROM chatregel "
-					+ "JOIN speler ON chatregel.idspeler = speler.idspeler";
+			String query = "SELECT idtegel, x, y, idgrondstofsoort, idgetalfishe FROM tegel ;";
 			try {
 				stmt = myConn.createStatement();
 				myRs = stmt.executeQuery(query);
 				while (myRs.next()) {
-					String tijdstip = myRs.getString(1);
-					String username = myRs.getString(2);
-					String bericht = myRs.getString(3);
-					System.out.println(tijdstip + " " + username + " : " + bericht);
+					int idTile = myRs.getInt(1);
+					int xCord = myRs.getInt(2);
+					int yCord = myRs.getInt(3);
+					ResourceType idResource = ResourceType.fromString(myRs.getString(4));
+					int idChipNumber = myRs.getInt(5);
+					returnTile = new Tile(idTile, xCord, yCord, idResource, idChipNumber);
 				}
 				myRs.close();
 				stmt.close();
@@ -57,5 +64,7 @@ public class BoardDA {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+				
+			return returnTile;
 		}
 }
