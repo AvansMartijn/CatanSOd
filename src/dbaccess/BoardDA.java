@@ -13,10 +13,11 @@ public class BoardDA extends GameDA {
 	public BoardDA() {
 	}
 
-	public void addTile(int idGame, int idTile, boolean port, ResourceType portResource) {
-		if(portResource != null) {
-			String query = "INSERT INTO chatregel (x, y, haven, portResource)" + " VALUES (" + xCord + ", " + yCord + ", " + port + ", "+ "'" + portResource.toString() + "'"
-					+ ");";
+	public void addTile(int idGame, int idTile, int xCord, int yCord, ResourceType resource, int idChipNumber) {
+		
+		if(idChipNumber != 0) {
+			String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfishe)" + " VALUES "
+					+ "(" + idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", " + port + ", "+ "'" + portResource.toString() + "'" + ");";
 			insertUpdateQuery(query);
 
 		} else { 
