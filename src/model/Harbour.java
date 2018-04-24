@@ -1,16 +1,9 @@
 package model;
 
-public class Harbour {
-	private boolean hasHabour;
+public class Harbour {	
 	private ResourceType rsType;
 	
 	
-	public boolean isHasHabour() {
-		return hasHabour;
-	}
-	public void setHasHabour(boolean hasHabour) {
-		this.hasHabour = hasHabour;
-	}
 	public ResourceType getRsType() {
 		return rsType;
 	}
