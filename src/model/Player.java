@@ -33,10 +33,6 @@ public class Player {
 		System.out.println("Throws: " + firstThrow + " & " + secondThrow);
 		
 	}
-	
-	public Player(int playerNr) {
-		// TODO Auto-generated constructor stub
-	}
 
 	public void doTurn() {
 		// TODO Auto-generated method stub
@@ -52,10 +48,5 @@ public class Player {
 	public void getStartResources(Village v) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	public ArrayList<Resource> getHand() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

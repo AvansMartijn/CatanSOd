@@ -37,4 +37,5 @@ public class Hand {
 	public void drawCardRandomly() {
 		
 	}
+
 }

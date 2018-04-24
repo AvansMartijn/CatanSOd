@@ -57,7 +57,7 @@ public class Catan {
 			//This is not a for loop, because the harvest[playerNr] ArrayList reduces in size every time an item is removed.
 			//It just continues until the the size of the harvest[playerNr] ArrayList reaches 0. 
 			while(harvest[playerNr].size() > 0) {
-				players[playerNr].getHand().add(harvest[playerNr].remove(0));
+				players[playerNr].getHand().addResource((harvest[playerNr].remove(0)));
 			}
 		}
 	}
