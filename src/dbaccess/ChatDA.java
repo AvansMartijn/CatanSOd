@@ -5,20 +5,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ChatDA extends GameDA {
+public class ChatDA {
 	private Connection myConn;
-
-	public ChatDA() {
+	private MainDA mainDA;
+	
+	public ChatDA(MainDA mainDA) {
+		this.mainDA = mainDA;
 	}
 
 	public void addMessage(int idspeler, String bericht) {
 		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idspeler + ", " + "'" + bericht + "'"
 				+ ");";
-		insertUpdateQuery(query);
+		mainDA.insertUpdateQuery(query);
 	}
 
 	public void getMessages() {
-		myConn = makeConnection();
+		myConn = mainDA.makeConnection();
 			Statement stmt = null;
 			ResultSet myRs = null;
 			String query = "SELECT tijdstip, speler.username, bericht FROM chatregel "

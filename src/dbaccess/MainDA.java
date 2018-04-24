@@ -77,7 +77,7 @@ public class MainDA {
 	}
 
 	public void createChatDA() {
-		chatDA = new ChatDA();
+		chatDA = new ChatDA(this);
 	}
 	
 	public ChatDA getChatDA() {
@@ -85,11 +85,15 @@ public class MainDA {
 	}
 	
 	public void createAccountDA() {
-		accountDA = new AccountDA();
+		accountDA = new AccountDA(this);
 	}
 	
 	public AccountDA getAccountDA() {
 		return accountDA;
+	}
+	
+	public void createBoardDA() {
+		//Create
 	}
 
 }

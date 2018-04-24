@@ -1,19 +1,26 @@
 package dbaccess;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AccountDA extends MainDA {
+public class AccountDA {
+	private Connection myConn;
+	private MainDA mainDA;
+	
+	public AccountDA(MainDA mainDA) {
+		this.mainDA = mainDA;
+	}
 
 	public void createAccount(String username, String wachtwoord) {
 		String query = "INSERT INTO account (username, wachtwoord)" + " "
 				+ "VALUES (" + "'" + username + "'" + ", " + "'" + wachtwoord + "'" + ");";
-		insertUpdateQuery(query);
+		mainDA.insertUpdateQuery(query);
 	}
 
 	public boolean login(String username, String password) {
-		myConn = makeConnection();
+		myConn = mainDA.makeConnection();
 		String wachtwoord = null;
 		Statement stmt = null;
 		ResultSet myRs = null;

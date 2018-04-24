@@ -7,27 +7,37 @@ import java.sql.Statement;
 
 import model.ResourceType;
 
-public class BoardDA extends GameDA {
+public class BoardDA {
 	private Connection myConn;
+	private MainDA mainDA;
 
-	public BoardDA() {
+	public BoardDA(MainDA mainDA) {
+		this.mainDA = mainDA;
+		mainDA.notifyAll();
 	}
 
 	public void addTile(int idGame, int idTile, int xCord, int yCord, ResourceType resource, int idChipNumber) {
-		
-		if(idChipNumber != 0) {
+	/**
+	 * Add a Tile
+	 * 	
+	 */
 			String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfishe)" + " VALUES "
-					+ "(" + idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", " + port + ", "+ "'" + portResource.toString() + "'" + ");";
-			insertUpdateQuery(query);
-
-		} else { 
-			String query = "INSERT INTO chatregel (x, y, haven)" + " VALUES (" + xCord + ", " + yCord + ", " + port + ");";
-			insertUpdateQuery(query);
-		}
+					+ "(" + idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", " + resource.getResourceTypeCode() + ", "+ idChipNumber + ");";
+			mainDA.insertUpdateQuery(query);
 	}
+	
+	public void addTile(int idGame, int idTile, int xCord, int yCord, ResourceType resource) {
+	/**
+	 * Add a Tile without ChipNumber
+	 */
+		
+		String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfishe)" + " VALUES "
+				+ "(" + idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", " + resource.getResourceTypeCode() + ");";
+		mainDA.insertUpdateQuery(query);
+}
 
 	public void getMessages() {
-		myConn = makeConnection();
+		myConn = mainDA.makeConnection();
 			Statement stmt = null;
 			ResultSet myRs = null;
 			String query = "SELECT tijdstip, speler.username, bericht FROM chatregel "
