@@ -7,6 +7,14 @@ public class Tile {
 	private ResourceType rsType;
 	private int chipNumber;
 	
+	public Tile(int idTile, int xCord, int yCord, ResourceType rsType, int chipNumber) {
+		this.idTile = idTile;
+		this.x = xCord;
+		this.y = yCord;
+		this.rsType = rsType;
+		this.chipNumber = chipNumber;			
+	}
+	
 	public int getX() {
 		return x;
 	}

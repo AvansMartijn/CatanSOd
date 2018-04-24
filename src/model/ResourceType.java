@@ -18,5 +18,23 @@ public enum ResourceType {
 	  public String getResourceTypeCode() {
 	      return this.shortCode;
 	  }
+	  
+	  public static ResourceType fromString(String code) {
+		  switch(code) {
+		  case "W":
+			  return WOL;
+		  case "H":
+			  return HOUT;
+		  case "B":
+			  return BAKSTEEN;
+		  case "E":
+			  return ERTS;
+		  case "G":
+			  return GRAAN;
+		  case "X":
+			  return WOESTIJN;			  
+		  }
+		  return null;
+	  }
 
 }
