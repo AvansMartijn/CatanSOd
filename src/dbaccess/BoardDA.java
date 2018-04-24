@@ -5,17 +5,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import model.ResourceType;
+
 public class BoardDA extends GameDA {
 	private Connection myConn;
 
 	public BoardDA() {
 	}
 
-	public void setBoard(int idspeler, String bericht) {
-		makeConnection();
-		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idspeler + ", " + "'" + bericht + "'"
-				+ ");";
-		insertUpdateQuery(query);
+	public void addTile(int idGame, int idTile, boolean port, ResourceType portResource) {
+		if(portResource != null) {
+			String query = "INSERT INTO chatregel (x, y, haven, portResource)" + " VALUES (" + xCord + ", " + yCord + ", " + port + ", "+ "'" + portResource.toString() + "'"
+					+ ");";
+			insertUpdateQuery(query);
+
+		} else { 
+			String query = "INSERT INTO chatregel (x, y, haven)" + " VALUES (" + xCord + ", " + yCord + ", " + port + ");";
+			insertUpdateQuery(query);
+		}
 	}
 
 	public void getMessages() {

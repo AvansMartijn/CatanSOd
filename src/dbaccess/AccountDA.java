@@ -7,7 +7,6 @@ import java.sql.Statement;
 public class AccountDA extends MainDA {
 
 	public void createAccount(String username, String wachtwoord) {
-		makeConnection();
 		String query = "INSERT INTO account (username, wachtwoord)" + " "
 				+ "VALUES (" + "'" + username + "'" + ", " + "'" + wachtwoord + "'" + ");";
 		insertUpdateQuery(query);
