@@ -1,6 +1,6 @@
 package model;
 
-public class Bank {
+
 
 import java.util.ArrayList;
 
@@ -17,9 +17,10 @@ public class Bank {
 	// Instance variables
 	private ArrayList<ArrayList<Resource>> resources;
 	private ArrayList<DevelopmentCard> developmentCards;
-
+	ResourceType resourceType;
 	// Constructor
 	public Bank() {
+		
 		resources = new ArrayList<ArrayList<Resource>>();
 		createResourceCards();
 		developmentCards = new ArrayList<DevelopmentCard>();
@@ -57,4 +58,6 @@ public class Bank {
 			}
 		}
 	}
+	
+
 }
