@@ -1,14 +1,12 @@
 package model;
 
 public class Tile {
-	private int idTile;
 	private int x;
 	private int y;
 	private ResourceType rsType;
 	private int chipNumber;
 	
-	public Tile(int idTile, int xCord, int yCord, ResourceType rsType, int chipNumber) {
-		this.idTile = idTile;
+	public Tile(int xCord, int yCord, ResourceType rsType, int chipNumber) {
 		this.x = xCord;
 		this.y = yCord;
 		this.rsType = rsType;
