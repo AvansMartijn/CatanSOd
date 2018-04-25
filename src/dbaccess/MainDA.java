@@ -243,6 +243,7 @@ public class MainDA {
 	public void createPlayer(int idGame, String username, String playerColor, String playStatus, int followNR) {
 		/**
 		 * Add a player to the Database
+		 * ERROR Hier, Primary key niet goed
 		 */
 		
 		
