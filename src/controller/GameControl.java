@@ -11,6 +11,7 @@ public class GameControl {
 		mainDA = new MainDA();
 		createGameRecord(false);
 		addPlayer("Chiel");
+		addPlayer("Jasper");
 	}
 	
 	private void createGameRecord(boolean randomBoard) {

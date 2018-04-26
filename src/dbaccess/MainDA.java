@@ -180,17 +180,16 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idtegel, x, y, idgrondstofsoort, idgetalfishe FROM tegel ;";
+		String query = "SELECT x, y, idgrondstofsoort, idgetalfishe FROM tegel ;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				int idTile = myRs.getInt(1);
-				int xCord = myRs.getInt(2);
-				int yCord = myRs.getInt(3);
-				ResourceType idResource = ResourceType.fromString(myRs.getString(4));
-				int idChipNumber = myRs.getInt(5);
-				returnTile = new Tile(idTile, xCord, yCord, idResource, idChipNumber);
+				int xCord = myRs.getInt(1);
+				int yCord = myRs.getInt(2);
+				ResourceType idResource = ResourceType.fromString(myRs.getString(3));
+				int idChipNumber = myRs.getInt(4);
+				returnTile = new Tile(xCord, yCord, idResource, idChipNumber);
 			}
 			myRs.close();
 			stmt.close();
@@ -243,7 +242,6 @@ public class MainDA {
 	public void createPlayer(int idGame, String username, String playerColor, String playStatus, int followNR) {
 		/**
 		 * Add a player to the Database
-		 * ERROR Hier, Primary key niet goed
 		 */
 		
 		
@@ -252,7 +250,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idspeler FROM speler ORDER BY idspeler DESC";
+		String query = "SELECT idspeler FROM speler ORDER BY idspeler DESC LIMIT 1";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -263,12 +261,11 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Unable to add player to database");
 		}
 		
 		String insertquery = "INSERT INTO speler (idspeler, idspel, username, kleur, speelstatus, shouldrefresh, volgnr)" 
 		 + " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor + "', '" + playStatus + "', " + false + ", " + followNR +");";
-//		System.out.println(insertquery);
 		insertUpdateQuery(insertquery);
 	}
 
@@ -293,7 +290,7 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to get last follownr");
+			System.out.println("Unable to get last follownumber from database");
 		}
 		return lastNR;
 	}
