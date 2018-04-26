@@ -13,6 +13,11 @@ public class GameBoardControl {
 	private ArrayList<StreetLocation> streetLocArr = new ArrayList<StreetLocation>();
 	private ArrayList<Tile> tileArr = new ArrayList<Tile>();
 	
+	// TODO:
+	//create arraylist with building positions ( super array )
+	//method building position get x, y (returns building pos)
+	
+	
 	public void createBoard() {
 		createTiles();
 		createBuildingLocations();
