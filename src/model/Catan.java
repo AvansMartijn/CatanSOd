@@ -20,7 +20,7 @@ public class Catan {
 		players = new Player[AMOUNT_OF_PLAYERS];
 		for(int playerNr = 0; playerNr < players.length; playerNr++) {
 			//The player has to have a playerNr, otherwise the color of the player can't be set.
-			players[playerNr] = new Player(playerNr);
+//			players[playerNr] = new Player(playerNr);
 		}
 		gameboard = new Gameboard();
 		bank = new Bank();

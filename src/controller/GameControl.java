@@ -1,14 +1,15 @@
 package controller;
 
 import dbaccess.MainDA;
+import model.Player;
 
 public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private MainDA mainDA;
 	private int idGame;
 	
-	public GameControl() {
-		mainDA = new MainDA();
+	public GameControl(MainDA mainDA, Player gameStarter) {
+		this.mainDA = mainDA;
 		createGameRecord(false);
 		addPlayer("Chiel");
 		addPlayer("Jasper");

@@ -5,7 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import model.PlayStatus;
+import model.Player;
+import model.PlayerColor;
 import model.ResourceType;
 import model.Tile;
 
@@ -293,5 +297,37 @@ public class MainDA {
 			System.out.println("Unable to get last follownumber from database");
 		}
 		return lastNR;
+	}
+	
+	public ArrayList<Player> getPlayers(String username) {
+		/**
+		 * Get all players from an account from the database
+		 */
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT idspel, kleur, speelstatus, volgnr FROM speler WHERE username = '" + username + "';";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				int idGame = myRs.getInt(1);
+				String color = myRs.getString(2).toUpperCase();
+				String playStatus = myRs.getString(3).toUpperCase();
+				int follownr = myRs.getInt(4);
+				playerList.add(new Player(idGame, username, PlayerColor.valueOf(color), follownr, PlayStatus.valueOf(playStatus)));
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get players");
+		}
+		
+		
+		return playerList;
+		
 	}
 }
