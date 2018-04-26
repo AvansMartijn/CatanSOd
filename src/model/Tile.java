@@ -1,16 +1,25 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Tile {
 	private int x;
 	private int y;
 	private ResourceType rsType;
 	private int chipNumber;
+	private ArrayList<BuildingLocation> buildingLocArr;
 	
 	public Tile(int xCord, int yCord, ResourceType rsType, int chipNumber) {
+		buildingLocArr = new ArrayList<>();
 		this.x = xCord;
 		this.y = yCord;
 		this.rsType = rsType;
-		this.chipNumber = chipNumber;			
+		this.chipNumber = chipNumber;	
+		
+		
+		// TODO:
+		// check all 6 positions, if !exists in super array then create in super array. 
+		// add to tile (buildinglocArr)
 	}
 	
 	public int getX() {
