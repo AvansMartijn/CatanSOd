@@ -6,22 +6,13 @@ public class BuildingLocation {
 	private int x;
 	private int y;	
 	private Harbour harbour;
-	private ArrayList<Tile> tileArr;
 	
 	
-	public BuildingLocation(int x, int y, Tile tile1, Tile tile2, Tile tile3, Harbour harbour) {
+	public BuildingLocation(int x, int y, Harbour harbour) {
 		this.x = x;
 		this.y = y;
 		this.harbour = harbour;
-		if(tile1 != null) {
-			tileArr.add(tile1);
-		}
-		if(tile2 != null) {
-			tileArr.add(tile2);
-		}
-		if(tile3 != null) {
-			tileArr.add(tile3);
-		}
+		
 	}
 	public int getX() {
 		return x;
