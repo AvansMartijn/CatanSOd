@@ -30,7 +30,7 @@ public class MainDA {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-			System.err.println("ClassNotFoundException: " + e.getMessage());
+			System.out.println("Unable to load Database Driver");
 			return false;
 		}
 		return true;
@@ -44,13 +44,10 @@ public class MainDA {
 			myConn = DriverManager.getConnection(url, user, password);
 		} catch (SQLException ex) {
 			System.out.println("Connection failed");
-			System.out.println("SQLException " + ex.getMessage());
-			System.out.println("SQLState " + ex.getSQLState());
-			System.out.println("VendorError " + ex.getErrorCode());
 		}
 	}
 
-	public void insertUpdateQuery(String query) {
+	public boolean insertUpdateQuery(String query) {
 		/**
 		 * Executes an insert or update query
 		 */
@@ -62,8 +59,9 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	public void testQuery() {
@@ -115,8 +113,9 @@ public class MainDA {
 		System.out.println("idGame: " + idGame);
 		String insertquery = "INSERT INTO spel (idspel, israndomboard, eersteronde)" + " VALUES(" + idGame + ", "
 				+ randomBoard + ", " + true + ");";
-//		System.out.println(insertquery);
-		insertUpdateQuery(insertquery);
+		if(!insertUpdateQuery(insertquery)) {
+			System.out.println("Adding game to DB failed");
+		}
 		return idGame;
 	}
 
@@ -126,7 +125,9 @@ public class MainDA {
 		 */
 		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idspeler + ", " + "'" + bericht + "'"
 				+ ");";
-		insertUpdateQuery(query);
+		if(!insertUpdateQuery(query)) {
+			System.out.println("Adding message to DB failed");
+		}
 	}
 
 	public void getMessages() {
@@ -151,7 +152,7 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Failed to get messages from Database");
 		}
 	}
 
