@@ -10,6 +10,7 @@ public class MainControl {
 	
 	public MainControl() {
 		mainMenu = new MainMenu();
+		new GameBoardControl();
 		//TODO add stuff to a MainControl constructor
 	}
 }
