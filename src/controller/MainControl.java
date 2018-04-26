@@ -11,11 +11,12 @@ public class MainControl {
 	private GameControl gameControl;
 	private MainDA mainDA;
 	private Account account;
+	private GameBoardControl gameBoardControl;
 	
 	public MainControl() {
 		mainMenu = new MainMenu();
 		mainDA = new MainDA();
-		
+		gameBoardControl = new GameBoardControl();
 		//TODO add stuff to a MainControl constructor
 	}
 	

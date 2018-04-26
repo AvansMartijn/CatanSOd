@@ -22,6 +22,22 @@ public class Tile {
 		// add to tile (buildinglocArr)
 	}
 	
+	public int getChipNumber() {
+		return chipNumber;
+	}
+
+	public void setChipNumber(int chipNumber) {
+		this.chipNumber = chipNumber;
+	}
+
+	public ArrayList<BuildingLocation> getBuildingLocArr() {
+		return buildingLocArr;
+	}
+
+	public void addBuildingLoc(BuildingLocation buildingLoc) {
+		buildingLocArr.add(buildingLoc);
+	}
+	
 	public int getX() {
 		return x;
 	}
