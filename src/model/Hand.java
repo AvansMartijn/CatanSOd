@@ -7,9 +7,10 @@ public class Hand {
 	// Instance variables
 	private ArrayList<DevelopmentCard> developmentCards;
 	private ArrayList<Resource> resources;
-	
+	private Player player;
 	// Constructor
 	public Hand() {
+		player = new Player(4);
 		developmentCards = new ArrayList<DevelopmentCard>();
 		resources = new ArrayList<Resource>();
 	}

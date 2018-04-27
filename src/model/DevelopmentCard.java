@@ -1,25 +1,26 @@
 package model;
 
-public abstract class DevelopmentCard {
+public class DevelopmentCard {
 
-	private Resource[] cardCost;
-	
+	private ResourceType[] cardCost;
+	private ResourceType resourceType;
+	protected ResourceType WOOL = ResourceType.WOOL;
+	protected ResourceType IRON = ResourceType.IRON;
+	protected ResourceType WHEAT = ResourceType.WHEAT;
+	private Hand hand;
+
 	// Constructor
 	public DevelopmentCard() {
-		ResourceType[] resourceTypes = ResourceType.values();
-		cardCost = new Resource[] {null, null, null}; // TODO dit moet makkelijker kunnen dan met onderstaande methode
-		
-		String[] neededResources = new String[] {"WHEAT", "WOOL", "IRON"};
-		
-		// For the amount of different resources
-		for(int i = 0; i < cardCost.length; i ++) {
-			// For the amount of resourceTypes
-			for(int j = 0; j < resourceTypes.length; j++) {
-				if(resourceTypes[j].equals(neededResources[i])) {
-					cardCost[i] = new Resource(resourceTypes[j]);
-					break;
-				}
-			}
-		}
+		hand = new Hand();
+	}
+
+	public void setCardCost(ResourceType type, ResourceType type2, ResourceType type3) {
+		ResourceType wool = ResourceType.WOOL;
+		cardCost = new ResourceType[] { type, type2, type3 };
+		System.out.println(cardCost[0] + " " + cardCost[1] + " " + cardCost[2]);
+	}
+
+	public void addCard(DevelopmentCard type) {
+		hand.addDevelopmentCard(type);
 	}
 }
