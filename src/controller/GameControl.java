@@ -10,14 +10,14 @@ import model.PlayerColor;
 public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private MainDA mainDA;
-	private int idGame =772;
+	private int idGame =773;
 	private ArrayList<String> messageList;
 	private Player player;
 	
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
 		//-----TEST------
-		joinGame("lesley");
+		joinGame("rik");
 		//----END TEST -----
 	}
 	

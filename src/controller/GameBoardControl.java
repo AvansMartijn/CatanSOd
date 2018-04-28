@@ -35,10 +35,7 @@ public class GameBoardControl {
 		createStreetLocations();
 		assignHarbours();
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
-		gameBoard.printAllTilesAndLocs();
-		
-		
-		
+		gameBoard.printAllTilesAndLocs();		
 	}
 	
 	public void addBoardToDB() {
