@@ -30,8 +30,14 @@ public class GameBoardControl {
 	}
 	
 	public void loadBoard() {
-		
+		tileArr = mainDA.getTile(idGame);
+		createBuildingLocations();
+		createStreetLocations();
+		assignHarbours();
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+		gameBoard.printAllTilesAndLocs();
+		
+		
 		
 	}
 	
@@ -73,8 +79,8 @@ public class GameBoardControl {
 		tileArr.add(new Tile(6, 3, ResourceType.GRAAN, 9));
 		tileArr.add(new Tile(6, 6, ResourceType.WOESTIJN, 0));
 		tileArr.add(new Tile(6, 9, ResourceType.WOL, 1));
-		tileArr.add(new Tile(7, 5, ResourceType.GRAAN, 4));
-		tileArr.add(new Tile(7, 8, ResourceType.WOL, 5));
+		tileArr.add(new Tile(7, 5, ResourceType.GRAAN, 5));
+		tileArr.add(new Tile(7, 8, ResourceType.WOL, 4));
 		tileArr.add(new Tile(8, 4, ResourceType.WOL, 17));
 		tileArr.add(new Tile(8, 7, ResourceType.HOUT, 3));
 		tileArr.add(new Tile(8, 10, ResourceType.HOUT,13));

@@ -10,13 +10,15 @@ import model.PlayerColor;
 public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private MainDA mainDA;
-	private int idGame;
+	private int idGame =772;
 	private ArrayList<String> messageList;
 	private Player player;
 	
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
-		createGame(false);
+		//-----TEST------
+		joinGame("lesley");
+		//----END TEST -----
 	}
 	
 	public void createGame(boolean randomBoard) {
@@ -69,6 +71,7 @@ public class GameControl {
 		mainDA.createPlayer(idGame, username, playerColor, followNR, playStatus);
 		player = new Player(idGame, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
+		gameBoardControl.loadBoard();
 	}
 
 	public void getMessages() {
