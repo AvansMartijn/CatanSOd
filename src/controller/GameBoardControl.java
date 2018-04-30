@@ -25,7 +25,8 @@ public class GameBoardControl {
 	public void createBoard() {
 		createTiles();
 		createBuildingLocations();
-		
+		assignHarbours();
+		printAllTilesAndLocs();
 
 	}
 	
@@ -74,40 +75,58 @@ public class GameBoardControl {
 			locArr.add(new BuildingLocation(tileX,   tileY-1));
 			
 			int locArrCount = 0;
-			while(locArr.size() > locArrCount) {
-				System.out.print(locArr.get(locArrCount).getX() + " " + locArr.get(locArrCount).getY() + " ");
+			while(locArr.size() > locArrCount) {				
 				boolean exists = false;
 				for (BuildingLocation bl : buildingLocArr) { 		      
 					if(locArr.get(locArrCount).getX() == (bl.getX()) && locArr.get(locArrCount).getY() == (bl.getY())) {
 						exists = true;
-						tileArr.get(count).addBuildingLoc(bl);
-						System.out.print("exists");
+						tileArr.get(count).addBuildingLoc(bl);						
 						break;
 					}
-			    }
-				
+			    }		
 				
 				
 				if(!exists) {
 					tileArr.get(count).addBuildingLoc(locArr.get(locArrCount));
 					buildingLocArr.add(locArr.get(locArrCount));
-					System.out.print("NOT exists");
+					
 				}
-				System.out.println("");
+				
 			
 				locArrCount++;
-			}
-			//x-1 y-1
-			//x-1
-			//y+1
-			//x+1 y+1
-			//x+1 
-			//y-1
-			//check if building loc exists in main buildinglocArray, if it does. put the EXACTLY THE SAME object in the designated tile buildinglocArr
+			}		
 		    count++;
 	  }
-		System.out.println(buildingLocArr.size());
+
 		
+	}
+	
+	public void assignHarbours() {
+				
+		buildingLocArr.get(5).setHarbour(new Harbour(ResourceType.BAKSTEEN));
+		buildingLocArr.get(6).setHarbour(new Harbour(ResourceType.BAKSTEEN));
+		buildingLocArr.get(2).setHarbour(new Harbour(ResourceType.HOUT));
+		buildingLocArr.get(10).setHarbour(new Harbour(ResourceType.HOUT));
+		buildingLocArr.get(20).setHarbour(new Harbour(null));
+		buildingLocArr.get(21).setHarbour(new Harbour(null));
+		buildingLocArr.get(33).setHarbour(new Harbour(ResourceType.GRAAN));
+		buildingLocArr.get(34).setHarbour(new Harbour(ResourceType.GRAAN));
+		buildingLocArr.get(47).setHarbour(new Harbour(ResourceType.ERTS));
+		buildingLocArr.get(50).setHarbour(new Harbour(ResourceType.ERTS));
+		buildingLocArr.get(52).setHarbour(new Harbour(null));
+		buildingLocArr.get(53).setHarbour(new Harbour(null));
+		buildingLocArr.get(47).setHarbour(new Harbour(ResourceType.ERTS));
+		buildingLocArr.get(50).setHarbour(new Harbour(ResourceType.ERTS));
+		buildingLocArr.get(40).setHarbour(new Harbour(ResourceType.WOL));
+		buildingLocArr.get(49).setHarbour(new Harbour(ResourceType.WOL));
+		buildingLocArr.get(29).setHarbour(new Harbour(null));
+		buildingLocArr.get(30).setHarbour(new Harbour(null));
+		buildingLocArr.get(14).setHarbour(new Harbour(null));
+		buildingLocArr.get(17).setHarbour(new Harbour(null));
+		
+	}
+	
+	public void printAllTilesAndLocs() {
 		for (Tile tile : tileArr) {
 			System.out.println("---------TILE-------------");
 			System.out.println("resource: " + tile.getRsType());
@@ -120,72 +139,15 @@ public class GameBoardControl {
 				System.out.println("loc_x: " + bl.getX());
 				System.out.println("loc_y: " + bl.getY());
 				
+				if(bl.getHarbour() != null) {
+					System.out.println("harbour: " + bl.getHarbour().getRsType());
+				}
+				
 			}
 			System.out.println("----------------------------");
 			System.out.println("");
 			System.out.println("");
 		} 
-//		buildingLocArr.add(new BuildingLocation( 1,  3, tileArr.get(0), null, null, null));
-//		buildingLocArr.add(new BuildingLocation( 1,  4, tileArr.get(0), null, null, null));
-//		buildingLocArr.add(new BuildingLocation( 2,  2, tileArr.get(1), null, null, new Harbour(ResourceType.BAKSTEEN)));
-//		buildingLocArr.add(new BuildingLocation( 2,  3, tileArr.get(0), tileArr.get(1), null, new Harbour(ResourceType.BAKSTEEN)));
-//		buildingLocArr.add(new BuildingLocation( 2,  5, tileArr.get(0), tileArr.get(2), null, new Harbour(ResourceType.HOUT)));
-//		buildingLocArr.add(new BuildingLocation( 2,  6, tileArr.get(2), null, null, new Harbour(ResourceType.HOUT)));
-//		buildingLocArr.add(new BuildingLocation( 3,  1, tileArr.get(3), null, null, new Harbour(null)));
-//		buildingLocArr.add(new BuildingLocation( 3,  2, tileArr.get(1), tileArr.get(3), null, null));
-//		buildingLocArr.add(new BuildingLocation( 3,  4, tileArr.get(0), tileArr.get(1), tileArr.get(4), null));
-//		buildingLocArr.add(new BuildingLocation( 3,  5, tileArr.get(0), tileArr.get(4), tileArr.get(2), null));
-//		buildingLocArr.add(new BuildingLocation( 3,  7, tileArr.get(2), tileArr.get(5), null, null));
-//		buildingLocArr.add(new BuildingLocation( 3,  8, tileArr.get(5), null, null, new Harbour(null)));
-//		buildingLocArr.add(new BuildingLocation( 4,  1, tileArr.get(3), null, null, new Harbour(null)));
-//		buildingLocArr.add(new BuildingLocation( 4,  3, tileArr.get(1), tileArr.get(3), tileArr.get(6), null));
-//		buildingLocArr.add(new BuildingLocation( 4,  4, tileArr.get(1), tileArr.get(4), tileArr.get(6), null));
-//		buildingLocArr.add(new BuildingLocation( 4,  6, tileArr.get(2), tileArr.get(4), tileArr.get(7), null));
-//		buildingLocArr.add(new BuildingLocation( 4,  7, tileArr.get(2), tileArr.get(5), tileArr.get(7), null));
-//		buildingLocArr.add(new BuildingLocation( 4,  9, tileArr.get(5), null, null, new Harbour(null)));
-//		buildingLocArr.add(new BuildingLocation( 5,  2, tileArr.get(3), tileArr.get(8), null ,null));
-//		buildingLocArr.add(new BuildingLocation( 5,  3, tileArr.get(3), tileArr.get(6), tileArr.get(8),null));
-//		buildingLocArr.add(new BuildingLocation( 5,  5, tileArr.get(4), tileArr.get(6), tileArr.get(9),null));
-//		buildingLocArr.add(new BuildingLocation( 5,  6, tileArr.get(4), tileArr.get(7), tileArr.get(9), null));
-//		buildingLocArr.add(new BuildingLocation( 5,  8, tileArr.get(5), tileArr.get(7), tileArr.get(10), null));
-//		buildingLocArr.add(new BuildingLocation( 5,  9, tileArr.get(5), tileArr.get(10), null, null));
-//		buildingLocArr.add(new BuildingLocation( 6,  2, tileArr.get(8), null, null, new Harbour(null)));
-//		buildingLocArr.add(new BuildingLocation( 6,  4, tileArr.get(6), tileArr.get(8), tileArr.get(11), null));
-//		buildingLocArr.add(new BuildingLocation( 6,  5, tileArr.get(6), tileArr.get(9), tileArr.get(11), null));
-//		buildingLocArr.add(new BuildingLocation( 6,  7, tileArr.get(7), tileArr.get(9), tileArr.get(12), null));
-//		buildingLocArr.add(new BuildingLocation( 6,  8, tileArr.get(7), tileArr.get(10), tileArr.get(12), null));
-//		buildingLocArr.add(new BuildingLocation( 6, 10, tileArr.get(10), null, null,  new Harbour(ResourceType.GRAAN)));
-//		buildingLocArr.add(new BuildingLocation( 7,  3, tileArr.get(8), tileArr.get(13), tileArr.get(0), new Harbour(null)));
-//		buildingLocArr.add(new BuildingLocation( 7,  4, tileArr.get(8), tileArr.get(11), tileArr.get(13), null));
-//		buildingLocArr.add(new BuildingLocation( 7,  6, tileArr.get(9), tileArr.get(11), tileArr.get(14), null));
-//		buildingLocArr.add(new BuildingLocation( 7,  7, tileArr.get(9), tileArr.get(12), tileArr.get(14), null));
-//		buildingLocArr.add(new BuildingLocation( 7,  9, tileArr.get(10), tileArr.get(12), tileArr.get(15), null));
-//		buildingLocArr.add(new BuildingLocation( 7, 10, tileArr.get(10), tileArr.get(15), null,  new Harbour(ResourceType.GRAAN)));
-//		buildingLocArr.add(new BuildingLocation( 8,  3, tileArr.get(13), null, null, null));
-//		buildingLocArr.add(new BuildingLocation( 8,  5, tileArr.get(11), tileArr.get(13), tileArr.get(16), null));
-//		buildingLocArr.add(new BuildingLocation( 8,  6, tileArr.get(11), tileArr.get(14), tileArr.get(16), null));
-//		buildingLocArr.add(new BuildingLocation( 8,  8, tileArr.get(12), tileArr.get(14), tileArr.get(17), null));
-//		buildingLocArr.add(new BuildingLocation( 8,  9, tileArr.get(12), tileArr.get(15), tileArr.get(17), null));
-//		buildingLocArr.add(new BuildingLocation( 8, 11, tileArr.get(15), null, null, null));
-//		buildingLocArr.add(new BuildingLocation( 9,  4, tileArr.get(13), null, null, null));
-//		buildingLocArr.add(new BuildingLocation( 9,  5, tileArr.get(13), tileArr.get(16), null, new Harbour(ResourceType.WOL)));
-//		buildingLocArr.add(new BuildingLocation( 9,  7, tileArr.get(14), tileArr.get(16), tileArr.get(18), null));
-//		buildingLocArr.add(new BuildingLocation( 9,  8, tileArr.get(14), tileArr.get(17), tileArr.get(18), null));
-//		buildingLocArr.add(new BuildingLocation( 9, 10, tileArr.get(15), tileArr.get(17), null,  new Harbour(ResourceType.ERTS)));
-//		buildingLocArr.add(new BuildingLocation( 9, 11, tileArr.get(15), null, null,  null));
-//		buildingLocArr.add(new BuildingLocation(10,  6, tileArr.get(16), null, null, new Harbour(ResourceType.WOL)));
-//		buildingLocArr.add(new BuildingLocation(10,  7, tileArr.get(16), tileArr.get(18), null,  null));
-//		buildingLocArr.add(new BuildingLocation(10,  9, tileArr.get(17), tileArr.get(18), null,  null));
-//		buildingLocArr.add(new BuildingLocation(10, 10, tileArr.get(17), null, null, new Harbour(ResourceType.ERTS)));
-//		buildingLocArr.add(new BuildingLocation(11,  8, tileArr.get(18), null, null, new Harbour(null)));
-//		buildingLocArr.add(new BuildingLocation(11,  9, tileArr.get(18), null, null, new Harbour(null)));
-		
-		
-		
-	}
-	
-	public void assignHarbours() {
-		
 	}
 
 }
