@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import model.BuildingLocation;
+import model.Gameboard;
 import model.Harbour;
 import model.ResourceType;
 import model.StreetLocation;
@@ -13,7 +14,7 @@ public class GameBoardControl {
 	//create buildinglocation array and streetlocation array to check if an object for a location is already made (to make sure we don't have duplicates)
 	private ArrayList<BuildingLocation> buildingLocArr = new ArrayList<BuildingLocation>();
 	private ArrayList<StreetLocation> streetLocArr = new ArrayList<StreetLocation>();
-	
+	private Gameboard gameBoard;
 	
 	// TODO:
 	//create arraylist with building positions ( super array )
@@ -21,6 +22,7 @@ public class GameBoardControl {
 	
 	public GameBoardControl() {
 		createBoard();
+		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
 	}
 	
 	
