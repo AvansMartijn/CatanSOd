@@ -1,29 +1,30 @@
 package model;
 
-import java.util.ArrayList;
-
 
 public class Player {
 	
-	// Instance variables
-	private Color color;
+	private int idGame;
+	private String username;
+	private PlayerColor color;
+	private int follownr;
+	private PlayStatus playStatus;
 	private Hand hand;
-	private LargestArmy largestArmy;
-	private LargestRoad largestRoad;
 	
-	// Constructor
-	public Player(int playerNr) {
-		
-		hand = new Hand();
-		
-		// Assign Color to Player
-		Color[] colors = Color.values();
-		color = colors[playerNr];
+	public Player(String username) {
+		this.username = username;
 	}
 	
-	// Get Hand
-	public Hand getHand() {
-		return hand;
+	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {
+		this.idGame = idGame;
+		this.username = username;
+		this.color = color;
+		this.follownr = follownr;
+		this.playStatus = playStatus;
+	}
+	
+	public void createHand() {
+		hand = new Hand();
+		
 	}
 	
 	public void throwDice() {
@@ -33,18 +34,16 @@ public class Player {
 		System.out.println("Throws: " + firstThrow + " & " + secondThrow);
 		
 	}
-	
-	public Player(int playerNr) {
-		// TODO Auto-generated constructor stub
-	}
 
 	public void doTurn() {
-		// TODO Auto-generated method stub
+	}
+	
+	public void testPrintPlayer() {
+		System.out.println(idGame + " " + username + " " + color + " " + follownr + " " + playStatus);
 	}
 
 	public Village setUpTurn() {
 		return new Village(); //return statement should return the village that has just been built (NOT NEW VILLAGE!!!)
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -53,9 +52,22 @@ public class Player {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public ArrayList<Resource> getHand() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getUsername() {
+		return username;
+	}
+	public int getidGame() {
+		return idGame;
+	}
+	public PlayerColor getColor() {
+		return color;
+	}
+	public int getFollownr() {
+		return follownr;
+	}
+	public PlayStatus getPlayStatus() {
+		return playStatus;
+	}
+	public Hand getHand() {
+		return hand;
 	}
 }

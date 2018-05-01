@@ -5,17 +5,16 @@ import java.util.ArrayList;
 public class Account {
 	
 	private String username;
-	private String password;
 	private ArrayList<Player> players;
 	
-	// Constructor
-	public Account() {
-		players = new ArrayList<Player>();
+	public Account(ArrayList<Player> players, String username) {
+		this.players = players;
+		this.username = username;
 	}
 	
 	// Create a new player for this account
 	public void createPlayer() {
-		Player player = new Player(players.size()); // player.size() will assign the playerNr
+		Player player = new Player(username); 
 		players.add(player);
 	}
 
@@ -29,18 +28,12 @@ public class Account {
 		this.username = username;
 	}
 
-	// Get Password
-	public String getPassword() {
-		return password;
-	}
-
-	// Set Password
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	// get ArrayList of players
 	public ArrayList<Player> getPlayers() {
 		return players;
+	}
+	
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 }
