@@ -22,7 +22,7 @@ public class Catan {
 			//The player has to have a playerNr, otherwise the color of the player can't be set.
 //			players[playerNr] = new Player(playerNr);
 		}
-		gameboard = new Gameboard();
+//		gameboard = new Gameboard();
 		bank = new Bank();
 		
 		//Game starts at turn -1, after the setup of the game is complete, 
