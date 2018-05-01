@@ -7,8 +7,9 @@ public class Account {
 	private String username;
 	private ArrayList<Player> players;
 	
-	public Account(ArrayList<Player> players) {
+	public Account(ArrayList<Player> players, String username) {
 		this.players = players;
+		this.username = username;
 	}
 	
 	// Create a new player for this account

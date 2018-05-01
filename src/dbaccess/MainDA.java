@@ -59,7 +59,7 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			return false;
+			e.printStackTrace();
 		}
 		return true;
 	}
@@ -93,7 +93,7 @@ public class MainDA {
 		 * Create a game record in the Database
 		 */
 		int idGame = 0;
-		
+
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -108,37 +108,57 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Unable get last game ID from DB");
 		}
-		System.out.println("idGame: " + idGame);
 		String insertquery = "INSERT INTO spel (idspel, israndomboard, eersteronde)" + " VALUES(" + idGame + ", "
 				+ randomBoard + ", " + true + ");";
-		if(!insertUpdateQuery(insertquery)) {
+		if (!insertUpdateQuery(insertquery)) {
 			System.out.println("Adding game to DB failed");
 		}
 		return idGame;
 	}
 
-	public void addMessage(int idspeler, String bericht) {
+	public void addMessage(String username, String bericht) {
 		/**
 		 * Add a message to the Database
 		 */
-		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idspeler + ", " + "'" + bericht + "'"
+		int idPlayer = 0;
+
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String searchquery = "SELECT idspeler FROM speler WHERE username = '" + username + "' ORDER BY idspeler DESC LIMIT 1";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(searchquery);
+			while (myRs.next()) {
+				idPlayer = myRs.getInt(1);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get last player ID");
+		}
+		
+		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", " + "'" + bericht + "'"
 				+ ");";
-		if(!insertUpdateQuery(query)) {
+		if (!insertUpdateQuery(query)) {
 			System.out.println("Adding message to DB failed");
 		}
 	}
 
-	public void getMessages() {
+	public ArrayList<String> getMessages(int idGame) {
 		/**
 		 * Get all messages from the Database
 		 */
+		ArrayList<String> retList = new ArrayList<String>();
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT tijdstip, speler.username, bericht FROM chatregel "
-				+ "JOIN speler ON chatregel.idspeler = speler.idspeler";
+				+ "JOIN speler ON chatregel.idspeler = speler.idspeler "
+				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ");";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -146,14 +166,16 @@ public class MainDA {
 				String tijdstip = myRs.getString(1);
 				String username = myRs.getString(2);
 				String bericht = myRs.getString(3);
-				System.out.println(tijdstip + " " + username + " : " + bericht);
+				retList.add(tijdstip + " " + username + ": " + bericht);
 			}
 			myRs.close();
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Failed to get messages from Database");
+			e.printStackTrace();
+//			System.out.println("Failed to get messages from Database");
 		}
+		return retList;
 	}
 
 	public void addTile(int idGame, int idTile, int xCord, int yCord, ResourceType resource, int idChipNumber) {
@@ -244,14 +266,13 @@ public class MainDA {
 		return false;
 	}
 
-	public void createPlayer(int idGame, String username, String playerColor, String playStatus, int followNR) {
+	public void createPlayer(int idGame, String username, String playerColor, int followNR, String playStatus) {
 		/**
 		 * Add a player to the Database
 		 */
-		
-		
+
 		int idPlayer = 0;
-		
+
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -266,12 +287,16 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to add player to database");
+			System.out.println("Unable to get last player ID");
 		}
-		
-		String insertquery = "INSERT INTO speler (idspeler, idspel, username, kleur, speelstatus, shouldrefresh, volgnr)" 
-		 + " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor + "', '" + playStatus + "', " + false + ", " + followNR +");";
-		insertUpdateQuery(insertquery);
+
+		String insertquery = "INSERT INTO speler (idspeler, idspel, username, kleur, speelstatus, shouldrefresh, volgnr)"
+				+ " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor + "', '"
+				+ playStatus + "', " + false + ", " + followNR + ");";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Adding player to DB failed");
+		}
 	}
 
 	public int getLastPlayerFollowNumber(int idGame) {
@@ -281,10 +306,9 @@ public class MainDA {
 		Statement stmt = null;
 		ResultSet myRs = null;
 		int lastNR = 0;
-		
+
 		makeConnection();
 		String followquery = "SELECT volgnr FROM speler WHERE idspel = '" + idGame + "' ORDER BY volgnr DESC LIMIT 1";
-		System.out.println(followquery);
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(followquery);
@@ -299,13 +323,13 @@ public class MainDA {
 		}
 		return lastNR;
 	}
-	
+
 	public ArrayList<Player> getPlayers(String username) {
 		/**
 		 * Get all players from an account from the database
 		 */
 		ArrayList<Player> playerList = new ArrayList<Player>();
-		
+
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -318,7 +342,8 @@ public class MainDA {
 				String color = myRs.getString(2).toUpperCase();
 				String playStatus = myRs.getString(3).toUpperCase();
 				int follownr = myRs.getInt(4);
-				playerList.add(new Player(idGame, username, PlayerColor.valueOf(color), follownr, PlayStatus.valueOf(playStatus)));
+				playerList.add(new Player(idGame, username, PlayerColor.valueOf(color), follownr,
+						PlayStatus.valueOf(playStatus)));
 			}
 			myRs.close();
 			stmt.close();
@@ -326,9 +351,37 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get players");
 		}
-		
-		
+
 		return playerList;
-		
+
+	}
+
+	public boolean accountNameExists(String username) {
+		/**
+		 * Check if the account name exists
+		 */
+		makeConnection();
+		String retusername = null;
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT username FROM account " + "WHERE username = " + "'" + username + "'" + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				retusername = myRs.getString(1);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+			if (retusername == null) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println("Unable to check if username exists");
+		}
+		return false;
 	}
 }
