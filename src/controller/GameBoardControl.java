@@ -26,15 +26,11 @@ public class GameBoardControl {
 		createTiles();
 		createBuildingLocations();
 		assignHarbours();
+		createStreetLocations();
 		printAllTilesAndLocs();
 
 	}
-	
-	
 
-	private void createStreetLocations() {
-		
-	}
 	
 	private void createTiles() {
 		tileArr.add(new Tile(2, 4, ResourceType.GRAAN, 9));
@@ -56,6 +52,39 @@ public class GameBoardControl {
 		tileArr.add(new Tile(9, 6, ResourceType.WOL, 5));
 		tileArr.add(new Tile(9, 9, ResourceType.BAKSTEEN, 10));
 		tileArr.add(new Tile(10, 8, ResourceType.ERTS, 8));
+	}
+	
+	private void createStreetLocations() {
+		int count = 0;
+		while(tileArr.size() > count) {			
+			ArrayList<StreetLocation> strLocArr = new ArrayList<>();
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(0), tileArr.get(count).getBuildingLocArr().get(1)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(1), tileArr.get(count).getBuildingLocArr().get(2)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(2), tileArr.get(count).getBuildingLocArr().get(3)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(3), tileArr.get(count).getBuildingLocArr().get(4)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(4), tileArr.get(count).getBuildingLocArr().get(5)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(5), tileArr.get(count).getBuildingLocArr().get(0)));
+			
+			int strLocCount = 0;
+			while(strLocArr.size() > strLocCount) {
+				boolean exists = false;
+				for(StreetLocation sl : streetLocArr) {
+					if(strLocArr.get(strLocCount).getBlStart() == sl.getBlStart() && strLocArr.get(strLocCount).getBlEnd() == sl.getBlEnd() || strLocArr.get(strLocCount).getBlStart() == sl.getBlEnd() && strLocArr.get(strLocCount).getBlEnd() == sl.getBlStart() ) {
+						exists = true;
+						tileArr.get(count).addStreetLoc(sl);
+						break;
+					}
+				}
+				
+				if(!exists) {
+					tileArr.get(count).addStreetLoc(strLocArr.get(strLocCount));
+					streetLocArr.add(strLocArr.get(strLocCount));
+				}
+				
+				strLocCount++;
+			}
+			count++;
+		}
 	}
 	
 	
@@ -142,6 +171,14 @@ public class GameBoardControl {
 				if(bl.getHarbour() != null) {
 					System.out.println("harbour: " + bl.getHarbour().getRsType());
 				}
+				
+			}
+			
+			for(StreetLocation sl : tile.getStreetLocArr()) {
+				System.out.println("------STREET LOC---------");
+				System.out.println("start: " + sl.getBlStart().getX() + " " + sl.getBlStart().getY());
+				System.out.println("end: " + sl.getBlEnd().getX() + " " + sl.getBlEnd().getY());
+				
 				
 			}
 			System.out.println("----------------------------");

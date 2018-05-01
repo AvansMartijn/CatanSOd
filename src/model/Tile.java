@@ -8,9 +8,11 @@ public class Tile {
 	private ResourceType rsType;
 	private int chipNumber;
 	private ArrayList<BuildingLocation> buildingLocArr;
+	private ArrayList<StreetLocation> streetLocArr;
 	
 	public Tile(int xCord, int yCord, ResourceType rsType, int chipNumber) {
 		buildingLocArr = new ArrayList<>();
+		streetLocArr = new ArrayList<>();
 		this.x = xCord;
 		this.y = yCord;
 		this.rsType = rsType;
@@ -33,9 +35,17 @@ public class Tile {
 	public ArrayList<BuildingLocation> getBuildingLocArr() {
 		return buildingLocArr;
 	}
+	
+	public ArrayList<StreetLocation> getStreetLocArr() {
+		return streetLocArr;
+	}
 
 	public void addBuildingLoc(BuildingLocation buildingLoc) {
 		buildingLocArr.add(buildingLoc);
+	}
+	
+	public void addStreetLoc(StreetLocation streetLoc) {
+		streetLocArr.add(streetLoc);
 	}
 	
 	public int getX() {
