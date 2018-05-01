@@ -6,9 +6,11 @@ public class BuildingLocation {
 	private int x;
 	private int y;	
 	private Harbour harbour;
+//	private ArrayList<StreetLocation> streetLocArr;
 	
 	
 	public BuildingLocation(int x, int y) {
+//		streetLocArr = new ArrayList<>();
 		this.x = x;
 		this.y = y;
 		
