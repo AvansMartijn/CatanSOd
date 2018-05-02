@@ -6,6 +6,6 @@ public abstract class DevelopmentCard {
 	
 	// Constructor
 	public DevelopmentCard() {
-		cardCost = new Resource[] {new Resource(ResourceType.WHEAT), new Resource(ResourceType.WOOL), new Resource(ResourceType.IRON)};
+		cardCost = new Resource[] {new Resource(ResourceType.GRAAN), new Resource(ResourceType.WOL), new Resource(ResourceType.ERTS)};
 	}
 }
