@@ -1,0 +1,11 @@
+package model;
+
+public enum PlayStatus {
+	UITDAGER,
+	UITGEDAAGDE,
+	GEACCEPTEERD,
+	GEWEIGERD,
+	UITGESPEELD,
+	AFGEBROKEN
+	
+}

@@ -2,20 +2,40 @@ package model;
 
 public class StreetLocation {
 
-	private int xStart;
-	private int yStart;
+	private BuildingLocation blStart;
+	private BuildingLocation blEnd;
+//	private int xStart;
+//	private int yStart;
+//	
+//	private int xEnd;
+//	private int yEnd;
 	
-	private int xEnd;
-	private int yEnd;
-	
-	public StreetLocation(int xStart, int yStart, int xEnd, int yEnd) {
+	public StreetLocation(BuildingLocation blStart, BuildingLocation blEnd) {
 		
-		this.xStart = xStart;
-		this.yStart = yStart;
+		this.blStart = blStart;
+		this.blEnd = blEnd;
+//		this.xStart = xStart;
+//		this.yStart = yStart;
+//		
+//		this.xEnd = xEnd;
+//		this.yEnd = yEnd;
 		
-		this.xEnd = xEnd;
-		this.yEnd = yEnd;
-		
+	}
+
+	public BuildingLocation getBlStart() {
+		return blStart;
+	}
+
+	public void setBlStart(BuildingLocation blStart) {
+		this.blStart = blStart;
+	}
+
+	public BuildingLocation getBlEnd() {
+		return blEnd;
+	}
+
+	public void setBlEnd(BuildingLocation blEnd) {
+		this.blEnd = blEnd;
 	}
 	
 }
