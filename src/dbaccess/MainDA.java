@@ -186,11 +186,13 @@ public class MainDA {
 		if(idChipNumber == 0) {
 			query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort)" + " VALUES " + "("
 					+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "');";
+		} else {
+			query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
+					+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "', "
+					+ idChipNumber + ");";
 		}
 		
-		query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
-				+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "', "
-				+ idChipNumber + ");";
+		
 		System.out.println(query);
 		if(!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tile");
