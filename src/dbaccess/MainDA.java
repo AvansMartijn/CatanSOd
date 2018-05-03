@@ -213,25 +213,6 @@ public class MainDA {
 		};
 		
 	}
-	
-	public void testFillLocatie(int xCord, int yCord, boolean port, String idGrondstofsoort) {
-		/**
-		 * Test to fill location in database
-		 */
-		String query;
-		
-		if(port) {
-			query = "INSERT INTO locatie (x, y, haven, idgrondstofsoort)" + " VALUES " + "("
-					+ xCord + " , " + yCord + ", " + port + ", " + idGrondstofsoort + ");";
-		} else {
-			query = "INSERT INTO locatie (x, y, haven)" + " VALUES " + "("
-					+ xCord + " , " + yCord + ", " + port + ");";
-		}
-		
-		if(!insertUpdateQuery(query)) {
-			System.out.println("Unable to add Building");
-		};
-	}
 
 	public Tile getTile(int tileID) {
 		/**
