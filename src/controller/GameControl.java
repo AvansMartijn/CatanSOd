@@ -25,6 +25,7 @@ public class GameControl {
 		
 		idGame = mainDA.createGame(randomBoard);
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
+		gameBoardControl.createBoard();
 	}
 	
 	public void joinGame(String username) {
@@ -65,6 +66,7 @@ public class GameControl {
 		
 		mainDA.createPlayer(idGame, username, playerColor, followNR, playStatus);
 		player = new Player(idGame, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
+		gameBoardControl = new GameBoardControl(mainDA, idGame);
 	}
 
 	public void getMessages() {

@@ -185,7 +185,9 @@ public class MainDA {
 		String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfishe)" + " VALUES " + "("
 				+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", " + resource.getResourceTypeCode() + ", "
 				+ idChipNumber + ");";
-		insertUpdateQuery(query);
+		if(!insertUpdateQuery(query)) {
+			System.out.println("Unable to add tile");
+		};
 	}
 
 	public void addTile(int idGame, int idTile, int xCord, int yCord, ResourceType resource) {
@@ -195,7 +197,40 @@ public class MainDA {
 
 		String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfishe)" + " VALUES " + "("
 				+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", " + resource.getResourceTypeCode() + ");";
-		insertUpdateQuery(query);
+		if(!insertUpdateQuery(query)) {
+			System.out.println("Unable to add tile");
+		};
+	}
+	
+	public void addBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
+		/**
+		 * Add a player piece
+		 */
+		String query = "INSERT INTO spelerstuk (idstuk, idspeler, x_van, y_van)" + " VALUES " + "('"
+				+ idPiece + "' , " + idPlayer + ", " + x_From + ", " + y_From + ");";
+		if(!insertUpdateQuery(query)) {
+			System.out.println("Unable to add Building");
+		};
+		
+	}
+	
+	public void testFillLocatie(int xCord, int yCord, boolean port, String idGrondstofsoort) {
+		/**
+		 * Test to fill location in database
+		 */
+		String query;
+		
+		if(port) {
+			query = "INSERT INTO locatie (x, y, haven, idgrondstofsoort)" + " VALUES " + "("
+					+ xCord + " , " + yCord + ", " + port + ", " + idGrondstofsoort + ");";
+		} else {
+			query = "INSERT INTO locatie (x, y, haven)" + " VALUES " + "("
+					+ xCord + " , " + yCord + ", " + port + ");";
+		}
+		
+		if(!insertUpdateQuery(query)) {
+			System.out.println("Unable to add Building");
+		};
 	}
 
 	public Tile getTile(int tileID) {
