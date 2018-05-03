@@ -196,20 +196,6 @@ public class MainDA {
 			System.out.println("Unable to add tile");
 		};
 	}
-
-	public void addTile(int idGame, int idTile, int xCord, int yCord, ResourceType resource) {
-		/**
-		 * Add a Tile without ChipNumber to the Database
-		 */
-		
-
-		String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
-				+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "');";
-		System.out.println(query);
-		if(!insertUpdateQuery(query)) {
-			System.out.println("Unable to add tile");
-		};
-	}
 	
 	public void addBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
 		/**
