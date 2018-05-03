@@ -193,7 +193,6 @@ public class MainDA {
 		}
 		
 		
-		System.out.println(query);
 		if(!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tile");
 		};
