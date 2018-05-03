@@ -24,6 +24,7 @@ public class GameControl {
 		 */
 		
 		idGame = mainDA.createGame(randomBoard);
+		gameBoardControl = new GameBoardControl(mainDA, idGame);
 	}
 	
 	public void joinGame(String username) {

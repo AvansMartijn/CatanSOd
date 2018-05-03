@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import dbaccess.MainDA;
 import model.BuildingLocation;
 import model.Gameboard;
 import model.Harbour;
@@ -15,14 +16,18 @@ public class GameBoardControl {
 	private ArrayList<BuildingLocation> buildingLocArr = new ArrayList<BuildingLocation>();
 	private ArrayList<StreetLocation> streetLocArr = new ArrayList<StreetLocation>();
 	private Gameboard gameBoard;
+	private MainDA mainDA;
+	private int idGame;
 	
 	// TODO:
 	//create arraylist with building positions ( super array )
 	//method building position get x, y (returns building pos)
 	
-	public GameBoardControl() {
+	public GameBoardControl(MainDA mainDA, int idGame) {
 		createBoard();
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+		this.mainDA = mainDA;
+		this.idGame = idGame;
 	}
 	
 	
