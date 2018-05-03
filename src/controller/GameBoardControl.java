@@ -23,11 +23,31 @@ public class GameBoardControl {
 	//create arraylist with building positions ( super array )
 	//method building position get x, y (returns building pos)
 	
-	public GameBoardControl(MainDA mainDA, int idGame) {
-		createBoard();
-		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+	public GameBoardControl(MainDA mainDA, int idGame) {		
 		this.mainDA = mainDA;
 		this.idGame = idGame;
+		
+	}
+	
+	public void loadBoard() {
+		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+	}
+	
+	public void addBoardToDB() {
+		int count = 0;
+		System.out.println(tileArr.size());
+		while(tileArr.size() > count) {
+			Tile tile = tileArr.get(count);
+			System.out.println("lel");
+			if(tile.getChipNumber() == 0) {
+				mainDA.addTile(idGame, count, tile.getX(), tile.getY(), tile.getRsType());
+			}else {
+				mainDA.addTile(idGame, count, tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
+			}
+			
+			System.out.println("camehere");
+			count++;
+		}
 	}
 	
 	
@@ -37,6 +57,8 @@ public class GameBoardControl {
 		assignHarbours();
 		createStreetLocations();
 		printAllTilesAndLocs();
+		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+		addBoardToDB();
 
 	}
 

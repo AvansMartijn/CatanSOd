@@ -16,6 +16,7 @@ public class GameControl {
 	
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
+		createGame(false);
 	}
 	
 	public void createGame(boolean randomBoard) {
@@ -26,6 +27,7 @@ public class GameControl {
 		idGame = mainDA.createGame(randomBoard);
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
 		gameBoardControl.createBoard();
+		
 	}
 	
 	public void joinGame(String username) {

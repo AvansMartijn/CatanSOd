@@ -1,5 +1,4 @@
 /bin/
-/controller/
 /model/
+/controller/
 /dbaccess/
-/view/
