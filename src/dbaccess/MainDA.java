@@ -182,7 +182,14 @@ public class MainDA {
 		/**
 		 * Add a Tile to the Database
 		 */
-		String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
+		String query;
+		if(idChipNumber == 0) {
+			query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
+					+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "', "
+					+ null + ");";
+		}
+		
+		query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
 				+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "', "
 				+ idChipNumber + ");";
 		System.out.println(query);
@@ -195,6 +202,7 @@ public class MainDA {
 		/**
 		 * Add a Tile without ChipNumber to the Database
 		 */
+		
 
 		String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
 				+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "');";
