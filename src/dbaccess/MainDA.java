@@ -184,9 +184,8 @@ public class MainDA {
 		 */
 		String query;
 		if(idChipNumber == 0) {
-			query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
-					+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "', "
-					+ null + ");";
+			query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort)" + " VALUES " + "("
+					+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "');";
 		}
 		
 		query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
