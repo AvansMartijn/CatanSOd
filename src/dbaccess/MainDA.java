@@ -222,14 +222,17 @@ public class MainDA {
 	/**
 	 * Get a tile from the Database
 	 */
-	public ArrayList<Tile> getTile(int tileID) {
+	public ArrayList<Tile> getTile(int idGame) {
 		
 		ArrayList<Tile> returnTile = new ArrayList<Tile>();
 
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT x, y, idgrondstofsoort, idgetalfishe FROM tegel ;";
+		String query = "SELECT x, y, idgrondstofsoort, idgetalfiche " + 
+				"FROM tegel " + 
+				"WHERE idspel = " + idGame + " " + 
+				"ORDER BY x ASC, y ASC;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
