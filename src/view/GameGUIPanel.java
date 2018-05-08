@@ -1,6 +1,5 @@
 package view;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +17,7 @@ public class GameGUIPanel extends JPanel {
 	private playerActionsPanel myPlayerActionsPanel;
 	private MyResourcesPanel myResourcesPanel;
 	private MyDevelopmentCardsPanel myDevelopmentCardsPanel;
+	private BoardPanel myBoardPanel;
 	
 	// Constructor
 	public GameGUIPanel() {
@@ -33,12 +33,13 @@ public class GameGUIPanel extends JPanel {
 		myPlayerActionsPanel = new playerActionsPanel();
 		myResourcesPanel = new MyResourcesPanel();
 		myDevelopmentCardsPanel = new MyDevelopmentCardsPanel();
+		myBoardPanel = new BoardPanel();
 		
-		/*
-		add(myGameTopPanel, BorderLayout.NORTH);
-		add(myPlayerActionsPanel, BorderLayout.WEST);
-		add(myResourcesPanel);
-		*/
-		add(myDevelopmentCardsPanel);
+		
+		//add(myGameTopPanel, BorderLayout.NORTH);
+		//add(myPlayerActionsPanel, BorderLayout.WEST);
+		//add(myResourcesPanel);
+		//add(myDevelopmentCardsPanel);
+		add(myBoardPanel);
 	}
 }
