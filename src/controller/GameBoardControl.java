@@ -19,9 +19,6 @@ public class GameBoardControl {
 	private MainDA mainDA;
 	private int idGame;
 	
-	// TODO:
-	//create arraylist with building positions ( super array )
-	//method building position get x, y (returns building pos)
 	
 	public GameBoardControl(MainDA mainDA, int idGame) {		
 		this.mainDA = mainDA;
@@ -35,10 +32,7 @@ public class GameBoardControl {
 		createStreetLocations();
 		assignHarbours();
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
-		gameBoard.printAllTilesAndLocs();
-		
-		
-		
+		gameBoard.printAllTilesAndLocs();		
 	}
 	
 	public void addBoardToDB() {
