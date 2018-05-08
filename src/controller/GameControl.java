@@ -17,6 +17,7 @@ public class GameControl {
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
 		//-----TEST------
+		gameBoardControl = new GameBoardControl(mainDA, idGame);
 //		createGame(false);
 //		joinGame("lesley");
 		//----END TEST -----

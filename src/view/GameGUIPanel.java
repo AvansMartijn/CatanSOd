@@ -18,6 +18,7 @@ public class GameGUIPanel extends JPanel {
 	private MyResourcesPanel myResourcesPanel;
 	private MyDevelopmentCardsPanel myDevelopmentCardsPanel;
 	private BoardPanel myBoardPanel;
+	private PlayerStatsPanel myPlayerStatsPanel; // TODO make 4 of them in an array
 	
 	// Constructor
 	public GameGUIPanel() {
@@ -34,12 +35,13 @@ public class GameGUIPanel extends JPanel {
 		myResourcesPanel = new MyResourcesPanel();
 		myDevelopmentCardsPanel = new MyDevelopmentCardsPanel();
 		myBoardPanel = new BoardPanel();
-		
+		myPlayerStatsPanel = new PlayerStatsPanel("STRONGVIKING", 3, 2, 2, 3, 5, true, true);
 		
 		//add(myGameTopPanel, BorderLayout.NORTH);
 		//add(myPlayerActionsPanel, BorderLayout.WEST);
 		//add(myResourcesPanel);
 		//add(myDevelopmentCardsPanel);
 		//add(myBoardPanel);
+		add(myPlayerStatsPanel);
 	}
 }

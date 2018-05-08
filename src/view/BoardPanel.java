@@ -16,7 +16,7 @@ public class BoardPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 700;
 	private final int PANEL_HEIGHT = 700;
-	// TODO finals for image width and height
+
 	private final int TILE_WIDTH = 130;
 	private final int TILE_HEIGHT = 150;
 
@@ -30,9 +30,9 @@ public class BoardPanel extends JPanel {
 			+ AANTAL_TILES_RIJ4 + AANTAL_TILES_RIJ5;
 
 	// Instance variables
-	int[] lengtesRijen = new int[] { AANTAL_TILES_RIJ1, AANTAL_TILES_RIJ2, AANTAL_TILES_RIJ3, AANTAL_TILES_RIJ4,
+	private int[] lengtesRijen = new int[] { AANTAL_TILES_RIJ1, AANTAL_TILES_RIJ2, AANTAL_TILES_RIJ3, AANTAL_TILES_RIJ4,
 			AANTAL_TILES_RIJ5 };
-	JLabel[] myTileLabels = new JLabel[AANTAL_TILES_TOTAAL];
+	private JLabel[] myTileLabels = new JLabel[AANTAL_TILES_TOTAAL];
 
 	// Constructor
 	public BoardPanel() {

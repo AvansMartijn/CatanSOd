@@ -9,6 +9,8 @@ import model.Harbour;
 import model.ResourceType;
 import model.StreetLocation;
 import model.Tile;
+import view.BoardPanel;
+import view.Frame;
 
 public class GameBoardControl {
 	private ArrayList<Tile> tileArr = new ArrayList<Tile>();
@@ -23,6 +25,7 @@ public class GameBoardControl {
 	public GameBoardControl(MainDA mainDA, int idGame) {		
 		this.mainDA = mainDA;
 		this.idGame = idGame;
+		new Frame();
 		
 	}
 	
