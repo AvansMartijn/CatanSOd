@@ -10,32 +10,32 @@ import model.PlayerColor;
 public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private MainDA mainDA;
-	private int idGame =772;
+	private int idGame;
 	private ArrayList<String> messageList;
 	private Player player;
 	
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
 		//-----TEST------
-		joinGame("lesley");
+//		createGame(false);
+//		joinGame("lesley");
 		//----END TEST -----
 	}
 	
+	/**
+	 * Create a game record in the DB AND sets idGame
+	 */
 	public void createGame(boolean randomBoard) {
-		/**
-		 * Create a game record in the DB AND sets idGame
-		 */
-		
 		idGame = mainDA.createGame(randomBoard);
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
 		gameBoardControl.createBoard();
 		
 	}
 	
+	/**
+	 * Add a player
+	 */
 	public void joinGame(String username) {
-		/**
-		 * Add a player
-		 */
 		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(idGame);
 		String playerColor = null;
 		int followNR = -1;

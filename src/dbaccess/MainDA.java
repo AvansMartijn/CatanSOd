@@ -230,7 +230,7 @@ public class MainDA {
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT x, y, grondstof, waarde " + 
-				"FROM tegel " + 
+				"FROM tegels " + 
 				"WHERE idspel = " + idGame + " " + 
 				"ORDER BY x ASC, y ASC;";
 		try {

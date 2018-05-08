@@ -11,7 +11,6 @@ public class MainControl {
 	private GameControl gameControl;
 	private MainDA mainDA;
 	private Account account;
-	private GameBoardControl gameBoardControl;
 
 	public MainControl() {
 		// mainMenu = new MainMenu();
