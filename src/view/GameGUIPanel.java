@@ -40,6 +40,6 @@ public class GameGUIPanel extends JPanel {
 		//add(myPlayerActionsPanel, BorderLayout.WEST);
 		//add(myResourcesPanel);
 		//add(myDevelopmentCardsPanel);
-		add(myBoardPanel);
+		//add(myBoardPanel);
 	}
 }
