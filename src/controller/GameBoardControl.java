@@ -30,20 +30,20 @@ public class GameBoardControl {
 	}
 	
 	public void loadBoard() {
+		
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+		
 	}
 	
 	public void addBoardToDB() {
-		int count = 0;		
+		int count = 0;
+		int i = 1;
 		System.out.println(tileArr.size());
 		while(tileArr.size() > count) {
 			Tile tile = tileArr.get(count);
-			System.out.println("lel");
-			
-				mainDA.addTile(idGame, count+1, tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
-			
-			
-			System.out.println("camehere");
+			mainDA.addTile(idGame, i, tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
+
+			i++;
 			count++;
 		}
 	}
