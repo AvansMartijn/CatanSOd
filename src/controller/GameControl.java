@@ -16,20 +16,26 @@ public class GameControl {
 	
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
+		//-----TEST------
+//		createGame(false);
+//		joinGame("lesley");
+		//----END TEST -----
 	}
 	
+	/**
+	 * Create a game record in the DB AND sets idGame
+	 */
 	public void createGame(boolean randomBoard) {
-		/**
-		 * Create a game record in the DB AND sets idGame
-		 */
-		
 		idGame = mainDA.createGame(randomBoard);
+		gameBoardControl = new GameBoardControl(mainDA, idGame);
+		gameBoardControl.createBoard();
+		
 	}
 	
+	/**
+	 * Add a player
+	 */
 	public void joinGame(String username) {
-		/**
-		 * Add a player
-		 */
 		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(idGame);
 		String playerColor = null;
 		int followNR = -1;
@@ -64,6 +70,8 @@ public class GameControl {
 		
 		mainDA.createPlayer(idGame, username, playerColor, followNR, playStatus);
 		player = new Player(idGame, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
+		gameBoardControl = new GameBoardControl(mainDA, idGame);
+		gameBoardControl.loadBoard();
 	}
 
 	public void getMessages() {

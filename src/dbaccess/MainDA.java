@@ -22,11 +22,12 @@ public class MainDA {
 	public MainDA() {
 		myConn = null;
 	}
-
+	
+	/**
+	 * Loads the JDBC driver
+	 */
 	public boolean loadDataBaseDriver() {
-		/**
-		 * Loads the JDBC driver
-		 */
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -36,10 +37,11 @@ public class MainDA {
 		return true;
 	}
 
+	/**
+	 * Initializes a connection
+	 */
 	public void makeConnection() {
-		/**
-		 * Initializes a connection
-		 */
+		
 		try {
 			myConn = DriverManager.getConnection(url, user, password);
 		} catch (SQLException ex) {
@@ -47,10 +49,11 @@ public class MainDA {
 		}
 	}
 
+	/**
+	 * Executes an insert or update query
+	 */
 	public boolean insertUpdateQuery(String query) {
-		/**
-		 * Executes an insert or update query
-		 */
+		
 		makeConnection();
 		Statement stmt = null;
 		try {
@@ -64,10 +67,11 @@ public class MainDA {
 		return true;
 	}
 
+	/**
+	 * Test
+	 */
 	public void testQuery() {
-		/**
-		 * Test
-		 */
+		
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -88,10 +92,11 @@ public class MainDA {
 		}
 	}
 
+	/**
+	 * Create a game record in the Database
+	 */
 	public int createGame(boolean randomBoard) {
-		/**
-		 * Create a game record in the Database
-		 */
+		
 		int idGame = 0;
 
 		makeConnection();
@@ -118,10 +123,11 @@ public class MainDA {
 		return idGame;
 	}
 
+	/**
+	 * Add a message to the Database
+	 */
 	public void addMessage(String username, String bericht) {
-		/**
-		 * Add a message to the Database
-		 */
+		
 		int idPlayer = 0;
 
 		makeConnection();
@@ -148,10 +154,11 @@ public class MainDA {
 		}
 	}
 
+	/**
+	 * Get all messages from the Database
+	 */
 	public ArrayList<String> getMessages(int idGame) {
-		/**
-		 * Get all messages from the Database
-		 */
+		
 		ArrayList<String> retList = new ArrayList<String>();
 		makeConnection();
 		Statement stmt = null;
@@ -178,36 +185,54 @@ public class MainDA {
 		return retList;
 	}
 
+	/**
+	 * Add a Tile to the Database
+	 */
 	public void addTile(int idGame, int idTile, int xCord, int yCord, ResourceType resource, int idChipNumber) {
-		/**
-		 * Add a Tile to the Database
-		 */
-		String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfishe)" + " VALUES " + "("
-				+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", " + resource.getResourceTypeCode() + ", "
-				+ idChipNumber + ");";
-		insertUpdateQuery(query);
+		
+		String query;
+		if(idChipNumber == 0) {
+			query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort)" + " VALUES " + "("
+					+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "');";
+		} else {
+			query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfiche)" + " VALUES " + "("
+					+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", '" + resource.getResourceTypeCode() + "', "
+					+ idChipNumber + ");";
+		}
+		
+		
+		if(!insertUpdateQuery(query)) {
+			System.out.println("Unable to add tile");
+		};
 	}
-
-	public void addTile(int idGame, int idTile, int xCord, int yCord, ResourceType resource) {
-		/**
-		 * Add a Tile without ChipNumber to the Database
-		 */
-
-		String query = "INSERT INTO tegel (idspel, idtegel, x, y, idgrondstofsoort, idgetalfishe)" + " VALUES " + "("
-				+ idGame + ", " + idTile + ", " + xCord + ", " + yCord + ", " + resource.getResourceTypeCode() + ");";
-		insertUpdateQuery(query);
+	
+	/**
+	 * Add a player piece
+	 */
+	public void addBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
+		
+		String query = "INSERT INTO spelerstuk (idstuk, idspeler, x_van, y_van)" + " VALUES " + "('"
+				+ idPiece + "' , " + idPlayer + ", " + x_From + ", " + y_From + ");";
+		if(!insertUpdateQuery(query)) {
+			System.out.println("Unable to add Building");
+		};
+		
 	}
-
-	public Tile getTile(int tileID) {
-		/**
-		 * Get a tile from the Database
-		 */
-		Tile returnTile = null;
+	
+	/**
+	 * Get a tile from the Database
+	 */
+	public ArrayList<Tile> getTile(int idGame) {
+		
+		ArrayList<Tile> returnTile = new ArrayList<Tile>();
 
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT x, y, idgrondstofsoort, idgetalfishe FROM tegel ;";
+		String query = "SELECT x, y, grondstof, waarde " + 
+				"FROM tegels " + 
+				"WHERE idspel = " + idGame + " " + 
+				"ORDER BY x ASC, y ASC;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -215,8 +240,8 @@ public class MainDA {
 				int xCord = myRs.getInt(1);
 				int yCord = myRs.getInt(2);
 				ResourceType idResource = ResourceType.fromString(myRs.getString(3));
-				int idChipNumber = myRs.getInt(4);
-				returnTile = new Tile(xCord, yCord, idResource, idChipNumber);
+				int chipNumber = myRs.getInt(4);
+				returnTile.add(new Tile(xCord, yCord, idResource, chipNumber));
 			}
 			myRs.close();
 			stmt.close();
@@ -228,19 +253,21 @@ public class MainDA {
 		return returnTile;
 	}
 
+	/**
+	 * Add an account to the Database
+	 */
 	public void createAccount(String username, String wachtwoord) {
-		/**
-		 * Add an account to the Database
-		 */
+		
 		String query = "INSERT INTO account (username, wachtwoord)" + " " + "VALUES (" + "'" + username + "'" + ", "
 				+ "'" + wachtwoord + "'" + ");";
 		insertUpdateQuery(query);
 	}
 
+	/**
+	 * Check if the account exists
+	 */
 	public boolean login(String username, String password) {
-		/**
-		 * Check if the account exists
-		 */
+		
 		makeConnection();
 		String wachtwoord = null;
 		Statement stmt = null;
@@ -266,10 +293,11 @@ public class MainDA {
 		return false;
 	}
 
+	/**
+	 * Add a player to the Database
+	 */
 	public void createPlayer(int idGame, String username, String playerColor, int followNR, String playStatus) {
-		/**
-		 * Add a player to the Database
-		 */
+		
 
 		int idPlayer = 0;
 
@@ -299,10 +327,11 @@ public class MainDA {
 		}
 	}
 
+	/**
+	 * Returns the last used followNumber in the game
+	 */
 	public int getLastPlayerFollowNumber(int idGame) {
-		/**
-		 * Returns the last used followNumber in the game
-		 */
+		
 		Statement stmt = null;
 		ResultSet myRs = null;
 		int lastNR = 0;
@@ -324,10 +353,11 @@ public class MainDA {
 		return lastNR;
 	}
 
+	/**
+	 * Get all players from an account from the database
+	 */
 	public ArrayList<Player> getPlayers(String username) {
-		/**
-		 * Get all players from an account from the database
-		 */
+		
 		ArrayList<Player> playerList = new ArrayList<Player>();
 
 		makeConnection();
@@ -356,10 +386,11 @@ public class MainDA {
 
 	}
 
+	/**
+	 * Check if the account name exists
+	 */
 	public boolean accountNameExists(String username) {
-		/**
-		 * Check if the account name exists
-		 */
+		
 		makeConnection();
 		String retusername = null;
 		Statement stmt = null;

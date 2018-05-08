@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import dbaccess.MainDA;
 import model.BuildingLocation;
 import model.Gameboard;
 import model.Harbour;
@@ -15,14 +16,36 @@ public class GameBoardControl {
 	private ArrayList<BuildingLocation> buildingLocArr = new ArrayList<BuildingLocation>();
 	private ArrayList<StreetLocation> streetLocArr = new ArrayList<StreetLocation>();
 	private Gameboard gameBoard;
+	private MainDA mainDA;
+	private int idGame;
 	
-	// TODO:
-	//create arraylist with building positions ( super array )
-	//method building position get x, y (returns building pos)
 	
-	public GameBoardControl() {
-		createBoard();
+	public GameBoardControl(MainDA mainDA, int idGame) {		
+		this.mainDA = mainDA;
+		this.idGame = idGame;
+		
+	}
+	
+	public void loadBoard() {
+		tileArr = mainDA.getTile(idGame);
+		createBuildingLocations();
+		createStreetLocations();
+		assignHarbours();
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+		gameBoard.printAllTilesAndLocs();		
+	}
+	
+	public void addBoardToDB() {
+		int count = 0;
+		int i = 1;
+		System.out.println(tileArr.size());
+		while(tileArr.size() > count) {
+			Tile tile = tileArr.get(count);
+			mainDA.addTile(idGame, i, tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
+
+			i++;
+			count++;
+		}
 	}
 	
 	
@@ -32,30 +55,32 @@ public class GameBoardControl {
 		assignHarbours();
 		createStreetLocations();
 		printAllTilesAndLocs();
+		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+		addBoardToDB();
 
 	}
 
 	//create all tiles with x & y coordinate, resourcetype and number
 	private void createTiles() {
-		tileArr.add(new Tile(2, 4, ResourceType.GRAAN, 9));
-		tileArr.add(new Tile(3, 3, ResourceType.HOUT, 8));
-		tileArr.add(new Tile(3, 6, ResourceType.GRAAN, 12));
-		tileArr.add(new Tile(4, 2, ResourceType.BAKSTEEN, 5));
-		tileArr.add(new Tile(4, 5, ResourceType.HOUT, 11));
-		tileArr.add(new Tile(4, 8, ResourceType.ERTS, 10));
-		tileArr.add(new Tile(5, 4, ResourceType.ERTS, 3));
-		tileArr.add(new Tile(5, 7, ResourceType.BAKSTEEN, 6));
-		tileArr.add(new Tile(6, 3, ResourceType.GRAAN, 6));
+		tileArr.add(new Tile(2, 4, ResourceType.GRAAN, 12));
+		tileArr.add(new Tile(3, 3, ResourceType.HOUT, 10));
+		tileArr.add(new Tile(3, 6, ResourceType.GRAAN, 18));
+		tileArr.add(new Tile(4, 2, ResourceType.BAKSTEEN, 6));
+		tileArr.add(new Tile(4, 5, ResourceType.HOUT, 	16));
+		tileArr.add(new Tile(4, 8, ResourceType.ERTS, 14));
+		tileArr.add(new Tile(5, 4, ResourceType.ERTS, 2));
+		tileArr.add(new Tile(5, 7, ResourceType.BAKSTEEN, 8));
+		tileArr.add(new Tile(6, 3, ResourceType.GRAAN, 9));
 		tileArr.add(new Tile(6, 6, ResourceType.WOESTIJN, 0));
-		tileArr.add(new Tile(6, 9, ResourceType.WOL, 2));
-		tileArr.add(new Tile(7, 5, ResourceType.GRAAN, 4));
+		tileArr.add(new Tile(6, 9, ResourceType.WOL, 1));
+		tileArr.add(new Tile(7, 5, ResourceType.GRAAN, 5));
 		tileArr.add(new Tile(7, 8, ResourceType.WOL, 4));
-		tileArr.add(new Tile(8, 4, ResourceType.WOL, 11));
+		tileArr.add(new Tile(8, 4, ResourceType.WOL, 17));
 		tileArr.add(new Tile(8, 7, ResourceType.HOUT, 3));
-		tileArr.add(new Tile(8, 10, ResourceType.HOUT, 9));
-		tileArr.add(new Tile(9, 6, ResourceType.WOL, 5));
-		tileArr.add(new Tile(9, 9, ResourceType.BAKSTEEN, 10));
-		tileArr.add(new Tile(10, 8, ResourceType.ERTS, 8));
+		tileArr.add(new Tile(8, 10, ResourceType.HOUT,13));
+		tileArr.add(new Tile(9, 6, ResourceType.WOL, 7));
+		tileArr.add(new Tile(9, 9, ResourceType.BAKSTEEN, 15));
+		tileArr.add(new Tile(10, 8, ResourceType.ERTS, 11));
 	}
 	
 	private void createStreetLocations() {
@@ -170,6 +195,12 @@ public class GameBoardControl {
 		buildingLocArr.get(30).setHarbour(new Harbour(null));
 		buildingLocArr.get(14).setHarbour(new Harbour(null));
 		buildingLocArr.get(17).setHarbour(new Harbour(null));
+		
+//		int count = 0;
+//		while(buildingLocArr.size() > count) {
+//			
+//			count++;
+//		}
 		
 	}
 	

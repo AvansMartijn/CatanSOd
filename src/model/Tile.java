@@ -18,10 +18,6 @@ public class Tile {
 		this.rsType = rsType;
 		this.chipNumber = chipNumber;	
 		
-		
-		// TODO:
-		// check all 6 positions, if !exists in super array then create in super array. 
-		// add to tile (buildinglocArr)
 	}
 	
 	public int getChipNumber() {
