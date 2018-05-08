@@ -229,7 +229,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT x, y, idgrondstofsoort, idgetalfiche " + 
+		String query = "SELECT x, y, grondstof, waarde " + 
 				"FROM tegel " + 
 				"WHERE idspel = " + idGame + " " + 
 				"ORDER BY x ASC, y ASC;";
@@ -240,8 +240,8 @@ public class MainDA {
 				int xCord = myRs.getInt(1);
 				int yCord = myRs.getInt(2);
 				ResourceType idResource = ResourceType.fromString(myRs.getString(3));
-				int idChipNumber = myRs.getInt(4);
-				returnTile.add(new Tile(xCord, yCord, idResource, idChipNumber));
+				int chipNumber = myRs.getInt(4);
+				returnTile.add(new Tile(xCord, yCord, idResource, chipNumber));
 			}
 			myRs.close();
 			stmt.close();
