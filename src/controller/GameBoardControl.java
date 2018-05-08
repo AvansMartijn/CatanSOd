@@ -34,13 +34,13 @@ public class GameBoardControl {
 	}
 	
 	public void addBoardToDB() {
-		int count = 0;
+		int count = 0;		
 		System.out.println(tileArr.size());
 		while(tileArr.size() > count) {
 			Tile tile = tileArr.get(count);
 			System.out.println("lel");
 			
-				mainDA.addTile(idGame, count, tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
+				mainDA.addTile(idGame, count+1, tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
 			
 			
 			System.out.println("camehere");
@@ -195,6 +195,12 @@ public class GameBoardControl {
 		buildingLocArr.get(30).setHarbour(new Harbour(null));
 		buildingLocArr.get(14).setHarbour(new Harbour(null));
 		buildingLocArr.get(17).setHarbour(new Harbour(null));
+		
+//		int count = 0;
+//		while(buildingLocArr.size() > count) {
+//			
+//			count++;
+//		}
 		
 	}
 	
