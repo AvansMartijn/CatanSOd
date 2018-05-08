@@ -22,7 +22,5 @@ public class MainGUI extends JFrame {
 		setVisible(true);
 
 	}
-	
-	
-	
+
 }

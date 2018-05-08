@@ -1,13 +1,14 @@
 package view;
 
-import java.awt.Color;
-
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,25 +20,17 @@ import javax.swing.JTextField;
 public class RegisterLoginPanel extends JPanel {
 
 	public RegisterLoginPanel() {
-		
-		GridBagLayout gridLayout = new GridBagLayout();
-		
-		//gridLayout
-		
-		setLayout(gridLayout);
 
-		JLabel welcome = new JLabel("Welkom bij Kolonisten van Catan");
-		welcome.setFont(new Font("Arial", Font.PLAIN, 30));
+		
 
+		setLayout(new FlowLayout());
+		
 		Register register = new Register();
 		Login login = new Login();
 
 		
-		
-		
-		add(welcome);
-		add(register);
-		add(login);
+		add(register, BorderLayout.LINE_START);
+		add(login, BorderLayout.CENTER);
 
 	}
 
@@ -45,7 +38,9 @@ public class RegisterLoginPanel extends JPanel {
 
 		private Register() {
 
-			//setBorder(BorderFactory.createLineBorder(Color.black));
+			// setBorder(BorderFactory.createLineBorder(Color.black));
+
+			//setPreferredSize(new Dimension(400,400));
 			
 			JLabel title = new JLabel("Registreren");
 			title.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -53,34 +48,28 @@ public class RegisterLoginPanel extends JPanel {
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-			JLabel userLabel = new JLabel("Gebruikersnaam");
-			userLabel.setBounds(10, 10, 80, 25);
+			JLabel userLabel = new JLabel("Gebruikersnaam");		
 			add(userLabel);
 
-			JTextField userText = new JTextField(20);
-			userText.setBounds(100, 10, 160, 25);
+			JTextField userText = new JTextField(20);		
 			add(userText);
 
 			JLabel passwordLabel = new JLabel("Wachtwoord");
-			passwordLabel.setBounds(10, 40, 80, 25);
 			add(passwordLabel);
 
 			JPasswordField passwordText = new JPasswordField(20);
-			passwordText.setBounds(100, 40, 160, 25);
 			add(passwordText);
 
 			JLabel passwordAgainLabel = new JLabel("Wachtwoord opnieuw invoeren");
-			passwordAgainLabel.setBounds(10, 40, 80, 25);
 			add(passwordAgainLabel);
 
 			JPasswordField passwordAgainText = new JPasswordField(20);
-			passwordAgainText.setBounds(100, 40, 160, 25);
+			
 			add(passwordAgainText);
 
 			JButton registerButton = new JButton("Registreren");
-			registerButton.setBounds(10, 80, 80, 25);
-			add(registerButton);
 
+			add(registerButton);
 			registerButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -95,10 +84,11 @@ public class RegisterLoginPanel extends JPanel {
 	class Login extends JPanel {
 
 		private Login() {
+			
+			//setPreferredSize(new Dimension(400,400));
 
-			//setBorder(BorderFactory.createLineBorder(Color.black));
-			
-			
+			// setBorder(BorderFactory.createLineBorder(Color.black));
+
 			JLabel title = new JLabel("Inloggen");
 			title.setFont(new Font("Arial", Font.PLAIN, 18));
 			add(title);
@@ -106,23 +96,18 @@ public class RegisterLoginPanel extends JPanel {
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 			JLabel userLabel = new JLabel("Gebruikersnaam");
-			userLabel.setBounds(10, 10, 80, 25);
 			add(userLabel);
 
 			JTextField userText = new JTextField(20);
-			userText.setBounds(100, 10, 160, 25);
 			add(userText);
 
 			JLabel passwordLabel = new JLabel("Wachtwoord");
-			passwordLabel.setBounds(10, 40, 80, 25);
 			add(passwordLabel);
 
 			JPasswordField passwordText = new JPasswordField(20);
-			passwordText.setBounds(100, 40, 160, 25);
 			add(passwordText);
 
 			JButton loginButton = new JButton("Inloggen");
-			loginButton.setBounds(10, 80, 80, 25);
 			add(loginButton);
 
 			loginButton.addActionListener(new ActionListener() {
