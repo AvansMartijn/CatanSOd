@@ -7,7 +7,7 @@ public class Hand {
 	// Instance variables
 	private ArrayList<DevelopmentCard> developmentCards;
 	private ArrayList<Resource> resources;
-	
+
 	// Constructor
 	public Hand() {
 		developmentCards = new ArrayList<DevelopmentCard>();
@@ -25,6 +25,11 @@ public class Hand {
 	// Add Resource
 	public void addResource(Resource resource) {
 		resources.add(resource);
+	}
+	
+	// Get ArrayList resources
+	public ArrayList<Resource> getResources() {
+		return resources;
 	}
 	
 	// Add DevelopmentCard

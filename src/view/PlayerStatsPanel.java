@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Player;
+
 @SuppressWarnings("serial")
 public class PlayerStatsPanel extends JPanel {
 
@@ -32,19 +34,20 @@ public class PlayerStatsPanel extends JPanel {
 	private JLabel playerRoadsAmountLabel;
 	private JLabel playerCardsAmountLabel;
 	
-	// Player info TODO might not be needed if everything is stored in playerObject
-	private boolean hasLargestArmy;
-	private boolean hasLongestRoad;
+	private Player player;
 
 	// Constructor
-	public PlayerStatsPanel(String playerName, int points, int settlements, int cities, int roads, int cards, // TODO or get playerObject for less parameters - which class are points being stored?
-			boolean hasLargestArmy, boolean hasLongestRoad) {
-		playerNameLabel = new JLabel(playerName + " (jij)");
-		playerPointsLabel = new JLabel("Punten: " + points);
-		playerSettlementsAmountLabel = new JLabel("" + settlements);
-		playerCitiesAmountLabel = new JLabel("" + cities);
-		playerRoadsAmountLabel = new JLabel("" + roads);
-		playerCardsAmountLabel = new JLabel("" + cards);
+	public PlayerStatsPanel(Player player) {
+		this.player = player;
+		playerNameLabel = new JLabel(player.getUsername() + " (jij)");
+		playerPointsLabel = new JLabel("Punten: " + player.getPoints());
+		playerSettlementsAmountLabel = new JLabel("" + player.getSettlements());
+		playerCitiesAmountLabel = new JLabel("" + player.getCities());
+		playerRoadsAmountLabel = new JLabel("" + player.getRoads());
+		/*
+		playerCardsAmountLabel = new JLabel("" + player.getHand().getResources().size()); 
+		*/
+		playerCardsAmountLabel = new JLabel("3");
 		
 		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -61,15 +64,15 @@ public class PlayerStatsPanel extends JPanel {
 		gridBagConstraints.insets = new Insets(2, 2, 2, 2);
 		gridBagConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
-		// Add playerName and its points
-		playerNameLabel.setForeground(Color.RED);
+		// Add username and points
+		playerNameLabel.setForeground(player.getColorObject());
 		playerNameLabel.setFont(new Font("Arial", Font.BOLD, 20));
 		add(playerNameLabel, gridBagConstraints);
 		gridBagConstraints.weightx = 1;
 		gridBagConstraints.weighty = 1;
 		gridBagConstraints.gridy++;
 		playerPointsLabel.setFont(new Font("Arial", Font.BOLD, 18));
-		playerPointsLabel.setForeground(Color.RED);
+		playerPointsLabel.setForeground(player.getColorObject());
 		add(playerPointsLabel, gridBagConstraints);
 		
 		
@@ -87,6 +90,7 @@ public class PlayerStatsPanel extends JPanel {
 				gridBagConstraints.gridy++;
 				// TEST
 				gridBagConstraints.gridx++;
+				gridBagConstraints.anchor = GridBagConstraints.WEST;
 				playerCardsAmountLabel.setForeground(Color.WHITE);
 				playerCardsAmountLabel.setFont(new Font("Arial", Font.BOLD, 20));
 				add(playerCardsAmountLabel, gridBagConstraints);
@@ -94,6 +98,7 @@ public class PlayerStatsPanel extends JPanel {
 				// END TEST
 			} catch (IOException e) {
 			}
+			gridBagConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
 			add(new JLabel(new ImageIcon(image)), gridBagConstraints);
 		}
 	}

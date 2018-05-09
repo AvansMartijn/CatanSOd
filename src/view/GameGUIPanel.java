@@ -7,6 +7,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
+import model.Player;
+
 @SuppressWarnings("serial")
 public class GameGUIPanel extends JPanel {
 	
@@ -19,9 +21,11 @@ public class GameGUIPanel extends JPanel {
 	private MyDevelopmentCardsPanel myDevelopmentCardsPanel;
 	private BoardPanel myBoardPanel;
 	private PlayerStatsPanel myPlayerStatsPanel; // TODO make 4 of them in an array
+	private Player player;
 	
 	// Constructor
-	public GameGUIPanel() {
+	public GameGUIPanel(Player player) {
+		this.player = player;
 		/*
 		 setLayout(new BorderLayout());
 		 */
@@ -35,7 +39,7 @@ public class GameGUIPanel extends JPanel {
 		myResourcesPanel = new MyResourcesPanel();
 		myDevelopmentCardsPanel = new MyDevelopmentCardsPanel();
 		myBoardPanel = new BoardPanel();
-		myPlayerStatsPanel = new PlayerStatsPanel("STRONGVIKING", 3, 2, 2, 3, 5, true, true);
+		myPlayerStatsPanel = new PlayerStatsPanel(player);
 		
 		//add(myGameTopPanel, BorderLayout.NORTH);
 		//add(myPlayerActionsPanel, BorderLayout.WEST);

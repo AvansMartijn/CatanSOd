@@ -16,6 +16,9 @@ public class MainControl {
 		mainDA = new MainDA();
 		
 		gameControl = new GameControl(mainDA);
+		
+		//Test
+//		loginAccount("lesley", "hallo");
 	}
 
 	public void loginAccount(String username, String password) {
