@@ -14,13 +14,9 @@ public class MainControl {
 
 	public MainControl() {
 		mainDA = new MainDA();
-<<<<<<< HEAD
-		guiController = new GuiController(this);
-=======
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
->>>>>>> d7c0820afbc37a6681e03fd93b889a6ddac27470
-		guiController.setInlogPanel();
+//		guiController.setInlogPanel();
 	}
 
 	public boolean loginAccount(String username, String password) {
