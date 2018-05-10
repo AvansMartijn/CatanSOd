@@ -3,6 +3,9 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,45 +22,19 @@ public class LoginRegisterPanel extends JPanel {
 	private JLabel messageLabel;
 
 	public LoginRegisterPanel() {
-		
-		setPreferredSize(new Dimension(250, 250));
-		
-		setBorder(BorderFactory.createLineBorder(Color.BLACK,1));
 
-		Dimension preferredSize = new Dimension(100, 20);
+		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 
-		JLabel welcome = new JLabel("Welcome to Catan");
-		welcome.setFont(new Font("Arial", Font.PLAIN, 30));
-		add(welcome);
+		GridBagLayout grid = new GridBagLayout();
+		setLayout(grid);
 
-		messageLabel = new JLabel("Vul hieronder je gegevens in");
-		add(messageLabel);
-		messageLabel.setAlignmentY(LEFT_ALIGNMENT);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.anchor = GridBagConstraints.CENTER;
 
-		JLabel userLabel = new JLabel("Gebruikersnaam");
-		add(userLabel);
+		CenterPanel center = new CenterPanel();
 
-		usernameText = new JTextField(20);
-		usernameText.setPreferredSize(preferredSize);
-		add(usernameText);
-
-		JLabel passwordLabel = new JLabel("Wachtwoord");
-		add(passwordLabel);
-
-		passwordText = new JTextField(20);
-		passwordText.setPreferredSize(preferredSize);
-		add(passwordText);
-
-		loginButton = new JButton("Inloggen");
-		loginButton.setPreferredSize(new Dimension(200, 40));
-		loginButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		add(loginButton);
-
-		registerButton = new JButton("Registreren");
-		registerButton.setPreferredSize(new Dimension(200, 40));
-		registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-		add(registerButton);
+		grid.setConstraints(center, constraints);
+		add(center, constraints);
 
 	}
 
@@ -79,6 +56,54 @@ public class LoginRegisterPanel extends JPanel {
 
 	public void setMessagelabel(String str) {
 		messageLabel.setText(str);
+	}
+
+	public class CenterPanel extends JPanel {
+
+		public CenterPanel() {
+			
+			setPreferredSize(new Dimension(290, 250));
+			
+			
+
+			setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+			Dimension preferredSize = new Dimension(100, 20);
+
+			JLabel welcome = new JLabel("Kolonisten van Catan");
+			welcome.setFont(new Font("Arial", Font.PLAIN, 30));
+			add(welcome);
+
+			messageLabel = new JLabel("Vul hieronder je gegevens in");
+			add(messageLabel);
+
+			JLabel userLabel = new JLabel("Gebruikersnaam");
+			userLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 120));
+			add(userLabel);
+
+			usernameText = new JTextField(20);
+			usernameText.setPreferredSize(preferredSize);
+			add(usernameText);
+
+			JLabel passwordLabel = new JLabel("Wachtwoord");
+			passwordLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 140));
+			add(passwordLabel);
+
+			passwordText = new JTextField(20);
+			passwordText.setPreferredSize(preferredSize);
+			add(passwordText);
+
+			loginButton = new JButton("Inloggen");
+			loginButton.setPreferredSize(new Dimension(280, 40));
+			loginButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			add(loginButton);
+
+			registerButton = new JButton("Registreren");
+			registerButton.setPreferredSize(new Dimension(280, 40));
+			registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			add(registerButton);
+		}
+
 	}
 
 }
