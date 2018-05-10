@@ -15,7 +15,7 @@ public class MainControl {
 	public MainControl() {
 		mainDA = new MainDA();
 		guiController = new GuiController(this);
-//		guiController.setInlogPanel();
+		guiController.setInlogPanel();
 	}
 
 	public boolean loginAccount(String username, String password) {

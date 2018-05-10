@@ -1,12 +1,10 @@
 package view;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.text.ParseException;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,19 +19,20 @@ public class LoginRegisterPanel extends JPanel {
 	private JLabel messageLabel;
 
 	public LoginRegisterPanel() {
+		
+		setPreferredSize(new Dimension(250, 250));
+		
+		setBorder(BorderFactory.createLineBorder(Color.BLACK,1));
+
 		Dimension preferredSize = new Dimension(100, 20);
 
 		JLabel welcome = new JLabel("Welcome to Catan");
 		welcome.setFont(new Font("Arial", Font.PLAIN, 30));
 		add(welcome);
-		messageLabel = new JLabel("Fill in your Credentials below");
+
+		messageLabel = new JLabel("Vul hieronder je gegevens in");
 		add(messageLabel);
-
-		JLabel title = new JLabel("Inloggen");
-		title.setFont(new Font("Arial", Font.PLAIN, 18));
-		add(title);
-
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		messageLabel.setAlignmentY(LEFT_ALIGNMENT);
 
 		JLabel userLabel = new JLabel("Gebruikersnaam");
 		add(userLabel);
@@ -58,10 +57,10 @@ public class LoginRegisterPanel extends JPanel {
 		registerButton.setPreferredSize(new Dimension(200, 40));
 		registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		add(registerButton, BorderLayout.PAGE_END);
+		add(registerButton);
 
 	}
-	
+
 	public JButton getInlogButton() {
 		return loginButton;
 	}
@@ -81,4 +80,5 @@ public class LoginRegisterPanel extends JPanel {
 	public void setMessagelabel(String str) {
 		messageLabel.setText(str);
 	}
+
 }
