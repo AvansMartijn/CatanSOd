@@ -27,9 +27,9 @@ public class GameGUIPanel extends JPanel {
 	private MyDevelopmentCardsPanel developmentCardsPanel;
 	private BoardPanel boardPanel;
 	private DicePanel dicePanel;
+	private ChatPanel chatPanel;
 	
 	private PlayerStatsPanel[] playerStatsPanel; // TODO make 4 of them in an array
-	
 	
 	private Player player;
 	
@@ -38,9 +38,6 @@ public class GameGUIPanel extends JPanel {
 		this.player = player;
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
-		/*
-		 setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
-		 */
 		gameTopPanel = new GameTopPanel("CatanTest"); // TODO set gamelabel text in constructor
 		playerActionsPanel = new PlayerActionPanel();
 		resourcesPanel = new MyResourcesPanel();
@@ -48,6 +45,7 @@ public class GameGUIPanel extends JPanel {
 		boardPanel = new BoardPanel();
 		playerStatsPanel = new PlayerStatsPanel[AMOUNT_OF_PLAYERS];
 		dicePanel = new DicePanel();
+		chatPanel = new ChatPanel();
 		
 		createLayout();
 	}
@@ -64,10 +62,14 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.gridwidth = 5;
 		add(gameTopPanel, gridBagConstraints);
 		
+		// Add ChatPanel
+		gridBagConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		gridBagConstraints.gridy++;
+		add(chatPanel, gridBagConstraints);
+		
 		// Add Board Panels
 		gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
-		gridBagConstraints.fill = GridBagConstraints.NONE;
-		gridBagConstraints.gridy++;
+		gridBagConstraints.gridx++;
 		add(boardPanel, gridBagConstraints);
 		
 		// Add PlayerActionsPanel // TODO only if its this players turn
