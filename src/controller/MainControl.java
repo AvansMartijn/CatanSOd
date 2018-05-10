@@ -10,31 +10,31 @@ public class MainControl {
 	private GameControl gameControl;
 	private MainDA mainDA;
 	private Account account;
+	private GuiController guiController;
 
 	public MainControl() {
-		// mainMenu = new MainMenu();
 		mainDA = new MainDA();
-		
-		gameControl = new GameControl(mainDA);
-		
-		//Test
-//		loginAccount("lesley", "hallo");
+		guiController = new GuiController(this);
+		guiController.setInlogPanel();
 	}
 
-	public void loginAccount(String username, String password) {
+	public boolean loginAccount(String username, String password) {
 		if (mainDA.login(username, password)) {
 			account = new Account(mainDA.getPlayers(username), username);
+			gameControl = new GameControl(mainDA);
+			return true;
 		} else {
-			System.out.println("Failed to login");
+			return false;
 		}
 
 	}
 	
-	public void createAccount(String username, String password) {
+	public boolean createAccount(String username, String password) {
 		if (mainDA.accountNameExists(username)) {
-			System.out.println("Username already exists");
+			return false;
 		} else {
 			mainDA.createAccount(username, password);
+			return true;
 		}
 	}
 	

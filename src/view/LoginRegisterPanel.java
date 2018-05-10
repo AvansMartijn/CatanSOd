@@ -1,30 +1,34 @@
 package view;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class LoginRegisterPanel extends JPanel {
-	public LoginRegisterPanel() {
+	private JButton loginButton;
+	private JButton registerButton;
+	private JTextField usernameText;
+	private JTextField passwordText;
+	private JLabel messageLabel;
 
-		JLabel welcome = new JLabel("Welkom bij Kolonisten van Catan");
+	public LoginRegisterPanel() {
+		Dimension preferredSize = new Dimension(100, 20);
+
+		JLabel welcome = new JLabel("Welcome to Catan");
 		welcome.setFont(new Font("Arial", Font.PLAIN, 30));
 		add(welcome);
-		
-		 	
-		
+		messageLabel = new JLabel("Fill in your Credentials below");
+		add(messageLabel);
+
 		JLabel title = new JLabel("Inloggen");
 		title.setFont(new Font("Arial", Font.PLAIN, 18));
 		add(title);
@@ -34,91 +38,47 @@ public class LoginRegisterPanel extends JPanel {
 		JLabel userLabel = new JLabel("Gebruikersnaam");
 		add(userLabel);
 
-		JTextField userText = new JTextField(20);
-		userText.setPreferredSize(new Dimension(100,20));
-		add(userText);
+		usernameText = new JTextField(20);
+		usernameText.setPreferredSize(preferredSize);
+		add(usernameText);
 
 		JLabel passwordLabel = new JLabel("Wachtwoord");
 		add(passwordLabel);
 
-		JPasswordField passwordText = new JPasswordField(20);
+		passwordText = new JTextField(20);
+		passwordText.setPreferredSize(preferredSize);
 		add(passwordText);
 
-		JButton loginButton = new JButton("Inloggen");
-		loginButton.setPreferredSize(new Dimension(200,40));
+		loginButton = new JButton("Inloggen");
+		loginButton.setPreferredSize(new Dimension(200, 40));
 		loginButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		add(loginButton);
 
-		loginButton.addActionListener(new ActionListener() {
+		registerButton = new JButton("Registreren");
+		registerButton.setPreferredSize(new Dimension(200, 40));
+		registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		
-		JButton registerButton = new JButton("Registreren");
-		registerButton.setPreferredSize(new Dimension(200,40));                     
-		registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
-		
 		add(registerButton, BorderLayout.PAGE_END);
 
-		registerButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
+	}
+	
+	public JButton getInlogButton() {
+		return loginButton;
 	}
 
-	class Register extends JPanel {
+	public JButton getRegisterButton() {
+		return registerButton;
+	}
 
-		private Register() {
+	public JTextField getUsernameText() {
+		return usernameText;
+	}
 
-			// setBorder(BorderFactory.createLineBorder(Color.black));
+	public JTextField getPasswordText() {
+		return passwordText;
+	}
 
-			
-
-			JLabel title = new JLabel("Registreren");
-			title.setFont(new Font("Arial", Font.PLAIN, 18));
-			add(title);
-
-			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-			JLabel userLabel = new JLabel("Gebruikersnaam");
-			add(userLabel);
-
-			JTextField userText = new JTextField(20);
-			add(userText);
-
-			JLabel passwordLabel = new JLabel("Wachtwoord");
-			add(passwordLabel);
-
-			JPasswordField passwordText = new JPasswordField(20);
-			add(passwordText);
-
-			JLabel passwordAgainLabel = new JLabel("Wachtwoord opnieuw invoeren");
-			add(passwordAgainLabel);
-
-			JPasswordField passwordAgainText = new JPasswordField(20);
-
-			add(passwordAgainText);
-
-			JButton registerButton = new JButton("Registreren");
-
-			add(registerButton);
-			registerButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-			});
-		}
+	public void setMessagelabel(String str) {
+		messageLabel.setText(str);
 	}
 }
