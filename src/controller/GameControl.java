@@ -6,8 +6,6 @@ import dbaccess.MainDA;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
-import view.Frame;
-import view.GameGUIPanel;
 
 public class GameControl {
 	private GameBoardControl gameBoardControl;
@@ -20,8 +18,8 @@ public class GameControl {
 		this.mainDA = mainDA;
 		//-----TEST------
 		//Frame frame = new Frame();
-		player = new Player(12, "Hagrid", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE);
-		GuiController myGuiController = new GuiController(player);
+//		player = new Player(12, "Hagrid", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE);
+		
 		//gameBoardControl = new GameBoardControl(mainDA, idGame);
 //		createGame(false);
 //		joinGame("lesley");

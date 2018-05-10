@@ -24,7 +24,7 @@ public class GameGUIPanel extends JPanel {
 	private Player player;
 	
 	// Constructor
-	public GameGUIPanel(Player player) {
+	public GameGUIPanel(Player player) { // TODO array of players as you need 4 playerStatsPanels?
 		this.player = player;
 		/*
 		 setLayout(new BorderLayout());
@@ -33,7 +33,6 @@ public class GameGUIPanel extends JPanel {
 		/*
 		 setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		 */
-		
 		myGameTopPanel = new GameTopPanel("CatanTest"); // TODO set gamelabel text in constructor
 		myPlayerActionsPanel = new playerActionsPanel();
 		myResourcesPanel = new MyResourcesPanel();
