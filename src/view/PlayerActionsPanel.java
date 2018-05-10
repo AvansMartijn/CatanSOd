@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class playerActionsPanel extends JPanel {
+public class PlayerActionsPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
@@ -27,7 +27,7 @@ public class playerActionsPanel extends JPanel {
 	private JButton myEndTurnButton;
 	
 	// Constructor
-	public playerActionsPanel() { // TODO add ActionListeners + USE AN ARRAY FOR THE BUTTONS (code repeats a lot)
+	public PlayerActionsPanel() { // TODO add ActionListeners + USE AN ARRAY FOR THE BUTTONS (code repeats a lot)
 		setBackground(myBackgroundColor);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		//setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

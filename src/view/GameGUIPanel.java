@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import model.Player;
 
+
 @SuppressWarnings("serial")
 public class GameGUIPanel extends JPanel {
 	
@@ -20,7 +21,7 @@ public class GameGUIPanel extends JPanel {
 	private Color myBackGroundColor = new Color(240, 226, 223);
 	
 	private GameTopPanel gameTopPanel;
-	private playerActionsPanel playerActionsPanel;
+	private PlayerActionsPanel playerActionsPanel;
 	private MyResourcesPanel resourcesPanel;
 	private MyDevelopmentCardsPanel developmentCardsPanel;
 	private BoardPanel boardPanel;
@@ -39,7 +40,7 @@ public class GameGUIPanel extends JPanel {
 		 setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		 */
 		gameTopPanel = new GameTopPanel("CatanTest"); // TODO set gamelabel text in constructor
-		playerActionsPanel = new playerActionsPanel();
+		playerActionsPanel = new PlayerActionsPanel();
 		resourcesPanel = new MyResourcesPanel();
 		developmentCardsPanel = new MyDevelopmentCardsPanel();
 		boardPanel = new BoardPanel();
