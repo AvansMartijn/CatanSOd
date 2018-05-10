@@ -14,14 +14,15 @@ public class MainControl {
 
 	public MainControl() {
 		mainDA = new MainDA();
-		guiController = new GuiController(this);
-//		guiController.setInlogPanel();
+		gameControl = new GameControl(mainDA);
+		guiController = new GuiController(this, gameControl);
+		guiController.setInlogPanel();
 	}
 
 	public boolean loginAccount(String username, String password) {
 		if (mainDA.login(username, password)) {
 			account = new Account(mainDA.getPlayers(username), username);
-			gameControl = new GameControl(mainDA);
+			gameControl.setUsername(account.getUsername());
 			return true;
 		} else {
 			return false;
@@ -48,19 +49,19 @@ public class MainControl {
 		this.account = null;
 	}
 
-	public void createGame() {
-		gameControl = new GameControl(mainDA);
-		gameControl.createGame(false);
-		gameControl.joinGame(account.getUsername());
-	}
-
-	public void joinGame(int idGame) {
-		if (account != null) {
-			gameControl = new GameControl(mainDA);
-			gameControl.setGameID(idGame);
-			gameControl.joinGame(account.getUsername());
-		} else {
-			System.out.println("No Account logged in");
-		}
-	}
+//	public void createGame() {
+//		gameControl = new GameControl(mainDA, account.getUsername());
+//		gameControl.createGame(false);
+//		gameControl.joinGame(account.getUsername());
+//	}
+//
+//	public void joinGame(int idGame) {
+//		if (account != null) {
+//			gameControl = new GameControl(mainDA, account.getUsername());
+//			gameControl.setGameID(idGame);
+//			gameControl.joinGame(account.getUsername());
+//		} else {
+//			System.out.println("No Account logged in");
+//		}
+//	}
 }

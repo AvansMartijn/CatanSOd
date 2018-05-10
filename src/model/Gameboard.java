@@ -45,5 +45,18 @@ public class Gameboard {
 			System.out.println("");
 		} 
 	}
+
+	public ArrayList<Tile> getTileArr() {
+		return tileArr;
+	}
+
+	public ArrayList<BuildingLocation> getBuildingLocArr() {
+		return buildingLocArr;
+	}
+
+	public ArrayList<StreetLocation> getStreetLocArr() {
+		return streetLocArr;
+	}
+	
 	
 }

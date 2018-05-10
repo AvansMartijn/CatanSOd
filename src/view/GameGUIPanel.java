@@ -43,7 +43,7 @@ public class GameGUIPanel extends JPanel {
 		playerActionsPanel = new PlayerActionPanel();
 		resourcesPanel = new MyResourcesPanel();
 		developmentCardsPanel = new MyDevelopmentCardsPanel();
-		boardPanel = new BoardPanel();
+//		boardPanel = new BoardPanel();
 		playerStatsPanel = new PlayerStatsPanel[AMOUNT_OF_PLAYERS];
 		
 		createLayout();
