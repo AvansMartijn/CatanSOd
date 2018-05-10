@@ -7,7 +7,9 @@ import java.util.regex.Pattern;
 
 import javax.swing.JTextField;
 
+import model.PlayStatus;
 import model.Player;
+import model.PlayerColor;
 import view.Frame;
 import view.GameGUIPanel;
 import view.LoginRegisterPanel;
@@ -15,13 +17,16 @@ import view.LoginRegisterPanel;
 public class GuiController {
 
 	private Player player;
-	private GameGUIPanel myGameGUIPanel;
+	private GameGUIPanel gameGUIPanel;
 	private Frame frame;
 	private MainControl mainControl;
 
 	public GuiController(MainControl mainControl) {
 		this.mainControl = mainControl;
 		frame = new Frame();
+		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
+		frame.setContentPane(gameGUIPanel);
+		frame.pack();
 	}
 
 	public void setPlayer(Player player) {
@@ -95,8 +100,8 @@ public class GuiController {
 	}
 	
 	public void setGamePanel() {
-		myGameGUIPanel = new GameGUIPanel(player);
-		frame.setContentPane(myGameGUIPanel);
+		gameGUIPanel = new GameGUIPanel(player);
+		frame.setContentPane(gameGUIPanel);
 	}
 	
 	

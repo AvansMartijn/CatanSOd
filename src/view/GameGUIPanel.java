@@ -40,11 +40,11 @@ public class GameGUIPanel extends JPanel {
 		myBoardPanel = new BoardPanel();
 		myPlayerStatsPanel = new PlayerStatsPanel(player);
 		
-		//add(myGameTopPanel, BorderLayout.NORTH);
-		//add(myPlayerActionsPanel, BorderLayout.WEST);
-		//add(myResourcesPanel);
-		//add(myDevelopmentCardsPanel);
-		//add(myBoardPanel);
+		add(myGameTopPanel, BorderLayout.NORTH);
+		add(myPlayerActionsPanel, BorderLayout.WEST);
+		add(myResourcesPanel);
+		add(myDevelopmentCardsPanel);
+		add(myBoardPanel);
 		add(myPlayerStatsPanel);
 	}
 }
