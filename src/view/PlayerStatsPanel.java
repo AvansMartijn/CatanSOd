@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -51,7 +52,7 @@ public class PlayerStatsPanel extends JPanel {
 		
 		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-
+		setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
 		setLayout(new GridBagLayout());
 		create();
 	}

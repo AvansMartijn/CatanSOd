@@ -22,6 +22,7 @@ public class MyDevelopmentCardsPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 650;
 	private final int PANEL_HEIGHT = 240;
+	private final int SCROLLPANE_HEIGHT = 20;
 	
 	// Instance variables
 	private Color myBackgroundColor = new Color(189, 133, 100);
@@ -38,15 +39,15 @@ public class MyDevelopmentCardsPanel extends JPanel {
 		myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.X_AXIS));
 		myScrollPane = new JScrollPane(myPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, 
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		myScrollPane.setPreferredSize(new Dimension(800, 18));
+		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+		myScrollPane.setPreferredSize(new Dimension(PANEL_WIDTH, SCROLLPANE_HEIGHT));
 		
 		setBackground(myBackgroundColor);
-		//setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setLayout(new BorderLayout());
 		add(myPanel, BorderLayout.CENTER);
 		
 		// TEST
-		for(int i = 0; i < 12; i++) {
+		for(int i = 0; i < 4; i++) {
 			addDevelopmentCard();
 		}
 		// END TEST
