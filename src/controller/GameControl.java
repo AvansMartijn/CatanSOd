@@ -3,14 +3,17 @@ package controller;
 import java.util.ArrayList;
 
 import dbaccess.MainDA;
+import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 
 public class GameControl {
 	private GameBoardControl gameBoardControl;
+	private Gameboard gameboard;
 	private MainDA mainDA;
 	private int idGame;
+	private String username;
 	private ArrayList<String> messageList;
 	private Player player;
 	
@@ -20,10 +23,15 @@ public class GameControl {
 		//Frame frame = new Frame();
 //		player = new Player(12, "Hagrid", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE);
 		
-		//gameBoardControl = new GameBoardControl(mainDA, idGame);
-//		createGame(false);
-//		joinGame("lesley");
+		
 		//----END TEST -----
+	}
+	
+	public void testMethod() {
+		gameBoardControl = new GameBoardControl(mainDA, idGame);
+//		createGame(false);
+		idGame = 774;
+		joinGame();
 	}
 	
 	/**
@@ -31,15 +39,22 @@ public class GameControl {
 	 */
 	public void createGame(boolean randomBoard) {
 		idGame = mainDA.createGame(randomBoard);
+		createPlayer();
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
-		gameBoardControl.createBoard();
+		gameboard = gameBoardControl.createBoard();
 		
 	}
 	
 	/**
 	 * Add a player
 	 */
-	public void joinGame(String username) {
+	public void joinGame() {
+		createPlayer();
+		gameBoardControl = new GameBoardControl(mainDA, idGame);
+		gameboard = gameBoardControl.loadBoard();
+	}
+	
+	private void createPlayer() {
 		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(idGame);
 		String playerColor = null;
 		int followNR = -1;
@@ -74,8 +89,6 @@ public class GameControl {
 		
 		mainDA.createPlayer(idGame, username, playerColor, followNR, playStatus);
 		player = new Player(idGame, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
-		gameBoardControl = new GameBoardControl(mainDA, idGame);
-		gameBoardControl.loadBoard();
 	}
 
 	public void getMessages() {
@@ -96,8 +109,16 @@ public class GameControl {
 		this.idGame = gameID;
 	}
 	
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+		
+	public Gameboard getGameboard() {
+		return gameboard;
 	}
 
 }

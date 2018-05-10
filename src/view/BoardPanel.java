@@ -7,38 +7,39 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Gameboard;
+
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel {
 
-	private final int PANEL_WIDTH = 700;
-	private final int PANEL_HEIGHT = 700;
+	Gameboard gameboard;
+	private final int panelWidth = 700;
+	private final int panelHeight = 700;
 
-	private final int TILE_WIDTH = 130;
-	private final int TILE_HEIGHT = 150;
+	private final int tileWidth = 130;
+	private final int tileHeight = 150;
 
-	private final int AANTAL_TILES_RIJ1 = 3;
-	private final int AANTAL_TILES_RIJ2 = 4;
-	private final int AANTAL_TILES_RIJ3 = 5;
-	private final int AANTAL_TILES_RIJ4 = 4;
-	private final int AANTAL_TILES_RIJ5 = 3;
+	private final int tilesRow1 = 3;
+	private final int tilesRow2 = 4;
+	private final int tilesRow3 = 5;
+	private final int tilesRow4 = 4;
+	private final int tilesRow5 = 3;
+	private final int totalTiles = tilesRow1 + tilesRow2 + tilesRow3 + tilesRow4 + tilesRow5;
 
-	private final int AANTAL_TILES_TOTAAL = AANTAL_TILES_RIJ1 + AANTAL_TILES_RIJ2 + AANTAL_TILES_RIJ3
-			+ AANTAL_TILES_RIJ4 + AANTAL_TILES_RIJ5;
+	private int[] lengtesRijen = new int[] { tilesRow1, tilesRow2, tilesRow3, tilesRow4,
+			tilesRow5 };
+	private JLabel[] myTileLabels = new JLabel[totalTiles];
 
-	// Instance variables
-	private int[] lengtesRijen = new int[] { AANTAL_TILES_RIJ1, AANTAL_TILES_RIJ2, AANTAL_TILES_RIJ3, AANTAL_TILES_RIJ4,
-			AANTAL_TILES_RIJ5 };
-	private JLabel[] myTileLabels = new JLabel[AANTAL_TILES_TOTAAL];
-
-	// Constructor
-	public BoardPanel() {
+	public BoardPanel(Gameboard gameboard) {
+		this.gameboard = gameboard;
 		setLayout(null);
 		setBackground(Color.BLUE); // TODO make it some cool image
-		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		createTiles();
 	}
 
@@ -53,21 +54,22 @@ public class BoardPanel extends JPanel {
 		for (int i = 0; i < lengtesRijen.length; i++) {
 			// Voor het aantal tiles in een rij
 			for (int j = 0; j < lengtesRijen[i]; j++) {
-				Image image = null;
-				try {
-					URL url = this.getClass().getResource("/images/Wood_Tile.png"); // TODO change this to getTileType(tileNumber);
-					image = ImageIO.read(url);
-					image = image.getScaledInstance(TILE_WIDTH, TILE_HEIGHT, Image.SCALE_DEFAULT);
-				} catch (IOException e) {
-				}
-				myTileLabels[tileNumber] = new JLabel(new ImageIcon(image));
-				add(myTileLabels[tileNumber]);
-
-				myTileLabels[tileNumber].setLocation(values_x[i] + (TILE_WIDTH * j), values_y[i]);
-				myTileLabels[tileNumber].setSize(TILE_WIDTH, TILE_HEIGHT);
-				tileNumber++;
+//				Image image = null;
+//				try {
+//					URL url = this.getClass().getResource("/images/Wood_Tile.png"); // TODO change this to getTileType(tileNumber);
+//					image = ImageIO.read(url);
+//					image = image.getScaledInstance(tileWidth, tileHeight, Image.SCALE_DEFAULT);
+//				} catch (IOException e) {
+//				}
+//				myTileLabels[tileNumber] = new JLabel(new ImageIcon(image));
+//				add(myTileLabels[tileNumber]);
+//
+//				myTileLabels[tileNumber].setLocation(values_x[i] + (tileWidth * j), values_y[i]);
+//				myTileLabels[tileNumber].setSize(tileWidth, tileHeight);
+//				tileNumber++;
 			}
 		}
+		add(new TilePanel(1, 1));
 	}
 
 	/*

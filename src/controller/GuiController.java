@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import view.BoardPanel;
 import view.Frame;
 import view.GameGUIPanel;
 import view.LoginRegisterPanel;
@@ -19,24 +20,29 @@ public class GuiController {
 
 	private Player player;
 	private GameGUIPanel gameGUIPanel;
+	private BoardPanel boardPanel;
 	private Frame frame;
 	private MainControl mainControl;
+	private GameControl gameControl;
 
-	public GuiController(MainControl mainControl) {
+	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
+		this.gameControl = gameControl;
+		player = gameControl.getPlayer();
 		frame = new Frame();
+<<<<<<< HEAD
 		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
 	//	frame.setContentPane(gameGUIPanel);
+=======
+//		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
+//		frame.setContentPane(gameGUIPanel);
+>>>>>>> d7c0820afbc37a6681e03fd93b889a6ddac27470
 		/*
 		frame.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		*/
-		frame.setUndecorated(true);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		frame.setUndecorated(true);
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
 	}
 	
 	public void setInlogPanel() {
@@ -55,7 +61,7 @@ public class GuiController {
 					loginregisterPanel.setMessagelabel("Invalid Credentials");
 					frame.pack();
 				} else {
-					frame.removeAll();
+					setBoardPanel();
 					frame.pack();
 				}
 			}
@@ -110,5 +116,9 @@ public class GuiController {
 		frame.setContentPane(gameGUIPanel);
 	}
 	
+	public void setBoardPanel() {
+		boardPanel = new BoardPanel(gameControl.getGameboard());
+		frame.setContentPane(boardPanel);
+	}
 	
 }
