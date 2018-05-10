@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import model.PlayStatus;
@@ -26,7 +27,12 @@ public class GuiController {
 		frame = new Frame();
 		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
 		frame.setContentPane(gameGUIPanel);
-		frame.pack();
+		/*
+		frame.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+		*/
+		frame.setUndecorated(true);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setVisible(true);
 	}
 
 	public void setPlayer(Player player) {
