@@ -2,20 +2,20 @@ package controller;
 
 import dbaccess.MainDA;
 import model.Account;
+import view.Frame;
 
 
 public class MainControl {
 
-	// private MainMenu mainMenu;
 	private GameControl gameControl;
 	private MainDA mainDA;
 	private Account account;
+	private Frame frame;
 
 	public MainControl() {
-		// mainMenu = new MainMenu();
 		mainDA = new MainDA();
-		
-		new GameControl(mainDA);
+		gameControl = new GameControl(mainDA);
+		frame = new Frame();
 	}
 
 	public void loginAccount(String username, String password) {

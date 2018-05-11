@@ -4,8 +4,8 @@ public class Street extends Building{
 
 	private StreetLocation streetLocation;
 
-	public Street() {
-
+	public Street(PlayerColor color) {
+		super(color);
 	}
 	
 	public StreetLocation getStreetLocation() {

@@ -89,12 +89,12 @@ public class GameBoardControl {
 		while(tileArr.size() > count) {
 			//create temporary array with streetlocations
 			ArrayList<StreetLocation> strLocArr = new ArrayList<>();
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(0), tileArr.get(count).getBuildingLocArr().get(1)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(1), tileArr.get(count).getBuildingLocArr().get(2)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(2), tileArr.get(count).getBuildingLocArr().get(3)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(3), tileArr.get(count).getBuildingLocArr().get(4)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(4), tileArr.get(count).getBuildingLocArr().get(5)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocArr().get(5), tileArr.get(count).getBuildingLocArr().get(0)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(0), tileArr.get(count).getBuildingLocations().get(1)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(1), tileArr.get(count).getBuildingLocations().get(2)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(2), tileArr.get(count).getBuildingLocations().get(3)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(3), tileArr.get(count).getBuildingLocations().get(4)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(4), tileArr.get(count).getBuildingLocations().get(5)));
+			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(5), tileArr.get(count).getBuildingLocations().get(0)));
 			
 			int strLocCount = 0;
 			//for all streetlocations in the temporary array
@@ -105,14 +105,14 @@ public class GameBoardControl {
 					//if a similar streetlocation already exists in the main array use THAT EXACT object and put it in the tiles streetlocArray
 					if(strLocArr.get(strLocCount).getBlStart() == sl.getBlStart() && strLocArr.get(strLocCount).getBlEnd() == sl.getBlEnd() || strLocArr.get(strLocCount).getBlStart() == sl.getBlEnd() && strLocArr.get(strLocCount).getBlEnd() == sl.getBlStart() ) {
 						exists = true;
-						tileArr.get(count).addStreetLoc(sl);
+						tileArr.get(count).addStreetLocation(sl);
 						break;
 					}
 				}
 				
 				//if a similar streetlocation does not exist, create it in the main streetlocation array and also put it in the tiles streetLocArray
 				if(!exists) {
-					tileArr.get(count).addStreetLoc(strLocArr.get(strLocCount));
+					tileArr.get(count).addStreetLocation(strLocArr.get(strLocCount));
 					streetLocArr.add(strLocArr.get(strLocCount));
 				}
 				
@@ -152,14 +152,14 @@ public class GameBoardControl {
 					if(locArr.get(locArrCount).getX() == (bl.getX()) && locArr.get(locArrCount).getY() == (bl.getY())) {
 						exists = true;
 						//get that exact buildinglocation object and put it in the tiles buildinglocation Array
-						tileArr.get(count).addBuildingLoc(bl);						
+						tileArr.get(count).addBuildingLocation(bl);						
 						break;
 					}
 			    }		
 				
 				//if it does not exist, create the object in the main buildinglocation Array and add it to the tiles buildinglocation Array
 				if(!exists) {
-					tileArr.get(count).addBuildingLoc(locArr.get(locArrCount));
+					tileArr.get(count).addBuildingLocation(locArr.get(locArrCount));
 					buildingLocArr.add(locArr.get(locArrCount));
 					
 				}
@@ -212,7 +212,7 @@ public class GameBoardControl {
 			System.out.println("loc_x: " + tile.getX());
 			System.out.println("loc_y: " + tile.getY());
 			
-			for (BuildingLocation bl : tile.getBuildingLocArr()) {
+			for (BuildingLocation bl : tile.getBuildingLocations()) {
 				System.out.println("------BUILDING LOC---------");
 				System.out.println("loc_x: " + bl.getX());
 				System.out.println("loc_y: " + bl.getY());
@@ -223,7 +223,7 @@ public class GameBoardControl {
 				
 			}
 			
-			for(StreetLocation sl : tile.getStreetLocArr()) {
+			for(StreetLocation sl : tile.getStreetLocations()) {
 				System.out.println("------STREET LOC---------");
 				System.out.println("start: " + sl.getBlStart().getX() + " " + sl.getBlStart().getY());
 				System.out.println("end: " + sl.getBlEnd().getX() + " " + sl.getBlEnd().getY());

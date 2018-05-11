@@ -3,21 +3,21 @@ package model;
 import java.util.ArrayList;
 
 public class Tile {
+	
 	private int x;
 	private int y;
 	private ResourceType rsType;
 	private int chipNumber;
-	private ArrayList<BuildingLocation> buildingLocArr;
-	private ArrayList<StreetLocation> streetLocArr;
+	private ArrayList<BuildingLocation> buildingLocations;
+	private ArrayList<StreetLocation> streetLocations;
 	
 	public Tile(int xCord, int yCord, ResourceType rsType, int chipNumber) {
-		buildingLocArr = new ArrayList<>();
-		streetLocArr = new ArrayList<>();
+		buildingLocations = new ArrayList<>();
+		streetLocations = new ArrayList<>();
 		this.x = xCord;
 		this.y = yCord;
 		this.rsType = rsType;
 		this.chipNumber = chipNumber;	
-		
 	}
 	
 	public int getChipNumber() {
@@ -28,20 +28,20 @@ public class Tile {
 		this.chipNumber = chipNumber;
 	}
 
-	public ArrayList<BuildingLocation> getBuildingLocArr() {
-		return buildingLocArr;
+	public ArrayList<BuildingLocation> getBuildingLocations() {
+		return buildingLocations;
 	}
 	
-	public ArrayList<StreetLocation> getStreetLocArr() {
-		return streetLocArr;
+	public ArrayList<StreetLocation> getStreetLocations() {
+		return streetLocations;
 	}
 
-	public void addBuildingLoc(BuildingLocation buildingLoc) {
-		buildingLocArr.add(buildingLoc);
+	public void addBuildingLocation(BuildingLocation buildingLoc) {
+		buildingLocations.add(buildingLoc);
 	}
 	
-	public void addStreetLoc(StreetLocation streetLoc) {
-		streetLocArr.add(streetLoc);
+	public void addStreetLocation(StreetLocation streetLoc) {
+		streetLocations.add(streetLoc);
 	}
 	
 	public int getX() {
@@ -62,6 +62,4 @@ public class Tile {
 	public void setRsType(ResourceType rsType) {
 		this.rsType = rsType;
 	}
-	
-	
 }

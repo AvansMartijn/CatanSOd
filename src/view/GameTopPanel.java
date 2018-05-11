@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class GameTopPanel extends JPanel {
+public class GameTopPanel extends JPanel { 
 
 	private final int HEIGHT = 40;
 	

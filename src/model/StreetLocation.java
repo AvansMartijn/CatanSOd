@@ -2,40 +2,26 @@ package model;
 
 public class StreetLocation {
 
-	private BuildingLocation blStart;
-	private BuildingLocation blEnd;
-//	private int xStart;
-//	private int yStart;
-//	
-//	private int xEnd;
-//	private int yEnd;
+	private BuildingLocation[] buildingLocations;
 	
-	public StreetLocation(BuildingLocation blStart, BuildingLocation blEnd) {
-		
-		this.blStart = blStart;
-		this.blEnd = blEnd;
-//		this.xStart = xStart;
-//		this.yStart = yStart;
-//		
-//		this.xEnd = xEnd;
-//		this.yEnd = yEnd;
-		
+	/**
+	 * This creates a {@code StreetLocation} based on {@code BuildingLocation}s.
+	 * Watch out that you don't make a {@code StreetLocation} that already exists.
+	 * Since if bl1 makes this {@code StreetLocation} and 
+	 * bl2 makes this {@code StreetLocation} as well, there is an issue.
+	 * 
+	 * @param bl1 a buildingLocation this StreetLocation is next to
+	 * @param bl2 a buildingLocation this StreetLocation is next to
+	 * @since 11 May 2018
+	 * @author Jasper Mooren
+	 */
+	public StreetLocation(BuildingLocation bl1, BuildingLocation bl2) {
+		buildingLocations = new BuildingLocation[2];
+		buildingLocations[0] = bl1;
+		buildingLocations[1] = bl2;
 	}
 
-	public BuildingLocation getBlStart() {
-		return blStart;
+	public BuildingLocation getBuildingLocation(int index) {
+		return buildingLocations[index];
 	}
-
-	public void setBlStart(BuildingLocation blStart) {
-		this.blStart = blStart;
-	}
-
-	public BuildingLocation getBlEnd() {
-		return blEnd;
-	}
-
-	public void setBlEnd(BuildingLocation blEnd) {
-		this.blEnd = blEnd;
-	}
-	
 }

@@ -7,6 +7,9 @@ public class Catan {
 	//Our version of Catan always has 4 players, that is the requirement. 
 	private static final int AMOUNT_OF_PLAYERS = 4;
 	
+	
+	/** The idGame as used in the database. */
+	private int idGame;
 	/**
 	 * These are the {@code Dice} that are used in the game. Every game should have only 1 set of dice. 
 	 * The players should get their dice from the game. 
@@ -18,13 +21,26 @@ public class Catan {
 	private Bank bank;
 	private int turn;
 	
-	public Catan() {
+	/**
+	 * This creates a catanGame with all its players. 
+	 * 
+	 * @param idGame the game id as used in the database
+	 * @param usernames {@code String[4]} array with the usernames of all the players in the game. 
+	 * @param followNrs int[4] array with the followNrs of all the players. 
+	 * 
+	 * @since 11 May 2018
+	 * @author Jasper Mooren
+	 */
+	public Catan(int idGame, String[] usernames, int[] followNrs) {
+		this.idGame = idGame;
 		dice = new Dice();
 		chat = new Chat();
 		players = new Player[AMOUNT_OF_PLAYERS];
-		for(int playerNr = 0; playerNr < players.length; playerNr++) {
-			//The player has to have a playerNr, otherwise the color of the player can't be set.
-			players[playerNr] = new Player(playerNr);
+		//First player (Players[0]) is the UITDAGER. The Rest is UIGEDAAGDE. 
+		players[0] = new Player(idGame, usernames[0], 0, PlayStatus.UITDAGER, dice);
+		//players[0] has already been made, so start at 1. 
+		for(int playerNr = 1; playerNr < players.length; playerNr++) {
+			players[playerNr] = new Player(idGame, usernames[playerNr], playerNr, PlayStatus.UITGEDAAGDE, dice);
 		}
 		gameboard = new Gameboard(null, null, null);
 		bank = new Bank();
@@ -36,7 +52,7 @@ public class Catan {
 	}
 	
 	
-	//TODO These should be a GameControl method
+	//TODO These should be GameControl methods
 	/*
 	public void setup() {
 //		player 0,1,2,3 does their turn.
@@ -71,7 +87,7 @@ public class Catan {
 
 	*/
 	
-	private int getPlayerTurn() {
+	public int getPlayerTurn() {
 		int playerTurn = turn % AMOUNT_OF_PLAYERS;
 		return playerTurn;
 	}

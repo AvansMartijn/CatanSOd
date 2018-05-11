@@ -14,6 +14,13 @@ public class Gameboard {
 		this.streetLocArr = streetList;
 	}
 	
+	/**
+	 * Test Method. This method should not be used in the final product. <br>
+	 * Deprecated just to make it stand out, so it won't be used in the final product. 
+	 * <p>
+	 * JavaDoc added by Jasper Mooren
+	 */
+	@Deprecated
 	public void printAllTilesAndLocs() {
 		for (Tile tile : tileArr) {
 			System.out.println("---------TILE-------------");
@@ -22,7 +29,7 @@ public class Gameboard {
 			System.out.println("loc_x: " + tile.getX());
 			System.out.println("loc_y: " + tile.getY());
 			
-			for (BuildingLocation bl : tile.getBuildingLocArr()) {
+			for (BuildingLocation bl : tile.getBuildingLocations()) {
 				System.out.println("------BUILDING LOC---------");
 				System.out.println("loc_x: " + bl.getX());
 				System.out.println("loc_y: " + bl.getY());
@@ -33,7 +40,7 @@ public class Gameboard {
 				
 			}
 			
-			for(StreetLocation sl : tile.getStreetLocArr()) {
+			for(StreetLocation sl : tile.getStreetLocations()) {
 				System.out.println("------STREET LOC---------");
 				System.out.println("start: " + sl.getBlStart().getX() + " " + sl.getBlStart().getY());
 				System.out.println("end: " + sl.getBlEnd().getX() + " " + sl.getBlEnd().getY());

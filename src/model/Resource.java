@@ -2,9 +2,20 @@ package model;
 
 public class Resource {
 
+	ResourceType resourceType;
 
 	public Resource(ResourceType resourceType) {
-		// TODO Auto-generated constructor stub
+		this.resourceType = resourceType;
 	}
-
+	
+	public boolean hasResourceType(ResourceType resourceType) {
+		if (this.resourceType == resourceType) {
+			return true;
+		}
+		return false;
+	}
+	
+	public ResourceType getResourceType() {
+		return resourceType;
+	}
 }

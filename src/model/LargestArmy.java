@@ -2,6 +2,7 @@ package model;
 
 public class LargestArmy {
 
+	public static final int VICTORY_POINTS = 2;
 
 	private boolean largestArmy;
 	private int currentLargest;
