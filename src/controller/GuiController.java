@@ -30,13 +30,13 @@ public class GuiController {
 		this.gameControl = gameControl;
 		player = gameControl.getPlayer();
 		frame = new Frame();
-<<<<<<< HEAD
+
 		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
 	//	frame.setContentPane(gameGUIPanel);
-=======
+
 //		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
 //		frame.setContentPane(gameGUIPanel);
->>>>>>> d7c0820afbc37a6681e03fd93b889a6ddac27470
+
 		/*
 		frame.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		*/
