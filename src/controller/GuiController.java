@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
@@ -31,6 +33,7 @@ public class GuiController {
 		player = gameControl.getPlayer();
 		frame = new Frame();
 
+
 		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
 	//	frame.setContentPane(gameGUIPanel);
 
@@ -42,6 +45,17 @@ public class GuiController {
 		*/
 //		frame.setUndecorated(true);
 //		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
+		frame.setContentPane(gameGUIPanel);
+//		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
+//		frame.setContentPane(gameGUIPanel);
+		
+//		frame.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+		frame.setUndecorated(true);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.pack();
+
 		frame.setVisible(true);
 	}
 	
