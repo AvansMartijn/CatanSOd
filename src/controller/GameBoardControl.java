@@ -11,10 +11,12 @@ import model.StreetLocation;
 import model.Tile;
 
 public class GameBoardControl {
-	private ArrayList<Tile> tileArr = new ArrayList<Tile>();
-	//create buildinglocation array and streetlocation array to check if an object for a location is already made (to make sure we don't have duplicates)
-	private ArrayList<BuildingLocation> buildingLocArr = new ArrayList<BuildingLocation>();
-	private ArrayList<StreetLocation> streetLocArr = new ArrayList<StreetLocation>();
+	private static final int SIDES_ON_A_TILE = 6;
+	private ArrayList<Tile> tiles = new ArrayList<Tile>();
+	//create buildingLocation array and streetLocation array to check if an object for a location 
+	//is already made (to make sure we don't have duplicates)
+	private ArrayList<BuildingLocation> buildingLocations = new ArrayList<BuildingLocation>();
+	private ArrayList<StreetLocation> streetLocations = new ArrayList<StreetLocation>();
 	private Gameboard gameBoard;
 	private MainDA mainDA;
 	private int idGame;
@@ -27,24 +29,19 @@ public class GameBoardControl {
 	}
 	
 	public void loadBoard() {
-		tileArr = mainDA.getTile(idGame);
+		tiles = mainDA.getTile(idGame);
 		createBuildingLocations();
 		createStreetLocations();
 		assignHarbours();
-		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+		gameBoard = new Gameboard(tiles, buildingLocations, streetLocations);
 		gameBoard.printAllTilesAndLocs();		
 	}
 	
 	public void addBoardToDB() {
-		int count = 0;
-		int i = 1;
-		System.out.println(tileArr.size());
-		while(tileArr.size() > count) {
-			Tile tile = tileArr.get(count);
-			mainDA.addTile(idGame, i, tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
-
-			i++;
-			count++;
+		System.out.println(tiles.size());
+		for(int i = 0; i < tiles.size(); i++) {
+			Tile tile = tiles.get(i);
+			mainDA.addTile(idGame, (i + 1), tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
 		}
 	}
 	
@@ -55,86 +52,90 @@ public class GameBoardControl {
 		assignHarbours();
 		createStreetLocations();
 		printAllTilesAndLocs();
-		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
+		gameBoard = new Gameboard(tiles, buildingLocations, streetLocations);
 		addBoardToDB();
 
 	}
 
-	//create all tiles with x & y coordinate, resourcetype and number
+	//create all tiles with x & y coordinate, ResourceType and number
 	private void createTiles() {
-		tileArr.add(new Tile(2, 4, ResourceType.GRAAN, 12));
-		tileArr.add(new Tile(3, 3, ResourceType.HOUT, 10));
-		tileArr.add(new Tile(3, 6, ResourceType.GRAAN, 18));
-		tileArr.add(new Tile(4, 2, ResourceType.BAKSTEEN, 6));
-		tileArr.add(new Tile(4, 5, ResourceType.HOUT, 	16));
-		tileArr.add(new Tile(4, 8, ResourceType.ERTS, 14));
-		tileArr.add(new Tile(5, 4, ResourceType.ERTS, 2));
-		tileArr.add(new Tile(5, 7, ResourceType.BAKSTEEN, 8));
-		tileArr.add(new Tile(6, 3, ResourceType.GRAAN, 9));
-		tileArr.add(new Tile(6, 6, ResourceType.WOESTIJN, 0));
-		tileArr.add(new Tile(6, 9, ResourceType.WOL, 1));
-		tileArr.add(new Tile(7, 5, ResourceType.GRAAN, 5));
-		tileArr.add(new Tile(7, 8, ResourceType.WOL, 4));
-		tileArr.add(new Tile(8, 4, ResourceType.WOL, 17));
-		tileArr.add(new Tile(8, 7, ResourceType.HOUT, 3));
-		tileArr.add(new Tile(8, 10, ResourceType.HOUT,13));
-		tileArr.add(new Tile(9, 6, ResourceType.WOL, 7));
-		tileArr.add(new Tile(9, 9, ResourceType.BAKSTEEN, 15));
-		tileArr.add(new Tile(10, 8, ResourceType.ERTS, 11));
+		tiles.add(new Tile(2, 4, ResourceType.GRAAN, 12));
+		tiles.add(new Tile(3, 3, ResourceType.HOUT, 10));
+		tiles.add(new Tile(3, 6, ResourceType.GRAAN, 18));
+		tiles.add(new Tile(4, 2, ResourceType.BAKSTEEN, 6));
+		tiles.add(new Tile(4, 5, ResourceType.HOUT, 	16));
+		tiles.add(new Tile(4, 8, ResourceType.ERTS, 14));
+		tiles.add(new Tile(5, 4, ResourceType.ERTS, 2));
+		tiles.add(new Tile(5, 7, ResourceType.BAKSTEEN, 8));
+		tiles.add(new Tile(6, 3, ResourceType.GRAAN, 9));
+		tiles.add(new Tile(6, 6, ResourceType.WOESTIJN, 0));
+		tiles.add(new Tile(6, 9, ResourceType.WOL, 1));
+		tiles.add(new Tile(7, 5, ResourceType.GRAAN, 5));
+		tiles.add(new Tile(7, 8, ResourceType.WOL, 4));
+		tiles.add(new Tile(8, 4, ResourceType.WOL, 17));
+		tiles.add(new Tile(8, 7, ResourceType.HOUT, 3));
+		tiles.add(new Tile(8, 10, ResourceType.HOUT,13));
+		tiles.add(new Tile(9, 6, ResourceType.WOL, 7));
+		tiles.add(new Tile(9, 9, ResourceType.BAKSTEEN, 15));
+		tiles.add(new Tile(10, 8, ResourceType.ERTS, 11));
 	}
 	
 	private void createStreetLocations() {
-		int count = 0;
-		//for all tiles
-		while(tileArr.size() > count) {
-			//create temporary array with streetlocations
-			ArrayList<StreetLocation> strLocArr = new ArrayList<>();
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(0), tileArr.get(count).getBuildingLocations().get(1)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(1), tileArr.get(count).getBuildingLocations().get(2)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(2), tileArr.get(count).getBuildingLocations().get(3)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(3), tileArr.get(count).getBuildingLocations().get(4)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(4), tileArr.get(count).getBuildingLocations().get(5)));
-			strLocArr.add(new StreetLocation(tileArr.get(count).getBuildingLocations().get(5), tileArr.get(count).getBuildingLocations().get(0)));
+		for(int tileIndex = 0; tileIndex < tiles.size(); tileIndex++) {
+			//create temporary array with streetLocations
+			ArrayList<StreetLocation> strLocations = new ArrayList<>();
+			for (int i = 0; i < SIDES_ON_A_TILE; i++) {
+				/*
+				 * i = 0 -> j = 1
+				 * i = 1 -> j = 2
+				 * i = 2 -> j = 3
+				 * i = 3 -> j = 4
+				 * i = 4 -> j = 5
+				 * i = 5 -> j = 0
+				 */
+				int j = (i + 1) % 6;
+				strLocations.add(new StreetLocation(tiles.get(tileIndex).getBuildingLocations().get(i), tiles.get(tileIndex).getBuildingLocations().get(j)));
+			}
 			
-			int strLocCount = 0;
-			//for all streetlocations in the temporary array
-			while(strLocArr.size() > strLocCount) {
+			//for all streetLocations in the temporary array
+			for(int strLocCount = 0; strLocCount < strLocations.size(); strLocCount++) {
 				boolean exists = false;
-				//compare streetlocation to main streetlocation array
-				for(StreetLocation sl : streetLocArr) {
-					//if a similar streetlocation already exists in the main array use THAT EXACT object and put it in the tiles streetlocArray
-					if(strLocArr.get(strLocCount).getBlStart() == sl.getBlStart() && strLocArr.get(strLocCount).getBlEnd() == sl.getBlEnd() || strLocArr.get(strLocCount).getBlStart() == sl.getBlEnd() && strLocArr.get(strLocCount).getBlEnd() == sl.getBlStart() ) {
+				//compare streetLocation to main streetLocation array
+				for(StreetLocation sl : streetLocations) {
+					//if a similar streetLocation already exists in the main array use THAT EXACT 
+					//object and put it in the tiles streetlocArray
+					if(	(strLocations.get(strLocCount).getBuildingLocation(0) == sl.getBuildingLocation(0) 
+						&& strLocations.get(strLocCount).getBuildingLocation(1) == sl.getBuildingLocation(1))
+						|| (strLocations.get(strLocCount).getBuildingLocation(0) == sl.getBuildingLocation(1) 
+						&& strLocations.get(strLocCount).getBuildingLocation(1) == sl.getBuildingLocation(0)) ) {
+						
 						exists = true;
-						tileArr.get(count).addStreetLocation(sl);
+						tiles.get(tileIndex).addStreetLocation(sl);
 						break;
 					}
 				}
 				
-				//if a similar streetlocation does not exist, create it in the main streetlocation array and also put it in the tiles streetLocArray
+				//if a similar streetLocation does not exist, create it in the main streetLocation array 
+				//and also put it in the tiles streetLocArray
 				if(!exists) {
-					tileArr.get(count).addStreetLocation(strLocArr.get(strLocCount));
-					streetLocArr.add(strLocArr.get(strLocCount));
+					tiles.get(tileIndex).addStreetLocation(strLocations.get(strLocCount));
+					streetLocations.add(strLocations.get(strLocCount));
 				}
-				
-				strLocCount++;
 			}
-			count++;
 		}
 	}
 	
 	
 	//create building locations with X & Y coordinate and neighboring tiles
-	private void createBuildingLocations() {
-		 
-		int count = 0; 
+	private void createBuildingLocations() { 
 		//for all tiles
-		while (tileArr.size() > count) {
-			//get coordinates required to generate buildinglocation coordinates
-			int tileX = tileArr.get(count).getX();
-			int tileY = tileArr.get(count).getY();
-			//create a temporary array for buildinglocations
+		for(int count = 0; count < tiles.size(); count++) {
+			//get coordinates required to generate buildingLocation coordinates
+			int tileX = tiles.get(count).getX();
+			int tileY = tiles.get(count).getY();
+			//create a temporary array for buildingLocations
 			ArrayList<BuildingLocation> locArr = new ArrayList<>();
-			//generate all buildinglocations temporary
+			//generate all buildingLocations temporary
 			locArr.add(new BuildingLocation(tileX-1, tileY-1));
 			locArr.add(new BuildingLocation(tileX-1, tileY));
 			locArr.add(new BuildingLocation(tileX, 	 tileY+1));
@@ -142,70 +143,56 @@ public class GameBoardControl {
 			locArr.add(new BuildingLocation(tileX+1, tileY));
 			locArr.add(new BuildingLocation(tileX,   tileY-1));
 			
-			int locArrCount = 0;
 			//for each temporary building location
-			while(locArr.size() > locArrCount) {				
+			for(int locArrCount = 0; locArrCount < locArr.size(); locArrCount++) {				
 				boolean exists = false;
-				//compare the buildinglocation to the buildinglocations in the main buildinglocation Array
-				for (BuildingLocation bl : buildingLocArr) { 	
-					//if a buildinglocation already exists in the main buildinglocation array
+				//compare the buildingLocation to the buildingLocations in the main buildingLocation Array
+				for (BuildingLocation bl : buildingLocations) { 	
+					//if a buildingLocation already exists in the main buildingLocation array
 					if(locArr.get(locArrCount).getX() == (bl.getX()) && locArr.get(locArrCount).getY() == (bl.getY())) {
 						exists = true;
-						//get that exact buildinglocation object and put it in the tiles buildinglocation Array
-						tileArr.get(count).addBuildingLocation(bl);						
+						//get that exact buildingLocation object and put it in the tiles buildingLocation Array
+						tiles.get(count).addBuildingLocation(bl);						
 						break;
 					}
 			    }		
 				
 				//if it does not exist, create the object in the main buildinglocation Array and add it to the tiles buildinglocation Array
 				if(!exists) {
-					tileArr.get(count).addBuildingLocation(locArr.get(locArrCount));
-					buildingLocArr.add(locArr.get(locArrCount));
+					tiles.get(count).addBuildingLocation(locArr.get(locArrCount));
+					buildingLocations.add(locArr.get(locArrCount));
 					
 				}
-				
-			
-				locArrCount++;
 			}		
-		    count++;
-	  }
-
-		
+		}	
 	}
 	
+	//assign Harbours to correct buildingLocations		
 	public void assignHarbours() {
-		//assign harbours to correct buildinglocations		
-		buildingLocArr.get(5).setHarbour(new Harbour(ResourceType.BAKSTEEN));
-		buildingLocArr.get(6).setHarbour(new Harbour(ResourceType.BAKSTEEN));
-		buildingLocArr.get(2).setHarbour(new Harbour(ResourceType.HOUT));
-		buildingLocArr.get(10).setHarbour(new Harbour(ResourceType.HOUT));
-		buildingLocArr.get(20).setHarbour(new Harbour(null));
-		buildingLocArr.get(21).setHarbour(new Harbour(null));
-		buildingLocArr.get(33).setHarbour(new Harbour(ResourceType.GRAAN));
-		buildingLocArr.get(34).setHarbour(new Harbour(ResourceType.GRAAN));
-		buildingLocArr.get(47).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(50).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(52).setHarbour(new Harbour(null));
-		buildingLocArr.get(53).setHarbour(new Harbour(null));
-		buildingLocArr.get(47).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(50).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(40).setHarbour(new Harbour(ResourceType.WOL));
-		buildingLocArr.get(49).setHarbour(new Harbour(ResourceType.WOL));
-		buildingLocArr.get(29).setHarbour(new Harbour(null));
-		buildingLocArr.get(30).setHarbour(new Harbour(null));
-		buildingLocArr.get(14).setHarbour(new Harbour(null));
-		buildingLocArr.get(17).setHarbour(new Harbour(null));
-		
-//		int count = 0;
-//		while(buildingLocArr.size() > count) {
-//			
-//			count++;
-//		}
-		
+		buildingLocations.get(5).setHarbour(new Harbour(ResourceType.BAKSTEEN));
+		buildingLocations.get(6).setHarbour(new Harbour(ResourceType.BAKSTEEN));
+		buildingLocations.get(2).setHarbour(new Harbour(ResourceType.HOUT));
+		buildingLocations.get(10).setHarbour(new Harbour(ResourceType.HOUT));
+		buildingLocations.get(20).setHarbour(new Harbour(null));
+		buildingLocations.get(21).setHarbour(new Harbour(null));
+		buildingLocations.get(33).setHarbour(new Harbour(ResourceType.GRAAN));
+		buildingLocations.get(34).setHarbour(new Harbour(ResourceType.GRAAN));
+		buildingLocations.get(47).setHarbour(new Harbour(ResourceType.ERTS));
+		buildingLocations.get(50).setHarbour(new Harbour(ResourceType.ERTS));
+		buildingLocations.get(52).setHarbour(new Harbour(null));
+		buildingLocations.get(53).setHarbour(new Harbour(null));
+		buildingLocations.get(47).setHarbour(new Harbour(ResourceType.ERTS));
+		buildingLocations.get(50).setHarbour(new Harbour(ResourceType.ERTS));
+		buildingLocations.get(40).setHarbour(new Harbour(ResourceType.WOL));
+		buildingLocations.get(49).setHarbour(new Harbour(ResourceType.WOL));
+		buildingLocations.get(29).setHarbour(new Harbour(null));
+		buildingLocations.get(30).setHarbour(new Harbour(null));
+		buildingLocations.get(14).setHarbour(new Harbour(null));
+		buildingLocations.get(17).setHarbour(new Harbour(null));
 	}
 	
 	public void printAllTilesAndLocs() {
-		for (Tile tile : tileArr) {
+		for (Tile tile : tiles) {
 			System.out.println("---------TILE-------------");
 			System.out.println("resource: " + tile.getRsType());
 			System.out.println("chip number: " + tile.getChipNumber());
@@ -225,14 +212,14 @@ public class GameBoardControl {
 			
 			for(StreetLocation sl : tile.getStreetLocations()) {
 				System.out.println("------STREET LOC---------");
-				System.out.println("start: " + sl.getBlStart().getX() + " " + sl.getBlStart().getY());
-				System.out.println("end: " + sl.getBlEnd().getX() + " " + sl.getBlEnd().getY());
+				System.out.println("start: " + sl.getBuildingLocation(0).getX() + " " + sl.getBuildingLocation(0).getY());
+				System.out.println("end: " + sl.getBuildingLocation(1).getX() + " " + sl.getBuildingLocation(1).getY());
 				
 				
 			}
 			System.out.println("----------------------------");
-			System.out.println("");
-			System.out.println("");
+			System.out.println();
+			System.out.println();
 		} 
 	}
 
