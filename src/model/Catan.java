@@ -9,7 +9,7 @@ public class Catan {
 	
 //	private Dice dice;
 //	private Chat chat;
-//	private Player[] players;
+	private Player[] players = new Player[4];
 //	private Gameboard gameboard;
 //	private Bank bank;
 //	private int turn;
@@ -52,6 +52,14 @@ public class Catan {
 //		players[getPlayerTurn()].doTurn();
 	}
 
+	public Player[] getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(Player[] players) {
+		this.players = players;
+	}
+
 //	private void distributeResources(ArrayList<Resource>[] harvest) {
 //		for(int playerNr = 0; playerNr < harvest.length; playerNr++) {
 //			//This is not a for loop, because the harvest[playerNr] ArrayList reduces in size every time an item is removed.
@@ -66,4 +74,6 @@ public class Catan {
 //		int playerTurn = turn % AMOUNT_OF_PLAYERS;
 //		return playerTurn;
 //	}
+	
+	
 }

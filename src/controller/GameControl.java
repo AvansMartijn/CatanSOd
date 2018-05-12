@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import dbaccess.MainDA;
+import model.Bank;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
@@ -13,6 +14,7 @@ public class GameControl {
 	private int idGame;
 	private ArrayList<String> messageList;
 	private Player player;
+	private Bank bank;
 	
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
@@ -90,6 +92,10 @@ public class GameControl {
 	
 	public void setGameID(int gameID) {
 		this.idGame = gameID;
+	}
+
+	public void makeBank() {
+		
 	}
 
 }
