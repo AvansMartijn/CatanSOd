@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
@@ -26,20 +27,24 @@ public class GuiController {
 	private Frame frame;
 	private MainControl mainControl;
 	private GameControl gameControl;
+	private Gameboard gameBoard;
 
-	public GuiController(MainControl mainControl, GameControl gameControl) {
+	public GuiController(MainControl mainControl, GameControl gameControl, Gameboard gameBoard) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
 		player = gameControl.getPlayer();
 		frame = new Frame();
-		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
-		frame.setContentPane(gameGUIPanel);
+		this.gameBoard = gameBoard;
+//		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE), gameBoard);
+		boardPanel = new BoardPanel(gameBoard);
+//		frame.setContentPane(gameGUIPanel);
+		frame.setContentPane(boardPanel);
 //		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
 //		frame.setContentPane(gameGUIPanel);
 		
 //		frame.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
-		frame.setUndecorated(true);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		frame.setUndecorated(true);
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -111,7 +116,7 @@ public class GuiController {
 	}
 	
 	public void setGamePanel() {
-		gameGUIPanel = new GameGUIPanel(player);
+		gameGUIPanel = new GameGUIPanel(player, gameBoard);
 		frame.setContentPane(gameGUIPanel);
 	}
 	

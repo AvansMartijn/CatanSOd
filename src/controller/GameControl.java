@@ -28,9 +28,8 @@ public class GameControl {
 	}
 	
 	public void testMethod() {
-		gameBoardControl = new GameBoardControl(mainDA, idGame);
 //		createGame(false);
-		idGame = 774;
+		idGame = 772;
 		joinGame();
 	}
 	
@@ -40,6 +39,7 @@ public class GameControl {
 	public void createGame(boolean randomBoard) {
 		idGame = mainDA.createGame(randomBoard);
 		createPlayer();
+//		addPlayerToDB(player);
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
 		gameboard = gameBoardControl.createBoard();
 		
@@ -86,9 +86,11 @@ public class GameControl {
 				break;
 			}
 		}
-		
-		mainDA.createPlayer(idGame, username, playerColor, followNR, playStatus);
 		player = new Player(idGame, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
+	}
+	
+	public void addPlayerToDB(Player player) {
+		mainDA.createPlayer(idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(), player.getPlayStatus().toString());
 	}
 
 	public void getMessages() {

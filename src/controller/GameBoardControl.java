@@ -64,25 +64,25 @@ public class GameBoardControl {
 
 	// create all tiles with x & y coordinate, resourcetype and number
 	private void createTiles() {
-		tileArr.add(new Tile(2, 4, ResourceType.GRAAN, 12));
-		tileArr.add(new Tile(3, 3, ResourceType.HOUT, 10));
-		tileArr.add(new Tile(3, 6, ResourceType.GRAAN, 18));
-		tileArr.add(new Tile(4, 2, ResourceType.BAKSTEEN, 6));
-		tileArr.add(new Tile(4, 5, ResourceType.HOUT, 16));
-		tileArr.add(new Tile(4, 8, ResourceType.ERTS, 14));
-		tileArr.add(new Tile(5, 4, ResourceType.ERTS, 2));
-		tileArr.add(new Tile(5, 7, ResourceType.BAKSTEEN, 8));
-		tileArr.add(new Tile(6, 3, ResourceType.GRAAN, 9));
-		tileArr.add(new Tile(6, 6, ResourceType.WOESTIJN, 0));
-		tileArr.add(new Tile(6, 9, ResourceType.WOL, 1));
-		tileArr.add(new Tile(7, 5, ResourceType.GRAAN, 5));
-		tileArr.add(new Tile(7, 8, ResourceType.WOL, 4));
-		tileArr.add(new Tile(8, 4, ResourceType.WOL, 17));
-		tileArr.add(new Tile(8, 7, ResourceType.HOUT, 3));
-		tileArr.add(new Tile(8, 10, ResourceType.HOUT, 13));
-		tileArr.add(new Tile(9, 6, ResourceType.WOL, 7));
-		tileArr.add(new Tile(9, 9, ResourceType.BAKSTEEN, 15));
-		tileArr.add(new Tile(10, 8, ResourceType.ERTS, 11));
+		tileArr.add(new Tile(1, 2, 4, ResourceType.GRAAN, 12));
+		tileArr.add(new Tile(2, 3, 3, ResourceType.HOUT, 10));
+		tileArr.add(new Tile(3, 3, 6, ResourceType.GRAAN, 18));
+		tileArr.add(new Tile(4, 4, 2, ResourceType.BAKSTEEN, 6));
+		tileArr.add(new Tile(5, 4, 5, ResourceType.HOUT, 16));
+		tileArr.add(new Tile(6, 4, 8, ResourceType.ERTS, 14));
+		tileArr.add(new Tile(7, 5, 4, ResourceType.ERTS, 2));
+		tileArr.add(new Tile(8, 5, 7, ResourceType.BAKSTEEN, 8));
+		tileArr.add(new Tile(9, 6, 3, ResourceType.GRAAN, 9));
+		tileArr.add(new Tile(10, 6, 6, ResourceType.WOESTIJN, 0));
+		tileArr.add(new Tile(11, 6, 9, ResourceType.WOL, 1));
+		tileArr.add(new Tile(12, 7, 5, ResourceType.GRAAN, 5));
+		tileArr.add(new Tile(13, 7, 8, ResourceType.WOL, 4));
+		tileArr.add(new Tile(14, 8, 4, ResourceType.WOL, 17));
+		tileArr.add(new Tile(15, 8, 7, ResourceType.HOUT, 3));
+		tileArr.add(new Tile(16, 8, 10, ResourceType.HOUT, 13));
+		tileArr.add(new Tile(17, 9, 6, ResourceType.WOL, 7));
+		tileArr.add(new Tile(18, 9, 9, ResourceType.BAKSTEEN, 15));
+		tileArr.add(new Tile(19, 10, 8, ResourceType.ERTS, 11));
 	}
 
 	private void createStreetLocations() {

@@ -2,7 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+import view.TileButton;
+
 public class Tile {
+	private int idTile;
 	private int x;
 	private int y;
 	private ResourceType rsType;
@@ -10,7 +13,9 @@ public class Tile {
 	private ArrayList<BuildingLocation> buildingLocArr;
 	private ArrayList<StreetLocation> streetLocArr;
 	
-	public Tile(int xCord, int yCord, ResourceType rsType, int chipNumber) {
+
+	public Tile(int idTile, int xCord, int yCord, ResourceType rsType, int chipNumber) {
+		this.idTile = idTile;
 		buildingLocArr = new ArrayList<>();
 		streetLocArr = new ArrayList<>();
 		this.x = xCord;
@@ -62,6 +67,14 @@ public class Tile {
 	public void setRsType(ResourceType rsType) {
 		this.rsType = rsType;
 	}
-	
+
+	public int getIdTile() {
+		return idTile;
+	}
+
+	public void setIdTile(int idTile) {
+		this.idTile = idTile;
+	}
+
 	
 }

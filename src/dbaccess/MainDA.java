@@ -229,7 +229,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT x, y, grondstof, waarde " + 
+		String query = "SELECT idtegel, x, y, grondstof, waarde " + 
 				"FROM tegels " + 
 				"WHERE idspel = " + idGame + " " + 
 				"ORDER BY x ASC, y ASC;";
@@ -237,11 +237,12 @@ public class MainDA {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				int xCord = myRs.getInt(1);
-				int yCord = myRs.getInt(2);
-				ResourceType idResource = ResourceType.fromString(myRs.getString(3));
-				int chipNumber = myRs.getInt(4);
-				returnTile.add(new Tile(xCord, yCord, idResource, chipNumber));
+				int idTile = myRs.getInt(1);
+				int xCord = myRs.getInt(2);
+				int yCord = myRs.getInt(3);
+				ResourceType idResource = ResourceType.fromString(myRs.getString(4));
+				int chipNumber = myRs.getInt(5);
+				returnTile.add(new Tile(idTile, xCord, yCord, idResource, chipNumber));
 			}
 			myRs.close();
 			stmt.close();
