@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -11,11 +13,13 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import model.Gameboard;
+
 
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel {
 	private final int panelWidth = 800;
-	private final int panelHeight = 800;
+	private final int panelHeight = 750;
 
 	private final int tileWidth = 150;
 	private final int tileHeight = 150;
@@ -36,7 +40,7 @@ public class BoardPanel extends JPanel {
 	private TileButton[] hexArray = new TileButton[totalTiles];
 	private BuildingLocationButton[] buildingLocArray = new BuildingLocationButton[totalTiles];
 
-	public BoardPanel() {
+	public BoardPanel(Gameboard gameboard) {
 		setLayout(null);
 //		setLayout(new GridBagLayout());
 		setBackground(Color.BLUE); // TODO make it some cool image
