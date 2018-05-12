@@ -57,7 +57,12 @@ public class TileButton extends JButton {
 		if(tileNumber >= 1) {
 			g.setColor(Color.WHITE);
 			g.fillOval(tileNumberX, tileNumberY, tileNumberWidthHeight, tileNumberWidthHeight);
-			g.setColor(Color.BLACK);
+			if(tileNumber == 6 || tileNumber == 8) {
+				g.setColor(Color.RED);
+			}
+			else {
+				g.setColor(Color.BLACK);
+			}
 			g.drawOval(tileNumberX, tileNumberY, tileNumberWidthHeight, tileNumberWidthHeight);
 			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 			if(tileNumber >= 10) {
