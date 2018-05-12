@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import model.BuildingLocation;
 import model.Gameboard;
 import model.ResourceType;
+import model.StreetLocation;
 import model.Tile;
 
 @SuppressWarnings("serial")
@@ -26,6 +27,8 @@ public class BoardPanel extends JPanel {
 	private final int panelWidth = 800;
 	private final int panelHeight = 750;
 
+	private final int streetWidth = 50;
+	private final int streetHeight = 50;
 	private final int tileWidth = 150;
 	private final int tileHeight = 150;
 	private final int tileImgWidth = 134;
@@ -43,9 +46,11 @@ public class BoardPanel extends JPanel {
 
 	private ArrayList<TileButton> tileButtonArrayList = new ArrayList<TileButton>();
 	private ArrayList<BuildingLocationButton> buildingLocButtonArray = new ArrayList<BuildingLocationButton>();
+	private ArrayList<StreetLocationButton> streetLocButtonArray = new ArrayList<StreetLocationButton>();
 
 	private ArrayList<Tile> tileArr = new ArrayList<Tile>();
 	private ArrayList<BuildingLocation> buildingLocArray = new ArrayList<BuildingLocation>();
+	private ArrayList<StreetLocation> streetLocArray = new ArrayList<StreetLocation>();
 	
 	
 	
@@ -56,6 +61,7 @@ public class BoardPanel extends JPanel {
 		this.gameBoard = gameboard;
 		tileArr = gameBoard.getTileArr();
 		buildingLocArray = gameBoard.getBuildingLocArr();
+		streetLocArray = gameBoard.getStreetLocArr();
 		setLayout(null);
 		// setLayout(new GridBagLayout());
 		setBackground(Color.BLUE); // TODO make it some cool image
@@ -80,11 +86,10 @@ public class BoardPanel extends JPanel {
 	// Create tiles and draw them
 	private void createTiles() {
 		int position = 0;
-		int[] values_x = new int[] {80, 145, 210, 275, 340, 405, 470, 535, 600, 665, 730};
-		int[] values_y = new int[] { 85, 50};
+//		int[] values_x = new int[] {80, 145, 210, 275, 340, 405, 470, 535, 600, 665, 730};
+//		int[] values_y = new int[] { 85, 50};
 		cordMap = new HashMap<Point, Point>();
 		fillCordMap();
-		
 		
 		int[] tilevalues_x = new int[] { 150, 85, 20, 85, 150 };
 		int[] tilevalues_y = new int[] { 50, 162, 274, 386, 498 };
@@ -109,13 +114,87 @@ public class BoardPanel extends JPanel {
 		}
 		addListeners();
 		
-		position = 0;
+		for(BuildingLocation bl: buildingLocArray) {
+			BuildingLocationButton blb = new BuildingLocationButton(bl);
+			
+			Point locPoint = cordMap.get(new Point(bl.getXLoc(), bl.getYLoc()));
+			
+			blb.setLocation((int) locPoint.getX() - buildingLocWidthHeight / 2, (int) locPoint.getY() - buildingLocWidthHeight / 2);
+			blb.setSize(buildingLocWidthHeight, buildingLocWidthHeight);
+			
+			buildingLocButtonArray.add(blb);
+			add(blb, 0);
+		}
+		
+		for(StreetLocation sl: streetLocArray) {
+			StreetLocationButton slb = new StreetLocationButton(sl);
+			Point startlocPoint = cordMap.get(new Point(sl.getBlStart().getXLoc(), sl.getBlStart().getYLoc()));
+//			Point endlocPoint = cordMap.get(new Point(sl.getBlEnd().getYLoc(), sl.getBlEnd().getYLoc()));
+			
+			slb.setLocation((int)startlocPoint.getX(), (int)startlocPoint.getY());
+			slb.setSize(streetWidth, streetHeight);
+			
+			streetLocButtonArray.add(slb);
+			add(slb, 0);
+		}
 
 	}
 
 	private void fillCordMap() {
-		cordMap.put(new Point(1,3), new Point(100, 200));
-		
+		cordMap.put(new Point(1,3), new Point(80, 386));
+		cordMap.put(new Point(1,4), new Point(80, 310));
+		cordMap.put(new Point(2,2), new Point(145, 498));
+		cordMap.put(new Point(2,3), new Point(145, 424));
+		cordMap.put(new Point(2,5), new Point(145, 274));
+		cordMap.put(new Point(2,6), new Point(145, 198));
+		cordMap.put(new Point(3,1), new Point(210, 610));
+		cordMap.put(new Point(3,2), new Point(210, 535));
+		cordMap.put(new Point(3,4), new Point(210, 386));
+		cordMap.put(new Point(3,5), new Point(210, 310));
+		cordMap.put(new Point(3,7), new Point(210, 162));
+		cordMap.put(new Point(3,8), new Point(210, 86));
+		cordMap.put(new Point(4,1), new Point(275, 645));
+		cordMap.put(new Point(4,3), new Point(275, 498));
+		cordMap.put(new Point(4,4), new Point(275, 424));
+		cordMap.put(new Point(4,6), new Point(275, 274));
+		cordMap.put(new Point(4,7), new Point(275, 198));
+		cordMap.put(new Point(4,9), new Point(275, 50));
+		cordMap.put(new Point(5,2), new Point(340, 610));
+		cordMap.put(new Point(5,3), new Point(340, 535));
+		cordMap.put(new Point(5,5), new Point(340, 386));
+		cordMap.put(new Point(5,6), new Point(340, 310));
+		cordMap.put(new Point(5,8), new Point(340, 162));
+		cordMap.put(new Point(5,9), new Point(340, 86));
+		cordMap.put(new Point(6,2), new Point(405, 645));
+		cordMap.put(new Point(6,4), new Point(405, 498));
+		cordMap.put(new Point(6,5), new Point(405, 424));
+		cordMap.put(new Point(6,7), new Point(405, 274));
+		cordMap.put(new Point(6,8), new Point(405, 198));
+		cordMap.put(new Point(6,10), new Point(405, 50));
+		cordMap.put(new Point(7,3), new Point(470, 610));
+		cordMap.put(new Point(7,4), new Point(470, 535));
+		cordMap.put(new Point(7,6), new Point(470, 386));
+		cordMap.put(new Point(7,7), new Point(470, 310));
+		cordMap.put(new Point(7,9), new Point(470, 162));
+		cordMap.put(new Point(7,10), new Point(470, 86));
+		cordMap.put(new Point(8,3), new Point(535, 645));
+		cordMap.put(new Point(8,5), new Point(535, 498));
+		cordMap.put(new Point(8,6), new Point(535, 424));
+		cordMap.put(new Point(8,8), new Point(535, 274));
+		cordMap.put(new Point(8,9), new Point(535, 198));
+		cordMap.put(new Point(8,11), new Point(535, 50));
+		cordMap.put(new Point(9,4), new Point(600, 610));
+		cordMap.put(new Point(9,5), new Point(600, 535));
+		cordMap.put(new Point(9,7), new Point(600, 386));
+		cordMap.put(new Point(9,8), new Point(600, 310));
+		cordMap.put(new Point(9,10), new Point(600, 162));
+		cordMap.put(new Point(9,11), new Point(600, 86));
+		cordMap.put(new Point(10,6), new Point(665, 498));
+		cordMap.put(new Point(10,7), new Point(665, 424));
+		cordMap.put(new Point(10,9), new Point(665, 274));
+		cordMap.put(new Point(10,10), new Point(665, 198));
+		cordMap.put(new Point(11,8), new Point(730, 386));
+		cordMap.put(new Point(11,9), new Point(730, 310));
 	}
 
 	public void enableTiles() {
