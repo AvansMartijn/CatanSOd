@@ -65,8 +65,13 @@ public class BoardPanel extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					System.out.println(b.getTile().getChipNumber());
+					for (int i = 0; i < tileArr.size(); i++) {
+						if (tileArr.get(i).hasRobber()) {
+							tileArr.get(i).setRobber(false);
+						}
+					}
+					b.getTile().setRobber(true);
+					repaint();
 				}
 
 			});
@@ -120,7 +125,7 @@ public class BoardPanel extends JPanel {
 		}
 
 		addTileListeners();
-		disableTileButtons();
+		// disableTileButtons();
 
 		for (BuildingLocation bl : buildingLocArray) {
 			BuildingLocationButton blb = new BuildingLocationButton(bl);
@@ -284,14 +289,14 @@ public class BoardPanel extends JPanel {
 
 	public void enableBuildingLocButtons() {
 		for (BuildingLocationButton b : buildingLocButtonArray) {
-			
+
 			b.setEnabled(true);
 		}
 	}
 
 	public void disableBuildingLocButtons() {
 		for (BuildingLocationButton b : buildingLocButtonArray) {
-			
+
 			b.setEnabled(false);
 		}
 	}
