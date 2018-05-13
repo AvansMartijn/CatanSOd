@@ -15,6 +15,8 @@ import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import view.BoardPanel;
+import view.ChatPanel;
+import view.DicePanel;
 import view.Frame;
 import view.GameGUIPanel;
 import view.LoginRegisterPanel;
@@ -24,6 +26,8 @@ public class GuiController {
 	private Player player;
 	private GameGUIPanel gameGUIPanel;
 	private BoardPanel boardPanel;
+	private DicePanel dicePanel;
+	private ChatPanel chatPanel;
 	private Frame frame;
 	private MainControl mainControl;
 	private GameControl gameControl;
@@ -35,8 +39,10 @@ public class GuiController {
 		player = gameControl.getPlayer();
 		frame = new Frame();
 		this.gameBoard = gameBoard;
+		this.dicePanel = new DicePanel();
+		this.chatPanel = new ChatPanel();
 		boardPanel = new BoardPanel(gameBoard);
-		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE), boardPanel);
+		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE), boardPanel, dicePanel, chatPanel);
 		frame.setContentPane(gameGUIPanel);
 
 //		frame.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));

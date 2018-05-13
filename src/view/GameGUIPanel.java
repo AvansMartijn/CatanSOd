@@ -34,7 +34,7 @@ public class GameGUIPanel extends JPanel {
 	private Player player;
 	
 	// Constructor
-	public GameGUIPanel(Player player, BoardPanel boardPanel) { // TODO array of players as you need 4 playerStatsPanels?
+	public GameGUIPanel(Player player, BoardPanel boardPanel, DicePanel dicePanel, ChatPanel chatPanel) { // TODO array of players as you need 4 playerStatsPanels?
 		this.player = player;
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
@@ -44,8 +44,8 @@ public class GameGUIPanel extends JPanel {
 		developmentCardsPanel = new MyDevelopmentCardsPanel();
 		this.boardPanel = boardPanel;
 		playerStatsPanel = new PlayerStatsPanel[AMOUNT_OF_PLAYERS];
-		dicePanel = new DicePanel();
-		chatPanel = new ChatPanel();
+		this.dicePanel = dicePanel;
+		this.chatPanel = chatPanel;
 		
 		createLayout();
 	}
