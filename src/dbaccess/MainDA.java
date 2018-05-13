@@ -424,6 +424,36 @@ public class MainDA {
 		return false;
 	}
 
+	public void changeRobberLocation(int idGame, int idTile) {
+
+		String query = "UPDATE spel SET struikrover_idtegel = " + idTile + " WHERE idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to add tile");
+		}
+	}
+	
+	public int getRobberLocation(int idGame) {
+		int streetRobberIdTile = 0;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT struikrover_idtegel FROM spel WHERE idspel = " + idGame + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				streetRobberIdTile = myRs.getInt(1);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get players");
+		}
+
+		return streetRobberIdTile;
+	}
 //	public ArrayList<BuildingLocation> getBuildingLocations() {
 //
 //		makeConnection();
