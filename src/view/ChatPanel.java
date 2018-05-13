@@ -17,7 +17,7 @@ public class ChatPanel extends JPanel {
 	public ChatPanel() {
 		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-		textArea = new JTextArea("type here...", 3, 20);
+		textArea = new JTextArea("type here...", 1, 20);
 		add(textArea);
 	}
 }

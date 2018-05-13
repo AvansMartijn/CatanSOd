@@ -35,16 +35,13 @@ public class GuiController {
 		player = gameControl.getPlayer();
 		frame = new Frame();
 		this.gameBoard = gameBoard;
-//		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE), gameBoard);
 		boardPanel = new BoardPanel(gameBoard);
-//		frame.setContentPane(gameGUIPanel);
-		frame.setContentPane(boardPanel);
-//		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE));
-//		frame.setContentPane(gameGUIPanel);
-		
+		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE), boardPanel);
+		frame.setContentPane(gameGUIPanel);
+
 //		frame.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
-//		frame.setUndecorated(true);
-//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setUndecorated(true);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -115,10 +112,10 @@ public class GuiController {
 		}
 	}
 	
-	public void setGamePanel() {
-		gameGUIPanel = new GameGUIPanel(player, gameBoard);
-		frame.setContentPane(gameGUIPanel);
-	}
+//	public void setGamePanel() {
+//		gameGUIPanel = new GameGUIPanel(player, gameBoard);
+//		frame.setContentPane(gameGUIPanel);
+//	}
 	
 	public void setBoardPanel() {
 		boardPanel = new BoardPanel(gameControl.getGameboard());

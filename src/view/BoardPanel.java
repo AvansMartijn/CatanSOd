@@ -298,13 +298,13 @@ public class BoardPanel extends JPanel {
 
 	public void enableStreetLocButtons() {
 		for (StreetLocationButton slb : streetLocButtonArray) {
-			slb.setVisible(true);
+			slb.setEnabled(true);
 		}
 	}
 
 	public void disableStreetLocButtons() {
 		for (StreetLocationButton slb : streetLocButtonArray) {
-			slb.setVisible(false);
+			slb.setEnabled(false);
 		}
 	}
 

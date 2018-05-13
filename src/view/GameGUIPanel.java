@@ -21,12 +21,11 @@ public class GameGUIPanel extends JPanel {
 	
 	// Instance variables
 	private Color myBackGroundColor = new Color(240, 226, 223);
-	private Gameboard gameBoard;
 	private GameTopPanel gameTopPanel;
 	private PlayerActionPanel playerActionsPanel;
 	private MyResourcesPanel resourcesPanel;
 	private MyDevelopmentCardsPanel developmentCardsPanel;
-//	private BoardPanel boardPanel;
+	private BoardPanel boardPanel;
 	private DicePanel dicePanel;
 	private ChatPanel chatPanel;
 	
@@ -35,7 +34,7 @@ public class GameGUIPanel extends JPanel {
 	private Player player;
 	
 	// Constructor
-	public GameGUIPanel(Player player, Gameboard gameBoard) { // TODO array of players as you need 4 playerStatsPanels?
+	public GameGUIPanel(Player player, BoardPanel boardPanel) { // TODO array of players as you need 4 playerStatsPanels?
 		this.player = player;
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
@@ -43,7 +42,7 @@ public class GameGUIPanel extends JPanel {
 		playerActionsPanel = new PlayerActionPanel();
 		resourcesPanel = new MyResourcesPanel();
 		developmentCardsPanel = new MyDevelopmentCardsPanel();
-//		boardPanel = new BoardPanel(null);
+		this.boardPanel = boardPanel;
 		playerStatsPanel = new PlayerStatsPanel[AMOUNT_OF_PLAYERS];
 		dicePanel = new DicePanel();
 		chatPanel = new ChatPanel();
@@ -71,7 +70,7 @@ public class GameGUIPanel extends JPanel {
 		// Add Board Panels
 		gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
 		gridBagConstraints.gridx++;
-//		add(boardPanel, gridBagConstraints);
+		add(boardPanel, gridBagConstraints);
 		
 		// Add PlayerActionsPanel // TODO only if its this players turn
 		gridBagConstraints.anchor = GridBagConstraints.EAST;
@@ -118,6 +117,10 @@ public class GameGUIPanel extends JPanel {
 		playerStatsPanel[3] = new PlayerStatsPanel(player);
 		add(playerStatsPanel[3], gridBagConstraints);
 		
+		
+	}
+	
+	public void setGameboardPanel() {
 		
 	}
 }
