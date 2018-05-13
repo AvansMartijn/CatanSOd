@@ -49,7 +49,7 @@ public class GameGUIPanel extends JPanel {
 		
 		createLayout();
 	}
-	
+
 	// Create layout
 	private void createLayout() {
 		// Add Top Panel

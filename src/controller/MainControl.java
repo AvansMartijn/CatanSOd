@@ -15,6 +15,7 @@ public class MainControl {
 	public MainControl() {
 		mainDA = new MainDA();
 		gameControl = new GameControl(mainDA);
+		loginAccount("lesley", "hallo");
 		gameControl.testMethod();
 		guiController = new GuiController(this, gameControl, gameControl.getGameboard());
 //		guiController.setInlogPanel();
@@ -43,7 +44,6 @@ public class MainControl {
 	public void testChat(String message) {
 		gameControl.addMessage(message);
 		gameControl.getMessages();
-		gameControl.testprintMessages();
 	}
 
 	public void logOut() {

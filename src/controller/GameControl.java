@@ -14,7 +14,6 @@ public class GameControl {
 	private MainDA mainDA;
 	private int idGame;
 	private String username;
-	private ArrayList<String> messageList;
 	private Player player;
 	
 	public GameControl(MainDA mainDA) {
@@ -31,6 +30,7 @@ public class GameControl {
 //		createGame(false);
 		idGame = 772;
 		joinGame();
+		System.out.println(username);
 	}
 	
 	/**
@@ -93,14 +93,10 @@ public class GameControl {
 		mainDA.createPlayer(idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(), player.getPlayStatus().toString());
 	}
 
-	public void getMessages() {
+	public ArrayList<String> getMessages() {
+		ArrayList<String> messageList = new ArrayList<String>();
 		messageList = mainDA.getMessages(idGame);
-	}
-	
-	public void testprintMessages() {
-		for(String s: messageList) {
-			System.out.println(s);
-		}
+		return messageList;
 	}
 	
 	public void addMessage(String message) {

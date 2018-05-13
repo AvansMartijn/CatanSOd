@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,18 +42,42 @@ public class GuiController {
 		frame = new Frame();
 		this.gameBoard = gameBoard;
 		this.dicePanel = new DicePanel();
+
 		this.chatPanel = new ChatPanel();
+		JTextField chatPanelTextField = chatPanel.getTextField();
+		chatPanelTextField.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String message = chatPanelTextField.getText();
+				if (message != null) {
+					gameControl.addMessage(message);
+					chatPanelTextField.setText("");
+				}
+			}
+		});
+
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				chatPanel.setMessages(gameControl.getMessages());
+			}
+
+		}, 0, 5000);
 		boardPanel = new BoardPanel(gameBoard);
-		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE), boardPanel, dicePanel, chatPanel);
+		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
 		frame.setContentPane(gameGUIPanel);
 
-//		frame.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+		// frame.setPreferredSize(new
+		// Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		frame.setUndecorated(true);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 	public void setInlogPanel() {
 		LoginRegisterPanel loginregisterPanel = new LoginRegisterPanel();
 		loginregisterPanel.getInlogButton().addActionListener(new ActionListener() {
@@ -61,8 +87,8 @@ public class GuiController {
 				JTextField passwordTextField = loginregisterPanel.getPasswordText();
 				String username = usernameTextField.getText();
 				String password = passwordTextField.getText();
-				
-				if(!mainControl.loginAccount(username, password)) {
+
+				if (!mainControl.loginAccount(username, password)) {
 					usernameTextField.setText("");
 					passwordTextField.setText("");
 					loginregisterPanel.setMessagelabel("Invalid Credentials");
@@ -73,7 +99,7 @@ public class GuiController {
 				}
 			}
 		});
-		
+
 		loginregisterPanel.getRegisterButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -81,35 +107,35 @@ public class GuiController {
 				JTextField passwordTextField = loginregisterPanel.getPasswordText();
 				String username = usernameTextField.getText();
 				String password = passwordTextField.getText();
-				
-				if(hasValidInput(username) && hasValidInput(password)) {
-					if(!mainControl.createAccount(username, password)) {
+
+				if (hasValidInput(username) && hasValidInput(password)) {
+					if (!mainControl.createAccount(username, password)) {
 						usernameTextField.setText("");
 						passwordTextField.setText("");
 						loginregisterPanel.setMessagelabel("Username already exists");
 						frame.pack();
 					} else {
 						loginregisterPanel.setMessagelabel("Successfully created account");
-					}		
+					}
 				} else {
 					loginregisterPanel.setMessagelabel("Ongeldige invoer: Speciale tekens zijn niet toegestaan");
 				}
-						
+
 			}
 		});
-		
+
 		frame.setContentPane(loginregisterPanel);
 
 		frame.pack();
 	}
-	
+
 	private boolean hasValidInput(String str) {
 		if (str == null || str.trim().isEmpty()) {
 			return false;
 		}
 		Pattern p = Pattern.compile("[^a-z A-Z0-9]");
 		Matcher m = p.matcher(str);
-		
+
 		boolean b = m.find();
 		if (!b) {
 			return true;
@@ -117,15 +143,15 @@ public class GuiController {
 			return false;
 		}
 	}
-	
-//	public void setGamePanel() {
-//		gameGUIPanel = new GameGUIPanel(player, gameBoard);
-//		frame.setContentPane(gameGUIPanel);
-//	}
-	
+
+	// public void setGamePanel() {
+	// gameGUIPanel = new GameGUIPanel(player, gameBoard);
+	// frame.setContentPane(gameGUIPanel);
+	// }
+
 	public void setBoardPanel() {
 		boardPanel = new BoardPanel(gameControl.getGameboard());
 		frame.setContentPane(boardPanel);
 	}
-	
+
 }
