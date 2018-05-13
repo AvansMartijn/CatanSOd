@@ -19,8 +19,11 @@ public class TileButton extends JButton {
 	private int x[] = new int[n];
 	private int y[] = new int[n];
 	private int tileNumberWidthHeight = 35;
-	int tileNumberX = 100;
-	int tileNumberY = 82;
+	private int robberWidthHeight = 50;
+	private int robberX = 20;
+	private int robberY = 35;
+	private int tileNumberX = 100;
+	private int tileNumberY = 82;
 	private double angle = 2 * Math.PI / n;
 	private int tileNumber;
 
@@ -54,6 +57,15 @@ public class TileButton extends JButton {
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.fillPolygon(x, y, n);
 		super.paintComponent(g);
+		if(tile.hasRobber()) {
+			g.setColor(Color.BLACK);
+			g.fillOval(robberX, robberY, robberWidthHeight, robberWidthHeight);
+			g.setColor(Color.WHITE);
+			g.drawOval(robberX, robberY, robberWidthHeight, robberWidthHeight);
+			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
+			g.drawString("R", robberX + 11, robberY + 40);
+			
+		}
 		if(tileNumber >= 1) {
 			g.setColor(Color.WHITE);
 			g.fillOval(tileNumberX, tileNumberY, tileNumberWidthHeight, tileNumberWidthHeight);
