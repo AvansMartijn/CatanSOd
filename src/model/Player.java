@@ -13,7 +13,7 @@ public class Player {
 	private Hand hand;
 	private int points;
 	private int settlements;
-	private ArrayList<Settlement> settlementArr;
+//	private ArrayList<Settlement> settlementArr;
 	private int cities;
 	private int roads;
 	
@@ -27,13 +27,13 @@ public class Player {
 		this.color = color;
 		this.follownr = follownr;
 		this.playStatus = playStatus;
-		settlementArr = new ArrayList<Settlement>();
-		for(int i = 0; i<10; i++) {
-			settlementArr.add(new Settlement(false));
-		}
-		for(int i = 0; i<5; i++) {
-			settlementArr.add(new Settlement(true));
-		}
+//		settlementArr = new ArrayList<Settlement>();
+//		for(int i = 0; i<10; i++) {
+//			settlementArr.add(new Settlement(false));
+//		}
+//		for(int i = 0; i<5; i++) {
+//			settlementArr.add(new Settlement(true));
+//		}
 		
 	}
 
@@ -46,8 +46,9 @@ public class Player {
 	// Throw dice
 	public void throwDice() {
 		Dice dice = new Dice();
-		int firstThrow = dice.roll();
-		int secondThrow = dice.roll();
+		dice.roll();
+		int firstThrow = dice.getSingleDieValue(1);
+		int secondThrow = dice.getSingleDieValue(2);
 		System.out.println("Throws: " + firstThrow + " & " + secondThrow);
 	}
 

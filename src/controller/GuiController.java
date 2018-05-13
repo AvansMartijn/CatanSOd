@@ -10,12 +10,14 @@ import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import model.Dice;
 import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import view.BoardPanel;
 import view.ChatPanel;
+import view.DiceDotPanel;
 import view.DicePanel;
 import view.Frame;
 import view.GameGUIPanel;
@@ -39,7 +41,7 @@ public class GuiController {
 		player = gameControl.getPlayer();
 		frame = new Frame();
 		this.gameBoard = gameBoard;
-		this.dicePanel = new DicePanel();
+		this.dicePanel = new DiceDotPanel(new Dice());
 		this.chatPanel = new ChatPanel();
 		boardPanel = new BoardPanel(gameBoard);
 		gameGUIPanel = new GameGUIPanel(new Player(724, "BerendBrokkepap", PlayerColor.ROOD, 3, PlayStatus.UITGEDAAGDE), boardPanel, dicePanel, chatPanel);
