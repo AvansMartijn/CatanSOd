@@ -74,4 +74,8 @@ public class BuildingLocationButton extends JButton {
 		}
 		return polygon.contains(x1, y1);
 	}
+
+	public BuildingLocation getBuildingLocation() {
+		return buildingLocation;
+	}
 }

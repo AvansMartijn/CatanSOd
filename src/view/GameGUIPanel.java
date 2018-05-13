@@ -26,7 +26,7 @@ public class GameGUIPanel extends JPanel {
 	private PlayerActionPanel playerActionsPanel;
 	private MyResourcesPanel resourcesPanel;
 	private MyDevelopmentCardsPanel developmentCardsPanel;
-	private BoardPanel boardPanel;
+//	private BoardPanel boardPanel;
 	private DicePanel dicePanel;
 	private ChatPanel chatPanel;
 	
@@ -71,7 +71,7 @@ public class GameGUIPanel extends JPanel {
 		// Add Board Panels
 		gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
 		gridBagConstraints.gridx++;
-		add(boardPanel, gridBagConstraints);
+//		add(boardPanel, gridBagConstraints);
 		
 		// Add PlayerActionsPanel // TODO only if its this players turn
 		gridBagConstraints.anchor = GridBagConstraints.EAST;

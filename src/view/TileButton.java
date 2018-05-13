@@ -100,4 +100,9 @@ public class TileButton extends JButton {
 		}
 		return polygon.contains(x1, y1);
 	}
+
+	public Tile getTile() {
+		return tile;
+	}
+
 }
