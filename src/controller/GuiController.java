@@ -53,8 +53,12 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				String message = chatPanelTextField.getText();
 				if (message != null) {
-					gameControl.addMessage(message);
-					chatPanelTextField.setText("");
+					if(gameControl.addMessage(message)) {
+						chatPanelTextField.setText("");
+					}else {
+						addSystemMessageToChat("Je mag maar 1 bericht per seconde versturen!");
+					}
+					
 				}
 			}
 		});
@@ -78,6 +82,10 @@ public class GuiController {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public void addSystemMessageToChat(String s) {
+		chatPanel.addSystemMessageToChat(s);
 	}
 
 	public void setInlogPanel() {

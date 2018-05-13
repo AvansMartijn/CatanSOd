@@ -65,7 +65,8 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			return false;
 		}
 		return true;
 	}
@@ -129,7 +130,7 @@ public class MainDA {
 	/**
 	 * Add a message to the Database
 	 */
-	public void addMessage(String username, int idGame, String bericht) {
+	public boolean addMessage(String username, int idGame, String bericht) {
 
 		int idPlayer = 0;
 
@@ -150,13 +151,16 @@ public class MainDA {
 			myConn.close();
 		} catch (SQLException e) {
 			System.out.println("Unable to get last player ID");
+//			return false;
 		}
 
 		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", " + "'" + bericht + "'"
 				+ ");";
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Adding message to DB failed");
+			return false;
 		}
+		return true;
 	}
 
 	/**

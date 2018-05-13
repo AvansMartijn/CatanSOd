@@ -25,7 +25,7 @@ public class ChatPanel extends JPanel {
 	private JTextField userInputField;
 
 	public ChatPanel(ArrayList<String> messages) {
-		this.messages = messages;
+		this.messages = messages;		
 		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		
@@ -48,15 +48,22 @@ public class ChatPanel extends JPanel {
 
 	public void setMessages(ArrayList<String> messages) {
 		for(String s: messages) {
-			if(this.messages.contains(s)) {
+			if(this.textArea.getText().contains(s)) {
 				
 			} else {
-				textArea.append(s);
+				textArea.append(s + "\n");
 				textArea.setCaretPosition(textArea.getDocument().getLength());
 				this.messages = messages;
 				repaint();
 			}
 		}
+	}
+	
+	public void addSystemMessageToChat(String s){
+		textArea.append(s + "\n");
+		textArea.setCaretPosition(textArea.getDocument().getLength());
+		repaint();		
+		
 	}
 	
 	public JTextField getTextField() {

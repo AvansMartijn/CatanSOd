@@ -98,8 +98,12 @@ public class GameControl {
 		return messageList;
 	}
 	
-	public void addMessage(String message) {
-		mainDA.addMessage(username, idGame, message);
+	public boolean addMessage(String message) {
+		if(mainDA.addMessage(username, idGame, message)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	public void setGameID(int gameID) {
