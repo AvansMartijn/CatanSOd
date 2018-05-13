@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import controller.GameControl;
 import model.BuildingLocation;
 import model.Gameboard;
 import model.ResourceType;
@@ -59,24 +60,12 @@ public class BoardPanel extends JPanel {
 		createTiles();
 	}
 
-	private void addTileListeners() {
-		for (TileButton b : tileButtonArrayList) {
-			b.addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					for (int i = 0; i < tileArr.size(); i++) {
-						if (tileArr.get(i).hasRobber()) {
-							tileArr.get(i).setRobber(false);
-						}
-					}
-					b.getTile().setRobber(true);
-					repaint();
-				}
 
-			});
-		}
+	public ArrayList<TileButton> getTileButtonArrayList() {
+		return tileButtonArrayList;
 	}
+
 
 	private void addBuildLocListeners() {
 		for (BuildingLocationButton blb : buildingLocButtonArray) {
@@ -124,7 +113,7 @@ public class BoardPanel extends JPanel {
 
 		}
 
-		addTileListeners();
+
 		// disableTileButtons();
 
 		for (BuildingLocation bl : buildingLocArray) {

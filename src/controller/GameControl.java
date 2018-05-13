@@ -106,6 +106,15 @@ public class GameControl {
 		}
 	}
 	
+	public void changeRobberInDB(int idTile) {
+		this.mainDA.changeRobberLocation(idGame, idTile);
+	}
+	
+	public int getRobberIdTile() {
+		int idTile = this.mainDA.getRobberLocation(idGame);
+		return idTile;
+	}
+	
 	public void setGameID(int gameID) {
 		this.idGame = gameID;
 	}

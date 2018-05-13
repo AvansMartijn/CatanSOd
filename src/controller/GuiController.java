@@ -17,6 +17,7 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.Tile;
 import view.BoardPanel;
 import view.ChatPanel;
 import view.DiceDotPanel;
@@ -24,6 +25,7 @@ import view.DicePanel;
 import view.Frame;
 import view.GameGUIPanel;
 import view.LoginRegisterPanel;
+import view.TileButton;
 
 public class GuiController {
 
@@ -68,12 +70,14 @@ public class GuiController {
 
 			@Override
 			public void run() {
+				refresh();
 				chatPanel.setMessages(gameControl.getMessages());
 			}
 
 		}, 0, 5000);
 		boardPanel = new BoardPanel(gameBoard);
 		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
+		addTileListeners();
 		frame.setContentPane(gameGUIPanel);
 
 		// frame.setPreferredSize(new
@@ -163,5 +167,46 @@ public class GuiController {
 		boardPanel = new BoardPanel(gameControl.getGameboard());
 		frame.setContentPane(boardPanel);
 	}
+	
+	private void addTileListeners() {
+		for (TileButton b : boardPanel.getTileButtonArrayList()) {
+			b.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					for (int i = 0; i < gameBoard.getTileArr().size(); i++) {
+						if (gameBoard.getTileArr().get(i).hasRobber()) {
+							gameBoard.getTileArr().get(i).setRobber(false);
+						}
+					}
+					
+					b.getTile().setRobber(true);
+					gameControl.changeRobberInDB(b.getTile().getIdTile());
+					boardPanel.repaint();
+				}
+
+			});
+		}
+		
+		
+	}
+	
+	public void refresh() {
+		refreshRobber();
+	}
+	
+	public void refreshRobber() {		
+		for(Tile t : gameBoard.getTileArr()) {
+			if(t.getIdTile() == gameControl.getRobberIdTile()) {
+				t.setRobber(true);
+				
+			}else {
+				t.setRobber(false);
+			}
+		}
+		boardPanel.repaint();
+	}
+	
+	
 
 }
