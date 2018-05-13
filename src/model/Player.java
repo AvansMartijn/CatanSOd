@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class Player {
 
@@ -12,6 +13,7 @@ public class Player {
 	private Hand hand;
 	private int points;
 	private int settlements;
+	private ArrayList<Settlement> settlementArr;
 	private int cities;
 	private int roads;
 	
@@ -25,6 +27,14 @@ public class Player {
 		this.color = color;
 		this.follownr = follownr;
 		this.playStatus = playStatus;
+		settlementArr = new ArrayList<Settlement>();
+		for(int i = 0; i<10; i++) {
+			settlementArr.add(new Settlement(false));
+		}
+		for(int i = 0; i<5; i++) {
+			settlementArr.add(new Settlement(true));
+		}
+		
 	}
 
 	// Create hand

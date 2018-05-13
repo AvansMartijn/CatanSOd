@@ -284,13 +284,15 @@ public class BoardPanel extends JPanel {
 
 	public void enableBuildingLocButtons() {
 		for (BuildingLocationButton b : buildingLocButtonArray) {
-			b.setVisible(true);
+			
+			b.setEnabled(true);
 		}
 	}
 
 	public void disableBuildingLocButtons() {
 		for (BuildingLocationButton b : buildingLocButtonArray) {
-			b.setVisible(false);
+			
+			b.setEnabled(false);
 		}
 	}
 
