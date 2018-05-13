@@ -12,6 +12,7 @@ public class Tile {
 	private int chipNumber;
 	private ArrayList<BuildingLocation> buildingLocArr;
 	private ArrayList<StreetLocation> streetLocArr;
+	private boolean hasRobber;
 	
 
 	public Tile(int idTile, int xCord, int yCord, ResourceType rsType, int chipNumber) {
@@ -21,10 +22,23 @@ public class Tile {
 		this.x = xCord;
 		this.y = yCord;
 		this.rsType = rsType;
-		this.chipNumber = chipNumber;	
+		this.chipNumber = chipNumber;
+		if(rsType.equals(ResourceType.WOESTIJN)) {
+			this.hasRobber = true;
+		}else {
+			this.hasRobber = false;
+		}
 		
 	}
 	
+	public boolean hasRobber() {
+		return hasRobber;
+	}
+
+	public void setRobber(boolean hasRobber) {
+		this.hasRobber = hasRobber;
+	}
+
 	public int getChipNumber() {
 		return chipNumber;
 	}
