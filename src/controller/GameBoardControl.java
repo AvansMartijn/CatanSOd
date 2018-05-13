@@ -189,26 +189,33 @@ public class GameBoardControl {
 
 	public void assignHarbours() {
 		// assign harbours to correct buildinglocations
-		buildingLocArr.get(5).setHarbour(new Harbour(ResourceType.BAKSTEEN));
-		buildingLocArr.get(6).setHarbour(new Harbour(ResourceType.BAKSTEEN));
-		buildingLocArr.get(2).setHarbour(new Harbour(ResourceType.HOUT));
-		buildingLocArr.get(10).setHarbour(new Harbour(ResourceType.HOUT));
-		buildingLocArr.get(20).setHarbour(new Harbour(null));
-		buildingLocArr.get(21).setHarbour(new Harbour(null));
-		buildingLocArr.get(33).setHarbour(new Harbour(ResourceType.GRAAN));
-		buildingLocArr.get(34).setHarbour(new Harbour(ResourceType.GRAAN));
-		buildingLocArr.get(47).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(50).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(52).setHarbour(new Harbour(null));
-		buildingLocArr.get(53).setHarbour(new Harbour(null));
-		buildingLocArr.get(47).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(50).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(40).setHarbour(new Harbour(ResourceType.WOL));
-		buildingLocArr.get(49).setHarbour(new Harbour(ResourceType.WOL));
-		buildingLocArr.get(29).setHarbour(new Harbour(null));
-		buildingLocArr.get(30).setHarbour(new Harbour(null));
-		buildingLocArr.get(14).setHarbour(new Harbour(null));
-		buildingLocArr.get(17).setHarbour(new Harbour(null));
+		Harbour brickHarbour = new Harbour(ResourceType.BAKSTEEN);
+		Harbour woodHarbour = new Harbour(ResourceType.HOUT);
+		Harbour generalHarbour = new Harbour(null);
+		Harbour wheatHarbour = new Harbour(ResourceType.GRAAN);
+		Harbour ironHarbour = new Harbour(ResourceType.ERTS);
+		Harbour woolHarbour = new Harbour(ResourceType.WOL);
+		
+		buildingLocArr.get(5).setHarbour(brickHarbour);
+		buildingLocArr.get(6).setHarbour(brickHarbour);
+		buildingLocArr.get(2).setHarbour(woodHarbour);
+		buildingLocArr.get(10).setHarbour(woodHarbour);
+		buildingLocArr.get(20).setHarbour(generalHarbour);
+		buildingLocArr.get(21).setHarbour(generalHarbour);
+		buildingLocArr.get(33).setHarbour(wheatHarbour);
+		buildingLocArr.get(34).setHarbour(wheatHarbour);
+		buildingLocArr.get(47).setHarbour(ironHarbour);
+		buildingLocArr.get(50).setHarbour(ironHarbour);
+		buildingLocArr.get(52).setHarbour(generalHarbour);
+		buildingLocArr.get(53).setHarbour(generalHarbour);
+		buildingLocArr.get(47).setHarbour(ironHarbour);
+		buildingLocArr.get(50).setHarbour(ironHarbour);
+		buildingLocArr.get(40).setHarbour(woolHarbour);
+		buildingLocArr.get(49).setHarbour(woolHarbour);
+		buildingLocArr.get(29).setHarbour(generalHarbour);
+		buildingLocArr.get(30).setHarbour(generalHarbour);
+		buildingLocArr.get(14).setHarbour(generalHarbour);
+		buildingLocArr.get(17).setHarbour(generalHarbour);
 
 	}
 
