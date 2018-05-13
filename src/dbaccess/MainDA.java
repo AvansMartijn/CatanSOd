@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import model.BuildingLocation;
@@ -128,7 +129,7 @@ public class MainDA {
 	/**
 	 * Add a message to the Database
 	 */
-	public void addMessage(String username, String bericht) {
+	public void addMessage(String username, int idGame, String bericht) {
 
 		int idPlayer = 0;
 
@@ -136,7 +137,8 @@ public class MainDA {
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String searchquery = "SELECT idspeler FROM speler WHERE username = '" + username
-				+ "' ORDER BY idspeler DESC LIMIT 1";
+				+ "' AND idspel = " + idGame + " ORDER BY idspeler DESC LIMIT 1";
+		System.out.println(searchquery);
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(searchquery);
@@ -173,7 +175,7 @@ public class MainDA {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				String tijdstip = myRs.getString(1);
+				Timestamp tijdstip = myRs.getTimestamp(1);
 				String username = myRs.getString(2);
 				String bericht = myRs.getString(3);
 				retList.add(tijdstip + " " + username + ": " + bericht);

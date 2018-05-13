@@ -24,34 +24,39 @@ public class ChatPanel extends JPanel {
 	private JTextArea textArea;
 	private JTextField userInputField;
 
-	public ChatPanel() {
+	public ChatPanel(ArrayList<String> messages) {
+		this.messages = messages;
 		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-		textArea = new JTextArea(5, 30);
-		userInputField = new JTextField(30);
+		
+		textArea = new JTextArea(3, 30);
+		userInputField = new JTextField(20);
 		add(textArea);
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setPreferredSize(new Dimension(380, 100));
+		scrollPane.setPreferredSize(new Dimension(300, 650));
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		textArea.setEditable(false);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		
+		setMessages(messages);
 		this.setLayout(new FlowLayout());
 		this.add(userInputField, SwingConstants.CENTER);
 		this.add(scrollPane, SwingConstants.CENTER);
-		this.setSize(400, 200);
 		this.setVisible(true);
 	}
 
 
 	public void setMessages(ArrayList<String> messages) {
 		for(String s: messages) {
-			textArea.append(s);
-			textArea.setCaretPosition(textArea.getDocument().getLength());
+			if(this.messages.contains(s)) {
+				
+			} else {
+				textArea.append(s);
+				textArea.setCaretPosition(textArea.getDocument().getLength());
+				this.messages = messages;
+				repaint();
+			}
 		}
-		this.messages = messages;
-		repaint();
 	}
 	
 	public JTextField getTextField() {

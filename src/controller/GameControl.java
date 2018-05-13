@@ -28,9 +28,8 @@ public class GameControl {
 	
 	public void testMethod() {
 //		createGame(false);
-		idGame = 772;
+		idGame = 773;
 		joinGame();
-		System.out.println(username);
 	}
 	
 	/**
@@ -100,7 +99,7 @@ public class GameControl {
 	}
 	
 	public void addMessage(String message) {
-		mainDA.addMessage(player.getUsername(), message);
+		mainDA.addMessage(username, idGame, message);
 	}
 	
 	public void setGameID(int gameID) {

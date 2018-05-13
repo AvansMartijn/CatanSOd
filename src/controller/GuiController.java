@@ -45,7 +45,7 @@ public class GuiController {
 		this.gameBoard = gameBoard;
 //		this.dicePanel = new DicePanel(null);
 		this.dicePanel = new DiceDotPanel(new Dice());
-		this.chatPanel = new ChatPanel();
+		this.chatPanel = new ChatPanel(gameControl.getMessages());
 		JTextField chatPanelTextField = chatPanel.getTextField();
 		chatPanelTextField.addActionListener(new ActionListener() {
 
