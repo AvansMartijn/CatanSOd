@@ -428,7 +428,7 @@ public class MainDA {
 		String query = "UPDATE spel SET struikrover_idtegel = " + idTile + " WHERE idspel = " + idGame + ";";
 
 		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to add tile");
+			System.out.println("Unable to change robberlocation");
 		}
 	}
 	
@@ -453,7 +453,39 @@ public class MainDA {
 
 		return streetRobberIdTile;
 	}
-//	public ArrayList<BuildingLocation> getBuildingLocations() {
+
+	public void setLastThrow(int throw1, int throw2, int idGame) {
+		String query = "UPDATE spel SET laatste_worp_steen1 = " + throw1 + ", laatste_worp_steen2" + throw2 + " WHERE idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to change last throw");
+		}
+	}
+	
+	public int[] getLastThrows(int idGame) {
+		int[] lastThrows = new int[2];
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT laatste_worp_steen1, laatste_worp_steen2 FROM spel WHERE idspel = " + idGame + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				lastThrows[0] = myRs.getInt(1);
+				lastThrows[1] = myRs.getInt(2);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get players");
+		}
+
+		return lastThrows;
+	}
+	
+	//	public ArrayList<BuildingLocation> getBuildingLocations() {
 //
 //		makeConnection();
 //		Statement stmt = null;
