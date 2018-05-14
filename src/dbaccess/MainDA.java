@@ -132,8 +132,8 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String searchquery = "SELECT idspeler FROM speler WHERE username = '" + username
-				+ "' AND idspel = " + idGame + " ORDER BY idspeler DESC LIMIT 1";	
+		String searchquery = "SELECT idspeler FROM speler WHERE username = '" + username + "' AND idspel = " + idGame
+				+ " ORDER BY idspeler DESC LIMIT 1";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(searchquery);
@@ -148,7 +148,7 @@ public class MainDA {
 		}
 		return idPlayer;
 	}
-	
+
 	/**
 	 * Add a message to the Database
 	 */
@@ -394,26 +394,26 @@ public class MainDA {
 		return playerList;
 
 	}
-	
-	public Player getPlayer(int idPlayer) {
 
-		Player retPlayer = null;
+	public ArrayList<Player> getPlayersFromGame(int idGame) {
+
+		ArrayList<Player> playerList = new ArrayList<Player>();
 
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idspel, username, kleur, speelstatus, volgnr FROM speler WHERE idspeler = " + idPlayer + ";";
+		String query = "SELECT username, kleur, speelstatus, volgnr FROM speler WHERE idspel = '" + idGame
+				+ "' ORDER BY volgnr ASC;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				int idGame = myRs.getInt(1);
-				String username = myRs.getString(2);
-				String color = myRs.getString(3).toUpperCase();
-				String playStatus = myRs.getString(4).toUpperCase();
-				int follownr = myRs.getInt(5);
-				retPlayer = new Player(idGame, username, PlayerColor.valueOf(color), follownr,
-						PlayStatus.valueOf(playStatus));
+				String username = myRs.getString(1);
+				String color = myRs.getString(2).toUpperCase();
+				String playStatus = myRs.getString(3).toUpperCase();
+				int follownr = myRs.getInt(4);
+				playerList.add(new Player(idGame, username, PlayerColor.valueOf(color), follownr,
+						PlayStatus.valueOf(playStatus)));
 			}
 			myRs.close();
 			stmt.close();
@@ -422,7 +422,7 @@ public class MainDA {
 			System.out.println("Unable to get players");
 		}
 
-		return retPlayer;
+		return playerList;
 
 	}
 
@@ -464,7 +464,7 @@ public class MainDA {
 			System.out.println("Unable to change robberlocation");
 		}
 	}
-	
+
 	public int getRobberLocation(int idGame) {
 		int streetRobberIdTile = 0;
 		makeConnection();
@@ -488,13 +488,14 @@ public class MainDA {
 	}
 
 	public void setLastThrow(int throw1, int throw2, int idGame) {
-		String query = "UPDATE spel SET laatste_worp_steen1 = " + throw1 + ", laatste_worp_steen2 = " + throw2 + " WHERE idspel = " + idGame + ";";
+		String query = "UPDATE spel SET laatste_worp_steen1 = " + throw1 + ", laatste_worp_steen2 = " + throw2
+				+ " WHERE idspel = " + idGame + ";";
 
-		if (!insertUpdateQuery(query)) {			
+		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to change last throw");
 		}
 	}
-	
+
 	public int[] getLastThrows(int idGame) {
 		int[] lastThrows = new int[2];
 		makeConnection();
@@ -512,53 +513,85 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to get players");
+			System.out.println("Unable to get last throws");
 		}
 
 		return lastThrows;
 	}
 	
-	//	public ArrayList<BuildingLocation> getBuildingLocations() {
-//
-//		makeConnection();
-//		Statement stmt = null;
-//		ResultSet myRs = null;
-//		String query = "SELECT * FROM spelerstuk";
-//		try {
-//			stmt = myConn.createStatement();
-//			myRs = stmt.executeQuery(query);
-//			while (myRs.next()) {
-//				String idStuk = myRs.getString("username"); // Name of column
-//				String password = myRs.getString(2); // Number of column
-//				System.out.println(username + " pw: " + password);
-//			}
-//			myRs.close();
-//			stmt.close();
-//			myConn.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public ArrayList<StreetLocation> getStreetLocations() {
-//
-//		makeConnection();
-//		Statement stmt = null;
-//		ResultSet myRs = null;
-//		String query = "SELECT * FROM account";
-//		try {
-//			stmt = myConn.createStatement();
-//			myRs = stmt.executeQuery(query);
-//			while (myRs.next()) {
-//				String username = myRs.getString("username"); // Name of column
-//				String password = myRs.getString(2); // Number of column
-//				System.out.println(username + " pw: " + password);
-//			}
-//			myRs.close();
-//			stmt.close();
-//			myConn.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public boolean getShouldRefresh(int idPlayer) {
+		boolean shouldRefresh = false;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT shouldrefresh FROM speler WHERE idspeler = " + idPlayer + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				shouldRefresh = myRs.getBoolean(1);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get shouldRefresh");
+		}
+
+		return shouldRefresh;
+	}
+	
+	public void setShouldRefresh(int playerID, boolean shouldRefresh) {
+		String query = "UPDATE speler SET shouldrefresh = " + shouldRefresh + " WHERE idspeler = " + playerID + ";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to change shouldRefresh");
+		}
+	}
+	
+	
+
+	public ArrayList<BuildingLocation> getBuildingLocations() {
+		ArrayList<BuildingLocation> retArr = new ArrayList<BuildingLocation>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT * FROM spelerstuk";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String idStuk = myRs.getString("username"); // Name of column
+				String password = myRs.getString(2); // Number of column
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retArr;
+	}
+	//
+	// public ArrayList<StreetLocation> getStreetLocations() {
+	//
+	// makeConnection();
+	// Statement stmt = null;
+	// ResultSet myRs = null;
+	// String query = "SELECT * FROM account";
+	// try {
+	// stmt = myConn.createStatement();
+	// myRs = stmt.executeQuery(query);
+	// while (myRs.next()) {
+	// String username = myRs.getString("username"); // Name of column
+	// String password = myRs.getString(2); // Number of column
+	// System.out.println(username + " pw: " + password);
+	// }
+	// myRs.close();
+	// stmt.close();
+	// myConn.close();
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// }
+	// }
 }
