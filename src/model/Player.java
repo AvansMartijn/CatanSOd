@@ -9,6 +9,7 @@ public class Player {
 	private int follownr;
 	private PlayStatus playStatus;
 	private Hand hand;
+	private int overwinningspunten;
 	
 	public Player(String username) {
 		this.username = username;
@@ -70,4 +71,14 @@ public class Player {
 	public Hand getHand() {
 		return hand;
 	}
+
+	public int getOverwinningspunten() {
+		return overwinningspunten;
+	}
+
+	public void setOverwinningspunten(int overwinningspunten) {
+		this.overwinningspunten = this.overwinningspunten + overwinningspunten;
+	}
+	
+	
 }
