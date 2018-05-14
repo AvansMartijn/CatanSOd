@@ -12,10 +12,12 @@ public class Dice
 	public Dice()
 	{
 		die = new int[2];
+		die[0] = 6;
+		die[1] = 3;
 		random = new Random();
 		
 		
-		roll();
+		
 	}
 
 	public void roll()

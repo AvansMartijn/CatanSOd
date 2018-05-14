@@ -134,8 +134,8 @@ public class GameControl {
 		return gameboard;
 	}
 	
-	public void editDiceLastThrown() {
-		
+	public void editDiceLastThrown(int[] die) {		
+		mainDA.setLastThrow(die[0], die[1], idGame);
 	}
 	
 	public int[] getDiceLastThrown() {
@@ -146,5 +146,11 @@ public class GameControl {
 		dice.roll();
 		return dice.getDie();
 	}
+	
+	public void setDiceLastThrown(int[] die) {
+		dice.setDie(die);
+	}
+	
+	
 
 }

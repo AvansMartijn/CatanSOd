@@ -82,6 +82,7 @@ public class GuiController {
 		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
 		addTileListeners();
 		addRollButtonListener();
+		
 		frame.setContentPane(gameGUIPanel);
 
 		// frame.setPreferredSize(new
@@ -198,10 +199,10 @@ public class GuiController {
 	dicePanel.getButton().addActionListener(new ActionListener() {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			System.out.println("test");
+		public void actionPerformed(ActionEvent arg0) {			
 			int[] die = gameControl.rollDice();
 			dicePanel.setLastThrown(die);
+			gameControl.editDiceLastThrown(die);
 			dicePanel.repaint();
 			
 		}
@@ -211,6 +212,7 @@ public class GuiController {
 	
 	public void refresh() {
 		refreshRobber();
+		refreshDice();
 	}
 	
 	public void refreshRobber() {		
@@ -223,6 +225,12 @@ public class GuiController {
 			}
 		}
 		boardPanel.repaint();
+	}
+	
+	public void refreshDice() {		
+		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
+		gameControl.setDiceLastThrown(gameControl.getDiceLastThrown());
+		dicePanel.repaint();
 	}
 	
 	

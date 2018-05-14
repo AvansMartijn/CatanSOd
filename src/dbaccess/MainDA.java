@@ -65,7 +65,7 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -456,9 +456,9 @@ public class MainDA {
 	}
 
 	public void setLastThrow(int throw1, int throw2, int idGame) {
-		String query = "UPDATE spel SET laatste_worp_steen1 = " + throw1 + ", laatste_worp_steen2" + throw2 + " WHERE idspel = " + idGame + ";";
+		String query = "UPDATE spel SET laatste_worp_steen1 = " + throw1 + ", laatste_worp_steen2 = " + throw2 + " WHERE idspel = " + idGame + ";";
 
-		if (!insertUpdateQuery(query)) {
+		if (!insertUpdateQuery(query)) {			
 			System.out.println("Unable to change last throw");
 		}
 	}
