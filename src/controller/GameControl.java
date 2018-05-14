@@ -30,8 +30,8 @@ public class GameControl {
 	public void testMethod() {
 //		createGame(false);
 		idGame = 773;
-		joinGame();
 		playerID = mainDA.getPlayerID(username, idGame);
+		joinGame();
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class GameControl {
 	 */
 	public void createGame(boolean randomBoard) {
 		idGame = mainDA.createGame(randomBoard);
-		createPlayer();
+		createNewPlayer();
 //		addPlayerToDB(player);
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
 		gameboard = gameBoardControl.createBoard();
@@ -50,12 +50,12 @@ public class GameControl {
 	 * Add a player
 	 */
 	public void joinGame() {
-		createPlayer();
+		loadPlayer();
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
 		gameboard = gameBoardControl.loadBoard();
 	}
 	
-	private void createPlayer() {
+	private void createNewPlayer() {
 		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(idGame);
 		String playerColor = null;
 		int followNR = -1;
@@ -88,6 +88,10 @@ public class GameControl {
 			}
 		}
 		player = new Player(idGame, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
+	}
+	
+	private void loadPlayer() {
+		player = mainDA.getPlayer(playerID);
 	}
 	
 	public void addPlayerToDB(Player player) {

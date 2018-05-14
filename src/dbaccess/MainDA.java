@@ -394,6 +394,37 @@ public class MainDA {
 		return playerList;
 
 	}
+	
+	public Player getPlayer(int idPlayer) {
+
+		Player retPlayer = null;
+
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT idspel, username, kleur, speelstatus, volgnr FROM speler WHERE idspeler = " + idPlayer + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				int idGame = myRs.getInt(1);
+				String username = myRs.getString(2);
+				String color = myRs.getString(3).toUpperCase();
+				String playStatus = myRs.getString(4).toUpperCase();
+				int follownr = myRs.getInt(5);
+				retPlayer = new Player(idGame, username, PlayerColor.valueOf(color), follownr,
+						PlayStatus.valueOf(playStatus));
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get players");
+		}
+
+		return retPlayer;
+
+	}
 
 	/**
 	 * Check if the account name exists
