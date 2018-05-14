@@ -181,7 +181,8 @@ public class MainDA {
 				Timestamp tijdstip = myRs.getTimestamp(1);
 				String username = myRs.getString(2);
 				String bericht = myRs.getString(3);
-				retList.add(tijdstip + " " + username + ": " + bericht);
+				String timestamp = tijdstip.toString().substring(11, tijdstip.toString().length() - 2);
+				retList.add(timestamp + " - " + username + ": " + bericht);
 			}
 			myRs.close();
 			stmt.close();
