@@ -32,7 +32,7 @@ public class GuiController {
 	private Player player;
 	private GameGUIPanel gameGUIPanel;
 	private BoardPanel boardPanel;
-	private DicePanel dicePanel;	
+	private DiceDotPanel dicePanel;	
 	private ChatPanel chatPanel;
 	private Frame frame;
 	private MainControl mainControl;
@@ -45,8 +45,10 @@ public class GuiController {
 		player = gameControl.getPlayer();
 		frame = new Frame();
 		this.gameBoard = gameBoard;
-//		this.dicePanel = new DicePanel(null);
-		this.dicePanel = new DiceDotPanel(new Dice());
+		this.dicePanel = new DiceDotPanel();
+		
+		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
+		
 		this.chatPanel = new ChatPanel(gameControl.getMessages());
 		JTextField chatPanelTextField = chatPanel.getTextField();
 		chatPanelTextField.addActionListener(new ActionListener() {
@@ -75,6 +77,7 @@ public class GuiController {
 			}
 
 		}, 0, 5000);
+		
 		boardPanel = new BoardPanel(gameBoard);
 		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
 		addTileListeners();

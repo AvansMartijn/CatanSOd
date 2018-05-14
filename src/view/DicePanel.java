@@ -3,15 +3,11 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
-import model.Dice;
 
 @SuppressWarnings("serial")
 public class DicePanel extends JPanel {
@@ -24,17 +20,14 @@ public class DicePanel extends JPanel {
 	
 	
 	// instance variables
-	protected Dice model;
 
 	// constructor
-	public DicePanel(Dice model)
+	public DicePanel()
 	{
-		this.model = model;
 		setPreferredSize(new Dimension(PREF_WIDTH, PREF_HEIGHT));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
 		rollButton = new JButton();
 		rollButton.setText("Roll");
-		
 		this.add(rollButton);
 	}
 
@@ -49,11 +42,6 @@ public class DicePanel extends JPanel {
 	
 	public JButton getButton() {
 		return this.rollButton;
-	}
-	
-	public void roll() {
-		model.roll();
-		repaint();
 	}
 	
 }

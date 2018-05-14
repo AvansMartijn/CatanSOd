@@ -18,17 +18,15 @@ public class DiceDotPanel extends DicePanel
 	// constants
 	private final Color customBrown = new Color(223, 190, 172);
 	private final int DOT = 20;
+	private int[] lastThrown;
 
 	// constructor
-	public DiceDotPanel(Dice model)
-	{
-		super(model);
+	public DiceDotPanel(){
 		setBackground(customBrown);
 	}
 
 	@Override
-	protected void paintComponent(Graphics g)
-	{
+	protected void paintComponent(Graphics g){
 		super.paintComponent(g); // calls MyPanel (is super here)
 		
 		int d1;
@@ -44,8 +42,8 @@ public class DiceDotPanel extends DicePanel
 		// om nette scherpe randjes te krijgen - einde //
 		
 		// stippen tekenen
-		d1 = model.getSingleDieValue(0);
-		d2 = model.getSingleDieValue(1);
+		d1 = lastThrown[0];
+		d2 = lastThrown[1];
 		switch (d1)
 		{
 		case 1:
@@ -121,4 +119,13 @@ public class DiceDotPanel extends DicePanel
 		}
 		
 	}
+
+	public int[] getLastThrown() {
+		return lastThrown;
+	}
+
+	public void setLastThrown(int[] lastThrown) {
+		this.lastThrown = lastThrown;
+	}
+	
 }

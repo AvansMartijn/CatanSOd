@@ -138,8 +138,8 @@ public class GameControl {
 		
 	}
 	
-	public void getDiceLastThrown() {
-		
+	public int[] getDiceLastThrown() {
+		return mainDA.getLastThrows(idGame);
 	}
 
 }
