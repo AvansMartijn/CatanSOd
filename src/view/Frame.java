@@ -20,7 +20,7 @@ public class Frame extends JFrame {
 	public Frame() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(0, 0, screenSize.width, screenSize.height);
-		setContentPane(room);
+		setContentPane(gameGUIPanel);
 
 		setTitle("Kolonisten van Catan - SOd");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
