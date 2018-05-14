@@ -518,7 +518,7 @@ public class MainDA {
 
 		return lastThrows;
 	}
-	
+
 	public boolean getShouldRefresh(int idPlayer) {
 		boolean shouldRefresh = false;
 		makeConnection();
@@ -540,7 +540,7 @@ public class MainDA {
 
 		return shouldRefresh;
 	}
-	
+
 	public void setShouldRefresh(int playerID, boolean shouldRefresh) {
 		String query = "UPDATE speler SET shouldrefresh = " + shouldRefresh + " WHERE idspeler = " + playerID + ";";
 
@@ -548,15 +548,24 @@ public class MainDA {
 			System.out.println("Unable to change shouldRefresh");
 		}
 	}
-	
-	
+
+	public void updateBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
+
+		String query = "UPDATE spelerstuk SET idstuk = '" + idPiece + "',  x_van =  + " + x_From + ", y_van = " + y_From
+				+ " WHERE '" + idPlayer + "';";
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to add Building");
+		}
+		;
+
+	}
 
 	public ArrayList<BuildingLocation> getBuildingLocations() {
 		ArrayList<BuildingLocation> retArr = new ArrayList<BuildingLocation>();
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT * FROM spelerstuk";
+		String query = "SELECT idstuk, idspeler, x_van, y_van FROM spelerstuk";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
