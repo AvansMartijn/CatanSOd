@@ -134,7 +134,6 @@ public class MainDA {
 		ResultSet myRs = null;
 		String searchquery = "SELECT idspeler FROM speler WHERE username = '" + username
 				+ "' AND idspel = " + idGame + " ORDER BY idspeler DESC LIMIT 1";	
-		System.out.println(searchquery);
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(searchquery);

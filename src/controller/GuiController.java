@@ -32,67 +32,29 @@ public class GuiController {
 	private Player player;
 	private GameGUIPanel gameGUIPanel;
 	private BoardPanel boardPanel;
-	private DiceDotPanel dicePanel;	
+	private DiceDotPanel dicePanel;
 	private ChatPanel chatPanel;
 	private Frame frame;
 	private MainControl mainControl;
 	private GameControl gameControl;
 	private Gameboard gameBoard;
+	private Timer timer;
 
-	public GuiController(MainControl mainControl, GameControl gameControl, Gameboard gameBoard) {
+	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
-		player = gameControl.getPlayer();
+
 		frame = new Frame();
-		this.gameBoard = gameBoard;
-		this.dicePanel = new DiceDotPanel();
-		
-		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
-		
-		this.chatPanel = new ChatPanel(gameControl.getMessages());
-		JTextField chatPanelTextField = chatPanel.getTextField();
-		chatPanelTextField.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String message = chatPanelTextField.getText();
-				if (message != null) {
-					if(gameControl.addMessage(message)) {
-						chatPanelTextField.setText("");
-					}else {
-						addSystemMessageToChat("Je mag maar 1 bericht per seconde versturen!");
-					}
-					
-				}
-			}
-		});
-
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				refresh();
-				chatPanel.setMessages(gameControl.getMessages());
-			}
-
-		}, 0, 5000);
-		
-		boardPanel = new BoardPanel(gameBoard);
-		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
-		addTileListeners();
-		addRollButtonListener();
-		
-		frame.setContentPane(gameGUIPanel);
-
+		setInlogPanel();
+		// frame.setContentPane(gameGUIPanel);
 		// frame.setPreferredSize(new
 		// Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
-		frame.setUndecorated(true);
+//		frame.setUndecorated(true);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 	public void addSystemMessageToChat(String s) {
 		chatPanel.addSystemMessageToChat(s);
 	}
@@ -113,7 +75,8 @@ public class GuiController {
 					loginregisterPanel.setMessagelabel("Invalid Credentials");
 					frame.pack();
 				} else {
-					setBoardPanel();
+					player = gameControl.getPlayer();
+					setIngameGuiPanel();
 					frame.pack();
 				}
 			}
@@ -163,16 +126,48 @@ public class GuiController {
 		}
 	}
 
-	// public void setGamePanel() {
-	// gameGUIPanel = new GameGUIPanel(player, gameBoard);
-	// frame.setContentPane(gameGUIPanel);
-	// }
 
-	public void setBoardPanel() {
+	public void setIngameGuiPanel() {
+//		boardPanel = new BoardPanel(gameBoard);
+		this.chatPanel = new ChatPanel(gameControl.getMessages());
+		this.dicePanel = new DiceDotPanel();
 		boardPanel = new BoardPanel(gameControl.getGameboard());
-		frame.setContentPane(boardPanel);
+		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
+
+		JTextField chatPanelTextField = chatPanel.getTextField();
+		chatPanelTextField.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String message = chatPanelTextField.getText();
+				if (message != null) {
+					if (gameControl.addMessage(message)) {
+						chatPanelTextField.setText("");
+					} else {
+						addSystemMessageToChat("Je mag maar 1 bericht per seconde versturen!");
+					}
+
+				}
+			}
+		});
+		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
+		frame.setContentPane(gameGUIPanel);
+		addTileListeners();
+		addRollButtonListener();
+
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				refresh();
+				chatPanel.setMessages(gameControl.getMessages());
+			}
+
+		}, 0, 5000);
+
 	}
-	
+
 	private void addTileListeners() {
 		for (TileButton b : boardPanel.getTileButtonArrayList()) {
 			b.addActionListener(new ActionListener() {
@@ -184,55 +179,56 @@ public class GuiController {
 							gameBoard.getTileArr().get(i).setRobber(false);
 						}
 					}
-					
+
 					b.getTile().setRobber(true);
 					gameControl.changeRobberInDB(b.getTile().getIdTile());
 					boardPanel.repaint();
 				}
 
 			});
-		}		
-	}
-	
-	private void addRollButtonListener() {
-	
-	dicePanel.getButton().addActionListener(new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {			
-			int[] die = gameControl.rollDice();
-			dicePanel.setLastThrown(die);
-			gameControl.editDiceLastThrown(die);
-			dicePanel.repaint();
-			
 		}
-		
-	});
 	}
-	
+
+	private void addRollButtonListener() {
+
+		dicePanel.getButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int[] die = gameControl.rollDice();
+				dicePanel.setLastThrown(die);
+				gameControl.editDiceLastThrown(die);
+				dicePanel.repaint();
+
+			}
+
+		});
+	}
+
 	public void refresh() {
 		refreshRobber();
 		refreshDice();
 	}
-	
-	public void refreshRobber() {		
-		for(Tile t : gameBoard.getTileArr()) {
-			if(t.getIdTile() == gameControl.getRobberIdTile()) {
+
+	public void refreshRobber() {
+		for (Tile t : gameBoard.getTileArr()) {
+			if (t.getIdTile() == gameControl.getRobberIdTile()) {
 				t.setRobber(true);
-				
-			}else {
+
+			} else {
 				t.setRobber(false);
 			}
 		}
 		boardPanel.repaint();
 	}
-	
-	public void refreshDice() {		
+
+	public void refreshDice() {
 		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
 		gameControl.setDiceLastThrown(gameControl.getDiceLastThrown());
 		dicePanel.repaint();
 	}
-	
-	
 
+	public void setGameBoard(Gameboard gameBoard) {
+		this.gameBoard = gameBoard;
+	}
 }

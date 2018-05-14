@@ -15,16 +15,16 @@ public class MainControl {
 	public MainControl() {
 		mainDA = new MainDA();
 		gameControl = new GameControl(mainDA);
-		loginAccount("lesley", "hallo");
-		gameControl.testMethod();
-		guiController = new GuiController(this, gameControl, gameControl.getGameboard());
-//		guiController.setInlogPanel();
+		guiController = new GuiController(this, gameControl);
+//		loginAccount("lesley", "hallo");
 	}
 
 	public boolean loginAccount(String username, String password) {
 		if (mainDA.login(username, password)) {
 			account = new Account(mainDA.getPlayers(username), username);
 			gameControl.setUsername(account.getUsername());
+			gameControl.testMethod();
+			guiController.setGameBoard(gameControl.getGameboard());
 			return true;
 		} else {
 			return false;

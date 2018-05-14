@@ -23,9 +23,6 @@ public class GameControl {
 		dice = new Dice();
 		this.mainDA = mainDA;
 		//-----TEST------
-		//Frame frame = new Frame();
-//		player = new Player(12, "Hagrid", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE);
-		
 		
 		//----END TEST -----
 	}
@@ -35,7 +32,6 @@ public class GameControl {
 		idGame = 773;
 		joinGame();
 		playerID = mainDA.getPlayerID(username, idGame);
-		System.out.println("testM: " + playerID);
 	}
 	
 	/**
@@ -105,7 +101,6 @@ public class GameControl {
 	}
 	
 	public boolean addMessage(String message) {
-		System.out.println(playerID);
 		if(mainDA.addMessage(playerID, idGame, message)) {
 			return true;
 		}else {
