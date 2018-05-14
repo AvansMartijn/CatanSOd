@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import dbaccess.MainDA;
+import model.Dice;
 import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
@@ -13,25 +14,24 @@ public class GameControl {
 	private Gameboard gameboard;
 	private MainDA mainDA;
 	private int idGame;
+	private int playerID;
 	private String username;
-	private ArrayList<String> messageList;
 	private Player player;
+	private Dice dice;
 	
 	public GameControl(MainDA mainDA) {
+		dice = new Dice();
 		this.mainDA = mainDA;
 		//-----TEST------
-		//Frame frame = new Frame();
-//		player = new Player(12, "Hagrid", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE);
-		
 		
 		//----END TEST -----
 	}
 	
 	public void testMethod() {
-		gameBoardControl = new GameBoardControl(mainDA, idGame);
 //		createGame(false);
-		idGame = 774;
+		idGame = 773;
 		joinGame();
+		playerID = mainDA.getPlayerID(username, idGame);
 	}
 	
 	/**
@@ -40,6 +40,7 @@ public class GameControl {
 	public void createGame(boolean randomBoard) {
 		idGame = mainDA.createGame(randomBoard);
 		createPlayer();
+//		addPlayerToDB(player);
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
 		gameboard = gameBoardControl.createBoard();
 		
@@ -86,23 +87,34 @@ public class GameControl {
 				break;
 			}
 		}
-		
-		mainDA.createPlayer(idGame, username, playerColor, followNR, playStatus);
 		player = new Player(idGame, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
 	}
+	
+	public void addPlayerToDB(Player player) {
+		mainDA.createPlayer(idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(), player.getPlayStatus().toString());
+	}
 
-	public void getMessages() {
+	public ArrayList<String> getMessages() {
+		ArrayList<String> messageList = new ArrayList<String>();
 		messageList = mainDA.getMessages(idGame);
+		return messageList;
 	}
 	
-	public void testprintMessages() {
-		for(String s: messageList) {
-			System.out.println(s);
+	public boolean addMessage(String message) {
+		if(mainDA.addMessage(playerID, idGame, message)) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 	
-	public void addMessage(String message) {
-		mainDA.addMessage(player.getUsername(), message);
+	public void changeRobberInDB(int idTile) {
+		this.mainDA.changeRobberLocation(idGame, idTile);
+	}
+	
+	public int getRobberIdTile() {
+		int idTile = this.mainDA.getRobberLocation(idGame);
+		return idTile;
 	}
 	
 	public void setGameID(int gameID) {
@@ -120,5 +132,24 @@ public class GameControl {
 	public Gameboard getGameboard() {
 		return gameboard;
 	}
+	
+	public void editDiceLastThrown(int[] die) {		
+		mainDA.setLastThrow(die[0], die[1], idGame);
+	}
+	
+	public int[] getDiceLastThrown() {
+		return mainDA.getLastThrows(idGame);
+	}
+	
+	public int[] rollDice() {
+		dice.roll();
+		return dice.getDie();
+	}
+	
+	public void setDiceLastThrown(int[] die) {
+		dice.setDie(die);
+	}
+	
+	
 
 }

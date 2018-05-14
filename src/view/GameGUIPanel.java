@@ -7,6 +7,7 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
+import model.Gameboard;
 import model.Player;
 
 
@@ -17,7 +18,6 @@ public class GameGUIPanel extends JPanel {
 	
 	// Instance variables
 	private Color myBackGroundColor = new Color(240, 226, 223);
-	
 	private GameTopPanel gameTopPanel;
 	private PlayerActionPanel playerActionsPanel;
 	private MyResourcesPanel resourcesPanel;
@@ -31,7 +31,7 @@ public class GameGUIPanel extends JPanel {
 	private Player player;
 	
 	// Constructor
-	public GameGUIPanel(Player player) { // TODO array of players as you need 4 playerStatsPanels?
+	public GameGUIPanel(Player player, BoardPanel boardPanel, DicePanel dicePanel, ChatPanel chatPanel) { // TODO array of players as you need 4 playerStatsPanels?
 		this.player = player;
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
@@ -39,14 +39,14 @@ public class GameGUIPanel extends JPanel {
 		playerActionsPanel = new PlayerActionPanel();
 		resourcesPanel = new MyResourcesPanel();
 		developmentCardsPanel = new MyDevelopmentCardsPanel();
-		boardPanel = new BoardPanel(null);
+		this.boardPanel = boardPanel;
 		playerStatsPanel = new PlayerStatsPanel[AMOUNT_OF_PLAYERS];
-		dicePanel = new DicePanel();
-		chatPanel = new ChatPanel();
+		this.dicePanel = dicePanel;
+		this.chatPanel = chatPanel;
 		
 		createLayout();
 	}
-	
+
 	// Create layout
 	private void createLayout() {
 		// Add Top Panel
@@ -114,6 +114,10 @@ public class GameGUIPanel extends JPanel {
 		playerStatsPanel[3] = new PlayerStatsPanel(player);
 		add(playerStatsPanel[3], gridBagConstraints);
 		
+		
+	}
+	
+	public void setGameboardPanel() {
 		
 	}
 }

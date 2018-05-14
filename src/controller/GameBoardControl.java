@@ -64,25 +64,25 @@ public class GameBoardControl {
 
 	// create all tiles with x & y coordinate, resourcetype and number
 	private void createTiles() {
-		tileArr.add(new Tile(2, 4, ResourceType.GRAAN, 12));
-		tileArr.add(new Tile(3, 3, ResourceType.HOUT, 10));
-		tileArr.add(new Tile(3, 6, ResourceType.GRAAN, 18));
-		tileArr.add(new Tile(4, 2, ResourceType.BAKSTEEN, 6));
-		tileArr.add(new Tile(4, 5, ResourceType.HOUT, 16));
-		tileArr.add(new Tile(4, 8, ResourceType.ERTS, 14));
-		tileArr.add(new Tile(5, 4, ResourceType.ERTS, 2));
-		tileArr.add(new Tile(5, 7, ResourceType.BAKSTEEN, 8));
-		tileArr.add(new Tile(6, 3, ResourceType.GRAAN, 9));
-		tileArr.add(new Tile(6, 6, ResourceType.WOESTIJN, 0));
-		tileArr.add(new Tile(6, 9, ResourceType.WOL, 1));
-		tileArr.add(new Tile(7, 5, ResourceType.GRAAN, 5));
-		tileArr.add(new Tile(7, 8, ResourceType.WOL, 4));
-		tileArr.add(new Tile(8, 4, ResourceType.WOL, 17));
-		tileArr.add(new Tile(8, 7, ResourceType.HOUT, 3));
-		tileArr.add(new Tile(8, 10, ResourceType.HOUT, 13));
-		tileArr.add(new Tile(9, 6, ResourceType.WOL, 7));
-		tileArr.add(new Tile(9, 9, ResourceType.BAKSTEEN, 15));
-		tileArr.add(new Tile(10, 8, ResourceType.ERTS, 11));
+		tileArr.add(new Tile(1, 2, 4, ResourceType.GRAAN, 12));
+		tileArr.add(new Tile(2, 3, 3, ResourceType.HOUT, 10));
+		tileArr.add(new Tile(3, 3, 6, ResourceType.GRAAN, 18));
+		tileArr.add(new Tile(4, 4, 2, ResourceType.BAKSTEEN, 6));
+		tileArr.add(new Tile(5, 4, 5, ResourceType.HOUT, 16));
+		tileArr.add(new Tile(6, 4, 8, ResourceType.ERTS, 14));
+		tileArr.add(new Tile(7, 5, 4, ResourceType.ERTS, 2));
+		tileArr.add(new Tile(8, 5, 7, ResourceType.BAKSTEEN, 8));
+		tileArr.add(new Tile(9, 6, 3, ResourceType.GRAAN, 9));
+		tileArr.add(new Tile(10, 6, 6, ResourceType.WOESTIJN, 0));
+		tileArr.add(new Tile(11, 6, 9, ResourceType.WOL, 1));
+		tileArr.add(new Tile(12, 7, 5, ResourceType.GRAAN, 5));
+		tileArr.add(new Tile(13, 7, 8, ResourceType.WOL, 4));
+		tileArr.add(new Tile(14, 8, 4, ResourceType.WOL, 17));
+		tileArr.add(new Tile(15, 8, 7, ResourceType.HOUT, 3));
+		tileArr.add(new Tile(16, 8, 10, ResourceType.HOUT, 13));
+		tileArr.add(new Tile(17, 9, 6, ResourceType.WOL, 7));
+		tileArr.add(new Tile(18, 9, 9, ResourceType.BAKSTEEN, 15));
+		tileArr.add(new Tile(19, 10, 8, ResourceType.ERTS, 11));
 	}
 
 	private void createStreetLocations() {
@@ -162,8 +162,8 @@ public class GameBoardControl {
 				// buildinglocation Array
 				for (BuildingLocation bl : buildingLocArr) {
 					// if a buildinglocation already exists in the main buildinglocation array
-					if (locArr.get(locArrCount).getX() == (bl.getX())
-							&& locArr.get(locArrCount).getY() == (bl.getY())) {
+					if (locArr.get(locArrCount).getXLoc() == (bl.getXLoc())
+							&& locArr.get(locArrCount).getYLoc() == (bl.getYLoc())) {
 						exists = true;
 						// get that exact buildinglocation object and put it in the tiles
 						// buildinglocation Array
@@ -189,26 +189,33 @@ public class GameBoardControl {
 
 	public void assignHarbours() {
 		// assign harbours to correct buildinglocations
-		buildingLocArr.get(5).setHarbour(new Harbour(ResourceType.BAKSTEEN));
-		buildingLocArr.get(6).setHarbour(new Harbour(ResourceType.BAKSTEEN));
-		buildingLocArr.get(2).setHarbour(new Harbour(ResourceType.HOUT));
-		buildingLocArr.get(10).setHarbour(new Harbour(ResourceType.HOUT));
-		buildingLocArr.get(20).setHarbour(new Harbour(null));
-		buildingLocArr.get(21).setHarbour(new Harbour(null));
-		buildingLocArr.get(33).setHarbour(new Harbour(ResourceType.GRAAN));
-		buildingLocArr.get(34).setHarbour(new Harbour(ResourceType.GRAAN));
-		buildingLocArr.get(47).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(50).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(52).setHarbour(new Harbour(null));
-		buildingLocArr.get(53).setHarbour(new Harbour(null));
-		buildingLocArr.get(47).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(50).setHarbour(new Harbour(ResourceType.ERTS));
-		buildingLocArr.get(40).setHarbour(new Harbour(ResourceType.WOL));
-		buildingLocArr.get(49).setHarbour(new Harbour(ResourceType.WOL));
-		buildingLocArr.get(29).setHarbour(new Harbour(null));
-		buildingLocArr.get(30).setHarbour(new Harbour(null));
-		buildingLocArr.get(14).setHarbour(new Harbour(null));
-		buildingLocArr.get(17).setHarbour(new Harbour(null));
+		Harbour brickHarbour = new Harbour(ResourceType.BAKSTEEN);
+		Harbour woodHarbour = new Harbour(ResourceType.HOUT);
+		Harbour generalHarbour = new Harbour(null);
+		Harbour wheatHarbour = new Harbour(ResourceType.GRAAN);
+		Harbour ironHarbour = new Harbour(ResourceType.ERTS);
+		Harbour woolHarbour = new Harbour(ResourceType.WOL);
+		
+		buildingLocArr.get(5).setHarbour(brickHarbour);
+		buildingLocArr.get(6).setHarbour(brickHarbour);
+		buildingLocArr.get(2).setHarbour(woodHarbour);
+		buildingLocArr.get(10).setHarbour(woodHarbour);
+		buildingLocArr.get(20).setHarbour(generalHarbour);
+		buildingLocArr.get(21).setHarbour(generalHarbour);
+		buildingLocArr.get(33).setHarbour(wheatHarbour);
+		buildingLocArr.get(34).setHarbour(wheatHarbour);
+		buildingLocArr.get(47).setHarbour(ironHarbour);
+		buildingLocArr.get(50).setHarbour(ironHarbour);
+		buildingLocArr.get(52).setHarbour(generalHarbour);
+		buildingLocArr.get(53).setHarbour(generalHarbour);
+		buildingLocArr.get(47).setHarbour(ironHarbour);
+		buildingLocArr.get(50).setHarbour(ironHarbour);
+		buildingLocArr.get(40).setHarbour(woolHarbour);
+		buildingLocArr.get(49).setHarbour(woolHarbour);
+		buildingLocArr.get(29).setHarbour(generalHarbour);
+		buildingLocArr.get(30).setHarbour(generalHarbour);
+		buildingLocArr.get(14).setHarbour(generalHarbour);
+		buildingLocArr.get(17).setHarbour(generalHarbour);
 
 	}
 
@@ -222,8 +229,8 @@ public class GameBoardControl {
 
 			for (BuildingLocation bl : tile.getBuildingLocArr()) {
 				System.out.println("------BUILDING LOC---------");
-				System.out.println("loc_x: " + bl.getX());
-				System.out.println("loc_y: " + bl.getY());
+				System.out.println("loc_x: " + bl.getXLoc());
+				System.out.println("loc_y: " + bl.getYLoc());
 
 				if (bl.getHarbour() != null) {
 					System.out.println("harbour: " + bl.getHarbour().getRsType());
@@ -233,8 +240,8 @@ public class GameBoardControl {
 
 			for (StreetLocation sl : tile.getStreetLocArr()) {
 				System.out.println("------STREET LOC---------");
-				System.out.println("start: " + sl.getBlStart().getX() + " " + sl.getBlStart().getY());
-				System.out.println("end: " + sl.getBlEnd().getX() + " " + sl.getBlEnd().getY());
+				System.out.println("start: " + sl.getBlStart().getXLoc() + " " + sl.getBlStart().getYLoc());
+				System.out.println("end: " + sl.getBlEnd().getXLoc() + " " + sl.getBlEnd().getYLoc());
 
 			}
 			System.out.println("----------------------------");

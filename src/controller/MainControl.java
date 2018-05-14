@@ -22,13 +22,15 @@ public class MainControl {
 
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
-//		guiController.setInlogPanel();
+//		loginAccount("lesley", "hallo");
 	}
 
 	public boolean loginAccount(String username, String password) {
 		if (mainDA.login(username, password)) {
 			account = new Account(mainDA.getPlayers(username), username);
 			gameControl.setUsername(account.getUsername());
+			gameControl.testMethod();
+			guiController.setGameBoard(gameControl.getGameboard());
 			return true;
 		} else {
 			return false;
@@ -48,7 +50,6 @@ public class MainControl {
 	public void testChat(String message) {
 		gameControl.addMessage(message);
 		gameControl.getMessages();
-		gameControl.testprintMessages();
 	}
 
 	public void logOut() {

@@ -24,8 +24,8 @@ public class Gameboard {
 			
 			for (BuildingLocation bl : tile.getBuildingLocArr()) {
 				System.out.println("------BUILDING LOC---------");
-				System.out.println("loc_x: " + bl.getX());
-				System.out.println("loc_y: " + bl.getY());
+				System.out.println("loc_x: " + bl.getXLoc());
+				System.out.println("loc_y: " + bl.getYLoc());
 				
 				if(bl.getHarbour() != null) {
 					System.out.println("harbour: " + bl.getHarbour().getRsType());
@@ -35,8 +35,8 @@ public class Gameboard {
 			
 			for(StreetLocation sl : tile.getStreetLocArr()) {
 				System.out.println("------STREET LOC---------");
-				System.out.println("start: " + sl.getBlStart().getX() + " " + sl.getBlStart().getY());
-				System.out.println("end: " + sl.getBlEnd().getX() + " " + sl.getBlEnd().getY());
+				System.out.println("start: " + sl.getBlStart().getXLoc() + " " + sl.getBlStart().getYLoc());
+				System.out.println("end: " + sl.getBlEnd().getXLoc() + " " + sl.getBlEnd().getYLoc());
 				
 				
 			}
