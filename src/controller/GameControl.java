@@ -15,6 +15,7 @@ public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private Gameboard gameboard;
 	private MainDA mainDA;
+	private ArrayList<Player> gamePlayers;
 	private int idGame;
 	private int playerID;
 	private String username;
@@ -52,7 +53,7 @@ public class GameControl {
 	 * Add a player
 	 */
 	public void joinGame() {
-		loadPlayer();
+		loadPlayers();
 		gameBoardControl = new GameBoardControl(mainDA, idGame);
 		gameboard = gameBoardControl.loadBoard();
 	}
@@ -92,8 +93,14 @@ public class GameControl {
 		player = new Player(idGame, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
 	}
 	
-	private void loadPlayer() {
-		player = mainDA.getPlayer(playerID);
+	private void loadPlayers() {
+		gamePlayers = mainDA.getPlayersFromGame(idGame);
+		for(Player p:gamePlayers) {
+			if(p.getUsername().equals(username)){
+				player = p;
+				return;
+			}
+		}
 	}
 	
 	public void addPlayerToDB(Player player) {
