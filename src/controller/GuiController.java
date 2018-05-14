@@ -32,7 +32,7 @@ public class GuiController {
 	private Player player;
 	private GameGUIPanel gameGUIPanel;
 	private BoardPanel boardPanel;
-	private DicePanel dicePanel;
+	private DicePanel dicePanel;	
 	private ChatPanel chatPanel;
 	private Frame frame;
 	private MainControl mainControl;
@@ -78,6 +78,7 @@ public class GuiController {
 		boardPanel = new BoardPanel(gameBoard);
 		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
 		addTileListeners();
+		addRollButtonListener();
 		frame.setContentPane(gameGUIPanel);
 
 		// frame.setPreferredSize(new
@@ -186,9 +187,21 @@ public class GuiController {
 				}
 
 			});
+		}		
+	}
+	
+	private void addRollButtonListener() {
+	
+	dicePanel.getButton().addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			System.out.println("test");
+			dicePanel.roll();
+			
 		}
 		
-		
+	});
 	}
 	
 	public void refresh() {

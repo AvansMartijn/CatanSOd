@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import dbaccess.MainDA;
+import model.Dice;
 import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
@@ -15,8 +16,10 @@ public class GameControl {
 	private int idGame;
 	private String username;
 	private Player player;
+	private Dice dice;
 	
 	public GameControl(MainDA mainDA) {
+		dice = new Dice();
 		this.mainDA = mainDA;
 		//-----TEST------
 		//Frame frame = new Frame();
@@ -129,6 +132,14 @@ public class GameControl {
 		
 	public Gameboard getGameboard() {
 		return gameboard;
+	}
+	
+	public void editDiceLastThrown() {
+		
+	}
+	
+	public void getDiceLastThrown() {
+		
 	}
 
 }
