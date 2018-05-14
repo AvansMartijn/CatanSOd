@@ -164,6 +164,9 @@ public class GameControl {
 	}
 	
 	public boolean buildSettlement(BuildingLocation buildingLocation) {
+		if(player.getSettlements() <= 0) {
+			return false;
+		}
 		if(buildingLocation.getPlayer() != null) {
 			return false;
 		}
