@@ -127,18 +127,14 @@ public class MainDA {
 		return idGame;
 	}
 
-	/**
-	 * Add a message to the Database
-	 */
-	public boolean addMessage(String username, int idGame, String bericht) {
-
+	public int getPlayerID(String username, int idGame) {
 		int idPlayer = 0;
-
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String searchquery = "SELECT idspeler FROM speler WHERE username = '" + username
-				+ "' AND idspel = " + idGame + " ORDER BY idspeler DESC LIMIT 1";		
+				+ "' AND idspel = " + idGame + " ORDER BY idspeler DESC LIMIT 1";	
+		System.out.println(searchquery);
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(searchquery);
@@ -150,8 +146,14 @@ public class MainDA {
 			myConn.close();
 		} catch (SQLException e) {
 			System.out.println("Unable to get last player ID");
-//			return false;
 		}
+		return idPlayer;
+	}
+	
+	/**
+	 * Add a message to the Database
+	 */
+	public boolean addMessage(int idPlayer, int idGame, String bericht) {
 
 		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", " + "'" + bericht + "'"
 				+ ");";

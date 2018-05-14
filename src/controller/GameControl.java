@@ -14,6 +14,7 @@ public class GameControl {
 	private Gameboard gameboard;
 	private MainDA mainDA;
 	private int idGame;
+	private int playerID;
 	private String username;
 	private Player player;
 	private Dice dice;
@@ -33,6 +34,8 @@ public class GameControl {
 //		createGame(false);
 		idGame = 773;
 		joinGame();
+		playerID = mainDA.getPlayerID(username, idGame);
+		System.out.println("testM: " + playerID);
 	}
 	
 	/**
@@ -102,7 +105,8 @@ public class GameControl {
 	}
 	
 	public boolean addMessage(String message) {
-		if(mainDA.addMessage(username, idGame, message)) {
+		System.out.println(playerID);
+		if(mainDA.addMessage(playerID, idGame, message)) {
 			return true;
 		}else {
 			return false;

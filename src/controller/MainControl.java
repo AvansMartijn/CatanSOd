@@ -15,8 +15,8 @@ public class MainControl {
 	public MainControl() {
 		mainDA = new MainDA();
 		gameControl = new GameControl(mainDA);
-		gameControl.testMethod();
 		loginAccount("lesley", "hallo");
+		gameControl.testMethod();
 		guiController = new GuiController(this, gameControl, gameControl.getGameboard());
 //		guiController.setInlogPanel();
 	}
