@@ -65,21 +65,11 @@ public class BoardPanel extends JPanel {
 	public ArrayList<TileButton> getTileButtonArrayList() {
 		return tileButtonArrayList;
 	}
-
-
-	private void addBuildLocListeners() {
-		for (BuildingLocationButton blb : buildingLocButtonArray) {
-			blb.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					System.out.println(blb.getBuildingLocation().getHarbour());
-
-				}
-			});
-		}
+	
+	public ArrayList<BuildingLocationButton> getBuildingLocationButtonArrayList(){
+		return buildingLocButtonArray;
 	}
+
 
 	private void addStreetLocListeners() {
 		for (StreetLocationButton slb : streetLocButtonArray) {
@@ -129,8 +119,8 @@ public class BoardPanel extends JPanel {
 			add(blb, 0);
 		}
 
-		addBuildLocListeners();
-		disableBuildingLocButtons();
+//		addBuildLocListeners();
+//		disableBuildingLocButtons();
 
 		for (StreetLocation sl : streetLocArray) {
 			StreetLocationButton slb;

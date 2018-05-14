@@ -3,11 +3,13 @@ package controller;
 import java.util.ArrayList;
 
 import dbaccess.MainDA;
+import model.BuildingLocation;
 import model.Dice;
 import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.StreetLocation;
 
 public class GameControl {
 	private GameBoardControl gameBoardControl;
@@ -152,6 +154,52 @@ public class GameControl {
 	
 	public void setDiceLastThrown(int[] die) {
 		dice.setDie(die);
+	}
+	
+	public boolean buildSettlement(BuildingLocation buildingLocation) {
+		if(buildingLocation.getPlayer() != null) {
+			return false;
+		}
+		
+		buildingLocation.setPlayer(player);
+		buildingLocation.setCity(false);
+		player.setSettlements(player.getSettlements()-1);		
+		return true;
+	}
+	
+	public boolean buildCity(BuildingLocation buildingLocation) {
+		if(player.getCities() <= 0) {
+			return false;
+		}
+		if(!buildingLocation.getPlayer().equals(player)) {
+			return false;
+		}
+		if(buildingLocation.getPlayer().equals(player) && buildingLocation.isCity() == true) {
+			return false;
+		}
+		if(buildingLocation.getPlayer().equals(player) && buildingLocation.isCity() == false) {
+			buildingLocation.setCity(true);
+			player.setSettlements(player.getSettlements()+1);
+			player.setSettlements(player.getCities()-1);
+		}else {
+			buildingLocation.setPlayer(player);
+			buildingLocation.setCity(true);
+			player.setCities(player.getCities()-1);
+		}		
+		return true;
+	}
+	
+	public boolean buildRoad(StreetLocation streetLocation) {
+		if(player.getRoads() <= 0) {
+			return false;
+		}
+		if(streetLocation.getPlayer() != null) {
+			return false;
+		}
+		streetLocation.setPlayer(player);
+		player.setRoads(player.getRoads()-1);
+		
+		return true;
 	}
 	
 	

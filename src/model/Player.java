@@ -13,7 +13,6 @@ public class Player {
 	private Hand hand;
 	private int points;
 	private int settlements;
-//	private ArrayList<Settlement> settlementArr;
 	private int cities;
 	private int roads;
 	

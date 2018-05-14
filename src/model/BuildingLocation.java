@@ -9,10 +9,11 @@ public class BuildingLocation {
 	private int y;	
 	private Harbour harbour;
 	private Settlement settlement;
-	private boolean isCity;
+
 	private Player player;
 	
 
+	
 	
 	
 	public BuildingLocation(int x, int y) {
@@ -46,5 +47,17 @@ public class BuildingLocation {
 	public void setSettlement(Settlement settlement) {
 		this.settlement = settlement;
 	}
-	
+	public Player getPlayer() {
+		return player;
+	}
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	public boolean isCity() {
+		return isCity;
+	}
+	public void setCity(boolean isCity) {
+		this.isCity = isCity;
+	}
+	private boolean isCity;
 }

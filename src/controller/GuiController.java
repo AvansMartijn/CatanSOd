@@ -19,6 +19,7 @@ import model.Player;
 import model.PlayerColor;
 import model.Tile;
 import view.BoardPanel;
+import view.BuildingLocationButton;
 import view.ChatPanel;
 import view.DiceDotPanel;
 import view.DicePanel;
@@ -155,6 +156,7 @@ public class GuiController {
 		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
 		frame.setContentPane(gameGUIPanel);
 		addTileListeners();
+		addBuildLocListeners();
 		addRollButtonListener();
 
 		timer = new Timer();
@@ -187,6 +189,22 @@ public class GuiController {
 					boardPanel.repaint();
 				}
 
+			});
+		}
+	}
+	
+	private void addBuildLocListeners() {
+		
+		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {
+			blb.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(!gameControl.buildSettlement(blb.getBuildingLocation())) {
+						System.out.println("Je kan hier niet bouwen");
+					}
+
+				}
 			});
 		}
 	}
