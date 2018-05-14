@@ -141,5 +141,10 @@ public class GameControl {
 	public int[] getDiceLastThrown() {
 		return mainDA.getLastThrows(idGame);
 	}
+	
+	public int[] rollDice() {
+		dice.roll();
+		return dice.getDie();
+	}
 
 }

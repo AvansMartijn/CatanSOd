@@ -38,14 +38,8 @@ public class Dice
 		}
 	}
 
-	public int getSingleDieValue(int index)
-	{
-		int ret = 0;
-		if (0 <= index && index <= 1)
-		{
-			ret = die[index];
-		}
-		return ret;
+	public int[] getSeperateValues(){
+		return die;
 	}
 	
 	public int getValue() {
@@ -53,4 +47,13 @@ public class Dice
 		ret = die[0] = die[1];
 		return ret;
 	}
+
+	public int[] getDie() {
+		return die;
+	}
+
+	public void setDie(int[] die) {
+		this.die = die;
+	}
+	
 }

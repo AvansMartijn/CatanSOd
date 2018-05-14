@@ -200,7 +200,9 @@ public class GuiController {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			System.out.println("test");
-			dicePanel.roll();
+			int[] die = gameControl.rollDice();
+			dicePanel.setLastThrown(die);
+			dicePanel.repaint();
 			
 		}
 		

@@ -47,8 +47,9 @@ public class Player {
 	public void throwDice() {
 		Dice dice = new Dice();
 		dice.roll();
-		int firstThrow = dice.getSingleDieValue(1);
-		int secondThrow = dice.getSingleDieValue(2);
+		int[] die = dice.getSeperateValues();
+		int firstThrow = die[0];
+		int secondThrow = die[1];
 		System.out.println("Throws: " + firstThrow + " & " + secondThrow);
 	}
 
