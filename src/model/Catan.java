@@ -87,6 +87,10 @@ public class Catan {
 
 	*/
 	
+	public int getIdGame() {
+		return idGame;
+	}
+	
 	public int getPlayerTurn() {
 		int playerTurn = turn % AMOUNT_OF_PLAYERS;
 		return playerTurn;
