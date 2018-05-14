@@ -50,7 +50,7 @@ public class GameTopPanel extends JPanel {
 		// Get Image
 		Image image = null;
 		try {
-			URL url = this.getClass().getResource("/images/chat.png");
+			URL url = this.getClass().getResource("/Catan_SOd/src/images/chat.png");
 			image = ImageIO.read(url);
 			image = image.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 		} catch (IOException e) {

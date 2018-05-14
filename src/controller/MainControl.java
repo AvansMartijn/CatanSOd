@@ -14,6 +14,12 @@ public class MainControl {
 
 	public MainControl() {
 		mainDA = new MainDA();
+
+		gameControl = new GameControl(mainDA);
+		guiController = new GuiController(this, gameControl);
+
+		guiController.setInlogPanel();
+
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
 //		loginAccount("lesley", "hallo");

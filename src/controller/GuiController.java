@@ -45,11 +45,13 @@ public class GuiController {
 		this.gameControl = gameControl;
 
 		frame = new Frame();
+
 		setInlogPanel();
 		// frame.setContentPane(gameGUIPanel);
 		// frame.setPreferredSize(new
 		// Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 //		frame.setUndecorated(true);
+
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);

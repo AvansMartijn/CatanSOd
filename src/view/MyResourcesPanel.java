@@ -38,8 +38,8 @@ public class MyResourcesPanel extends JPanel {
 	
 	// Create labels
 	private void createLabels() {
-		String[] locations = new String[] { "/images/Wood_Icon.png", "/images/Rock_Icon.png", "/images/Sheep_Icon.png",
-				"/images/Wheat_Icon.png", "/images/Brick_Icon.png" };
+		String[] locations = new String[] { "src/images/Wood_Icon.png", "src/images/Rock_Icon.png", "src/images/Sheep_Icon.png",
+				"src/images/Wheat_Icon.png", "src/images/Brick_Icon.png" };
 		
 		for (int i = 0; i < myResourceIconLabels.length; i++) {
 			// Get Image
