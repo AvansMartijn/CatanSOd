@@ -388,7 +388,7 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to get players");
+			System.out.println("Unable to get accountplayers");
 		}
 
 		return playerList;
@@ -419,7 +419,7 @@ public class MainDA {
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to get players");
+			System.out.println("Unable to get gameplayers");
 		}
 
 		return playerList;
