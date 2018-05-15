@@ -20,11 +20,12 @@ public class GameGUIPanel extends JPanel {
 	private Color myBackGroundColor = new Color(240, 226, 223);
 	private GameTopPanel gameTopPanel;
 	private PlayerActionPanel playerActionsPanel;
-	private MyResourcesPanel resourcesPanel;
-	private MyDevelopmentCardsPanel developmentCardsPanel;
+//	private MyResourcesPanel resourcesPanel;
+//	private MyDevelopmentCardsPanel developmentCardsPanel;
 	private BoardPanel boardPanel;
 	private DicePanel dicePanel;
 	private ChatPanel chatPanel;
+	private GameSouthContainerPanel gameSouthContainerPanel;
 	
 	private PlayerStatsPanel[] playerStatsPanel; // TODO make 4 of them in an array
 	
@@ -37,12 +38,13 @@ public class GameGUIPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		gameTopPanel = new GameTopPanel("CatanTest"); // TODO set gamelabel text in constructor
 		playerActionsPanel = new PlayerActionPanel();
-		resourcesPanel = new MyResourcesPanel();
-		developmentCardsPanel = new MyDevelopmentCardsPanel();
+//		resourcesPanel = new MyResourcesPanel();
+//		developmentCardsPanel = new MyDevelopmentCardsPanel();
 		this.boardPanel = boardPanel;
 		playerStatsPanel = new PlayerStatsPanel[AMOUNT_OF_PLAYERS];
 		this.dicePanel = dicePanel;
 		this.chatPanel = chatPanel;
+		this.gameSouthContainerPanel = new GameSouthContainerPanel();
 		
 		createLayout();
 	}
@@ -83,6 +85,7 @@ public class GameGUIPanel extends JPanel {
 		//gridBagConstraints.anchor = GridBagConstraints.SOUTH;
 		//add(resourcesPanel, gridBagConstraints);
 		
+		/*
 		// Add playerStatsPanels
 		gridBagConstraints.insets = new Insets(0, 0, 0, 0);
 		gridBagConstraints.weightx = 0;
@@ -113,7 +116,12 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.gridx++;
 		playerStatsPanel[3] = new PlayerStatsPanel(player);
 		add(playerStatsPanel[3], gridBagConstraints);
+		*/
 		
+		// Add GameSouthContainerPanel
+		gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_START;
+		gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+		add(gameSouthContainerPanel, gridBagConstraints);
 		
 	}
 	

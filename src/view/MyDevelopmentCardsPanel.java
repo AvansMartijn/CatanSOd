@@ -39,7 +39,7 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	private void create() {
 		developmentCards = new ArrayList<JLabel>();
 		setLayout(new FlowLayout());
-		setBackground(myBackgroundColor);
+		setBackground(new Color(240, 226, 223)); // TODO variable
 		
 		panel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		panel.setBackground(myBackgroundColor);

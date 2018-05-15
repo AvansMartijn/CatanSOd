@@ -45,6 +45,7 @@ public class PlayerStatsPanel extends JPanel {
 
 		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+		setMaximumSize(getPreferredSize());
 		setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
 		setLayout(new GridBagLayout());
 		create();
@@ -115,12 +116,14 @@ public class PlayerStatsPanel extends JPanel {
 		
 		// Check if player haslongestroad or largestarmy
 		gridBagConstraints.anchor = GridBagConstraints.CENTER;
+		/*
 		if(player.getHasLongestRoad()) {
 			addImage(4, 2, "/images/LongestRoad_Icon.png", 60, 60); // TODO add this label as variable so you can set if to not visible
 		}
 		if(player.getHasLargestArmy()) {
 			addImage(4, 4, "/images/LargestArmy_Icon.png", 80, 80);
 		}
+		*/
 	}
 
 	// Add image
