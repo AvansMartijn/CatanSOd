@@ -7,7 +7,8 @@ public class Hand {
 	// Instance variables
 	private ArrayList<DevelopmentCard> developmentCards;
 	private ArrayList<Resource> resources;
-	
+	private ArrayList<DevelopmentCard> playedDevelopmentCards;
+
 	// Constructor
 	public Hand() {
 		developmentCards = new ArrayList<DevelopmentCard>();
@@ -27,6 +28,36 @@ public class Hand {
 		resources.add(resource);
 	}
 	
+	// Get ArrayList resources
+	public ArrayList<Resource> getResources() {
+		return resources;
+	}
+	
+	public DevelopmentCard takeDevelopmentCard(int cardType) {
+		for (int i = 0; i < developmentCards.size(); i++) {
+			if(developmentCards.get(i).getDevelopmentCardType() == cardType) {
+				return developmentCards.remove(i);
+			}
+		}
+		//Player has no developmentCards of this type. 
+		return null;
+	}
+	
+	public int getAmountOfDevelopmentCardsPlayed(int cardType) {
+		int amountOfDevelopmentCards = 0;
+		for (int i = 0; i < playedDevelopmentCards.size(); i++) {
+			if(playedDevelopmentCards.get(i).getDevelopmentCardType() == cardType) {
+				amountOfDevelopmentCards++;
+			}
+		}
+		return amountOfDevelopmentCards;
+	}
+	
+	public void playDevelopmentCard(int cardType) {
+		DevelopmentCard developmentCard = takeDevelopmentCard(cardType);
+		playedDevelopmentCards.add(developmentCard);
+	}
+	
 	// Add DevelopmentCard
 	public void addDevelopmentCard(DevelopmentCard developmentCard) {
 		developmentCards.add(developmentCard);
@@ -36,10 +67,6 @@ public class Hand {
 	// Randomly draw card
 	public void drawCardRandomly() {
 		
-	}
-
-	public ArrayList<Resource> getResources() {
-		return resources;
 	}
 
 	public void setResources(ArrayList<Resource> resources) {

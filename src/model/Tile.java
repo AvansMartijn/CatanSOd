@@ -2,24 +2,43 @@ package model;
 
 import java.util.ArrayList;
 
+import view.TileButton;
+
 public class Tile {
+	private int idTile;
 	private int x;
 	private int y;
 	private ResourceType rsType;
 	private int chipNumber;
 	private ArrayList<BuildingLocation> buildingLocArr;
 	private ArrayList<StreetLocation> streetLocArr;
+	private boolean hasRobber;
 	
-	public Tile(int xCord, int yCord, ResourceType rsType, int chipNumber) {
+
+	public Tile(int idTile, int xCord, int yCord, ResourceType rsType, int chipNumber) {
+		this.idTile = idTile;
 		buildingLocArr = new ArrayList<>();
 		streetLocArr = new ArrayList<>();
 		this.x = xCord;
 		this.y = yCord;
 		this.rsType = rsType;
-		this.chipNumber = chipNumber;	
+		this.chipNumber = chipNumber;
+		if(rsType.equals(ResourceType.WOESTIJN)) {
+			this.hasRobber = true;
+		}else {
+			this.hasRobber = false;
+		}
 		
 	}
 	
+	public boolean hasRobber() {
+		return hasRobber;
+	}
+
+	public void setRobber(boolean hasRobber) {
+		this.hasRobber = hasRobber;
+	}
+
 	public int getChipNumber() {
 		return chipNumber;
 	}
@@ -62,6 +81,14 @@ public class Tile {
 	public void setRsType(ResourceType rsType) {
 		this.rsType = rsType;
 	}
-	
+
+	public int getIdTile() {
+		return idTile;
+	}
+
+	public void setIdTile(int idTile) {
+		this.idTile = idTile;
+	}
+
 	
 }
