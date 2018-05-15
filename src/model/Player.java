@@ -16,10 +16,9 @@ public class Player {
 //	private ArrayList<Settlement> settlementArr;
 	private int cities;
 	private int roads;
+	private boolean hasLargestArmy;
+	private boolean hasLongestRoad;
 	
-	public Player(String username) {
-		this.username = username;
-	}
 
 	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {
 		this.idGame = idGame;
@@ -144,5 +143,25 @@ public class Player {
 
 	public void setRoads(int roads) {
 		this.roads = roads;
+	}
+	
+	public boolean getHasLargestArmy() {
+		return hasLargestArmy;
+	}
+	
+	public void setHasLargestArmy(boolean hasLargestArmy) {
+		this.hasLargestArmy = hasLargestArmy;
+	}
+	
+	public boolean getHasLongestRoad() {
+		return hasLongestRoad;
+	}
+	
+	public void setHasLongestRoad(boolean hasLongestRoad) {
+		this.hasLongestRoad = hasLongestRoad;
+	}
+	
+	public Player(String username) {
+		this.username = username;
 	}
 }

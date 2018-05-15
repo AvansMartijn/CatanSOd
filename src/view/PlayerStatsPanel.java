@@ -32,10 +32,6 @@ public class PlayerStatsPanel extends JPanel {
 	private JLabel playerNameLabel;
 	private JLabel playerPointsLabel;
 	private JLabel[] statLabels;
-//	private JLabel playerSettlementsAmountLabel;
-//	private JLabel playerCitiesAmountLabel;
-//	private JLabel playerRoadsAmountLabel;
-//	private JLabel playerCardsAmountLabel;
 
 	private Player player;
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -46,14 +42,6 @@ public class PlayerStatsPanel extends JPanel {
 		this.player = player;
 		playerNameLabel = new JLabel(player.getUsername() + " (jij)");
 		playerPointsLabel = new JLabel("Punten: " + player.getPoints());
-//		playerSettlementsAmountLabel = new JLabel("" + player.getSettlements());
-//		playerCitiesAmountLabel = new JLabel("" + player.getCities());
-//		playerRoadsAmountLabel = new JLabel("" + player.getRoads());
-		/*
-		 * playerCardsAmountLabel = new JLabel("" +
-		 * player.getHand().getResources().size());
-		 */
-//		playerCardsAmountLabel = new JLabel("3", SwingConstants.LEFT);
 
 		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -82,11 +70,11 @@ public class PlayerStatsPanel extends JPanel {
 
 		// Add images of buildings
 		gridBagConstraints.insets = new Insets(2, 5, 2, 2);
-		String[] urls = new String[] { "/images/Wood_Icon.png", "/images/chat.png", "/images/Rock_Icon.png",
-				"/images/Wheat_Icon.png" };
+		gridBagConstraints.gridx = 0;
+		String[] urls = new String[] { "/images/Village-Icon.png", "/images/City-Icon.png", "/images/Road_Icon.png",
+				"/images/Cards-Icon.png" };
 
 		for (int i = 0; i < urls.length; i++) {
-			gridBagConstraints.gridx = 0;
 			Image image = null;
 			try {
 				URL url = this.getClass().getResource(urls[i]);
@@ -97,36 +85,57 @@ public class PlayerStatsPanel extends JPanel {
 			gridBagConstraints.gridy++;
 			gridBagConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
 			add(new JLabel(new ImageIcon(image)), gridBagConstraints);
-
-			gridBagConstraints.gridx = 1; // TODO make this a function itself to update labels + make array of player.getcities() etc.
-			gridBagConstraints.weightx = 0.24;
-			gridBagConstraints.weighty = 0.24;
-			gridBagConstraints.anchor = GridBagConstraints.WEST;
-			statLabels[i] = new JLabel("3", SwingConstants.LEFT); // TODO how to position these more to the left?
+		}
+		updateStats();
+	}
+	
+	// Update stats
+	private void updateStats() {
+		playerPointsLabel.setText("Punten: " + player.getPoints());
+		String[] playerStats = new String[] { "" + player.getSettlements(), "" + player.getCities(), "" + player.getRoads(),
+			"3" };
+		/*
+		 * "" + player.getHand().getResources().size() at last position of playerStats
+		 */ // TODO
+		
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.weightx = 0.24;
+		gridBagConstraints.weighty = 0.24;
+		gridBagConstraints.anchor = GridBagConstraints.WEST;
+		
+		
+		for(int i = 0; i < statLabels.length; i++) {
+			statLabels[i] = new JLabel(playerStats[i], SwingConstants.LEFT); // TODO how to position these more to the left?
 			statLabels[i].setForeground(Color.WHITE);
 			statLabels[i].setFont(new Font("Arial", Font.BOLD, 20));
 			add(statLabels[i], gridBagConstraints);
+			gridBagConstraints.gridy++;
 		}
-
+		
+		// Check if player haslongestroad or largestarmy
 		gridBagConstraints.anchor = GridBagConstraints.CENTER;
-		addImage(4, 2); // TODO if player has longestroad or largestarmy, draw this image
-		addImage(4, 4);
+		if(player.getHasLongestRoad()) {
+			addImage(4, 2, "/images/LongestRoad_Icon.png", 60, 60); // TODO add this label as variable so you can set if to not visible
+		}
+		if(player.getHasLargestArmy()) {
+			addImage(4, 4, "/images/LargestArmy_Icon.png", 80, 80);
+		}
 	}
 
 	// Add image
-	private void addImage(int x, int y) {
+	private void addImage(int x, int y, String imageName, int sizeX, int sizeY) {
 		gridBagConstraints.gridx = x;
 		gridBagConstraints.gridy = y;
 		gridBagConstraints.gridwidth = 3;
 		gridBagConstraints.gridheight = 3;
 		Image image = null;
 		try {
-			URL url = this.getClass().getResource("/images/chat.png");
+			URL url = this.getClass().getResource(imageName);
 			image = ImageIO.read(url);
-			image = image.getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+			image = image.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 		}
 		add(new JLabel(new ImageIcon(image)), gridBagConstraints);
-
 	}
 }
