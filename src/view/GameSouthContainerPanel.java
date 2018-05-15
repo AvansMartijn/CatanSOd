@@ -28,7 +28,6 @@ public class GameSouthContainerPanel extends JPanel {
 		double width = screenSize.getWidth();
 		 setPreferredSize(new Dimension((int)width, 240));
 			
-//		myResourcesPanel = new MyResourcesPanel();
 		myDevelopmentCardsPanel = new MyDevelopmentCardsPanel();
 		myDevelopmentCardsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			
