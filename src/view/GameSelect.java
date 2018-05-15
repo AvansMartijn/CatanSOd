@@ -7,12 +7,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.JTextComponent;
 
 @SuppressWarnings("serial")
 public class GameSelect extends JPanel {
@@ -87,5 +89,25 @@ public class GameSelect extends JPanel {
 		public JButton getRandomGameButton() {
 			return randomGameButton;
 		}
+	}
+
+	public JTextField getCreateNewGameButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AbstractButton getStandardGameButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AbstractButton getRandomGameButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public JTextComponent getWarningLabel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
