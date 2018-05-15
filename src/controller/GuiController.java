@@ -29,6 +29,7 @@ import view.DiceDotPanel;
 import view.DicePanel;
 import view.Frame;
 import view.GameGUIPanel;
+import view.GameSelect;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
 import view.StreetLocationButton;
@@ -122,6 +123,26 @@ public class GuiController {
 		this.mainMenuGui = new MainMenuGUI(gameList, username);
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
+	}
+
+	public void setGameSelect() {
+
+		GameSelect gameSelect = new GameSelect();
+
+		gameSelect.getCreateNewGameButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (gameSelect.getStandardGameButton().isSelected()) {
+					// create standard game
+				} else if (gameSelect.getRandomGameButton().isSelected()) {
+					// create random game
+				} else {
+					gameSelect.getWarningLabel().setText("Geen speelbord geselecteerd");
+				}
+			}
+		});
 	}
 
 	private boolean hasValidInput(String str) {
