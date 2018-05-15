@@ -369,33 +369,29 @@ public class MainDA {
 	/**
 	 * Get all players from an account from the database
 	 */
-	public ArrayList<Player> getPlayers(String username) {
+	public ArrayList<Integer> getGameIDsFromPlayer(String username) {
 
-		ArrayList<Player> playerList = new ArrayList<Player>();
+		ArrayList<Integer> retList = new ArrayList<Integer>();
 
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idspel, kleur, speelstatus, volgnr FROM speler WHERE username = '" + username + "';";
+		String query = "SELECT idspel FROM speler WHERE username = '" + username + "';";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
 				int idGame = myRs.getInt(1);
-				String color = myRs.getString(2).toUpperCase();
-				String playStatus = myRs.getString(3).toUpperCase();
-				int follownr = myRs.getInt(4);
-				playerList.add(new Player(idGame, username, PlayerColor.valueOf(color), follownr,
-						PlayStatus.valueOf(playStatus)));
+				retList.add(idGame);
 			}
 			myRs.close();
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to get accountplayers");
+			System.out.println("Unable to get GameId's");
 		}
 
-		return playerList;
+		return retList;
 
 	}
 
@@ -654,39 +650,4 @@ public class MainDA {
 		return retArr;
 	}
 	
-	public ArrayList<Catan> GetAllGamesOfUser(String username){
-		makeConnection();
-		ArrayList<Catan> gameList = new ArrayList<>();
-		Statement stmt = null;
-		ResultSet myRs = null;
-		String query = "SELECT splr2.idspel, splr2.username, splr2.volgnr FROM spel AS sp JOIN  speler AS splr ON splr.idspel = sp.idspel JOIN speler AS splr2 ON splr2.idspel = sp.idspel WHERE splr.username = \""+username+"\" ORDER BY splr2.idspel DESC";
-		try {
-			stmt = myConn.createStatement();
-			myRs = stmt.executeQuery(query);
-			int lastGameId = -1;	
-			ArrayList<String> usernames = new ArrayList<>();
-			ArrayList<Integer> followNrs = new ArrayList<>();
-			while (myRs.next()) {
-				int gameId = myRs.getInt("splr2.idspel");
-				if(lastGameId == -1) {
-					lastGameId = gameId;
-				} else if(gameId != lastGameId) {
-					gameList.add(new Catan(lastGameId, usernames.toArray(new String[0]), followNrs.stream().mapToInt(i -> i).toArray()));
-					lastGameId = gameId;
-					usernames.clear();
-					followNrs.clear();
-				}
-				usernames.add(myRs.getString("splr2.username"));
-				followNrs.add(myRs.getInt("splr2.volgnr"));
-			}
-			gameList.add(new Catan(lastGameId, usernames.toArray(new String[0]), followNrs.stream().mapToInt(i -> i).toArray()));
-			myRs.close();
-			stmt.close();
-			myConn.close();
-			return gameList;
-		} catch (SQLException e) {
-			System.out.println("Unable to get games of user.");
-		}
-		return null;
-	}
 }

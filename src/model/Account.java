@@ -5,23 +5,15 @@ import java.util.ArrayList;
 public class Account {
 
 	private String username;
-	private ArrayList<Player> players;
 	private ArrayList<Catan> games;
 
-	public Account(ArrayList<Player> players, String username) {
-		this.players = players;
+	public Account(String username) {
 		this.username = username;
-		games = new ArrayList<>();
 	}
 
-	// Create a new player for this account
-	public void createPlayer() {
-		Player player = new Player(username);
-		players.add(player);
-	}
-
-	public void addGame(int idGame, String[] usernames, int[] followNrs) {
-		games.add(new Catan(idGame, usernames, followNrs));
+	
+	public void addGame(Catan catan) {
+		games.add(catan);
 	}
 
 	/**
@@ -42,6 +34,10 @@ public class Account {
 		// No game with this gameId exists in the model
 		return null;
 	}
+	
+	public void setGame(ArrayList<Catan> games) {
+		this.games = games;
+	}
 
 	// Get username
 	public String getUsername() {
@@ -51,14 +47,5 @@ public class Account {
 	// Set username
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	// get ArrayList of players
-	public ArrayList<Player> getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(ArrayList<Player> players) {
-		this.players = players;
 	}
 }

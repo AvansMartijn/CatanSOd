@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,28 +13,25 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import dbaccess.MainDA;
 import model.Catan;
 import model.Player;
 
-public class MainMenuGUI extends JFrame {
+@SuppressWarnings("serial")
+public class MainMenuGUI extends JPanel {
 
-	private MainDA db;
 	private JPanel currentGames;
+	private String username;
 	private ArrayList<Catan> gameList;
 	private int pageNr;
 
-	public MainMenuGUI(ArrayList<Catan> gameList) {
+	public MainMenuGUI(ArrayList<Catan> gameList, String username) {
 		this.gameList = gameList;
-		db = new MainDA();
+		this.username = username;
 		pageNr = 0;
-		this.setTitle("Project Catan - Main Menu");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridLayout = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
 		this.setLayout(gridLayout);
@@ -58,8 +54,6 @@ public class MainMenuGUI extends JFrame {
 		c.gridy = 3;
 		c.fill = GridBagConstraints.NONE;
 		this.add(new NextPrevious(), c);
-		this.pack();
-		this.setVisible(true);
 		UpdateGames(0);
 	}
 
@@ -72,17 +66,11 @@ public class MainMenuGUI extends JFrame {
 		this.remove(currentGames);
 		currentGames = new RecentGames(gameList, pageId);
 		this.add(currentGames, c);
-		this.getContentPane().invalidate();
-		this.getContentPane().validate();
-	}
-
-	public void CloseFrame() {
-		this.dispose();
 	}
 
 	public class Title extends JPanel {
 		public Title() {
-			this.add(new JLabel("Welkom terug, ...")); // Must be logged in user.
+			this.add(new JLabel("Welkom terug, " + username + "!")); // Must be logged in user.
 		}
 	}
 
@@ -160,7 +148,7 @@ public class MainMenuGUI extends JFrame {
 				c.gridx = 0;
 				c.gridy = 1;
 				c.gridwidth = 2;
-				Player[] playerArray = game.getPlayers();
+				ArrayList<Player> playerArray = game.getPlayers();
 				String displayString = "";
 				String turnUsername = "";
 				for (Player p : playerArray) {

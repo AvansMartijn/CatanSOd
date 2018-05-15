@@ -7,20 +7,9 @@ import java.util.ArrayList;
 public class Catan {
 	
 	//Our version of Catan always has 4 players, that is the requirement. 
-	private static final int AMOUNT_OF_PLAYERS = 4;
 	
-//	private Dice dice;
-//	private Chat chat;
-	private Player[] players = new Player[4];
-//	private Gameboard gameboard;
-//	private Bank bank;
-//	private int turn;
-	/** The idGame as used in the database. */
+	private ArrayList<Player> players;
 	private int idGame;
-	/**
-	 * These are the {@code Dice} that are used in the game. Every game should have only 1 set of dice. 
-	 * The players should get their dice from the game. 
-	 */
 	private Dice dice;
 	private Gameboard gameboard;
 	private Bank bank;
@@ -36,19 +25,22 @@ public class Catan {
 	 * @since 11 May 2018
 	 * @author Jasper Mooren
 	 */
-	public Catan(int idGame, String[] usernames, int[] followNrs) {
-		this.idGame = idGame;
-		dice = new Dice();
-		players = new Player[AMOUNT_OF_PLAYERS];
+	public Catan(ArrayList<Player> players) {
+		this.players = players;
+		this.idGame = players.get(0).getidGame();
 		//First player (Players[0]) is the UITDAGER. The Rest is UIGEDAAGDE. 
 		//players[0] has already been made, so start at 1. 
-		gameboard = new Gameboard(null, null, null);
-		bank = new Bank();
+		
 		
 		//Game starts at turn -1, after the setup of the game is complete, 
 		//nextTurn() will set it to turn 0, 
 		//which is the 1st real turn of the game. 
-		turn = -1;
+	}
+	
+	public void fillCatan(Gameboard gameBoard) {
+		this.gameboard = gameBoard;
+		dice = new Dice();
+		bank = new Bank();
 	}
 	
 	
@@ -75,7 +67,6 @@ public class Catan {
 		players[getPlayerTurn()].doTurn();
 	}
 
-<<<<<<< HEAD
 	public Player[] getPlayers() {
 		return players;
 	}
@@ -100,7 +91,6 @@ public class Catan {
 //	}
 	
 	
-=======
 	private void distributeResources(ArrayList<Resource>[] harvest) {
 		for(int playerNr = 0; playerNr < harvest.length; playerNr++) {
 			//This is not a for loop, because the harvest[playerNr] ArrayList reduces in size every time an item is removed.
@@ -117,12 +107,12 @@ public class Catan {
 		return idGame;
 	}
 	
-	public Player[] getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 	
 	public int getPlayerTurn() {
-		int playerTurn = turn % AMOUNT_OF_PLAYERS;
+		int playerTurn = 5;
 		return playerTurn;
 	}
 }

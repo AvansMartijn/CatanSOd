@@ -22,6 +22,7 @@ public class GameControl {
 	private ArrayList<Player> gamePlayers;
 	private int idGame;
 	private int playerID;
+	private int account;
 	private String username;
 	private Player player;
 	private Bank bank;
