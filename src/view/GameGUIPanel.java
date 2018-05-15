@@ -37,7 +37,6 @@ public class GameGUIPanel extends JPanel {
 		this.dicePanel = dicePanel;
 		this.chatPanel = chatPanel;
 		this.gameSouthContainerPanel = new GameSouthContainerPanel(); // TODO create array of players in constructor
-		
 		createLayout();
 	}
 
@@ -69,7 +68,7 @@ public class GameGUIPanel extends JPanel {
 		add(playerActionsPanel, gridBagConstraints);
 		
 		// Add DicePanel
-		gridBagConstraints.insets = new Insets(0, 0, 500, 300);
+		gridBagConstraints.insets = new Insets(0, 0, 500, 150);
 		add(dicePanel, gridBagConstraints);
 		
 		// TODO add resourcespanel

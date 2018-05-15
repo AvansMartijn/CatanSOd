@@ -46,6 +46,7 @@ public class MyDevelopmentCardsPanel extends JPanel {
 
 		JScrollPane js = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		js.getHorizontalScrollBar().setUnitIncrement(20);
 		js.setPreferredSize(new Dimension(650, 240));
 		add(js);
 	}

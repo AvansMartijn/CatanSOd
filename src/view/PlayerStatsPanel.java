@@ -40,7 +40,7 @@ public class PlayerStatsPanel extends JPanel {
 	public PlayerStatsPanel(Player player) {
 		statLabels = new JLabel[4];
 		this.player = player;
-		playerNameLabel = new JLabel(player.getUsername() + " (jij)");
+		playerNameLabel = new JLabel(player.getUsername());
 		playerPointsLabel = new JLabel("Punten: " + player.getPoints());
 
 		setBackground(backgroundColor);
@@ -117,14 +117,15 @@ public class PlayerStatsPanel extends JPanel {
 		// Check if player haslongestroad or largestarmy
 		gridBagConstraints.anchor = GridBagConstraints.CENTER;
 		
-		/*
+		player.setHasLongestRoad(true); // test
+		player.setHasLargestArmy(true);
 		if(player.getHasLongestRoad()) {
 			addImage(4, 2, "/images/LongestRoad_Icon.png", 60, 60); // TODO add this label as variable so you can set if to not visible
 		}
 		if(player.getHasLargestArmy()) {
 			addImage(4, 4, "/images/LargestArmy_Icon.png", 80, 80);
 		}
-		*/
+		
 	}
 
 	// Add image
