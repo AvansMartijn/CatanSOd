@@ -4,7 +4,10 @@ public class City extends Building{
 
 	private BuildingLocation buildingLocation;
 	
-	public City() {
+	public City(String dbidpiece, int dbx_from, int dby_from) {
+		idBuilding = dbidpiece;
+		x_from = dbx_from;
+		y_from = dby_from;
 		victoryPoint = 2;
 	}
 
