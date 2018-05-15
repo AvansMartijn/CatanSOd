@@ -4,10 +4,8 @@ public class Village extends Building {
 	
 	private BuildingLocation buildingLocation;
 	
-	public Village(String dbidpiece, int dbx_from, int dby_from) {
+	public Village(String dbidpiece) {
 		idBuilding = dbidpiece;
-		x_from = dbx_from;
-		y_from = dby_from;
 		victoryPoint = 1;
 	}
 

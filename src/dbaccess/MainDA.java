@@ -577,7 +577,9 @@ public class MainDA {
 				int x_from = myRs.getInt(2);
 				int y_from = myRs.getInt(3);
 				
-				retArr.add(new City(idpiece, x_from, y_from));
+				City city = new City(idpiece);
+				city.setBuildingLocation(new BuildingLocation(x_from, y_from));
+				retArr.add(city);
 			}
 			myRs.close();
 			stmt.close();
@@ -601,8 +603,9 @@ public class MainDA {
 				String idpiece = myRs.getString(1);
 				int x_from = myRs.getInt(2);
 				int y_from = myRs.getInt(3);
-				
-				retArr.add(new Village(idpiece, x_from, y_from));
+				Village village = new Village(idpiece);
+				village.setBuildingLocation(new BuildingLocation(x_from, y_from));
+				retArr.add(village);
 			}
 			myRs.close();
 			stmt.close();

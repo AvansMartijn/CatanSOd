@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Tile;
+import model.Village;
 import view.BoardPanel;
 import view.BuildingLocationButton;
 import view.ChatPanel;
@@ -160,7 +162,8 @@ public class GuiController {
 		addBuildLocListeners();
 		addStreetLocListeners();
 		addRollButtonListener();
-
+		addPlayerColorToBuildingLocs();
+		
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 
@@ -188,12 +191,13 @@ public class GuiController {
 
 					b.getTile().setRobber(true);
 					gameControl.changeRobberInDB(b.getTile().getIdTile());
-					boardPanel.repaint();
+					boardPanel.repaint();				
 				}
 
 			});
 		}
-	}
+	}	
+	
 	
 	private void addBuildLocListeners() {
 		
@@ -238,6 +242,30 @@ public class GuiController {
 			}
 
 		});
+	}
+	
+	public void addPlayerColorToBuildingLocs() {
+		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {
+			Village village = blb.getBuildingLocation().getVillage();
+			if(village != null) {
+				
+					Color color = Color.BLACK;
+					System.out.println(village.getPlayer());
+			        switch (village.getPlayer().getColor()) {
+			            case ROOD:  color = Color.RED;
+			                     break;
+			            case WIT:  color = Color.WHITE;
+			                     break;
+			            case BLAUW:  color = Color.BLUE;
+			                     break;
+			            case ORANJE:  color = Color.ORANGE;
+			                     break;	          
+			        
+			        }
+			       blb.setBackground(color);
+			    
+			}
+		}
 	}
 
 	public void refresh() {

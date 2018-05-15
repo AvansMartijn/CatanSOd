@@ -37,15 +37,15 @@ public class Player {
 		cityArr = new ArrayList<City>();
 		streetArr = new ArrayList<Street>();
 		
-		for(int i = 0; i < 10; i++) {
-			villageArr.add(new Village());
-		}
-		for(int i = 0; i < 10; i++) {
-			streetArr.add(new Street());
-		}
-		for(int i = 0; i < 5; i++) {
-			cityArr.add(new City());
-		}
+//		for(int i = 0; i < 10; i++) {
+//			villageArr.add(new Village());
+//		}
+//		for(int i = 0; i < 10; i++) {
+//			streetArr.add(new Street());
+//		}
+//		for(int i = 0; i < 5; i++) {
+//			cityArr.add(new City());
+//		}
 //		settlementArr = new ArrayList<Settlement>();
 //		for(int i = 0; i<10; i++) {
 //			settlementArr.add(new Settlement(false));
@@ -68,15 +68,15 @@ public class Player {
 		cityArr = new ArrayList<City>();
 		streetArr = new ArrayList<Street>();
 		
-		for(int i = 0; i < 10; i++) {
-			villageArr.add(new Village());
-		}
-		for(int i = 0; i < 10; i++) {
-			streetArr.add(new Street());
-		}
-		for(int i = 0; i < 5; i++) {
-			cityArr.add(new City());
-		}
+//		for(int i = 0; i < 10; i++) {
+//			villageArr.add(new Village());
+//		}
+//		for(int i = 0; i < 10; i++) {
+//			streetArr.add(new Street());
+//		}
+//		for(int i = 0; i < 5; i++) {
+//			cityArr.add(new City());
+//		}
 	}
 
 	// Create hand
@@ -102,11 +102,11 @@ public class Player {
 		System.out.println(idGame + " " + username + " " + color + " " + follownr + " " + playStatus);
 	}
 
-	public Village setUpTurn() {
-		return new Village(); // return statement should return the village that has just been built (NOT NEW
-								// VILLAGE!!!)
-
-	}
+//	public Village setUpTurn() {
+//		return new Village(); // return statement should return the village that has just been built (NOT NEW
+//								// VILLAGE!!!)
+//
+//	}
 
 	// Village v is the village that is built, this is important for Catan class.
 	public void getStartResources(Village v) {
