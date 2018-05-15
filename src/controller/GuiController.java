@@ -1,9 +1,11 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -12,12 +14,14 @@ import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import model.Catan;
 import model.Dice;
 import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Tile;
+import model.Village;
 import view.BoardPanel;
 import view.BuildingLocationButton;
 import view.ChatPanel;
@@ -27,11 +31,14 @@ import view.Frame;
 import view.GameGUIPanel;
 import view.GameSelect;
 import view.LoginRegisterPanel;
+import view.MainMenuGUI;
+import view.StreetLocationButton;
 import view.TileButton;
 
 public class GuiController {
 
 	private Player player;
+	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel dicePanel;
@@ -45,7 +52,6 @@ public class GuiController {
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
-
 		frame = new Frame();
 
 		setInlogPanel();
@@ -79,14 +85,13 @@ public class GuiController {
 					loginregisterPanel.setMessagelabel("Invalid Credentials");
 					frame.pack();
 				} else {
-					player = gameControl.getPlayer();
-					setIngameGuiPanel();
-					frame.pack();
+					mainControl.loadProfile();
 				}
 			}
 		});
 
 		loginregisterPanel.getRegisterButton().addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JTextField usernameTextField = loginregisterPanel.getUsernameText();
@@ -108,10 +113,15 @@ public class GuiController {
 				}
 
 			}
+
 		});
-
 		frame.setContentPane(loginregisterPanel);
+		frame.pack();
+	}
 
+	public void setMainMenu(ArrayList<Catan> gameList, String username) {
+		this.mainMenuGui = new MainMenuGUI(gameList, username);
+		frame.setContentPane(mainMenuGui);
 		frame.pack();
 	}
 
@@ -177,7 +187,9 @@ public class GuiController {
 		frame.setContentPane(gameGUIPanel);
 		addTileListeners();
 		addBuildLocListeners();
+		addStreetLocListeners();
 		addRollButtonListener();
+		addPlayerColorToBuildingLocs();
 
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
@@ -220,9 +232,22 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (!gameControl.buildSettlement(blb.getBuildingLocation())) {
+					if (!gameControl.buildVillage(blb.getBuildingLocation())) {
 						System.out.println("Je kan hier niet bouwen");
 					}
+
+				}
+			});
+		}
+	}
+
+	private void addStreetLocListeners() {
+		for (StreetLocationButton slb : boardPanel.getStreetLocationButtonArrayList()) {
+			slb.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println(slb.getStreetLocation().getBlStart());
 
 				}
 			});
@@ -245,9 +270,37 @@ public class GuiController {
 		});
 	}
 
+	public void addPlayerColorToBuildingLocs() {
+		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {
+			Village village = blb.getBuildingLocation().getVillage();
+			if (village != null) {
+
+				Color color = Color.BLACK;
+				switch (village.getPlayer().getColor()) {
+				case ROOD:
+					color = Color.RED;
+					break;
+				case WIT:
+					color = Color.WHITE;
+					break;
+				case BLAUW:
+					color = Color.BLUE;
+					break;
+				case ORANJE:
+					color = Color.ORANGE;
+					break;
+
+				}
+				blb.setBackground(color);
+
+			}
+		}
+	}
+
 	public void refresh() {
 		refreshRobber();
 		refreshDice();
+		addPlayerColorToBuildingLocs();
 	}
 
 	public void refreshRobber() {
@@ -271,4 +324,5 @@ public class GuiController {
 	public void setGameBoard(Gameboard gameBoard) {
 		this.gameBoard = gameBoard;
 	}
+
 }

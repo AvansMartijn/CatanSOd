@@ -69,20 +69,13 @@ public class BoardPanel extends JPanel {
 	public ArrayList<BuildingLocationButton> getBuildingLocationButtonArrayList(){
 		return buildingLocButtonArray;
 	}
-
-
-	private void addStreetLocListeners() {
-		for (StreetLocationButton slb : streetLocButtonArray) {
-			slb.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.out.println(slb.getStreetLocation().getBlStart());
-
-				}
-			});
-		}
+	
+	public ArrayList<StreetLocationButton> getStreetLocationButtonArrayList(){
+		return streetLocButtonArray;
 	}
+
+
+
 
 	// Create tiles and draw them
 	private void createTiles() {
@@ -173,8 +166,8 @@ public class BoardPanel extends JPanel {
 			add(slb, 0);
 		}
 
-		addStreetLocListeners();
-		disableStreetLocButtons();
+//		addStreetLocListeners();
+//		disableStreetLocButtons();
 
 	}
 

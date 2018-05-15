@@ -4,7 +4,7 @@ public class Street extends Building{
 
 	private StreetLocation streetLocation;
 
-	public Street() {
+	public Street(String idstreet, int db_xfrom, int db_yfrom, int db_xto, int db_yto) {
 
 	}
 	
@@ -14,5 +14,12 @@ public class Street extends Building{
 
 	public void setStreetLocation(StreetLocation streetLocation) {
 		this.streetLocation = streetLocation;
-	}	
+	}
+	
+	public boolean isBuild() {
+		if(streetLocation == null) {
+			return true;
+		}
+		return false;
+	}
 }

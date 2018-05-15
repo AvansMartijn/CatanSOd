@@ -9,12 +9,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import model.BuildingLocation;
+import model.Catan;
+import model.City;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
+import model.Street;
 import model.StreetLocation;
 import model.Tile;
+import model.Village;
 
 public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
@@ -365,33 +369,29 @@ public class MainDA {
 	/**
 	 * Get all players from an account from the database
 	 */
-	public ArrayList<Player> getPlayers(String username) {
+	public ArrayList<Integer> getGameIDsFromPlayer(String username) {
 
-		ArrayList<Player> playerList = new ArrayList<Player>();
+		ArrayList<Integer> retList = new ArrayList<Integer>();
 
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idspel, kleur, speelstatus, volgnr FROM speler WHERE username = '" + username + "';";
+		String query = "SELECT idspel FROM speler WHERE username = '" + username + "';";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
 				int idGame = myRs.getInt(1);
-				String color = myRs.getString(2).toUpperCase();
-				String playStatus = myRs.getString(3).toUpperCase();
-				int follownr = myRs.getInt(4);
-				playerList.add(new Player(idGame, username, PlayerColor.valueOf(color), follownr,
-						PlayStatus.valueOf(playStatus)));
+				retList.add(idGame);
 			}
 			myRs.close();
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to get accountplayers");
+			System.out.println("Unable to get GameId's");
 		}
 
-		return playerList;
+		return retList;
 
 	}
 
@@ -402,17 +402,18 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT username, kleur, speelstatus, volgnr FROM speler WHERE idspel = '" + idGame
+		String query = "SELECT idspeler, username, kleur, speelstatus, volgnr FROM speler WHERE idspel = '" + idGame
 				+ "' ORDER BY volgnr ASC;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				String username = myRs.getString(1);
-				String color = myRs.getString(2).toUpperCase();
-				String playStatus = myRs.getString(3).toUpperCase();
-				int follownr = myRs.getInt(4);
-				playerList.add(new Player(idGame, username, PlayerColor.valueOf(color), follownr,
+				int idplayer = myRs.getInt(1);
+				String username = myRs.getString(2);
+				String color = myRs.getString(3).toUpperCase();
+				String playStatus = myRs.getString(4).toUpperCase();
+				int follownr = myRs.getInt(5);
+				playerList.add(new Player(idplayer, idGame, username, PlayerColor.valueOf(color), follownr,
 						PlayStatus.valueOf(playStatus)));
 			}
 			myRs.close();
@@ -556,22 +557,36 @@ public class MainDA {
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add Building");
 		}
-		;
+
+	}
+	
+	public void updateStreet(String idPiece, int idPlayer, int x_From, int y_From, int x_to, int y_to) {
+
+		String query = "UPDATE spelerstuk SET idstuk = '" + idPiece + "',  x_van =  + " + x_From + ", y_van = " + y_From + ", x_naar = " + x_to + ", y_naar = " + y_to 
+				+ " WHERE '" + idPlayer + "';";
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to add Street");
+		}
 
 	}
 
-	public ArrayList<BuildingLocation> getBuildingLocations() {
-		ArrayList<BuildingLocation> retArr = new ArrayList<BuildingLocation>();
+	public ArrayList<City> getCitiesFromPlayer(int playerID) {
+		ArrayList<City> retArr = new ArrayList<City>();
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idstuk, idspeler, x_van, y_van FROM spelerstuk";
+		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'c%' AND idspeler = " + playerID + ";";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				String idStuk = myRs.getString("username"); // Name of column
-				String password = myRs.getString(2); // Number of column
+				String idpiece = myRs.getString(1);
+				int x_from = myRs.getInt(2);
+				int y_from = myRs.getInt(3);
+				
+				City city = new City(idpiece);
+				city.setBuildingLocation(new BuildingLocation(x_from, y_from));
+				retArr.add(city);
 			}
 			myRs.close();
 			stmt.close();
@@ -581,26 +596,58 @@ public class MainDA {
 		}
 		return retArr;
 	}
-	//
-	// public ArrayList<StreetLocation> getStreetLocations() {
-	//
-	// makeConnection();
-	// Statement stmt = null;
-	// ResultSet myRs = null;
-	// String query = "SELECT * FROM account";
-	// try {
-	// stmt = myConn.createStatement();
-	// myRs = stmt.executeQuery(query);
-	// while (myRs.next()) {
-	// String username = myRs.getString("username"); // Name of column
-	// String password = myRs.getString(2); // Number of column
-	// System.out.println(username + " pw: " + password);
-	// }
-	// myRs.close();
-	// stmt.close();
-	// myConn.close();
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// }
-	// }
+	
+	public ArrayList<Village> getVillageFromPlayer(int playerID) {
+		ArrayList<Village> retArr = new ArrayList<Village>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'd%' AND idspeler = " + playerID + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String idpiece = myRs.getString(1);
+				int x_from = myRs.getInt(2);
+				int y_from = myRs.getInt(3);
+				Village village = new Village(idpiece);
+				village.setBuildingLocation(new BuildingLocation(x_from, y_from));
+				retArr.add(village);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retArr;
+	}
+	
+	public ArrayList<Street> getStreetsFromPlayer(int playerID) {
+		ArrayList<Street> retArr = new ArrayList<Street>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT idstuk, x_van, y_van, x_naar, y_naar FROM spelerstuk WHERE idstuk LIKE 's%' AND idspeler = " + playerID + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String idpiece = myRs.getString(1);
+				int x_from = myRs.getInt(2);
+				int y_from = myRs.getInt(3);
+				int x_to = myRs.getInt(4);
+				int y_to = myRs.getInt(5);
+				
+				retArr.add(new Street(idpiece, x_from, y_from, x_to, y_to));
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retArr;
+	}
+	
 }

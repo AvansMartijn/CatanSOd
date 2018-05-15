@@ -5,27 +5,47 @@ import java.util.ArrayList;
 
 public class Player {
 
+	private int idPlayer;
 	private int idGame;
 	private String username;
 	private PlayerColor color;
 	private int follownr;
 	private PlayStatus playStatus;
 	private Hand hand;
+	private int overwinningspunten;
 	private int points;
-	private int settlements;
-	private int cities;
-	private int roads;
+
+	//arrays with streets cities roads
+	private ArrayList<Village> villageArr;
+	private ArrayList<City> cityArr;
+	private ArrayList<Street> streetArr;
 	
+		
 	public Player(String username) {
 		this.username = username;
 	}
 
-	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {
+	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {	
+		this.idPlayer = idPlayer;
 		this.idGame = idGame;
 		this.username = username;
 		this.color = color;
 		this.follownr = follownr;
 		this.playStatus = playStatus;
+		
+		villageArr = new ArrayList<Village>();
+		cityArr = new ArrayList<City>();
+		streetArr = new ArrayList<Street>();
+		
+//		for(int i = 0; i < 10; i++) {
+//			villageArr.add(new Village());
+//		}
+//		for(int i = 0; i < 10; i++) {
+//			streetArr.add(new Street());
+//		}
+//		for(int i = 0; i < 5; i++) {
+//			cityArr.add(new City());
+//		}
 //		settlementArr = new ArrayList<Settlement>();
 //		for(int i = 0; i<10; i++) {
 //			settlementArr.add(new Settlement(false));
@@ -34,6 +54,29 @@ public class Player {
 //			settlementArr.add(new Settlement(true));
 //		}
 		
+	}
+	
+	public Player(int idPlayer, int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {
+		this.idPlayer = idPlayer;
+		this.idGame = idGame;
+		this.username = username;
+		this.color = color;
+		this.follownr = follownr;
+		this.playStatus = playStatus;
+		
+		villageArr = new ArrayList<Village>();
+		cityArr = new ArrayList<City>();
+		streetArr = new ArrayList<Street>();
+		
+//		for(int i = 0; i < 10; i++) {
+//			villageArr.add(new Village());
+//		}
+//		for(int i = 0; i < 10; i++) {
+//			streetArr.add(new Street());
+//		}
+//		for(int i = 0; i < 5; i++) {
+//			cityArr.add(new City());
+//		}
 	}
 
 	// Create hand
@@ -59,11 +102,11 @@ public class Player {
 		System.out.println(idGame + " " + username + " " + color + " " + follownr + " " + playStatus);
 	}
 
-	public Village setUpTurn() {
-		return new Village(); // return statement should return the village that has just been built (NOT NEW
-								// VILLAGE!!!)
-
-	}
+//	public Village setUpTurn() {
+//		return new Village(); // return statement should return the village that has just been built (NOT NEW
+//								// VILLAGE!!!)
+//
+//	}
 
 	// Village v is the village that is built, this is important for Catan class.
 	public void getStartResources(Village v) {
@@ -113,6 +156,15 @@ public class Player {
 		return hand;
 	}
 
+	public int getOverwinningspunten() {
+		return overwinningspunten;
+	}
+
+	public void setOverwinningspunten(int overwinningspunten) {
+		this.overwinningspunten = this.overwinningspunten + overwinningspunten;
+	}
+	
+	
 	public int getPoints() {
 		return points;
 	}
@@ -120,28 +172,124 @@ public class Player {
 	public void setPoints(int points) {
 		this.points = points;
 	}
-
-	public int getSettlements() {
-		return settlements;
+	
+	public ArrayList<Village> getVillageArr() {
+		return villageArr;
 	}
 
-	public void setSettlements(int settlements) {
-		this.settlements = settlements;
+	public void setVillageArr(ArrayList<Village> villageArr) {
+		this.villageArr = villageArr;
 	}
 
-	public int getCities() {
-		return cities;
+	public ArrayList<City> getCityArr() {
+		return cityArr;
 	}
 
-	public void setCities(int cities) {
-		this.cities = cities;
+	public void setCityArr(ArrayList<City> cityArr) {
+		this.cityArr = cityArr;
 	}
 
-	public int getRoads() {
-		return roads;
+	public ArrayList<Street> getStreetArr() {
+		return streetArr;
 	}
 
-	public void setRoads(int roads) {
-		this.roads = roads;
+	public void setStreetArr(ArrayList<Street> streetArr) {
+		this.streetArr = streetArr;
+	}
+	public int getIdPlayer() {
+		return idPlayer;
+	}
+
+	public void setIdPlayer(int idPlayer) {
+		this.idPlayer = idPlayer;
+	}
+	
+	public int getAmountBuildVillages() {
+		int available = 0;
+		for(Village v : villageArr) {			
+			if(v.isBuild()) {
+				available++;
+			}
+		}
+		return  available;
+	}
+	
+	public int getAmountBuildCities() {
+		int available = 0;
+		for(City c : cityArr) {			
+			if(c.isBuild()) {
+				available++;
+			}
+		}
+		return  available;
+	}
+	
+	public int getAmountBuildStreets() {
+		int available = 0;
+		for(Street s : streetArr) {			
+			if(s.isBuild()) {
+				available++;
+			}
+		}
+		return  available;
+	}
+	
+	
+	
+	public int getAmountAvailableVillages() {
+		int available = 0;
+		for(Village v : villageArr) {			
+			if(!v.isBuild()) {
+				available++;
+			}
+		}
+		return  available;
+	}
+	
+	public int getAmountAvailableCities() {
+		int available = 0;
+		for(City c : cityArr) {			
+			if(!c.isBuild()) {
+				available++;
+			}
+		}
+		return  available;
+	}
+	
+	public int getAmountAvailableStreets() {
+		int available = 0;
+		for(Street s : streetArr) {			
+			if(!s.isBuild()) {
+				available++;
+			}
+		}
+		return  available;
+	}
+	
+	public Village getAvailableVillage() {
+		for(Village v : villageArr) {			
+			if(!v.isBuild()) {
+				return v;
+			}
+		}
+		return null;
+	}
+	
+	public City getAvailableCity() {
+		for(City c : cityArr) {			
+			if(!c.isBuild()) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public Street getAvailableStreet() {
+		for(Street s : streetArr) {			
+			if(!s.isBuild()) {
+				return s;
+			}
+		}
+		return null;
 	}
 }

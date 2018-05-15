@@ -42,9 +42,9 @@ public class PlayerStatsPanel extends JPanel {
 		this.player = player;
 		playerNameLabel = new JLabel(player.getUsername() + " (jij)");
 		playerPointsLabel = new JLabel("Punten: " + player.getPoints());
-		playerSettlementsAmountLabel = new JLabel("" + player.getSettlements());
-		playerCitiesAmountLabel = new JLabel("" + player.getCities());
-		playerRoadsAmountLabel = new JLabel("" + player.getRoads());
+		playerSettlementsAmountLabel = new JLabel("" + player.getAmountBuildVillages());
+		playerCitiesAmountLabel = new JLabel("" + player.getAmountBuildCities());
+		playerRoadsAmountLabel = new JLabel("" + player.getAmountBuildStreets());
 		/*
 		playerCardsAmountLabel = new JLabel("" + player.getHand().getResources().size()); 
 		*/

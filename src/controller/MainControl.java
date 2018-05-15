@@ -1,12 +1,16 @@
 package controller;
 
+import java.util.ArrayList;
+
 import dbaccess.MainDA;
 import model.Account;
+import model.Catan;
+import model.Player;
+import view.MainMenuGUI;
 
 
 public class MainControl {
 
-	// private MainMenu mainMenu;
 	private GameControl gameControl;
 	private MainDA mainDA;
 	private Account account;
@@ -14,25 +18,37 @@ public class MainControl {
 
 	public MainControl() {
 		mainDA = new MainDA();
-
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
-
-		guiController.setInlogPanel();
-//		loginAccount("lesley", "hallo");
 	}
 
 	public boolean loginAccount(String username, String password) {
 		if (mainDA.login(username, password)) {
-			account = new Account(mainDA.getPlayers(username), username);
-			gameControl.setUsername(account.getUsername());
-			gameControl.testMethod();
-			guiController.setGameBoard(gameControl.getGameboard());
+			account = new Account(username);
 			return true;
 		} else {
 			return false;
 		}
 
+	}
+	
+	public void loadProfile() {
+		gameControl.setUsername(account.getUsername());
+		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
+		ArrayList<Catan> catanGames = new ArrayList<Catan>();
+		
+		for(int i = 0; i < gameIDsOfUser.size(); i++) {
+			catanGames.add(new Catan(getPlayers(gameIDsOfUser.get(i))));
+		}
+
+		guiController.setMainMenu(catanGames, account.getUsername());
+		
+//		gameControl.testMethod();
+//		guiController.setGameBoard(gameControl.getGameboard());
+	}
+	
+	private ArrayList<Player> getPlayers(int idGame) {
+		return mainDA.getPlayersFromGame(idGame);
 	}
 	
 	public boolean createAccount(String username, String password) {
@@ -43,29 +59,8 @@ public class MainControl {
 			return true;
 		}
 	}
-	
-	public void testChat(String message) {
-		gameControl.addMessage(message);
-		gameControl.getMessages();
-	}
 
 	public void logOut() {
 		this.account = null;
 	}
-
-//	public void createGame() {
-//		gameControl = new GameControl(mainDA, account.getUsername());
-//		gameControl.createGame(false);
-//		gameControl.joinGame(account.getUsername());
-//	}
-//
-//	public void joinGame(int idGame) {
-//		if (account != null) {
-//			gameControl = new GameControl(mainDA, account.getUsername());
-//			gameControl.setGameID(idGame);
-//			gameControl.joinGame(account.getUsername());
-//		} else {
-//			System.out.println("No Account logged in");
-//		}
-//	}
 }
