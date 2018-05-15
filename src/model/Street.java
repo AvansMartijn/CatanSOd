@@ -4,7 +4,7 @@ public class Street extends Building{
 
 	private StreetLocation streetLocation;
 
-	public Street() {
+	public Street(String idstreet, int db_xfrom, int db_yfrom, int db_xto, int db_yto) {
 
 	}
 	

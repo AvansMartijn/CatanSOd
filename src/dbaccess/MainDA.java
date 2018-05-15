@@ -14,6 +14,7 @@ import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
+import model.Street;
 import model.StreetLocation;
 import model.Tile;
 import model.Village;
@@ -559,7 +560,16 @@ public class MainDA {
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add Building");
 		}
-		;
+
+	}
+	
+	public void updateStreet(String idPiece, int idPlayer, int x_From, int y_From, int x_to, int y_to) {
+
+		String query = "UPDATE spelerstuk SET idstuk = '" + idPiece + "',  x_van =  + " + x_From + ", y_van = " + y_From + ", x_naar = " + x_to + ", y_naar = " + y_to 
+				+ " WHERE '" + idPlayer + "';";
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to add Street");
+		}
 
 	}
 
@@ -615,26 +625,32 @@ public class MainDA {
 		}
 		return retArr;
 	}
-	//
-	// public ArrayList<StreetLocation> getStreetLocations() {
-	//
-	// makeConnection();
-	// Statement stmt = null;
-	// ResultSet myRs = null;
-	// String query = "SELECT * FROM account";
-	// try {
-	// stmt = myConn.createStatement();
-	// myRs = stmt.executeQuery(query);
-	// while (myRs.next()) {
-	// String username = myRs.getString("username"); // Name of column
-	// String password = myRs.getString(2); // Number of column
-	// System.out.println(username + " pw: " + password);
-	// }
-	// myRs.close();
-	// stmt.close();
-	// myConn.close();
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// }
-	// }
+	
+	public ArrayList<Street> getStreetsFromPlayer(int playerID) {
+		ArrayList<Street> retArr = new ArrayList<Street>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT idstuk, x_van, y_van, x_naar, y_naar FROM spelerstuk WHERE idstuk LIKE 's%' AND idspeler = " + playerID + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String idpiece = myRs.getString(1);
+				int x_from = myRs.getInt(2);
+				int y_from = myRs.getInt(3);
+				int x_to = myRs.getInt(4);
+				int y_to = myRs.getInt(5);
+				
+				retArr.add(new Street(idpiece, x_from, y_from, x_to, y_to));
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retArr;
+	}
+	
 }
