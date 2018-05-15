@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Player {
 
+	private int idPlayer;
 	private int idGame;
 	private String username;
 	private PlayerColor color;
@@ -24,7 +25,8 @@ public class Player {
 		this.username = username;
 	}
 
-	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {		
+	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {	
+		this.idPlayer = idPlayer;
 		this.idGame = idGame;
 		this.username = username;
 		this.color = color;
@@ -52,6 +54,29 @@ public class Player {
 //			settlementArr.add(new Settlement(true));
 //		}
 		
+	}
+	
+	public Player(int idPlayer, int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {
+		this.idPlayer = idPlayer;
+		this.idGame = idGame;
+		this.username = username;
+		this.color = color;
+		this.follownr = follownr;
+		this.playStatus = playStatus;
+		
+		villageArr = new ArrayList<Village>();
+		cityArr = new ArrayList<City>();
+		streetArr = new ArrayList<Street>();
+		
+		for(int i = 0; i < 10; i++) {
+			villageArr.add(new Village());
+		}
+		for(int i = 0; i < 10; i++) {
+			streetArr.add(new Street());
+		}
+		for(int i = 0; i < 5; i++) {
+			cityArr.add(new City());
+		}
 	}
 
 	// Create hand
@@ -161,6 +186,13 @@ public class Player {
 
 	public void setStreetArr(ArrayList<Street> streetArr) {
 		this.streetArr = streetArr;
+	}
+	public int getIdPlayer() {
+		return idPlayer;
+	}
+
+	public void setIdPlayer(int idPlayer) {
+		this.idPlayer = idPlayer;
 	}
 	
 	public int getAmountBuildVillages() {

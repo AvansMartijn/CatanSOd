@@ -3,6 +3,7 @@ package model;
 
 public abstract class Building {
 
+	protected String idBuilding;
 	protected int victoryPoint;
 	protected Player player;
 	

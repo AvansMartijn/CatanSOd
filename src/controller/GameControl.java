@@ -228,6 +228,13 @@ public class GameControl {
 		return true;
 	}
 	
+//	public void setVillageArrays() {
+//		for(Player p: gamePlayers) {			
+//			this.mainDA.getVillages(p.get);
+//			for(Village)
+//		}
+//	}
+	
 	
 
 }
