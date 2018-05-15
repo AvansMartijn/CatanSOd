@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 import dbaccess.MainDA;
 import model.BuildingLocation;
+import model.City;
 import model.Dice;
 import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.Street;
 import model.StreetLocation;
+import model.Village;
 
 public class GameControl {
 	private GameBoardControl gameBoardControl;
@@ -163,51 +166,64 @@ public class GameControl {
 		dice.setDie(die);
 	}
 	
-	public boolean buildSettlement(BuildingLocation buildingLocation) {
-		if(player.getSettlements() <= 0) {
+	public boolean buildVillage(BuildingLocation buildingLocation) {
+		Village village = player.getAvailableVillage();
+		//check if player has a village to build	
+		System.out.println(player.getAmountAvailableVillages() <= 0);
+		if(player.getAmountAvailableVillages() <= 0) {
+			return false;
+		}				
+		//check if nothing is build already on that location
+		if(buildingLocation.getVillage() != null || buildingLocation.getCity() != null) {
 			return false;
 		}
-		if(buildingLocation.getPlayer() != null) {
-			return false;
-		}
+				
+		buildingLocation.setVillage(player.getAvailableVillage());
+		village.setBuildingLocation(buildingLocation);	
 		
-		buildingLocation.setPlayer(player);
-		buildingLocation.setCity(false);
-		player.setSettlements(player.getSettlements()-1);		
+		System.out.println(village.getBuildingLocation().getXLoc()+ " " + village.getBuildingLocation().getYLoc());
 		return true;
 	}
 	
 	public boolean buildCity(BuildingLocation buildingLocation) {
-		if(player.getCities() <= 0) {
+		City city = player.getAvailableCity();
+		
+		if(player.getAmountAvailableCities() <= 0) {
 			return false;
 		}
-		if(!buildingLocation.getPlayer().equals(player)) {
+		if(buildingLocation.getCity() != null) {
 			return false;
 		}
-		if(buildingLocation.getPlayer().equals(player) && buildingLocation.isCity() == true) {
-			return false;
-		}
-		if(buildingLocation.getPlayer().equals(player) && buildingLocation.isCity() == false) {
-			buildingLocation.setCity(true);
-			player.setSettlements(player.getSettlements()+1);
-			player.setSettlements(player.getCities()-1);
+		if(buildingLocation.getVillage()!= null) {
+			if(buildingLocation.getVillage().getPlayer().equals(player)) {
+				//upgrade village to city
+				Village village = buildingLocation.getVillage();
+				buildingLocation.setVillage(null);
+				village.setBuildingLocation(null);
+				buildingLocation.setCity(city);
+				city.setBuildingLocation(buildingLocation);
+			}
 		}else {
-			buildingLocation.setPlayer(player);
-			buildingLocation.setCity(true);
-			player.setCities(player.getCities()-1);
-		}		
+			//place city
+			buildingLocation.setCity(city);
+			city.setBuildingLocation(buildingLocation);
+			
+		}
 		return true;
+		
+		
 	}
 	
 	public boolean buildRoad(StreetLocation streetLocation) {
-		if(player.getRoads() <= 0) {
+		Street street = player.getAvailableStreet();
+		if(player.getAmountAvailableStreets() <= 0) {
 			return false;
 		}
-		if(streetLocation.getPlayer() != null) {
+		if(streetLocation.getStreet() != null) {
 			return false;
 		}
-		streetLocation.setPlayer(player);
-		player.setRoads(player.getRoads()-1);
+		streetLocation.setStreet(street);
+		street.setStreetLocation(streetLocation);
 		
 		return true;
 	}

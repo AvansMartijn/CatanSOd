@@ -26,6 +26,7 @@ import view.DicePanel;
 import view.Frame;
 import view.GameGUIPanel;
 import view.LoginRegisterPanel;
+import view.StreetLocationButton;
 import view.TileButton;
 
 public class GuiController {
@@ -157,6 +158,7 @@ public class GuiController {
 		frame.setContentPane(gameGUIPanel);
 		addTileListeners();
 		addBuildLocListeners();
+		addStreetLocListeners();
 		addRollButtonListener();
 
 		timer = new Timer();
@@ -200,9 +202,22 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(!gameControl.buildSettlement(blb.getBuildingLocation())) {
+					if(!gameControl.buildVillage(blb.getBuildingLocation())) {
 						System.out.println("Je kan hier niet bouwen");
 					}
+
+				}
+			});
+		}
+	}
+	
+	private void addStreetLocListeners() {
+		for (StreetLocationButton slb : boardPanel.getStreetLocationButtonArrayList()) {
+			slb.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println(slb.getStreetLocation().getBlStart());
 
 				}
 			});

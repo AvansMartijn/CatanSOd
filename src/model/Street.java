@@ -14,5 +14,12 @@ public class Street extends Building{
 
 	public void setStreetLocation(StreetLocation streetLocation) {
 		this.streetLocation = streetLocation;
-	}	
+	}
+	
+	public boolean isBuild() {
+		if(streetLocation == null) {
+			return true;
+		}
+		return false;
+	}
 }

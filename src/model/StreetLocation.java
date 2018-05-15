@@ -4,7 +4,7 @@ public class StreetLocation {
 
 	private BuildingLocation blStart;
 	private BuildingLocation blEnd;
-	private Player player;
+	private Street street;
 //	private int xStart;
 //	private int yStart;
 //	
@@ -12,6 +12,8 @@ public class StreetLocation {
 //	private int yEnd;
 	
 	
+
+
 
 	public StreetLocation(BuildingLocation blStart, BuildingLocation blEnd) {
 		
@@ -41,12 +43,12 @@ public class StreetLocation {
 		this.blEnd = blEnd;
 	}
 	
-	public Player getPlayer() {
-		return player;
+	public Street getStreet() {
+		return street;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setStreet(Street street) {
+		this.street = street;
 	}
 	
 }

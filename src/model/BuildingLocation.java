@@ -8,14 +8,12 @@ public class BuildingLocation {
 	private int x;
 	private int y;	
 	private Harbour harbour;
-	private Settlement settlement;
+	private City city;
+	private Village village;
+	
+	
+	
 
-	private Player player;
-	
-
-	
-	
-	
 	public BuildingLocation(int x, int y) {
 //		streetLocArr = new ArrayList<>();
 		this.x = x;
@@ -40,24 +38,18 @@ public class BuildingLocation {
 	}
 	public void setHarbour(Harbour harbour) {
 		this.harbour = harbour;
+	}		
+	public City getCity() {
+		return city;
 	}
-	public Settlement getSettlement() {
-		return settlement;
+	public void setCity(City city) {
+		this.city = city;
 	}
-	public void setSettlement(Settlement settlement) {
-		this.settlement = settlement;
+	public Village getVillage() {
+		return village;
 	}
-	public Player getPlayer() {
-		return player;
+	public void setVillage(Village village) {
+		this.village = village;
 	}
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	public boolean isCity() {
-		return isCity;
-	}
-	public void setCity(boolean isCity) {
-		this.isCity = isCity;
-	}
-	private boolean isCity;
+
 }

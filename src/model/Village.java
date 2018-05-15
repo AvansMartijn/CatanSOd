@@ -19,4 +19,11 @@ public class Village extends Building {
 	public void setBuildingLocation(BuildingLocation buildingLocation) {
 		this.buildingLocation = buildingLocation;
 	}
+	
+	public boolean isBuild() {
+		if(buildingLocation == null) {			
+			return false;
+		}
+		return true;
+	}
 }

@@ -15,4 +15,11 @@ public class City extends Building{
 	public void setBuildingLocation(BuildingLocation buildingLocation) {
 		this.buildingLocation = buildingLocation;
 	}	
+	
+	public boolean isBuild() {
+		if(buildingLocation == null) {
+			return true;
+		}
+		return false;
+	}
 }
