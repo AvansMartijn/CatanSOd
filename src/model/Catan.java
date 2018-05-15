@@ -117,14 +117,12 @@ public class Catan {
 		return idGame;
 	}
 	
+	public Player[] getPlayers() {
+		return players;
+	}
+	
 	public int getPlayerTurn() {
 		int playerTurn = turn % AMOUNT_OF_PLAYERS;
 		return playerTurn;
-	}
-
-
-	public ArrayList<Player> getPlayers() {
-//		// TODO Auto-generated method stub playerarray
-		return null;
 	}
 }

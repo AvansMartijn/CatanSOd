@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import model.BuildingLocation;
+import model.Catan;
 import model.City;
 import model.PlayStatus;
 import model.Player;
@@ -653,4 +654,39 @@ public class MainDA {
 		return retArr;
 	}
 	
+	public ArrayList<Catan> GetAllGamesOfUser(String username){
+		makeConnection();
+		ArrayList<Catan> gameList = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT splr2.idspel, splr2.username, splr2.volgnr FROM spel AS sp JOIN  speler AS splr ON splr.idspel = sp.idspel JOIN speler AS splr2 ON splr2.idspel = sp.idspel WHERE splr.username = \""+username+"\" ORDER BY splr2.idspel DESC";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			int lastGameId = -1;	
+			ArrayList<String> usernames = new ArrayList<>();
+			ArrayList<Integer> followNrs = new ArrayList<>();
+			while (myRs.next()) {
+				int gameId = myRs.getInt("splr2.idspel");
+				if(lastGameId == -1) {
+					lastGameId = gameId;
+				} else if(gameId != lastGameId) {
+					gameList.add(new Catan(lastGameId, usernames.toArray(new String[0]), followNrs.stream().mapToInt(i -> i).toArray()));
+					lastGameId = gameId;
+					usernames.clear();
+					followNrs.clear();
+				}
+				usernames.add(myRs.getString("splr2.username"));
+				followNrs.add(myRs.getInt("splr2.volgnr"));
+			}
+			gameList.add(new Catan(lastGameId, usernames.toArray(new String[0]), followNrs.stream().mapToInt(i -> i).toArray()));
+			myRs.close();
+			stmt.close();
+			myConn.close();
+			return gameList;
+		} catch (SQLException e) {
+			System.out.println("Unable to get games of user.");
+		}
+		return null;
+	}
 }
