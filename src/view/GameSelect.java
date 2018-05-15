@@ -1,76 +1,91 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+
 import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
 public class GameSelect extends JPanel {
 
-	private JRadioButton standardGameButton;
-	private JRadioButton randomGameButton;
-	private JButton createNewGameButton;
-	private JLabel warningLabel;
+	private JButton standardGameButton;
+	private JButton randomGameButton;
+	
+	private JLabel standardGameLabel;
+	private JLabel randomGameLabel;
+
 	private JLabel instructionLabel;
+	private JLabel title;
 
 	public GameSelect() {
 
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 
-		setBorder(new EmptyBorder(15, 15, 15, 15));
+		GridBagLayout grid = new GridBagLayout();
+		setLayout(grid);
 
-		instructionLabel = new JLabel("Selecteer een bordoptie");
-		add(instructionLabel);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.anchor = GridBagConstraints.CENTER;
+
+		CenterPanel center = new CenterPanel();
+
+		grid.setConstraints(center, constraints);
+		center.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		add(center, constraints);
+	}
+
+	public class CenterPanel extends JPanel {
+
+		public CenterPanel() {
+
+			setPreferredSize(new Dimension(390, 230));
+
 		
-		final ButtonGroup entreeGroup = new ButtonGroup();
 
-		JRadioButton standardGameButton = new JRadioButton("Standaard Spel", true);
-		add(standardGameButton);
-		entreeGroup.add(standardGameButton);
+			setBorder(new EmptyBorder(15, 15, 15, 15));
 
-		JLabel standardGameLabel = new JLabel(
-				"Speel een potje Kolonisten van Catan op met de standaard geplaatste landtegels en fiches");
-		add(standardGameLabel);
+			title = new JLabel("Bord Keuze");
+			title.setFont(new Font("SansSerif", Font.BOLD, 25));
+			title.setBorder(new EmptyBorder(2, 35, 2, 35));
+			add(title);
 
-		JRadioButton randomGameButton = new JRadioButton("Willekeurig Spel");
-		add(randomGameButton);
-		entreeGroup.add(randomGameButton);
+			instructionLabel = new JLabel("Selecteer een bordoptie");
+			instructionLabel.setBorder(new EmptyBorder(2, 20, 2, 20));
+			add(instructionLabel);
 
-		JLabel randomGameLabel = new JLabel(
-				"Speel een potje Kolonisten van Catan op speelbord met willekeurig geplaatste landtegels en fiches");
-		add(randomGameLabel);
+			standardGameLabel = new JLabel("Een speelbord met de standaard geplaatste landtegels en fiches");
+			standardGameLabel.setBorder(new EmptyBorder(15, 10, 2, 2));
+			add(standardGameLabel);
 
-		JButton createNewGameButton = new JButton("Maak bord aan");
-		add(createNewGameButton, BorderLayout.CENTER);
+			standardGameButton = new JButton("Standaard Spel");
+			add(standardGameButton);
 
-		warningLabel = new JLabel("");
-		warningLabel.setForeground(Color.RED);
-		add(warningLabel);
-		
+			randomGameLabel = new JLabel("Een speelbord met willekeurig geplaatste landtegels en fiches");
+			randomGameLabel.setBorder(new EmptyBorder(25, 10, 2, 2));
+			add(randomGameLabel);
+
+			randomGameButton = new JButton("Willekeurig Spel");
+			add(randomGameButton);
+
+			setBorder(new EmptyBorder(15, 15, 15, 15));
+
+		}
+
+		public JButton getStandardGameButton() {
+			return standardGameButton;
+		}
+
+		public JButton getRandomGameButton() {
+			return randomGameButton;
+		}
 	}
-
-	public JRadioButton getStandardGameButton() {
-		return standardGameButton;
-	}
-
-	public JRadioButton getRandomGameButton() {
-		return randomGameButton;
-	}
-
-	public JButton getCreateNewGameButton() {
-		return createNewGameButton;
-	}
-
-	public JLabel getWarningLabel() {
-		return warningLabel;
-	}
-	
 }

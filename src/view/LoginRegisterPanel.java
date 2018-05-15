@@ -63,8 +63,6 @@ public class LoginRegisterPanel extends JPanel {
 		public CenterPanel() {
 			
 			setPreferredSize(new Dimension(290, 250));
-			
-			
 
 			setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
@@ -103,7 +101,5 @@ public class LoginRegisterPanel extends JPanel {
 			registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			add(registerButton);
 		}
-
 	}
-
 }
