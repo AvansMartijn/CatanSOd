@@ -80,49 +80,13 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.insets = new Insets(0, 0, 500, 300);
 		add(dicePanel, gridBagConstraints);
 		
-		// Add resourcesPanel
-		//gridBagConstraints.gridy++;
-		//gridBagConstraints.anchor = GridBagConstraints.SOUTH;
-		//add(resourcesPanel, gridBagConstraints);
-		
-		/*
-		// Add playerStatsPanels
-		gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-		gridBagConstraints.weightx = 0;
-		gridBagConstraints.weighty = 0;
-		gridBagConstraints.gridwidth = 1;
-		gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_START;
-		gridBagConstraints.gridy++;
-		playerStatsPanel[0] = new PlayerStatsPanel(player);
-		add(playerStatsPanel[0], gridBagConstraints);
-		
-		gridBagConstraints.gridx++;
-		playerStatsPanel[1] = new PlayerStatsPanel(player);
-		add(playerStatsPanel[1], gridBagConstraints);
-		
-		// Add developmentCardsPanel
-		//gridBagConstraints.gridx++;
-		//gridBagConstraints.insets = new Insets(0, 200, 0, 200);
-		//gridBagConstraints.anchor = GridBagConstraints.SOUTH;
-		//add(developmentCardsPanel, gridBagConstraints);
-		
-		gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_END;
-		gridBagConstraints.weightx = 1;
-		gridBagConstraints.weighty = 1;
-		gridBagConstraints.gridx++;
-		playerStatsPanel[2] = new PlayerStatsPanel(player);
-		add(playerStatsPanel[2], gridBagConstraints);
-		
-		gridBagConstraints.gridx++;
-		playerStatsPanel[3] = new PlayerStatsPanel(player);
-		add(playerStatsPanel[3], gridBagConstraints);
-		*/
+		// TODO add resourcespanel
 		
 		// Add GameSouthContainerPanel
+		gridBagConstraints.gridy++;
 		gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_START;
 		gridBagConstraints.insets = new Insets(0, 0, 0, 0);
 		add(gameSouthContainerPanel, gridBagConstraints);
-		
 	}
 	
 	public void setGameboardPanel() {

@@ -32,7 +32,7 @@ public class GameSouthContainerPanel extends JPanel {
 		myDevelopmentCardsPanel = new MyDevelopmentCardsPanel();
 		myDevelopmentCardsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			
-		add(new PlayerStatsPanel(new Player(2, "Barend", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE)));
+		add(new PlayerStatsPanel(new Player(2, "Barend", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE))); // TODO placeholder players
 		add(new PlayerStatsPanel(new Player(2, "Barend", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE)));
 		add(myDevelopmentCardsPanel);
 		add(new PlayerStatsPanel(new Player(2, "Barend", PlayerColor.BLAUW, 2, PlayStatus.UITGEDAAGDE)));
