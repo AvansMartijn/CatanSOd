@@ -25,6 +25,7 @@ import view.DiceDotPanel;
 import view.DicePanel;
 import view.Frame;
 import view.GameGUIPanel;
+import view.GameSelect;
 import view.LoginRegisterPanel;
 import view.TileButton;
 
@@ -51,7 +52,7 @@ public class GuiController {
 		// frame.setContentPane(gameGUIPanel);
 		// frame.setPreferredSize(new
 		// Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
-//		frame.setUndecorated(true);
+		// frame.setUndecorated(true);
 
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
@@ -114,6 +115,26 @@ public class GuiController {
 		frame.pack();
 	}
 
+	public void setGameSelect() {
+
+		GameSelect gameSelect = new GameSelect();
+
+		gameSelect.getCreateNewGameButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (gameSelect.getStandardGameButton().isSelected()) {
+					// create standard game
+				} else if (gameSelect.getRandomGameButton().isSelected()) {
+					// create random game
+				} else {
+					gameSelect.getWarningLabel().setText("Geen speelbord geselecteerd");
+				}
+			}
+		});
+	}
+
 	private boolean hasValidInput(String str) {
 		if (str == null || str.trim().isEmpty()) {
 			return false;
@@ -129,9 +150,8 @@ public class GuiController {
 		}
 	}
 
-
 	public void setIngameGuiPanel() {
-//		boardPanel = new BoardPanel(gameBoard);
+		// boardPanel = new BoardPanel(gameBoard);
 		this.chatPanel = new ChatPanel(gameControl.getMessages());
 		this.dicePanel = new DiceDotPanel();
 		boardPanel = new BoardPanel(gameControl.getGameboard());
@@ -192,15 +212,15 @@ public class GuiController {
 			});
 		}
 	}
-	
+
 	private void addBuildLocListeners() {
-		
+
 		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {
 			blb.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(!gameControl.buildSettlement(blb.getBuildingLocation())) {
+					if (!gameControl.buildSettlement(blb.getBuildingLocation())) {
 						System.out.println("Je kan hier niet bouwen");
 					}
 
