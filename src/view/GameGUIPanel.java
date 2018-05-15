@@ -7,27 +7,21 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
-import model.Gameboard;
 import model.Player;
 
 
 @SuppressWarnings("serial")
 public class GameGUIPanel extends JPanel {
 	
-	private final int AMOUNT_OF_PLAYERS = 4;
-	
 	// Instance variables
 	private Color myBackGroundColor = new Color(240, 226, 223);
 	private GameTopPanel gameTopPanel;
 	private PlayerActionPanel playerActionsPanel;
 //	private MyResourcesPanel resourcesPanel;
-//	private MyDevelopmentCardsPanel developmentCardsPanel;
 	private BoardPanel boardPanel;
 	private DicePanel dicePanel;
 	private ChatPanel chatPanel;
 	private GameSouthContainerPanel gameSouthContainerPanel;
-	
-	private PlayerStatsPanel[] playerStatsPanel; // TODO make 4 of them in an array
 	
 	private Player player;
 	
@@ -39,12 +33,10 @@ public class GameGUIPanel extends JPanel {
 		gameTopPanel = new GameTopPanel("CatanTest"); // TODO set gamelabel text in constructor
 		playerActionsPanel = new PlayerActionPanel();
 //		resourcesPanel = new MyResourcesPanel();
-//		developmentCardsPanel = new MyDevelopmentCardsPanel();
 		this.boardPanel = boardPanel;
-		playerStatsPanel = new PlayerStatsPanel[AMOUNT_OF_PLAYERS];
 		this.dicePanel = dicePanel;
 		this.chatPanel = chatPanel;
-		this.gameSouthContainerPanel = new GameSouthContainerPanel();
+		this.gameSouthContainerPanel = new GameSouthContainerPanel(); // TODO create array of players in constructor
 		
 		createLayout();
 	}

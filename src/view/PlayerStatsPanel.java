@@ -116,14 +116,14 @@ public class PlayerStatsPanel extends JPanel {
 		
 		// Check if player haslongestroad or largestarmy
 		gridBagConstraints.anchor = GridBagConstraints.CENTER;
-		/*
+		
 		if(player.getHasLongestRoad()) {
 			addImage(4, 2, "/images/LongestRoad_Icon.png", 60, 60); // TODO add this label as variable so you can set if to not visible
 		}
 		if(player.getHasLargestArmy()) {
 			addImage(4, 4, "/images/LargestArmy_Icon.png", 80, 80);
 		}
-		*/
+		
 	}
 
 	// Add image
