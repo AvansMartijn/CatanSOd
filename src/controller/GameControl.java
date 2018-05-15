@@ -181,6 +181,9 @@ public class GameControl {
 		if (buildingLocation.getVillage() != null || buildingLocation.getCity() != null) {
 			return false;
 		}
+		
+		//TODO Check if there is not a building neighbouring this location
+		//TODO check if there are streets connected to this location
 
 		buildingLocation.setVillage(player.getAvailableVillage());
 		village.setBuildingLocation(buildingLocation);
@@ -198,6 +201,10 @@ public class GameControl {
 		if (buildingLocation.getCity() != null) {
 			return false;
 		}
+		
+		//TODO Check if there is not a building neighbouring this location
+		//TODO check if there are streets connected to this location
+		
 		if (buildingLocation.getVillage() != null) {
 			if (buildingLocation.getVillage().getPlayer().equals(player)) {
 				// upgrade village to city
@@ -225,6 +232,10 @@ public class GameControl {
 		if (streetLocation.getStreet() != null) {
 			return false;
 		}
+		
+		
+		//TODO check if there is a connected building/street to this location
+		
 		streetLocation.setStreet(street);
 		street.setStreetLocation(streetLocation);
 

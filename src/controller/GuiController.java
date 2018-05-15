@@ -249,8 +249,7 @@ public class GuiController {
 			Village village = blb.getBuildingLocation().getVillage();
 			if(village != null) {
 				
-					Color color = Color.BLACK;
-					System.out.println(village.getPlayer());
+					Color color = Color.BLACK;					
 			        switch (village.getPlayer().getColor()) {
 			            case ROOD:  color = Color.RED;
 			                     break;
@@ -271,6 +270,7 @@ public class GuiController {
 	public void refresh() {
 		refreshRobber();
 		refreshDice();
+		addPlayerColorToBuildingLocs();
 	}
 
 	public void refreshRobber() {
