@@ -17,7 +17,7 @@ public class GameGUIPanel extends JPanel {
 	private Color myBackGroundColor = new Color(240, 226, 223);
 	private GameTopPanel gameTopPanel;
 	private PlayerActionPanel playerActionsPanel;
-//	private MyResourcesPanel resourcesPanel;
+	private MyResourcesPanel resourcesPanel;
 	private BoardPanel boardPanel;
 	private DicePanel dicePanel;
 	private ChatPanel chatPanel;
@@ -32,7 +32,7 @@ public class GameGUIPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		gameTopPanel = new GameTopPanel("CatanTest"); // TODO set gamelabel text in constructor
 		playerActionsPanel = new PlayerActionPanel();
-//		resourcesPanel = new MyResourcesPanel();
+		resourcesPanel = new MyResourcesPanel();
 		this.boardPanel = boardPanel;
 		this.dicePanel = dicePanel;
 		this.chatPanel = chatPanel;
@@ -71,12 +71,15 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.insets = new Insets(0, 0, 500, 150);
 		add(dicePanel, gridBagConstraints);
 		
-		// TODO add resourcespanel
+		// Add resourcesPanel
+		gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+		gridBagConstraints.anchor = GridBagConstraints.PAGE_END;
+		gridBagConstraints.gridy++;
+		add(resourcesPanel, gridBagConstraints);
 		
 		// Add GameSouthContainerPanel
 		gridBagConstraints.gridy++;
 		gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_START;
-		gridBagConstraints.insets = new Insets(0, 0, 0, 0);
 		add(gameSouthContainerPanel, gridBagConstraints);
 	}
 	
