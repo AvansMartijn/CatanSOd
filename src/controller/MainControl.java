@@ -40,13 +40,12 @@ public class MainControl {
 		for(int i = 0; i < gameIDsOfUser.size(); i++) {
 			ArrayList<Player> players = getPlayers(gameIDsOfUser.get(i));
 			Player selfPlayer = null;
-			for(Player p: players) {
-				if(p.getUsername() == account.getUsername()) {
+			for(Player p: players) {				
+				if(p.getUsername().equals(account.getUsername())) {
 					selfPlayer = p;
 					break;
 				}
 			}
-			System.out.println(selfPlayer.getIdPlayer());
 			catanGames.add(new Catan(players, selfPlayer));
 		}
 
