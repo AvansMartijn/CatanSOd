@@ -15,6 +15,7 @@ public class MainControl {
 	private MainDA mainDA;
 	private Account account;
 	private GuiController guiController;
+	private ArrayList<Catan> catanGames;
 
 	public MainControl() {
 		mainDA = new MainDA();
@@ -35,7 +36,7 @@ public class MainControl {
 	public void loadProfile() {
 		gameControl.setUsername(account.getUsername());
 		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
-		ArrayList<Catan> catanGames = new ArrayList<Catan>();
+		catanGames = new ArrayList<Catan>();
 		
 		for(int i = 0; i < gameIDsOfUser.size(); i++) {
 			catanGames.add(new Catan(getPlayers(gameIDsOfUser.get(i))));

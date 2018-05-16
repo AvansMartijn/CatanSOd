@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dbaccess.MainDA;
 import model.Bank;
 import model.BuildingLocation;
+import model.Catan;
 import model.City;
 import model.Dice;
 import model.Gameboard;
@@ -21,6 +22,7 @@ public class GameControl {
 	private MainDA mainDA;
 	private ArrayList<Player> gamePlayers;
 	private int idGame;
+	private Catan catanGame;
 	private int playerID;
 	private int account;
 	private String username;
@@ -147,7 +149,8 @@ public class GameControl {
 	public void makeBank() {
 		
 	}
-	public void setUsername(String username) {
+	
+public void setUsername(String username) {
 		this.username = username;
 	}
 
@@ -266,6 +269,12 @@ public class GameControl {
 				}
 			}
 		}
+	}
+
+	public void setCatan(Catan game) {
+		this.catanGame = game;
+		this.idGame = game.getIdGame();
+		
 	}
 	
 //	public void printPlayerVillages() {

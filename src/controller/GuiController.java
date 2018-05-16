@@ -2,16 +2,24 @@ package controller;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.Catan;
@@ -32,6 +40,8 @@ import view.GameGUIPanel;
 import view.GameSelect;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
+import view.RecentGamePanel;
+import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
 
@@ -40,14 +50,17 @@ public class GuiController {
 	private Player player;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
+	private RecentGamesPanel currentGamesPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel dicePanel;
 	private ChatPanel chatPanel;
 	private Frame frame;
+	private ArrayList<Catan> gameList;
 	private MainControl mainControl;
 	private GameControl gameControl;
 	private Gameboard gameBoard;
 	private Timer timer;
+	private int pageNr;
 
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
@@ -120,9 +133,68 @@ public class GuiController {
 	}
 
 	public void setMainMenu(ArrayList<Catan> gameList, String username) {
-		this.mainMenuGui = new MainMenuGUI(gameList, username);
+		JPanel optionsPanel = new JPanel();
+		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.X_AXIS));
+		optionsPanel.add(new JButton("Game aanmaken"));
+		optionsPanel.add(new JButton("Uitnodigingen bekijken"));
+		
+		JPanel nextPreviousPanel = new JPanel();
+		nextPreviousPanel.setLayout(new BoxLayout(nextPreviousPanel, BoxLayout.X_AXIS));
+		JButton previousButton = new JButton("Vorige");
+		previousButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if ( pageNr > 0) {
+					pageNr--;
+					UpdateGames(pageNr);
+				}
+				;
+
+			}
+		});
+		JButton nextButton = new JButton("Volgende");
+		nextButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pageNr++;
+				UpdateGames(pageNr);
+			}
+		});
+		nextPreviousPanel.add(previousButton);
+		nextPreviousPanel.add(nextButton);
+		
+		currentGamesPanel = new RecentGamesPanel(gameList, pageNr);
+		ArrayList<RecentGamePanel> gamePanels = currentGamesPanel.getGamePanels();
+		for(RecentGamePanel p: gamePanels) {
+			p.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					gameControl.setCatan(p.getGame());
+					gameControl.joinGame();
+					setIngameGuiPanel();
+				}
+			});
+		}
+		
+		this.mainMenuGui = new MainMenuGUI(username, optionsPanel, nextPreviousPanel, currentGamesPanel);
+		
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
+	}
+	
+	public void UpdateGames(int pageId) {
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		mainMenuGui.remove(currentGamesPanel);
+		currentGamesPanel = new RecentGamesPanel(gameList, pageId);
+		mainMenuGui.add(currentGamesPanel, c);
+		mainMenuGui.getCurrentGamesPanel().invalidate();
+		mainMenuGui.getCurrentGamesPanel().validate();
 	}
 
 	public void setGameSelect() {
