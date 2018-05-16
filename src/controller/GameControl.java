@@ -156,11 +156,14 @@ public class GameControl {
 			return false;
 		}
 		
+		//TODO Check if enough resources
+		//TODO Move resources from player to bank
 		//TODO Check if there is not a building neighbouring this location
 		//TODO check if there are streets connected to this location
 
 		buildingLocation.setVillage(catanGame.getSelfPlayer().getAvailableVillage());
 		village.setBuildingLocation(buildingLocation);
+		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(), buildingLocation.getYLoc());
 
 		System.out.println(village.getBuildingLocation().getXLoc() + " " + village.getBuildingLocation().getYLoc());
 		return true;
@@ -168,17 +171,17 @@ public class GameControl {
 
 	public boolean buildCity(BuildingLocation buildingLocation) {
 		City city = catanGame.getSelfPlayer().getAvailableCity();
-
-		if (catanGame.getSelfPlayer().getAmountAvailableCities() <= 0) {
+		System.out.println(city);		
+		if (catanGame.getSelfPlayer().getAmountAvailableCities() <= 0) {			
 			return false;
 		}
-		if (buildingLocation.getCity() != null) {
+		if (buildingLocation.getCity() != null) {			
 			return false;
 		}
 		
-		//TODO Check if there is not a building neighbouring this location
-		//TODO check if there are streets connected to this location
-		
+		//TODO Check if enough resources
+		//TODO Move resources from player to bank
+		//TODO REWRITE: You can only upgrade a village to a city, check if player has a village on this location
 		if (buildingLocation.getVillage() != null) {
 			if (buildingLocation.getVillage().getPlayer().equals(catanGame.getSelfPlayer())) {
 				// upgrade village to city
@@ -186,15 +189,21 @@ public class GameControl {
 				buildingLocation.setVillage(null);
 				village.setBuildingLocation(null);
 				buildingLocation.setCity(city);
-				city.setBuildingLocation(buildingLocation);
+				city.setBuildingLocation(buildingLocation);				
+				mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), 0, 0);
+				mainDA.updateBuilding(city.getIdBuilding(), city.getPlayer().getIdPlayer(), buildingLocation.getXLoc(), buildingLocation.getYLoc());
+				System.out.println("upgraded to city");
+				return true;
 			}
 		} else {
 			// place city
 			buildingLocation.setCity(city);
 			city.setBuildingLocation(buildingLocation);
-
+			mainDA.updateBuilding(city.getIdBuilding(), city.getPlayer().getIdPlayer(), buildingLocation.getXLoc(), buildingLocation.getYLoc());
+			System.out.println("placed city");
+			return true;
 		}
-		return true;
+		return false;
 
 	}
 
@@ -207,6 +216,8 @@ public class GameControl {
 			return false;
 		}
 		
+		//TODO Check if enough resources
+		//TODO Move resources from player to bank
 		
 		//TODO check if there is a connected building/street to this location
 		
@@ -235,6 +246,26 @@ public class GameControl {
 			}
 		}
 	}
+	
+	public void setCityArrays() {
+		for (Player p : catanGame.getPlayers()) {
+			ArrayList<City> cityFromPlayer = mainDA.getCityFromPlayer(p.getIdPlayer());
+			p.setCityArr(cityFromPlayer);
+			for (City c : cityFromPlayer) {				
+				c.setPlayer(p);
+				if (c.getBuildingLocation().getXLoc() == 0 || c.getBuildingLocation().getYLoc() == 0) {
+					c.setBuildingLocation(null);					
+				} else {
+					for (BuildingLocation b : catanGame.getGameboard().getBuildingLocArr()) {
+						if (b.getXLoc() == c.getBuildingLocation().getXLoc() && b.getYLoc() == c.getBuildingLocation().getYLoc()) {
+							c.setBuildingLocation(b);
+							b.setCity(c);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	public void setCatan(Catan game) {
 		this.catanGame = game;
@@ -242,6 +273,7 @@ public class GameControl {
 		Gameboard gameboard = gameBoardControl.loadBoard();
 		game.fillCatan(gameboard);
 		setVillageArrays();
+		setCityArrays();
 		
 		
 	}

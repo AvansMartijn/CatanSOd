@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.Catan;
+import model.City;
 import model.Dice;
 import model.Gameboard;
 import model.PlayStatus;
@@ -324,7 +325,7 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (!gameControl.buildVillage(blb.getBuildingLocation())) {
+					if (!gameControl.buildCity(blb.getBuildingLocation())) {
 						System.out.println("Je kan hier niet bouwen");
 					}
 
@@ -385,6 +386,28 @@ public class GuiController {
 				}
 				blb.setBackground(color);
 
+			}
+			
+			City city = blb.getBuildingLocation().getCity();
+			if (city != null) {
+				Color color = Color.BLACK;
+				switch (city.getPlayer().getColor()) {
+				case ROOD:
+					color = Color.RED;
+					break;
+				case WIT:
+					color = Color.WHITE;
+					break;
+				case BLAUW:
+					color = Color.BLUE;
+					break;
+				case ORANJE:
+					color = Color.ORANGE;
+					break;
+
+				}
+				blb.setBackground(color);
+				
 			}
 		}
 	}

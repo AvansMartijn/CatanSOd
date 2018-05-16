@@ -55,7 +55,7 @@ public class BoardPanel extends JPanel {
 		streetLocArray = gameBoard.getStreetLocArr();
 		setLayout(null);
 		// setLayout(new GridBagLayout())
-		setBackground(Color.BLUE);
+		setBackground(new Color(68, 196, 255));
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		createTiles();
 	}

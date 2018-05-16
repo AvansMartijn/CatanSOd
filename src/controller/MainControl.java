@@ -50,8 +50,6 @@ public class MainControl {
 		}
 
 		guiController.setMainMenu(catanGames, account.getUsername());
-		
-//		gameControl.testMethod();
 	}
 	
 	private ArrayList<Player> getPlayers(int idGame) {

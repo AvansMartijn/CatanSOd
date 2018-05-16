@@ -551,11 +551,17 @@ public class MainDA {
 	}
 
 	public void updateBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
-
-		String query = "UPDATE spelerstuk SET idstuk = '" + idPiece + "',  x_van =  + " + x_From + ", y_van = " + y_From
-				+ " WHERE '" + idPlayer + "';";
+		String query;
+		if(x_From == 0 && y_From == 0) {
+			System.out.println("null null");
+			 query = "UPDATE spelerstuk SET x_van = null, y_van = null WHERE idspeler = '" + idPlayer + "' AND idstuk = '" + idPiece + "';";
+		}else {
+			 query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From
+					+ " WHERE idspeler = '" + idPlayer + "' AND idstuk = '" + idPiece + "';";
+		}		
+		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to add Building");
+			System.out.println("Unable to update Building");
 		}
 
 	}
@@ -613,6 +619,32 @@ public class MainDA {
 				Village village = new Village(idpiece);
 				village.setBuildingLocation(new BuildingLocation(x_from, y_from));
 				retArr.add(village);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retArr;
+	}
+	
+	public ArrayList<City> getCityFromPlayer(int playerID) {
+		ArrayList<City> retArr = new ArrayList<City>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'c%' AND idspeler = " + playerID + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String idpiece = myRs.getString(1);
+				int x_from = myRs.getInt(2);
+				int y_from = myRs.getInt(3);
+				City city = new City(idpiece);
+				city.setBuildingLocation(new BuildingLocation(x_from, y_from));
+				retArr.add(city);
 			}
 			myRs.close();
 			stmt.close();

@@ -283,8 +283,8 @@ public class Player {
 	}
 	
 	public City getAvailableCity() {
-		for(City c : cityArr) {			
-			if(!c.isBuild()) {
+		for(City c : cityArr) {				
+			if(!c.isBuild()) {				
 				return c;
 			}
 		}
