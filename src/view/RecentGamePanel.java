@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class RecentGamePanel extends JPanel {
 		this.game = game;
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		this.setSize(new Dimension(400, 150));
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		c.gridx = 0;
@@ -43,7 +45,7 @@ public class RecentGamePanel extends JPanel {
 			if (p.getFollownr() == game.getPlayerTurn()) {
 				turnUsername = p.getUsername();
 			}
-			displayString = String.format("%s %s: %d ", displayString, p.getUsername(), p.getOverwinningspunten());
+			displayString = String.format("%s %s: %s ", displayString, p.getUsername(), p.getPlayStatus());
 		}
 		label = new JLabel(displayString);
 		this.add(label, c);

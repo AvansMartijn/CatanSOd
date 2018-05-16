@@ -37,7 +37,7 @@ public class MainMenuGUI extends JPanel {
 		mainPanel = new JPanel();
 		this.optionsPanel = optionsPanel;
 		this.nextPreviousPanel = nextPreviousPanel;
-		
+		this.currentGames = currentGames;
 		this.username = username;
 		pageNr = 0;
 		GridBagLayout gridLayout = new GridBagLayout();
@@ -50,19 +50,25 @@ public class MainMenuGUI extends JPanel {
 		c.gridx = 0;
 		c.gridy = 1;
 
-		mainPanel.add(optionsPanel);
+		mainPanel.add(this.optionsPanel, c);
 
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		
-		mainPanel.add(currentGames, c);
+		mainPanel.add(this.currentGames, c);
 		c.gridx = 0;
 		c.gridy = 3;
 		c.fill = GridBagConstraints.NONE;
-		mainPanel.add(nextPreviousPanel, c);
-		this.add(mainPanel);
+		mainPanel.add(this.nextPreviousPanel, c);
+		
+        setLayout(gridLayout);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.CENTER;
+
+        gridLayout.setConstraints(mainPanel, constraints);
+        add(mainPanel, constraints);
 	}
 	
 	public JPanel getCurrentGamesPanel() {
