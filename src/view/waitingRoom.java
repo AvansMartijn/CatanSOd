@@ -27,19 +27,21 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class waitingRoom extends JPanel {
 	private Font Bold = new Font("Arial", Font.BOLD, 30);
-	private Color lightBlue = new Color(0, 0, 182, 155);
-	private Color lightBlue2 = new Color(0, 0, 190, 160);
+
+	private Color lightBlue2 = new Color(230, 253, 255);
+	private Color lightblue3 = new Color(173, 216, 250);
+
 	private JPanel buttons = new JPanel();
 	private int joint = 0;
 	private JLabel playersInRoom = new JLabel();
 
 	public waitingRoom() {
 		this.setLayout(new BorderLayout());
-		buttons.setBackground(lightBlue2);
+		buttons.setBackground(lightblue3);
 		makebuttons();
 		this.add(buttons, BorderLayout.NORTH);
 		backgroundImage();
-		this.setBackground(lightBlue);
+		this.setBackground(lightblue3);
 		this.setVisible(true);
 	}
 
@@ -62,7 +64,7 @@ public class waitingRoom extends JPanel {
 		// aantal gejoinde mensen opschrijven
 		playersInRoom.setText("Players joined: " + getJoint());
 		playersInRoom.setFont(Bold);
-		playersInRoom.setForeground(Color.white);
+		playersInRoom.setForeground(Color.BLACK);
 		// text voor het wachten
 		waiting.setText("wait a few minutes, the match will start soon");
 		waiting.setForeground(Color.white);
@@ -79,7 +81,7 @@ public class waitingRoom extends JPanel {
 
 		JButton button[];
 		JButton Bruh, Laugh, hallelujah, mlg, noGodPleaseNo, wrong, thisissparta, metalgearsolid;
-		String text[] = { "bruh", "laugh", "hallelujah", "mlg", "noGod", "wrong", "parta", "metalgear" };
+		String text[] = { "Bruh", "Laugh", "Hallelujah", "Mlg", "NoGod", "Wrong", "Sparta", "Metalgear" };
 		String info = "press if you want to have a funny sound";
 		button = new JButton[8];
 		for (int count = 0; count < button.length; count++) {
@@ -87,8 +89,8 @@ public class waitingRoom extends JPanel {
 				makeJLabels();
 			}
 			button[count] = new JButton(text[count]);
-			button[count].setForeground(Color.WHITE);
-			button[count].setBackground(Color.black);
+			button[count].setForeground(Color.BLACK);
+			button[count].setBackground(lightBlue2);
 			button[count].setFont(Bold);
 			button[count].setSize(20, 20);
 			button[count].setMargin(new Insets(20, 20, 20, 20));
@@ -192,4 +194,1889 @@ public class waitingRoom extends JPanel {
 		this.joint = this.joint + joint;
 	}
 
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k//k
+	
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	
+	
+	//k//k//k//k//k//k
+	
+	
+	
+	
+	//k
+	//k
+	//k
+	//k//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k
+	//k//k
+	
+	//k//k
+	//k
+	
+	//k
+	//k
+	//k//k
+	
+	//k//k
 }
