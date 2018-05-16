@@ -9,6 +9,7 @@ public class Catan {
 	//Our version of Catan always has 4 players, that is the requirement. 
 	
 	private ArrayList<Player> players;
+	private Player selfPlayer;
 	private int idGame;
 	private Dice dice;
 	private Gameboard gameboard;
@@ -25,8 +26,9 @@ public class Catan {
 	 * @since 11 May 2018
 	 * @author Jasper Mooren
 	 */
-	public Catan(ArrayList<Player> players) {
+	public Catan(ArrayList<Player> players, Player selfPlayer) {
 		this.players = players;
+		this.selfPlayer = selfPlayer;
 		this.idGame = players.get(0).getidGame();
 		//First player (Players[0]) is the UITDAGER. The Rest is UIGEDAAGDE. 
 		//players[0] has already been made, so start at 1. 
@@ -115,4 +117,54 @@ public class Catan {
 		int playerTurn = 5;
 		return playerTurn;
 	}
+
+	public Player getSelfPlayer() {
+		return selfPlayer;
+	}
+
+	public void setSelfPlayer(Player selfPlayer) {
+		this.selfPlayer = selfPlayer;
+	}
+
+	public Dice getDice() {
+		return dice;
+	}
+
+	public void setDice(Dice dice) {
+		this.dice = dice;
+	}
+
+	public Gameboard getGameboard() {
+		return gameboard;
+	}
+
+	public void setGameboard(Gameboard gameboard) {
+		this.gameboard = gameboard;
+	}
+
+	public Bank getBank() {
+		return bank;
+	}
+
+	public void setBank(Bank bank) {
+		this.bank = bank;
+	}
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public void setTurn(int turn) {
+		this.turn = turn;
+	}
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
+
+	public void setIdGame(int idGame) {
+		this.idGame = idGame;
+	}
+	
+	
 }

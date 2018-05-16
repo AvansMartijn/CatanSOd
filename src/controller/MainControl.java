@@ -37,9 +37,16 @@ public class MainControl {
 		gameControl.setUsername(account.getUsername());
 		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
 		catanGames = new ArrayList<Catan>();
-		
 		for(int i = 0; i < gameIDsOfUser.size(); i++) {
-			catanGames.add(new Catan(getPlayers(gameIDsOfUser.get(i))));
+			ArrayList<Player> players = getPlayers(gameIDsOfUser.get(i));
+			Player selfPlayer = null;
+			for(Player p: players) {
+				if(p.getUsername() == account.getUsername()) {
+					selfPlayer = p;
+					break;
+				}
+			}
+			catanGames.add(new Catan(players, selfPlayer));
 		}
 
 		guiController.setMainMenu(catanGames, account.getUsername());
