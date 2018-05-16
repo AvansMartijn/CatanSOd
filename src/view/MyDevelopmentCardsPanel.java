@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.Player;
+
 @SuppressWarnings("serial")
 public class MyDevelopmentCardsPanel extends JPanel {
 	
@@ -27,7 +29,7 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	private ArrayList<JLabel> developmentCards;
 	private JPanel panel = new JPanel();
 
-	public MyDevelopmentCardsPanel() {
+	public MyDevelopmentCardsPanel(Player selfPlayer) {
 		create();
 		// TEST
 		for (int i = 0; i < 10; i++) {

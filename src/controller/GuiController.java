@@ -38,8 +38,11 @@ import view.DicePanel;
 import view.Frame;
 import view.GameGUIPanel;
 import view.GameSelect;
+import view.GameSouthContainerPanel;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
+import view.PlayerActionPanel;
+import view.PlayerStatsPanel;
 import view.RecentGamePanel;
 import view.RecentGamesPanel;
 import view.StreetLocationButton;
@@ -47,7 +50,10 @@ import view.TileButton;
 
 public class GuiController {
 
-	private Player player;
+//	private Player player;
+	private PlayerActionPanel playerActionPanel;
+	private GameSouthContainerPanel gameSouthContainerPanel;
+	private PlayerStatsPanel[] playerStatsPanels;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
 	private RecentGamesPanel currentGamesPanel;
@@ -235,9 +241,17 @@ public class GuiController {
 
 	public void setIngameGuiPanel() {
 		// boardPanel = new BoardPanel(gameBoard);
+		playerStatsPanels = new PlayerStatsPanel[4];
 		this.chatPanel = new ChatPanel(gameControl.getMessages());
 		this.dicePanel = new DiceDotPanel();
-		boardPanel = new BoardPanel(gameControl.getGameboard());
+		this.playerActionPanel = new PlayerActionPanel();
+		this.boardPanel = new BoardPanel(gameControl.getGameboard());
+		for(int i = 0; i <4; i++) {
+			Player player = gameControl.getCatanGame().getPlayers().get(i);
+			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
+			playerStatsPanels[i] = (playerstatspanel);
+		}
+		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels, gameControl.getCatanGame().getSelfPlayer());
 		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
 
 		JTextField chatPanelTextField = chatPanel.getTextField();
@@ -256,24 +270,26 @@ public class GuiController {
 				}
 			}
 		});
-		gameGUIPanel = new GameGUIPanel(player, boardPanel, dicePanel, chatPanel);
-		frame.setContentPane(gameGUIPanel);
+		gameGUIPanel = new GameGUIPanel(boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel);
 		addTileListeners();
 		addBuildLocListeners();
 		addStreetLocListeners();
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
 
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				refresh();
-				chatPanel.setMessages(gameControl.getMessages());
-			}
-
-		}, 0, 5000);
+//		timer = new Timer();
+//		timer.schedule(new TimerTask() {
+//
+//			@Override
+//			public void run() {
+//				refresh();
+//				chatPanel.setMessages(gameControl.getMessages());
+//			}
+//
+//		}, 0, 5000);
+		
+		frame.setContentPane(gameGUIPanel);
+		frame.pack();
 
 	}
 

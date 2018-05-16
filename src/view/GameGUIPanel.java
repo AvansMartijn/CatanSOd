@@ -23,20 +23,20 @@ public class GameGUIPanel extends JPanel {
 	private ChatPanel chatPanel;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	
-	private Player player;
+//	private Player player;
 	
 	// Constructor
-	public GameGUIPanel(Player player, BoardPanel boardPanel, DicePanel dicePanel, ChatPanel chatPanel) { // TODO array of players as you need 4 playerStatsPanels?
-		this.player = player;
+	public GameGUIPanel(BoardPanel boardPanel, DicePanel dicePanel, ChatPanel chatPanel, PlayerActionPanel playerActionPanel, GameSouthContainerPanel gameSouthContainerPanel) { // TODO array of players as you need 4 playerStatsPanels?
+//		this.player = player;
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
 		gameTopPanel = new GameTopPanel("CatanTest"); // TODO set gamelabel text in constructor
-		playerActionsPanel = new PlayerActionPanel();
+		this.playerActionsPanel = playerActionPanel;
 		resourcesPanel = new MyResourcesPanel();
 		this.boardPanel = boardPanel;
 		this.dicePanel = dicePanel;
 		this.chatPanel = chatPanel;
-		this.gameSouthContainerPanel = new GameSouthContainerPanel(); // TODO create array of players in constructor
+		this.gameSouthContainerPanel = gameSouthContainerPanel; // TODO create array of players in constructor
 		createLayout();
 	}
 

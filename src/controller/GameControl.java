@@ -277,6 +277,11 @@ public class GameControl {
 		
 		
 	}
+
+	public Catan getCatanGame() {
+		return catanGame;
+	}
+	
 	
 //	public void printPlayerVillages() {
 //		for (Player p : gamePlayers) {
