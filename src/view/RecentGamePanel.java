@@ -21,7 +21,6 @@ public class RecentGamePanel extends JPanel {
 		this.game = game;
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		this.setSize(new Dimension(400, 150));
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		c.gridx = 0;

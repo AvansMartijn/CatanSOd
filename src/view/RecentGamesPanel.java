@@ -8,8 +8,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,26 +17,17 @@ import model.Catan;
 @SuppressWarnings("serial")
 public class RecentGamesPanel extends JPanel {
 	ArrayList<RecentGamePanel> gamePanels;
-	private JPanel panel;
 	
 	public RecentGamesPanel(ArrayList<Catan> gameList, int page) {
 		gamePanels = new ArrayList<>();
-		panel = new JPanel();
-		panel.setPreferredSize(new Dimension(400, panel.getHeight()));
 		for(Catan game: gameList) {
 			gamePanels.add(new RecentGamePanel(game));
 		}
 		
-		JScrollPane js = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		js.getHorizontalScrollBar().setUnitIncrement(20);
-		js.setPreferredSize(new Dimension(420, 700));
-		add(js);
-
 		for(RecentGamePanel g: gamePanels) {
-			panel.add(g);
+			add(g);
 		}
-		panel.revalidate();
+		revalidate();
 //		BoxLayout gridLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 //		this.setLayout(gridLayout);
 //
