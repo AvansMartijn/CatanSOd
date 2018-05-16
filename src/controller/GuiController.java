@@ -71,9 +71,10 @@ public class GuiController {
 		// frame.setContentPane(gameGUIPanel);
 		// frame.setPreferredSize(new
 		// Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
-		// frame.setUndecorated(true);
 
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.dispose();
+		frame.setUndecorated(true);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);		
 		frame.pack();
 		frame.setVisible(true);
 	}

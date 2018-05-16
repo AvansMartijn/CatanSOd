@@ -14,6 +14,8 @@ public class Player {
 	private Hand hand;
 	private int overwinningspunten;
 	private int points;
+	private boolean hasLargestArmy;
+	private boolean hasLongestRoad;
 
 	//arrays with streets cities roads
 	private ArrayList<Village> villageArr;
@@ -24,6 +26,11 @@ public class Player {
 	public Player(String username) {
 		this.username = username;
 	}
+	private int settlements;
+//	private ArrayList<Settlement> settlementArr;
+	private int cities;
+	private int roads;
+	
 
 	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {	
 		this.idPlayer = idPlayer;
@@ -292,4 +299,36 @@ public class Player {
 		}
 		return null;
 	}
+	
+	public boolean getHasLargestArmy() {
+		return hasLargestArmy;
+	}
+	
+	public void setHasLargestArmy(boolean hasLargestArmy) {
+		this.hasLargestArmy = hasLargestArmy;
+	}
+	
+	public boolean getHasLongestRoad() {
+		return hasLongestRoad;
+	}
+	
+	public void setHasLongestRoad(boolean hasLongestRoad) {
+		this.hasLongestRoad = hasLongestRoad;
+	}
+
+	public String getSettlements() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getCities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getRoads() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

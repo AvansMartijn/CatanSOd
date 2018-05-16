@@ -56,6 +56,6 @@ public class MyResourcesPanel extends JPanel {
 			myResourceAmountLabels[i].setHorizontalAlignment(JLabel.CENTER);
 			add(myResourceIconLabels[i]);
 			add(myResourceAmountLabels[i]);
-		}
+		} // TODO update function
 	}
 }
