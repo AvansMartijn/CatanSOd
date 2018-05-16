@@ -38,7 +38,7 @@ public class MyDevelopmentCardsPanel extends JPanel {
 		// END TEST
 	}
 
-	private void create() {
+	public void create() {
 		developmentCards = new ArrayList<JLabel>();
 		setLayout(new FlowLayout());
 		setBackground(myBackgroundColor);
@@ -54,7 +54,7 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	}
 
 	// Add development cards
-	private void addDevelopmentCard(JPanel jp) {
+	public void addDevelopmentCard(JPanel jp) {
 		// Get Image
 		Image image = null;
 		try {
