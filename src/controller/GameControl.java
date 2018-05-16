@@ -19,7 +19,7 @@ import model.Village;
 public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private MainDA mainDA;
-	private String username;
+//	private String username;
 	private Catan catanGame;
 	
 //	private Gameboard gameboard;
@@ -33,9 +33,6 @@ public class GameControl {
 
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
-		// -----TEST------
-
-		// ----END TEST -----
 	}
 
 	public void testMethod() {
@@ -56,15 +53,6 @@ public class GameControl {
 //		gameboard = gameBoardControl.createBoard();
 
 	}
-
-	/**
-	 * Add a player
-	 */
-//	public void joinGame() {
-////		loadPlayers();
-//		
-////		printPlayerVillages();
-//	}
 
 	private void createNewPlayer() {
 		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(catanGame.getIdGame());
@@ -102,16 +90,6 @@ public class GameControl {
 				PlayStatus.valueOf(playStatus)));
 	}
 
-//	private void loadPlayers() {
-//		gamePlayers = mainDA.getPlayersFromGame(idGame);
-//		for (Player p : gamePlayers) {
-//			if (p.getUsername().equals(username)) {
-//				player = p;
-//				return;
-//			}
-//		}
-//	}
-
 	public void addPlayerToDB(Player player) {
 		mainDA.createPlayer(catanGame.getIdGame(), player.getUsername(), player.getColor().toString(), player.getFollownr(),
 				player.getPlayStatus().toString());
@@ -124,7 +102,8 @@ public class GameControl {
 	}
 
 	public boolean addMessage(String message) {
-		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame(), message)) {
+		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
+		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message)) {
 			return true;
 		} else {
 			return false;
@@ -140,21 +119,9 @@ public class GameControl {
 		return idTile;
 	}
 
-//	public void setGameID(int gameID) {
-//		this.idGame = gameID;
-//	}
-
 	public void makeBank() {
 		
 	}
-	
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-//	public Player getPlayer() {
-//		return player;
-//	}
 
 	public Gameboard getGameboard() {
 		return catanGame.getGameboard();

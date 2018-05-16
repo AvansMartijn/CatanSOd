@@ -66,7 +66,7 @@ public class GuiController {
 
 	private ArrayList<Catan> gameList;
 	private Gameboard gameBoard;
-//	private Timer timer;
+	private Timer timer;
 	private int pageNr;
 
 	public GuiController(MainControl mainControl, GameControl gameControl) {
@@ -75,9 +75,6 @@ public class GuiController {
 		frame = new Frame();
 
 		setInlogPanel();
-		// frame.setContentPane(gameGUIPanel);
-		// frame.setPreferredSize(new
-		// Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 
 		frame.dispose();
 		frame.setUndecorated(true);
@@ -155,7 +152,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent arg0) {
 				if ( pageNr > 0) {
 					pageNr--;
-					UpdateGames(pageNr);
+					retrieveGames(pageNr);
 				}
 				;
 
@@ -167,7 +164,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				pageNr++;
-				UpdateGames(pageNr);
+				retrieveGames(pageNr);
 			}
 		});
 		nextPreviousPanel.add(previousButton);
@@ -198,7 +195,7 @@ public class GuiController {
 		setIngameGuiPanel();
 	}
 	
-	public void UpdateGames(int pageId) {
+	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
@@ -247,7 +244,6 @@ public class GuiController {
 	}
 
 	public void setIngameGuiPanel() {
-		// boardPanel = new BoardPanel(gameBoard);
 		playerStatsPanels = new PlayerStatsPanel[4];
 		this.chatPanel = new ChatPanel(gameControl.getMessages());
 		this.dicePanel = new DiceDotPanel();
@@ -284,16 +280,16 @@ public class GuiController {
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
 
-//		timer = new Timer();
-//		timer.schedule(new TimerTask() {
-//
-//			@Override
-//			public void run() {
-//				refresh();
-//				chatPanel.setMessages(gameControl.getMessages());
-//			}
-//
-//		}, 0, 5000);
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				refresh();
+				chatPanel.setMessages(gameControl.getMessages());
+			}
+
+		}, 0, 5000);
 		
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
