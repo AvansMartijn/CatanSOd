@@ -18,9 +18,9 @@ public class City extends Building{
 	}	
 	
 	public boolean isBuild() {
-		if(buildingLocation == null) {
-			return true;
+		if(buildingLocation == null) {			
+			return false;
 		}
-		return false;
+		return true;
 	}
 }

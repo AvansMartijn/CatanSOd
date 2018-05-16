@@ -41,14 +41,16 @@ public class BuildingLocationButton extends JButton {
 			x[i] = x0 + (int) Math.round((getWidth() / 2) * Math.cos(v));
 			y[i] = y0 + (int) Math.round((getHeight() / 2) * Math.sin(v));
 		}
+		
 		Graphics2D graphics2d = (Graphics2D) g;
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.fillPolygon(x, y, n);
+		
 		super.paintComponent(g);
 	}
 
 	protected void paintBorder(Graphics g) {
-		g.setColor(getForeground());
+		g.setColor(Color.BLACK);
 		int x0 = getSize().width / 2;
 		int y0 = getSize().height / 2;
 		for (int i = 0; i < n; i++) {
@@ -56,7 +58,11 @@ public class BuildingLocationButton extends JButton {
 			x[i] = x0 + (int) Math.round((getWidth() / 2) * Math.cos(v));
 			y[i] = y0 + (int) Math.round((getHeight() / 2) * Math.sin(v));
 		}
-		g.drawPolygon(x, y, n);
+		
+		g.drawPolygon(x, y, n);		
+		if(buildingLocation.getCity() != null) {
+			setCityBorder(g);
+		}
 	}
 
 	Polygon polygon;
@@ -77,5 +83,18 @@ public class BuildingLocationButton extends JButton {
 
 	public BuildingLocation getBuildingLocation() {
 		return buildingLocation;
+	}
+	
+	public void setCityBorder(Graphics g) {
+		g.setColor(Color.BLACK);
+		int x0 = getSize().width / 2;
+		int y0 = getSize().height / 2;
+		for (int i = 0; i < n; i++) {
+			double v = i * angle;
+			x[i] = x0 + (int) Math.round((getWidth() / 4) * Math.cos(v));
+			y[i] = y0 + (int) Math.round((getHeight() / 4) * Math.sin(v));
+		}
+		g.drawPolygon(x, y, n);
+		g.fillPolygon(x, y, n);
 	}
 }
