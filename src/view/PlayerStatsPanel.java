@@ -24,6 +24,7 @@ public class PlayerStatsPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 210;
 	private final int PANEL_HEIGHT = 240;
+	private final int STATS_AMOUNT = 4;
 
 	// Instance variables
 	private Color backgroundColor = new Color(223, 190, 172);
@@ -38,7 +39,7 @@ public class PlayerStatsPanel extends JPanel {
 
 	// Constructor
 	public PlayerStatsPanel(Player player) {
-		statLabels = new JLabel[4];
+		statLabels = new JLabel[STATS_AMOUNT];
 		this.player = player;
 		playerNameLabel = new JLabel(player.getUsername());
 		playerPointsLabel = new JLabel("Punten: " + player.getPoints());

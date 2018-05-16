@@ -13,6 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Player;
+
 @SuppressWarnings("serial")
 public class MyResourcesPanel extends JPanel {
 
@@ -57,5 +59,16 @@ public class MyResourcesPanel extends JPanel {
 			add(myResourceIconLabels[i]);
 			add(myResourceAmountLabels[i]);
 		} // TODO update function
+		updateResourcesAmount();
+	}
+	
+	public void updateResourcesAmount() {
+//		Player player; // TODO 
+//		String[] resourceAmounts = new String[] { "" + player.getHand().getResources()., "" + player.getCities(), "" + player.getRoads(),
+//		"3", player.flkfla };
+//		
+//		for(int i = 0; i < myResourceAmountLabels.length; i++) {
+//			myResourceAmountLabels[i].setText(resourceAmounts[i]);
+//		}
 	}
 }
