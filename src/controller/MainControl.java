@@ -52,7 +52,6 @@ public class MainControl {
 		guiController.setMainMenu(catanGames, account.getUsername());
 		
 //		gameControl.testMethod();
-//		guiController.setGameBoard(gameControl.getGameboard());
 	}
 	
 	private ArrayList<Player> getPlayers(int idGame) {

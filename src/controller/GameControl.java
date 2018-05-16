@@ -18,12 +18,13 @@ import model.Village;
 
 public class GameControl {
 	private GameBoardControl gameBoardControl;
-//	private Gameboard gameboard;
 	private MainDA mainDA;
 	private String username;
+	private Catan catanGame;
+	
+//	private Gameboard gameboard;
 //	private ArrayList<Player> gamePlayers;
 //	private int idGame;
-	private Catan catanGame;
 //	private int playerID;
 //	private int account;
 //	private Player player;
@@ -41,7 +42,7 @@ public class GameControl {
 		// createGame(false);
 //		idGame = 770;
 //		playerID = mainDA.getPlayerID(username, idGame);
-		joinGame();
+//		joinGame();
 	}
 
 	/**
@@ -59,11 +60,11 @@ public class GameControl {
 	/**
 	 * Add a player
 	 */
-	public void joinGame() {
-//		loadPlayers();
-		
-//		printPlayerVillages();
-	}
+//	public void joinGame() {
+////		loadPlayers();
+//		
+////		printPlayerVillages();
+//	}
 
 	private void createNewPlayer() {
 		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(catanGame.getIdGame());

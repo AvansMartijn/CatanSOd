@@ -50,7 +50,10 @@ import view.TileButton;
 
 public class GuiController {
 
-//	private Player player;
+	private GameControl gameControl;
+	private MainControl mainControl;
+	
+	private Frame frame;
 	private PlayerActionPanel playerActionPanel;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
@@ -60,12 +63,10 @@ public class GuiController {
 	private BoardPanel boardPanel;
 	private DiceDotPanel dicePanel;
 	private ChatPanel chatPanel;
-	private Frame frame;
+
 	private ArrayList<Catan> gameList;
-	private MainControl mainControl;
-	private GameControl gameControl;
 	private Gameboard gameBoard;
-	private Timer timer;
+//	private Timer timer;
 	private int pageNr;
 
 	public GuiController(MainControl mainControl, GameControl gameControl) {
@@ -178,10 +179,10 @@ public class GuiController {
 			p.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					gameControl.setCatan(p.getGame());
-					gameControl.joinGame();
-					setIngameGuiPanel();
+					joinGame(p.getGame());
+					
 				}
+
 			});
 		}
 		
@@ -189,6 +190,12 @@ public class GuiController {
 		
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
+	}
+	
+	private void joinGame(Catan game) {
+		gameControl.setCatan(game);
+		setGameBoard(gameControl.getGameboard());
+		setIngameGuiPanel();
 	}
 	
 	public void UpdateGames(int pageId) {
