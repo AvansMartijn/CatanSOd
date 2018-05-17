@@ -59,39 +59,39 @@ public class BuildDialog extends JDialog {
 
 			setLayout(null);
 
-			title = new JLabel("BOUWEN");
-			title.setFont(new Font("SansSerif", Font.BOLD, 35));
-			title.setForeground(TextColor);
-			title.setBounds(90, 20, 180, 40);
-			add(title);
-
-			streetButton = new JButton("Straat");
-			streetButton.setBounds(BUTTON_OFFSET_X, 80, BUTTON_WIDTH, BUTTON_HEIGHT);
-			streetButton.setFont(new Font("SansSerif", Font.BOLD, 20));
-			streetButton.setBackground(textBackgroundColor);
-			streetButton.setForeground(TextColor);
-			add(streetButton);
-
-			villageButton = new JButton("Dorp");
-			villageButton.setBounds(BUTTON_OFFSET_X, 160, BUTTON_WIDTH, BUTTON_HEIGHT);
-			villageButton.setFont(new Font("SansSerif", Font.BOLD, 20));
-			villageButton.setBackground(textBackgroundColor);
-			villageButton.setForeground(TextColor);
-			add(villageButton);
-
-			cityButton = new JButton("Stad");
-			cityButton.setBounds(BUTTON_OFFSET_X, 240, BUTTON_WIDTH, BUTTON_HEIGHT);
-			cityButton.setFont(new Font("SansSerif", Font.BOLD, 20));
-			cityButton.setBackground(textBackgroundColor);
-			cityButton.setForeground(TextColor);
-			add(cityButton);
-
-			returnButton = new JButton("Terugkeren");
-			returnButton.setBounds(BUTTON_OFFSET_X, 270, BUTTON_WIDTH, BUTTON_HEIGHT);
-			returnButton.setFont(new Font("SansSerif", Font.BOLD, 20));
-			returnButton.setBackground(textBackgroundColor);
-			returnButton.setForeground(TextColor);
-			add(returnButton);
+			title = new JLabel("BOUWEN");                                                                                                                                               
+			title.setFont(new Font("SansSerif", Font.BOLD, 35));                                                                                                                        
+			title.setForeground(TextColor);                                                                                                                                             
+			title.setBounds(90, 20, 180, 40);                                                                                                                                           
+			add(title);                                                                                                                                                                 
+                                                                                                                                                                                        
+			streetButton = new JButton("Straat");                                                                                                                                       
+			streetButton.setBounds(BUTTON_OFFSET_X, 70, BUTTON_WIDTH, BUTTON_HEIGHT);                                                                                                   
+			streetButton.setFont(new Font("SansSerif", Font.BOLD, 20));                                                                                                                 
+			streetButton.setBackground(textBackgroundColor);                                                                                                                            
+			streetButton.setForeground(TextColor);                                                                                                                                      
+			add(streetButton);                                                                                                                                                          
+                                                                                                                                                                                        
+			villageButton = new JButton("Dorp");                                                                                                                                        
+			villageButton.setBounds(BUTTON_OFFSET_X, 140, BUTTON_WIDTH, BUTTON_HEIGHT);                                                                                                 
+			villageButton.setFont(new Font("SansSerif", Font.BOLD, 20));                                                                                                                
+			villageButton.setBackground(textBackgroundColor);                                                                                                                           
+			villageButton.setForeground(TextColor);                                                                                                                                     
+			add(villageButton);                                                                                                                                                         
+                                                                                                                                                                                        
+			cityButton = new JButton("Stad");                                                                                                                                           
+			cityButton.setBounds(BUTTON_OFFSET_X, 210, BUTTON_WIDTH, BUTTON_HEIGHT);                                                                                                    
+			cityButton.setFont(new Font("SansSerif", Font.BOLD, 20));                                                                                                                   
+			cityButton.setBackground(textBackgroundColor);                                                                                                                              
+			cityButton.setForeground(TextColor);                                                                                                                                        
+			add(cityButton);                                                                                                                                                            
+                                                                                                                                                                                        
+			returnButton = new JButton("Terugkeren");                                                                                                                                   
+			returnButton.setBounds(BUTTON_OFFSET_X, 280, BUTTON_WIDTH, BUTTON_HEIGHT);                                                                                                  
+			returnButton.setFont(new Font("SansSerif", Font.BOLD, 20));                                                                                                                 
+			returnButton.setBackground(textBackgroundColor);                                                                                                                            
+			returnButton.setForeground(TextColor);                                                                                                                                      
+			add(returnButton); 
 		}
 
 	}
