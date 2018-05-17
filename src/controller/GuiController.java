@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -43,6 +45,7 @@ import view.GameSelect;
 import view.GameSouthContainerPanel;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
+import view.NewGamePanel;
 import view.PlayerActionPanel;
 import view.PlayerStatsPanel;
 import view.RecentGamePanel;
@@ -142,35 +145,32 @@ public class GuiController {
 	public void setMainMenu(ArrayList<Catan> gameList, String username) {
 		JPanel optionsPanel = new JPanel();
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.X_AXIS));
-		optionsPanel.add(new JButton("Game aanmaken"));
-		optionsPanel.add(new JButton("Uitnodigingen bekijken"));
-
-		JPanel nextPreviousPanel = new JPanel();
-		nextPreviousPanel.setLayout(new BoxLayout(nextPreviousPanel, BoxLayout.X_AXIS));
-		JButton previousButton = new JButton("Vorige");
-		previousButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (pageNr > 0) {
-					pageNr--;
-					retrieveGames(pageNr);
-				}
-				;
-
-			}
-		});
-		JButton nextButton = new JButton("Volgende");
-		nextButton.addActionListener(new ActionListener() {
-
+		JButton createGameButton = new JButton("Game aanmaken");
+		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts());
+		createGameButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				pageNr++;
-				retrieveGames(pageNr);
+				JDialog dialog = new JDialog();
+				dialog.setTitle("Nieuw Spel");
+				dialog.setContentPane(newGamePanel);
+				dialog.pack();
+				dialog.setVisible(true);
+				
 			}
 		});
-		nextPreviousPanel.add(previousButton);
-		nextPreviousPanel.add(nextButton);
+		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int gameID = gameControl.createGame(false);
+				ArrayList<String> playerUsernames = newGamePanel.getInvitedPlayers();
+				for(String s: playerUsernames) {
+					gameControl.addPlayerToDB(gameID, gameControl.createNewPlayer(gameID, s));
+				}
+			}
+		});
+		optionsPanel.add(createGameButton);
+		
+		optionsPanel.add(new JButton("Uitnodigingen bekijken"));
 
 		currentGamesPanel = new RecentGamesPanel(gameList, pageNr);
 		ArrayList<RecentGamePanel> gamePanels = currentGamesPanel.getGamePanels();
@@ -185,7 +185,7 @@ public class GuiController {
 			});
 		}
 
-		this.mainMenuGui = new MainMenuGUI(username, optionsPanel, nextPreviousPanel, currentGamesPanel);
+		this.mainMenuGui = new MainMenuGUI(username, optionsPanel, currentGamesPanel);
 
 		frame.setContentPane(mainMenuGui);
 		frame.pack();

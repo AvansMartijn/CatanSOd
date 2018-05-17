@@ -1,30 +1,14 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import model.Catan;
-import model.Player;
 
 @SuppressWarnings("serial")
 public class MainMenuGUI extends JPanel {
@@ -33,16 +17,14 @@ public class MainMenuGUI extends JPanel {
 	private JPanel mainPanel;
 	private String username;
 	private JPanel optionsPanel;
-	private JPanel nextPreviousPanel;
 	private JScrollPane scrollPane;
 	private int pageNr;
 
-	public MainMenuGUI(String username, JPanel optionsPanel, JPanel nextPreviousPanel, RecentGamesPanel currentGames) {
+	public MainMenuGUI(String username, JPanel optionsPanel, RecentGamesPanel currentGames) {
 		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(420, 800));
 		this.optionsPanel = optionsPanel;
-		this.nextPreviousPanel = nextPreviousPanel;
 		this.currentGames = currentGames;
 		this.username = username;
 		pageNr = 0;

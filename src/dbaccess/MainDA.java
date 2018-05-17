@@ -682,4 +682,28 @@ public class MainDA {
 		return retArr;
 	}
 	
+	public ArrayList<String> getAllAccounts() {
+
+		ArrayList<String> retList = new ArrayList<String>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT username FROM account;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String username = myRs.getString(1);
+				retList.add(username);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			 System.out.println("Failed to get accounts from Database");
+		}
+		return retList;
+	}
+	
 }

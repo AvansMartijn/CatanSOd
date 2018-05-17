@@ -33,8 +33,8 @@ public class MainControl {
 
 	}
 	
+	
 	public void loadProfile() {
-//		gameControl.setUsername(account.getUsername());
 		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
 		catanGames = new ArrayList<Catan>();
 		for(int i = 0; i < gameIDsOfUser.size(); i++) {
@@ -63,6 +63,10 @@ public class MainControl {
 			mainDA.createAccount(username, password);
 			return true;
 		}
+	}
+	
+	public ArrayList<String> getAllAccounts() {
+		return mainDA.getAllAccounts();
 	}
 
 	public void logOut() {

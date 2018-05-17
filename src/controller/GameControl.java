@@ -45,17 +45,20 @@ public class GameControl {
 	/**
 	 * Create a game record in the DB AND sets idGame
 	 */
-	public void createGame(boolean randomBoard) {
-		catanGame.setIdGame(mainDA.createGame(randomBoard));
-		createNewPlayer();
+	public int createGame(boolean randomBoard) {
+		int gameID = mainDA.createGame(randomBoard);
+//		createNewPlayer();
 		// addPlayerToDB(player);
-		gameBoardControl = new GameBoardControl(mainDA, catanGame.getIdGame());
+		gameBoardControl = new GameBoardControl(mainDA, gameID);
+		
+		//TODO add gameboard to db
 		// gameboard = gameBoardControl.createBoard();
+		return gameID;
 
 	}
 
-	private void createNewPlayer() {
-		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(catanGame.getIdGame());
+	public Player createNewPlayer(int gameID, String username) {
+		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(gameID);
 		String playerColor = null;
 		int followNR = -1;
 		String playStatus = null;
@@ -86,12 +89,12 @@ public class GameControl {
 				break;
 			}
 		}
-		catanGame.setSelfPlayer(new Player(catanGame.getIdGame(), catanGame.getSelfPlayer().getUsername(),
-				PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus)));
+		Player player = new Player(gameID, username, PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
+		return player;
 	}
 
-	public void addPlayerToDB(Player player) {
-		mainDA.createPlayer(catanGame.getIdGame(), player.getUsername(), player.getColor().toString(),
+	public void addPlayerToDB(int idGame, Player player) {
+		mainDA.createPlayer(idGame, player.getUsername(), player.getColor().toString(),
 				player.getFollownr(), player.getPlayStatus().toString());
 	}
 
