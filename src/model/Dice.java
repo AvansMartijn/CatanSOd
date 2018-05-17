@@ -9,38 +9,23 @@ public class Dice
 	private Random random;
 
 	// constructor
-	public Dice()
-	{
+	public Dice() {
 		die = new int[2];
-		die[0] = 6;
-		die[1] = 3;
+		die[0] = 6; //Just for the GUI, so it isn't at 0, which would make it impossible to visualize. 
+		die[1] = 3; //Just for the GUI, so it isn't at 0, which would make it impossible to visualize. 
 		random = new Random();
-		
-		
-		
 	}
 
-	public void roll()
-	{
-		die[0] = getnewval(die[0]);
-		die[1] = getnewval(die[1]);
-		
+	public void roll() {
+		die[0] = rollRandom();
+		die[1] = rollRandom();
 	}
 
-	private int getnewval(int oldval)
-	{
-		int newval = 0;
-		while (true)
-		{
-			newval = random.nextInt(6) + 1;
-			if (newval != oldval)
-			{
-				return newval;
-			}
-		}
+	private int rollRandom() {
+		return (random.nextInt(6) + 1);
 	}
 
-	public int[] getSeperateValues(){
+	public int[] getSeperateValues() {
 		return die;
 	}
 	

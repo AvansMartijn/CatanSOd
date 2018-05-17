@@ -70,6 +70,12 @@ public class GuiController {
 	private ArrayList<Catan> gameList;
 	private Gameboard gameBoard;
 	private Timer timer;
+	
+	//TODO uncomment these when PlayerActionPanelExpended is merged (these classes are added in that branch)
+//	private BuyDialog buyDialog;
+//	private TradeDialog tradeDialog;
+//	private BuildDialog buildDialog;
+	
 	private int pageNr;
 
 	public GuiController(MainControl mainControl, GameControl gameControl) {
@@ -292,6 +298,11 @@ public class GuiController {
 			}
 
 		}, 0, 5000);
+		
+		addPlayerActionBuyButtonListener();
+		addPlayerActionTradeButtonListener();
+		addPlayerActionBuildButtonListener();
+		addPlayerActionEndTurnButtonListener();
 
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
@@ -356,16 +367,88 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int[] die = gameControl.rollDice();
-				dicePanel.setLastThrown(die);
-				gameControl.editDiceLastThrown(die);
-				dicePanel.repaint();
-
+				Catan catanGame = gameControl.getCatanGame();
+				//Only if it is the players' turn can the player roll the dice.
+				//Only if the player has not rolled the dice yet, can the player roll dice.
+				//This is separate for testing purposes, so just make it if(true) to disable the restriction. 
+				boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() == catanGame.getTurn() && !catanGame.hasRolledDice();
+				if(shouldRoll) {
+					int[] die = gameControl.rollDice();
+					dicePanel.setLastThrown(die);
+					gameControl.editDiceLastThrown(die);
+					dicePanel.repaint();
+					//When the player rolls the dice, he starts his turn
+					catanGame.setRolledDice(true);
+				}
 			}
-
 		});
 	}
+	
+	private void addPlayerActionBuyButtonListener() {
+		
+		playerActionPanel.getBuyButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
+					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
+//					buyDialog = new BuyDialog();					
+				}
+				
+			}
+		});
+		
+	}
+	
+	private void addPlayerActionTradeButtonListener() {
+		
+		playerActionPanel.getTradeButton().addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
+					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
+//					tradeDialog = new TradeDialog();				
+				}
+			}
+		});
+		
+	}
+
+	private void addPlayerActionBuildButtonListener() {
+		
+		playerActionPanel.getBuildButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
+					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
+//					buildDialog = new BuildDialog();
+				}
+			}
+		});
+		
+	}
+	
+	private void addPlayerActionEndTurnButtonListener() {
+		
+		playerActionPanel.getEndTurnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				Catan catanGame = gameControl.getCatanGame();
+				if(catanGame.isSelfPlayerTurn()) {
+					catanGame.endTurn();					
+				}
+			}
+		});
+		
+	}
+	
 	public void addPlayerColorToBuildingLocs() {
 		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {
 			Color color = Color.BLACK;
@@ -445,5 +528,4 @@ public class GuiController {
 	public void setGameBoard(Gameboard gameBoard) {
 		this.gameBoard = gameBoard;
 	}
-
 }

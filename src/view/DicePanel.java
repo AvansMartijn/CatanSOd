@@ -22,8 +22,7 @@ public class DicePanel extends JPanel {
 	// instance variables
 
 	// constructor
-	public DicePanel()
-	{
+	public DicePanel() {
 		setPreferredSize(new Dimension(PREF_WIDTH, PREF_HEIGHT));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
 		rollButton = new JButton();
@@ -32,8 +31,7 @@ public class DicePanel extends JPanel {
 	}
 
 	@Override
-	protected void paintComponent(Graphics g)
-	{
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.RED);
 		g.fillRoundRect(20, 70, SQUARE, SQUARE, ARC, ARC);

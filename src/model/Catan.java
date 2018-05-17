@@ -7,14 +7,21 @@ import java.util.ArrayList;
 public class Catan {
 	
 	//Our version of Catan always has 4 players, that is the requirement. 
-	
 	private ArrayList<Player> players;
 	private Player selfPlayer;
 	private int idGame;
 	private Dice dice;
 	private Gameboard gameboard;
 	private Bank bank;
+	//TODO Make sure that a conversion from playerID is made to the turn 
+	//get the followNr of the player of which it is it's turn. 
+	/** Player's turn in order: 1-4 */
 	private int turn;
+	/** 
+	 * {@code true} if the player has rolled the dice for his turn, {@code false} if not 
+	 * This is in Catan, mainly because it is in Catan in the database.
+	 */
+	private boolean rolledDice;
 	
 	/**
 	 * This creates a catanGame with all its players. 
@@ -105,6 +112,10 @@ public class Catan {
 
 	*/
 	
+	public void rollDice() {
+		dice.roll();	
+	}
+	
 	public int getIdGame() {
 		return idGame;
 	}
@@ -165,6 +176,37 @@ public class Catan {
 	public void setIdGame(int idGame) {
 		this.idGame = idGame;
 	}
+
+	public boolean hasRolledDice() {
+		return rolledDice;
+	}
+
+	public void setRolledDice(boolean rolledDice) {
+		this.rolledDice = rolledDice;
+	}
+
+	public void endTurn() {
+		rolledDice = false;
+		/*
+		 * Turn 1-4 % 4 -> Turn 0-3
+		 * turn++ -> turn 1-4 (turn 4 -> 1)
+		 */
+		turn = turn % 4;
+		turn++;
+	}
 	
-	
+	/**
+	 * Set this method to return true for testing, so you can test everything all the time. 
+	 * 
+	 * @since 18 May 2018
+	 * @author Jasper Mooren
+	 */
+	public boolean isSelfPlayerTurn() {
+		if(selfPlayer.getFollownr() == turn && rolledDice) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
