@@ -21,10 +21,10 @@ public class PlayerActionPanel extends JPanel {
 	private Color myBackgroundColor = new Color(189, 133, 100);
 	private Color myTextBackgroundColor = new Color(223, 190, 172);
 	
-	private JButton myBuyButton;
-	private JButton myTradeButton;
-	private JButton myBuildButton;
-	private JButton myEndTurnButton;
+	private JButton BuyButton;
+	private JButton TradeButton;
+	private JButton BuildButton;
+	private JButton EndTurnButton;
 	
 	// Constructor
 	public PlayerActionPanel() { // TODO add ActionListeners + USE AN ARRAY FOR THE BUTTONS (code repeats a lot)
@@ -40,35 +40,54 @@ public class PlayerActionPanel extends JPanel {
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.fill = GridBagConstraints.BOTH;
 		
-		myBuyButton = new JButton("Koop");
-		myBuyButton.setBackground(myTextBackgroundColor);
-		myBuyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		myBuyButton.setMargin(new Insets(4,0,4,0));
-		myBuyButton.setFont(new Font("Arial", Font.BOLD, 16));
+		BuyButton = new JButton("Koop");
+		BuyButton.setBackground(myTextBackgroundColor);
+		BuyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		BuyButton.setMargin(new Insets(4,0,4,0));
+		BuyButton.setFont(new Font("Arial", Font.BOLD, 16));
 		
-		myTradeButton = new JButton("Handel");
-		myTradeButton.setBackground(myTextBackgroundColor);
-		myTradeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		myTradeButton.setMargin(new Insets(4,0,4,0));
-		myTradeButton.setFont(new Font("Arial", Font.BOLD, 16));
+		TradeButton = new JButton("Handel");
+		TradeButton.setBackground(myTextBackgroundColor);
+		TradeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		TradeButton.setMargin(new Insets(4,0,4,0));
+		TradeButton.setFont(new Font("Arial", Font.BOLD, 16));
 		
-		myBuildButton = new JButton("Bouw");
-		myBuildButton.setBackground(myTextBackgroundColor);
-		myBuildButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		myBuildButton.setMargin(new Insets(4,0,4,0));
-		myBuildButton.setFont(new Font("Arial", Font.BOLD, 16));
+		BuildButton = new JButton("Bouw");
+		BuildButton.setBackground(myTextBackgroundColor);
+		BuildButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		BuildButton.setMargin(new Insets(4,0,4,0));
+		BuildButton.setFont(new Font("Arial", Font.BOLD, 16));
 		
-		myEndTurnButton = new JButton("Eindig Beurt");
-		myEndTurnButton.setBackground(Color.BLACK);
-		myEndTurnButton.setForeground(Color.WHITE);
-		myEndTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		myEndTurnButton.setMargin(new Insets(4,0,4,0));
-		myEndTurnButton.setFont(new Font("Arial", Font.BOLD, 16));
+		EndTurnButton = new JButton("Eindig Beurt");
+		EndTurnButton.setBackground(Color.BLACK);
+		EndTurnButton.setForeground(Color.WHITE);
+		EndTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		EndTurnButton.setMargin(new Insets(4,0,4,0));
+		EndTurnButton.setFont(new Font("Arial", Font.BOLD, 16));
 		
-		add(myBuyButton, c);
-		add(myTradeButton, c);
-		add(myBuildButton, c);
+		add(BuyButton, c);
+		add(TradeButton, c);
+		add(BuildButton, c);
 		c.insets = new Insets(50, 10, 10, 10);
-		add(myEndTurnButton, c);
+		add(EndTurnButton, c);
 	}
+
+	public JButton getBuyButton() {
+		return BuyButton;
+	}
+
+	public JButton getTradeButton() {
+		return TradeButton;
+	}
+
+	public JButton getBuildButton() {
+		return BuildButton;
+	}
+
+	public JButton getEndTurnButton() {
+		return EndTurnButton;
+	}
+	
+	
+	
 }

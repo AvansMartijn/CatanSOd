@@ -1,16 +1,12 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -20,15 +16,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.Catan;
 import model.City;
-import model.Dice;
 import model.Gameboard;
-import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Street;
@@ -36,9 +29,9 @@ import model.Tile;
 import model.Village;
 import view.BoardPanel;
 import view.BuildingLocationButton;
+import view.BuyDialog;
 import view.ChatPanel;
 import view.DiceDotPanel;
-import view.DicePanel;
 import view.Frame;
 import view.GameGUIPanel;
 import view.GameSelect;
@@ -52,6 +45,8 @@ import view.RecentGamePanel;
 import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
+import view.TradeDialog;
+import view.BuildDialog;
 
 public class GuiController {
 
@@ -60,6 +55,9 @@ public class GuiController {
 
 	private Frame frame;
 	private PlayerActionPanel playerActionPanel;
+	private TradeDialog tradeDialog;
+	private BuildDialog buildDialog;
+	private BuyDialog buyDialog;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
 	private MainMenuGUI mainMenuGui;
@@ -155,7 +153,6 @@ public class GuiController {
 				dialog.setContentPane(newGamePanel);
 				dialog.pack();
 				dialog.setVisible(true);
-				
 			}
 		});
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
@@ -163,13 +160,13 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				int gameID = gameControl.createGame(false);
 				ArrayList<String> playerUsernames = newGamePanel.getInvitedPlayers();
-				for(String s: playerUsernames) {
+				for (String s : playerUsernames) {
 					gameControl.addPlayerToDB(gameID, gameControl.createNewPlayer(gameID, s));
 				}
 			}
 		});
 		optionsPanel.add(createGameButton);
-		
+
 		optionsPanel.add(new JButton("Uitnodigingen bekijken"));
 
 		currentGamesPanel = new RecentGamesPanel(gameList, pageNr);
@@ -276,7 +273,8 @@ public class GuiController {
 				}
 			}
 		});
-		gameGUIPanel = new GameGUIPanel(boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
+		gameGUIPanel = new GameGUIPanel(boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
+				gameControl.getCatanGame().getSelfPlayer());
 		addTileListeners();
 		addBuildLocListeners();
 		addStreetLocListeners();
@@ -369,10 +367,10 @@ public class GuiController {
 	}
 
 	public void addPlayerColorToBuildingLocs() {
-		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {			
+		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {
 			Color color = Color.BLACK;
 
-			Village village = blb.getBuildingLocation().getVillage();	
+			Village village = blb.getBuildingLocation().getVillage();
 			if (village != null) {
 				color = convertPlayerColorToAWT(village.getPlayer().getColor());
 			}
@@ -382,22 +380,19 @@ public class GuiController {
 			if (city != null) {
 				color = convertPlayerColorToAWT(city.getPlayer().getColor());
 			}
-			blb.setBackground(color);		
-			
+			blb.setBackground(color);
 
 		}
 	}
-	
+
 	public void addPlayerColorToStreetLocs() {
-		for (StreetLocationButton slb : boardPanel.getStreetLocationButtonArrayList()) {			
+		for (StreetLocationButton slb : boardPanel.getStreetLocationButtonArrayList()) {
 			Color color = Color.BLACK;
-//			System.out.println("cameher");
-			Street street = slb.getStreetLocation().getStreet();	
+			Street street = slb.getStreetLocation().getStreet();
 			if (street != null) {
-//				System.out.println("notnull");
 				color = convertPlayerColorToAWT(street.getPlayer().getColor());
 			}
-			slb.setBackground(color);		
+			slb.setBackground(color);
 
 		}
 	}
