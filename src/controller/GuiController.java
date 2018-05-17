@@ -33,6 +33,7 @@ import model.Tile;
 import model.Village;
 import view.BoardPanel;
 import view.BuildingLocationButton;
+import view.BuyDialog;
 import view.ChatPanel;
 import view.DiceDotPanel;
 import view.DicePanel;
@@ -55,8 +56,9 @@ public class GuiController {
 
 	// private Player player;
 	private PlayerActionPanel playerActionPanel;
-	private TradeDialog tradeFrame;
-	private BuildDialog buildFrame;
+	private TradeDialog tradeDialog;
+	private BuildDialog buildDialog;
+	private BuyDialog buyDialog;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
 	private MainMenuGUI mainMenuGui;
