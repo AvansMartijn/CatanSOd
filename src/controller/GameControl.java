@@ -147,7 +147,7 @@ public class GameControl {
 	public boolean buildVillage(BuildingLocation buildingLocation) {
 		Village village = catanGame.getSelfPlayer().getAvailableVillage();
 		// check if player has a village to build
-		System.out.println(catanGame.getSelfPlayer().getAmountAvailableVillages() <= 0);
+
 		if (catanGame.getSelfPlayer().getAmountAvailableVillages() <= 0) {
 			return false;
 		}
@@ -160,13 +160,52 @@ public class GameControl {
 		// TODO Move resources from player to bank
 		// TODO Check if there is not a building neighbouring this location
 		// TODO check if there are streets connected to this location
+		int thisX = buildingLocation.getXLoc();
+		int thisY = buildingLocation.getYLoc();
+		for(BuildingLocation b : catanGame.getGameboard().getBuildingLocArr()) {
+			boolean isNeighbour = false;
+			if(b.getXLoc() == (thisX-1) && b.getYLoc() == thisY) {
+				//x-1
+				isNeighbour = true;
+			}else if(b.getXLoc() == (thisX+1) && b.getYLoc() == (thisY+1)) {
+				//x+1 y+1
+				isNeighbour = true;
+			}else if(b.getXLoc() == thisX && b.getYLoc() == (thisY-1)) {
+				//y-1
+				isNeighbour = true;
+			}else if(b.getXLoc() == (thisX-1) && b.getYLoc() == (thisY-1)) {
+				//x-1y-1
+				isNeighbour = true;
+			}else if(b.getXLoc() == thisX && b.getYLoc() == (thisY+1)) {
+				//y+1
+				isNeighbour = true;
+			}else if(b.getXLoc() == (thisX+1) && b.getYLoc() == thisY) {
+				//x+1
+				isNeighbour = true;
+			}
+			
+			if(isNeighbour) {
+				if(b.getVillage() != null) {
+					System.out.println("has neighbouring village");
+					return false;
+				}else if(b.getCity() != null) {
+					System.out.println("has neighbouring city");
+					return false;
+				}
+			}
+		}
+		//x-1
+		//x+1 y+1
+		//y-1
+		
+		//x-1y-1
+		//y+1
+		//x+1
 
 		buildingLocation.setVillage(catanGame.getSelfPlayer().getAvailableVillage());
 		village.setBuildingLocation(buildingLocation);
 		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
 				buildingLocation.getYLoc());
-
-		System.out.println(village.getBuildingLocation().getXLoc() + " " + village.getBuildingLocation().getYLoc());
 		return true;
 	}
 
@@ -180,6 +219,8 @@ public class GameControl {
 		if (buildingLocation.getVillage() == null) {
 			return false;
 		}
+		
+		
 
 		// TODO Check if enough resources
 		// TODO Move resources from player to bank
@@ -209,8 +250,9 @@ public class GameControl {
 
 	public boolean buildStreet(StreetLocation streetLocation) {
 		Street street = catanGame.getSelfPlayer().getAvailableStreet();
+		System.out.println(street.getIdBuilding());
 		if (catanGame.getSelfPlayer().getAmountAvailableStreets() <= 0) {
-			System.out.println("not enough villages");
+			System.out.println("not enough streets");
 			return false;
 		}
 		if (streetLocation.getStreet() != null) {
@@ -262,6 +304,7 @@ public class GameControl {
 				c.setPlayer(p);
 				if (c.getBuildingLocation().getXLoc() == 0 || c.getBuildingLocation().getYLoc() == 0) {
 					c.setBuildingLocation(null);
+					
 				} else {
 					for (BuildingLocation b : catanGame.getGameboard().getBuildingLocArr()) {
 						if (b.getXLoc() == c.getBuildingLocation().getXLoc()
@@ -279,15 +322,17 @@ public class GameControl {
 		for (Player p : catanGame.getPlayers()) {
 			ArrayList<Street> streetFromPlayer = mainDA.getStreetsFromPlayer(p.getIdPlayer());
 			p.setStreetArr(streetFromPlayer);
+			
 			for (Street s : streetFromPlayer) {
-				System.out.println(s.getIdBuilding());
+				
 				s.setPlayer(p);
-				int s_start_x = s.getStreetLocation().getBlStart().getXLoc();
-				int s_start_y = s.getStreetLocation().getBlStart().getYLoc();
-				int s_end_x = s.getStreetLocation().getBlEnd().getXLoc();
-				int s_end_y = s.getStreetLocation().getBlEnd().getYLoc();
+				int s_start_x = s.getDb_xfrom();
+				int s_start_y = s.getDb_yfrom();
+				int s_end_x = s.getDb_xto();
+				int s_end_y = s.getDb_yto();
 				if (s_start_x == 0 || s_start_y == 0 || s_end_x == 0 || s_end_y == 0) {
 					s.setStreetLocation(null);
+					
 				} else {
 					for (StreetLocation sl : catanGame.getGameboard().getStreetLocArr()) {
 						int sl_start_x = sl.getBlStart().getXLoc();
@@ -298,6 +343,7 @@ public class GameControl {
 								&& sl_end_y == s_end_y) {
 							s.setStreetLocation(sl);
 							sl.setStreet(s);
+							
 						}
 					}
 				}
@@ -312,6 +358,7 @@ public class GameControl {
 		game.fillCatan(gameboard);
 		setVillageArrays();
 		setCityArrays();
+		setStreetArrays();
 
 	}
 

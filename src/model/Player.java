@@ -291,9 +291,9 @@ public class Player {
 		return null;
 	}
 	
-	public Street getAvailableStreet() {
-		for(Street s : streetArr) {			
-			if(!s.isBuild()) {
+	public Street getAvailableStreet() {		
+		for(Street s : streetArr) {				
+			if(!s.isBuild()) {				
 				return s;
 			}
 		}

@@ -64,12 +64,12 @@ public class StreetLocation {
 			}
 		} 
 		if (getBlEnd().getCity() != null) {
-			if (getBlStart().getCity().getPlayer() == player) {
+			if (getBlEnd().getCity().getPlayer() == player) {
 				hasSettlement = true;
 			}
 		} 
 		if (getBlEnd().getVillage() != null) {
-			if (getBlStart().getVillage().getPlayer() == player) {
+			if (getBlEnd().getVillage().getPlayer() == player) {
 				hasSettlement = true;
 			}
 		} 		
