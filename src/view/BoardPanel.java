@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.GameControl;
@@ -29,6 +30,7 @@ public class BoardPanel extends JPanel {
 	private Gameboard gameBoard;
 	private final int panelWidth = 810;
 	private final int panelHeight = 700;
+	private Color myBackGroundColor = new Color(240, 226, 223);
 
 	private final int streetWidth = 20;
 	private final int streetHeight = 20;
@@ -54,13 +56,30 @@ public class BoardPanel extends JPanel {
 		buildingLocArray = gameBoard.getBuildingLocArr();
 		streetLocArray = gameBoard.getStreetLocArr();
 		setLayout(null);
-		// setLayout(new GridBagLayout())
-		setBackground(Color.BLUE);
+		
+		// TEST
+		setBackground(myBackGroundColor);
+		URL url = this.getClass().getResource("/images/ocean.png");
+		
+		Image image = null;
+		try {
+			image = ImageIO.read(url);
+			image = image.getScaledInstance(panelWidth, panelHeight, Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+		}
+		JLabel background = new JLabel();
+		ImageIcon icon = new ImageIcon(url);
+		background.setIcon(icon);
+		background.setBounds(0, 0, panelWidth, panelHeight);
+		add(background, -1);
+		// END TEST
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		createTiles();
 	}
+	
 
 
+	
 
 	public ArrayList<TileButton> getTileButtonArrayList() {
 		return tileButtonArrayList;
@@ -92,7 +111,7 @@ public class BoardPanel extends JPanel {
 			tileButton.setSize(tileWidth, tileHeight);
 
 			tileButtonArrayList.add(tileButton);
-			add(tileButton, -1);
+			add(tileButton, 0);
 
 		}
 

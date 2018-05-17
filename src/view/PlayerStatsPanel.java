@@ -95,10 +95,7 @@ public class PlayerStatsPanel extends JPanel {
 	private void updateStats() {
 		playerPointsLabel.setText("Punten: " + player.getPoints());
 		String[] playerStats = new String[] { "" + player.getSettlements(), "" + player.getCities(), "" + player.getRoads(),
-			"3" };
-		/*
-		 * "" + player.getHand().getResources().size() at last position of playerStats
-		 */ // TODO
+			"" + player.getHand().getResources().size()};
 		
 		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 2;

@@ -41,7 +41,7 @@ public class MainControl {
 			ArrayList<Player> players = getPlayers(gameIDsOfUser.get(i));
 			Player selfPlayer = null;
 			for(Player p: players) {
-				if(p.getUsername() == account.getUsername()) {
+				if(p.getUsername().equals(account.getUsername())) {
 					selfPlayer = p;
 					break;
 				}
