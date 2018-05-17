@@ -31,7 +31,7 @@ public class MyResourcesPanel extends JPanel {
 	private Player player;
 
 	// Constructor
-	public MyResourcesPanel(Player selfPlayer) { // TODO get resources amount from player
+	public MyResourcesPanel(Player selfPlayer) {
 		this.player = selfPlayer;
 		setLayout(new GridLayout(0, 10));
 		setBackground(myBackgroundColor);
@@ -57,7 +57,7 @@ public class MyResourcesPanel extends JPanel {
 			} catch (IOException e) {
 			}
 			myResourceIconLabels[i] = new JLabel(new ImageIcon(image));
-			myResourceAmountLabels[i] = new JLabel("0"); // TODO change labeltext to something like // player.getResources[ResourceType]
+			myResourceAmountLabels[i] = new JLabel("0");
 			myResourceAmountLabels[i].setFont(new Font("Arial", Font.BOLD, 20));
 			myResourceAmountLabels[i].setHorizontalAlignment(JLabel.CENTER);
 			add(myResourceIconLabels[i]);
