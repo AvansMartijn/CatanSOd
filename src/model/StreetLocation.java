@@ -51,4 +51,30 @@ public class StreetLocation {
 		this.street = street;
 	}
 	
+	public boolean hasAdjecentFriendlySettlement(Player player) {
+		boolean hasSettlement = false;
+		if (getBlStart().getCity() != null) {
+			if (getBlStart().getCity().getPlayer() == player) {
+				hasSettlement = true;
+			}
+		} 
+		if (getBlStart().getVillage() != null) {
+			if (getBlStart().getVillage().getPlayer() == player) {
+				hasSettlement = true;
+			}
+		} 
+		if (getBlEnd().getCity() != null) {
+			if (getBlEnd().getCity().getPlayer() == player) {
+				hasSettlement = true;
+			}
+		} 
+		if (getBlEnd().getVillage() != null) {
+			if (getBlEnd().getVillage().getPlayer() == player) {
+				hasSettlement = true;
+			}
+		} 		
+		
+		return hasSettlement;
+	}
+	
 }

@@ -33,14 +33,14 @@ public class MainControl {
 
 	}
 	
+	
 	public void loadProfile() {
-		gameControl.setUsername(account.getUsername());
 		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
 		catanGames = new ArrayList<Catan>();
 		for(int i = 0; i < gameIDsOfUser.size(); i++) {
 			ArrayList<Player> players = getPlayers(gameIDsOfUser.get(i));
 			Player selfPlayer = null;
-			for(Player p: players) {
+			for(Player p: players) {				
 				if(p.getUsername().equals(account.getUsername())) {
 					selfPlayer = p;
 					break;
@@ -50,9 +50,6 @@ public class MainControl {
 		}
 
 		guiController.setMainMenu(catanGames, account.getUsername());
-		
-//		gameControl.testMethod();
-//		guiController.setGameBoard(gameControl.getGameboard());
 	}
 	
 	private ArrayList<Player> getPlayers(int idGame) {
@@ -66,6 +63,10 @@ public class MainControl {
 			mainDA.createAccount(username, password);
 			return true;
 		}
+	}
+	
+	public ArrayList<String> getAllAccounts() {
+		return mainDA.getAllAccounts();
 	}
 
 	public void logOut() {

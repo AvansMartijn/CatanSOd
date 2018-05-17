@@ -73,6 +73,7 @@ public class BoardPanel extends JPanel {
 		background.setBounds(0, 0, panelWidth, panelHeight);
 		add(background, -1);
 		// END TEST
+
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		createTiles();
 	}

@@ -114,7 +114,7 @@ public class Catan {
 	}
 	
 	public int getPlayerTurn() {
-		int playerTurn = 5;
+		int playerTurn = 4;
 		return playerTurn;
 	}
 

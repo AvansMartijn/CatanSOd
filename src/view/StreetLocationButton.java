@@ -30,6 +30,7 @@ public class StreetLocationButton extends JButton {
 		setContentAreaFilled(false);
 		// setFocusPainted(false);
 		// setBorderPainted(false);
+		setBackground(Color.BLACK);
 
 	}
 
@@ -50,7 +51,7 @@ public class StreetLocationButton extends JButton {
 	        x[i] = x0 + (int)Math.round((getWidth()/2)*Math.cos(v));
 	        y[i] = y0 + (int)Math.round((getHeight()/2)*Math.sin(v));
 	    }
-	    g.setColor(Color.BLACK);
+	    g.setColor(getBackground());
 	    Graphics2D graphics2d = (Graphics2D) g;
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	    graphics2d.fillPolygon(x, y, n);

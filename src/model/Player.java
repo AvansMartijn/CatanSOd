@@ -284,17 +284,17 @@ public class Player {
 	}
 	
 	public City getAvailableCity() {
-		for(City c : cityArr) {			
-			if(!c.isBuild()) {
+		for(City c : cityArr) {				
+			if(!c.isBuild()) {				
 				return c;
 			}
 		}
 		return null;
 	}
 	
-	public Street getAvailableStreet() {
-		for(Street s : streetArr) {			
-			if(!s.isBuild()) {
+	public Street getAvailableStreet() {		
+		for(Street s : streetArr) {				
+			if(!s.isBuild()) {				
 				return s;
 			}
 		}
