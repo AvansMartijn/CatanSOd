@@ -3,6 +3,7 @@ package controller;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,11 +48,15 @@ import view.RecentGamePanel;
 import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
+import view.TradeDialog;
+import view.BuildDialog;
 
 public class GuiController {
 
-//	private Player player;
+	// private Player player;
 	private PlayerActionPanel playerActionPanel;
+	private TradeDialog tradeFrame;
+	private BuildDialog buildFrame;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
 	private MainMenuGUI mainMenuGui;
@@ -80,7 +85,7 @@ public class GuiController {
 
 		frame.dispose();
 		frame.setUndecorated(true);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);		
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -144,7 +149,7 @@ public class GuiController {
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.X_AXIS));
 		optionsPanel.add(new JButton("Game aanmaken"));
 		optionsPanel.add(new JButton("Uitnodigingen bekijken"));
-		
+
 		JPanel nextPreviousPanel = new JPanel();
 		nextPreviousPanel.setLayout(new BoxLayout(nextPreviousPanel, BoxLayout.X_AXIS));
 		JButton previousButton = new JButton("Vorige");
@@ -152,7 +157,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if ( pageNr > 0) {
+				if (pageNr > 0) {
 					pageNr--;
 					UpdateGames(pageNr);
 				}
@@ -171,10 +176,10 @@ public class GuiController {
 		});
 		nextPreviousPanel.add(previousButton);
 		nextPreviousPanel.add(nextButton);
-		
+
 		currentGamesPanel = new RecentGamesPanel(gameList, pageNr);
 		ArrayList<RecentGamePanel> gamePanels = currentGamesPanel.getGamePanels();
-		for(RecentGamePanel p: gamePanels) {
+		for (RecentGamePanel p : gamePanels) {
 			p.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -184,13 +189,13 @@ public class GuiController {
 				}
 			});
 		}
-		
+
 		this.mainMenuGui = new MainMenuGUI(username, optionsPanel, nextPreviousPanel, currentGamesPanel);
-		
+
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
 	}
-	
+
 	public void UpdateGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -246,12 +251,13 @@ public class GuiController {
 		this.dicePanel = new DiceDotPanel();
 		this.playerActionPanel = new PlayerActionPanel();
 		this.boardPanel = new BoardPanel(gameControl.getGameboard());
-		for(int i = 0; i <4; i++) {
+		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
 			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
 			playerStatsPanels[i] = (playerstatspanel);
 		}
-		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels, gameControl.getCatanGame().getSelfPlayer());
+		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels,
+				gameControl.getCatanGame().getSelfPlayer());
 		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
 
 		JTextField chatPanelTextField = chatPanel.getTextField();
@@ -277,17 +283,17 @@ public class GuiController {
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
 
-//		timer = new Timer();
-//		timer.schedule(new TimerTask() {
-//
-//			@Override
-//			public void run() {
-//				refresh();
-//				chatPanel.setMessages(gameControl.getMessages());
-//			}
-//
-//		}, 0, 5000);
-		
+		// timer = new Timer();
+		// timer.schedule(new TimerTask() {
+		//
+		// @Override
+		// public void run() {
+		// refresh();
+		// chatPanel.setMessages(gameControl.getMessages());
+		// }
+		//
+		// }, 0, 5000);
+
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
 
@@ -413,5 +419,5 @@ public class GuiController {
 	public void setGameBoard(Gameboard gameBoard) {
 		this.gameBoard = gameBoard;
 	}
-
+	
 }
