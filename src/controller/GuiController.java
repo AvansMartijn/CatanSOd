@@ -29,6 +29,7 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.Street;
 import model.Tile;
 import model.Village;
 import view.BoardPanel;
@@ -53,7 +54,7 @@ public class GuiController {
 
 	private GameControl gameControl;
 	private MainControl mainControl;
-	
+
 	private Frame frame;
 	private PlayerActionPanel playerActionPanel;
 	private GameSouthContainerPanel gameSouthContainerPanel;
@@ -79,7 +80,7 @@ public class GuiController {
 
 		frame.dispose();
 		frame.setUndecorated(true);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);		
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -143,7 +144,7 @@ public class GuiController {
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.X_AXIS));
 		optionsPanel.add(new JButton("Game aanmaken"));
 		optionsPanel.add(new JButton("Uitnodigingen bekijken"));
-		
+
 		JPanel nextPreviousPanel = new JPanel();
 		nextPreviousPanel.setLayout(new BoxLayout(nextPreviousPanel, BoxLayout.X_AXIS));
 		JButton previousButton = new JButton("Vorige");
@@ -151,7 +152,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if ( pageNr > 0) {
+				if (pageNr > 0) {
 					pageNr--;
 					retrieveGames(pageNr);
 				}
@@ -170,32 +171,32 @@ public class GuiController {
 		});
 		nextPreviousPanel.add(previousButton);
 		nextPreviousPanel.add(nextButton);
-		
+
 		currentGamesPanel = new RecentGamesPanel(gameList, pageNr);
 		ArrayList<RecentGamePanel> gamePanels = currentGamesPanel.getGamePanels();
-		for(RecentGamePanel p: gamePanels) {
+		for (RecentGamePanel p : gamePanels) {
 			p.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					joinGame(p.getGame());
-					
+
 				}
 
 			});
 		}
-		
+
 		this.mainMenuGui = new MainMenuGUI(username, optionsPanel, nextPreviousPanel, currentGamesPanel);
-		
+
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
 	}
-	
+
 	private void joinGame(Catan game) {
 		gameControl.setCatan(game);
 		setGameBoard(gameControl.getGameboard());
 		setIngameGuiPanel();
 	}
-	
+
 	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -250,12 +251,13 @@ public class GuiController {
 		this.dicePanel = new DiceDotPanel();
 		this.playerActionPanel = new PlayerActionPanel();
 		this.boardPanel = new BoardPanel(gameControl.getGameboard());
-		for(int i = 0; i <4; i++) {
+		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
 			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
 			playerStatsPanels[i] = (playerstatspanel);
 		}
-		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels, gameControl.getCatanGame().getSelfPlayer());
+		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels,
+				gameControl.getCatanGame().getSelfPlayer());
 		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
 
 		JTextField chatPanelTextField = chatPanel.getTextField();
@@ -280,6 +282,7 @@ public class GuiController {
 		addStreetLocListeners();
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
+		addPlayerColorToStreetLocs();
 
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
@@ -291,7 +294,7 @@ public class GuiController {
 			}
 
 		}, 0, 5000);
-		
+
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
 
@@ -326,7 +329,7 @@ public class GuiController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (!gameControl.buildCity(blb.getBuildingLocation())) {
-						System.out.println("Je kan hier niet bouwen");
+						System.out.println("Je kan hier geen neerzetting bouwen");
 					}
 
 				}
@@ -340,7 +343,9 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println(slb.getStreetLocation().getBlStart());
+					if (!gameControl.buildStreet(slb.getStreetLocation())) {
+						System.out.println("je kan hier geen straat bouwen");
+					}
 
 				}
 			});
@@ -364,52 +369,56 @@ public class GuiController {
 	}
 
 	public void addPlayerColorToBuildingLocs() {
-		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {
-			Village village = blb.getBuildingLocation().getVillage();
+		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {			
+			Color color = Color.BLACK;
+
+			Village village = blb.getBuildingLocation().getVillage();	
 			if (village != null) {
-
-				Color color = Color.BLACK;
-				switch (village.getPlayer().getColor()) {
-				case ROOD:
-					color = Color.RED;
-					break;
-				case WIT:
-					color = Color.WHITE;
-					break;
-				case BLAUW:
-					color = Color.BLUE;
-					break;
-				case ORANJE:
-					color = Color.ORANGE;
-					break;
-
-				}
-				blb.setBackground(color);
-
+				color = convertPlayerColorToAWT(village.getPlayer().getColor());
 			}
-			
+			blb.setBackground(color);
+
 			City city = blb.getBuildingLocation().getCity();
 			if (city != null) {
-				Color color = Color.BLACK;
-				switch (city.getPlayer().getColor()) {
-				case ROOD:
-					color = Color.RED;
-					break;
-				case WIT:
-					color = Color.WHITE;
-					break;
-				case BLAUW:
-					color = Color.BLUE;
-					break;
-				case ORANJE:
-					color = Color.ORANGE;
-					break;
-
-				}
-				blb.setBackground(color);
-				
+				color = convertPlayerColorToAWT(city.getPlayer().getColor());
 			}
+			blb.setBackground(color);		
+			
+
 		}
+	}
+	
+	public void addPlayerColorToStreetLocs() {
+		for (StreetLocationButton slb : boardPanel.getStreetLocationButtonArrayList()) {			
+			Color color = Color.BLACK;
+
+			Street street = slb.getStreetLocation().getStreet();	
+			if (street != null) {
+				color = convertPlayerColorToAWT(street.getPlayer().getColor());
+			}
+			slb.setBackground(color);		
+
+		}
+	}
+
+	public Color convertPlayerColorToAWT(PlayerColor playerColor) {
+		Color color = Color.BLACK;
+		switch (playerColor) {
+		case ROOD:
+			color = Color.RED;
+			break;
+		case WIT:
+			color = Color.WHITE;
+			break;
+		case BLAUW:
+			color = Color.BLUE;
+			break;
+		case ORANJE:
+			color = Color.ORANGE;
+			break;
+
+		}
+		return color;
 	}
 
 	public void refresh() {

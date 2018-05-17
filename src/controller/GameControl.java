@@ -19,17 +19,17 @@ import model.Village;
 public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private MainDA mainDA;
-//	private String username;
+	// private String username;
 	private Catan catanGame;
-	
-//	private Gameboard gameboard;
-//	private ArrayList<Player> gamePlayers;
-//	private int idGame;
-//	private int playerID;
-//	private int account;
-//	private Player player;
-//	private Bank bank;
-//	private Dice dice;
+
+	// private Gameboard gameboard;
+	// private ArrayList<Player> gamePlayers;
+	// private int idGame;
+	// private int playerID;
+	// private int account;
+	// private Player player;
+	// private Bank bank;
+	// private Dice dice;
 
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
@@ -37,9 +37,9 @@ public class GameControl {
 
 	public void testMethod() {
 		// createGame(false);
-//		idGame = 770;
-//		playerID = mainDA.getPlayerID(username, idGame);
-//		joinGame();
+		// idGame = 770;
+		// playerID = mainDA.getPlayerID(username, idGame);
+		// joinGame();
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class GameControl {
 		createNewPlayer();
 		// addPlayerToDB(player);
 		gameBoardControl = new GameBoardControl(mainDA, catanGame.getIdGame());
-//		gameboard = gameBoardControl.createBoard();
+		// gameboard = gameBoardControl.createBoard();
 
 	}
 
@@ -86,13 +86,13 @@ public class GameControl {
 				break;
 			}
 		}
-		catanGame.setSelfPlayer(new Player(catanGame.getIdGame(), catanGame.getSelfPlayer().getUsername(), PlayerColor.valueOf(playerColor), followNR,
-				PlayStatus.valueOf(playStatus)));
+		catanGame.setSelfPlayer(new Player(catanGame.getIdGame(), catanGame.getSelfPlayer().getUsername(),
+				PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus)));
 	}
 
 	public void addPlayerToDB(Player player) {
-		mainDA.createPlayer(catanGame.getIdGame(), player.getUsername(), player.getColor().toString(), player.getFollownr(),
-				player.getPlayStatus().toString());
+		mainDA.createPlayer(catanGame.getIdGame(), player.getUsername(), player.getColor().toString(),
+				player.getFollownr(), player.getPlayStatus().toString());
 	}
 
 	public ArrayList<String> getMessages() {
@@ -120,7 +120,7 @@ public class GameControl {
 	}
 
 	public void makeBank() {
-		
+
 	}
 
 	public Gameboard getGameboard() {
@@ -155,15 +155,16 @@ public class GameControl {
 		if (buildingLocation.getVillage() != null || buildingLocation.getCity() != null) {
 			return false;
 		}
-		
-		//TODO Check if enough resources
-		//TODO Move resources from player to bank
-		//TODO Check if there is not a building neighbouring this location
-		//TODO check if there are streets connected to this location
+
+		// TODO Check if enough resources
+		// TODO Move resources from player to bank
+		// TODO Check if there is not a building neighbouring this location
+		// TODO check if there are streets connected to this location
 
 		buildingLocation.setVillage(catanGame.getSelfPlayer().getAvailableVillage());
 		village.setBuildingLocation(buildingLocation);
-		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(), buildingLocation.getYLoc());
+		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
+				buildingLocation.getYLoc());
 
 		System.out.println(village.getBuildingLocation().getXLoc() + " " + village.getBuildingLocation().getYLoc());
 		return true;
@@ -171,17 +172,19 @@ public class GameControl {
 
 	public boolean buildCity(BuildingLocation buildingLocation) {
 		City city = catanGame.getSelfPlayer().getAvailableCity();
-		System.out.println(city);		
-		if (catanGame.getSelfPlayer().getAmountAvailableCities() <= 0) {			
+		System.out.println(city);
+		if (catanGame.getSelfPlayer().getAmountAvailableCities() <= 0) {
 			return false;
 		}
-		if (buildingLocation.getCity() != null) {			
+		// if there is no village here return false
+		if (buildingLocation.getVillage() == null) {
 			return false;
 		}
-		
-		//TODO Check if enough resources
-		//TODO Move resources from player to bank
-		//TODO REWRITE: You can only upgrade a village to a city, check if player has a village on this location
+
+		// TODO Check if enough resources
+		// TODO Move resources from player to bank
+
+		// check if player has a village on this buildinglocation to upgrade
 		if (buildingLocation.getVillage() != null) {
 			if (buildingLocation.getVillage().getPlayer().equals(catanGame.getSelfPlayer())) {
 				// upgrade village to city
@@ -189,41 +192,44 @@ public class GameControl {
 				buildingLocation.setVillage(null);
 				village.setBuildingLocation(null);
 				buildingLocation.setCity(city);
-				city.setBuildingLocation(buildingLocation);				
+				city.setBuildingLocation(buildingLocation);
 				mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), 0, 0);
-				mainDA.updateBuilding(city.getIdBuilding(), city.getPlayer().getIdPlayer(), buildingLocation.getXLoc(), buildingLocation.getYLoc());
+				mainDA.updateBuilding(city.getIdBuilding(), city.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
+						buildingLocation.getYLoc());
 				System.out.println("upgraded to city");
 				return true;
+			} else {
+				return false;
 			}
-		} else {
-			// place city
-			buildingLocation.setCity(city);
-			city.setBuildingLocation(buildingLocation);
-			mainDA.updateBuilding(city.getIdBuilding(), city.getPlayer().getIdPlayer(), buildingLocation.getXLoc(), buildingLocation.getYLoc());
-			System.out.println("placed city");
-			return true;
 		}
+
 		return false;
 
 	}
 
-	public boolean buildRoad(StreetLocation streetLocation) {
+	public boolean buildStreet(StreetLocation streetLocation) {
 		Street street = catanGame.getSelfPlayer().getAvailableStreet();
 		if (catanGame.getSelfPlayer().getAmountAvailableStreets() <= 0) {
+			System.out.println("not enough villages");
 			return false;
 		}
 		if (streetLocation.getStreet() != null) {
+			System.out.println("already a street here");
 			return false;
 		}
 		
-		//TODO Check if enough resources
-		//TODO Move resources from player to bank
-		
-		//TODO check if there is a connected building/street to this location
-		
+		if(!streetLocation.hasAdjecentFriendlySettlement(catanGame.getSelfPlayer())) {
+			System.out.println("no adjecent friendly settlements");
+			return false;
+		}
+		// TODO Check if enough resources
+		// TODO Move resources from player to bank		
+
 		streetLocation.setStreet(street);
 		street.setStreetLocation(streetLocation);
-
+		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(), streetLocation.getBlStart().getXLoc(),
+				streetLocation.getBlStart().getYLoc(), streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
+		System.out.println("street built");
 		return true;
 	}
 
@@ -237,7 +243,8 @@ public class GameControl {
 					v.setBuildingLocation(null);
 				} else {
 					for (BuildingLocation b : catanGame.getGameboard().getBuildingLocArr()) {
-						if (b.getXLoc() == v.getBuildingLocation().getXLoc() && b.getYLoc() == v.getBuildingLocation().getYLoc()) {
+						if (b.getXLoc() == v.getBuildingLocation().getXLoc()
+								&& b.getYLoc() == v.getBuildingLocation().getYLoc()) {
 							v.setBuildingLocation(b);
 							b.setVillage(v);
 						}
@@ -246,20 +253,51 @@ public class GameControl {
 			}
 		}
 	}
-	
+
 	public void setCityArrays() {
 		for (Player p : catanGame.getPlayers()) {
 			ArrayList<City> cityFromPlayer = mainDA.getCityFromPlayer(p.getIdPlayer());
 			p.setCityArr(cityFromPlayer);
-			for (City c : cityFromPlayer) {				
+			for (City c : cityFromPlayer) {
 				c.setPlayer(p);
 				if (c.getBuildingLocation().getXLoc() == 0 || c.getBuildingLocation().getYLoc() == 0) {
-					c.setBuildingLocation(null);					
+					c.setBuildingLocation(null);
 				} else {
 					for (BuildingLocation b : catanGame.getGameboard().getBuildingLocArr()) {
-						if (b.getXLoc() == c.getBuildingLocation().getXLoc() && b.getYLoc() == c.getBuildingLocation().getYLoc()) {
+						if (b.getXLoc() == c.getBuildingLocation().getXLoc()
+								&& b.getYLoc() == c.getBuildingLocation().getYLoc()) {
 							c.setBuildingLocation(b);
 							b.setCity(c);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void setStreetArrays() {
+		for (Player p : catanGame.getPlayers()) {
+			ArrayList<Street> streetFromPlayer = mainDA.getStreetsFromPlayer(p.getIdPlayer());
+			p.setStreetArr(streetFromPlayer);
+			for (Street s : streetFromPlayer) {
+				System.out.println(s.getIdBuilding());
+				s.setPlayer(p);
+				int s_start_x = s.getStreetLocation().getBlStart().getXLoc();
+				int s_start_y = s.getStreetLocation().getBlStart().getYLoc();
+				int s_end_x = s.getStreetLocation().getBlEnd().getXLoc();
+				int s_end_y = s.getStreetLocation().getBlEnd().getYLoc();
+				if (s_start_x == 0 || s_start_y == 0 || s_end_x == 0 || s_end_y == 0) {
+					s.setStreetLocation(null);
+				} else {
+					for (StreetLocation sl : catanGame.getGameboard().getStreetLocArr()) {
+						int sl_start_x = sl.getBlStart().getXLoc();
+						int sl_start_y = sl.getBlStart().getYLoc();
+						int sl_end_x = sl.getBlEnd().getXLoc();
+						int sl_end_y = sl.getBlEnd().getYLoc();
+						if (sl_start_x == s_start_x && sl_start_y == s_start_y && sl_end_x == s_end_x
+								&& sl_end_y == s_end_y) {
+							s.setStreetLocation(sl);
+							sl.setStreet(s);
 						}
 					}
 				}
@@ -274,23 +312,22 @@ public class GameControl {
 		game.fillCatan(gameboard);
 		setVillageArrays();
 		setCityArrays();
-		
-		
+
 	}
 
 	public Catan getCatanGame() {
 		return catanGame;
 	}
-	
-	
-//	public void printPlayerVillages() {
-//		for (Player p : gamePlayers) {
-//			System.out.println(p.getUsername());
-//			for(Village v: p.getVillageArr()) {
-//				
-//				System.out.println(v.getBuildingLocation().getXLoc() + " " + v.getBuildingLocation().getYLoc());
-//			}
-//		}
-//	}
+
+	// public void printPlayerVillages() {
+	// for (Player p : gamePlayers) {
+	// System.out.println(p.getUsername());
+	// for(Village v: p.getVillageArr()) {
+	//
+	// System.out.println(v.getBuildingLocation().getXLoc() + " " +
+	// v.getBuildingLocation().getYLoc());
+	// }
+	// }
+	// }
 
 }
