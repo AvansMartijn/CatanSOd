@@ -168,7 +168,7 @@ public class GameControl {
 	}
 
 	public int[] rollDice() {
-		catanGame.getDice().roll();
+		catanGame.rollDice();
 		return catanGame.getDice().getDie();
 	}
 
@@ -188,7 +188,7 @@ public class GameControl {
 			return false;
 		}
 		
-		//TODO Check if there is not a building neighbouring this location
+		//TODO Check if there is not a building neighboring this location
 		//TODO check if there are streets connected to this location
 
 		buildingLocation.setVillage(catanGame.getSelfPlayer().getAvailableVillage());
@@ -220,7 +220,8 @@ public class GameControl {
 				buildingLocation.setCity(city);
 				city.setBuildingLocation(buildingLocation);
 			}
-		} else {
+		} 
+		else {
 			// place city
 			buildingLocation.setCity(city);
 			city.setBuildingLocation(buildingLocation);
@@ -292,5 +293,5 @@ public class GameControl {
 //			}
 //		}
 //	}
-
+	
 }

@@ -86,4 +86,8 @@ public class GameGUIPanel extends JPanel {
 	public void setGameboardPanel() {
 		
 	}
+	
+	public JPanel getPlayerActionPanel() {
+		return playerActionsPanel;
+	}
 }

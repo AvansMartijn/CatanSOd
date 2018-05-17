@@ -1,12 +1,11 @@
 package controller;
 
-import javax.annotation.Resource;
-
 import model.Bank;
 import model.Catan;
 import model.City;
 import model.Hand;
 import model.Player;
+import model.Resource;
 import model.ResourceType;
 import model.Tile;
 import model.Village;

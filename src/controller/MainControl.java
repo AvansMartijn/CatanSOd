@@ -6,7 +6,6 @@ import dbaccess.MainDA;
 import model.Account;
 import model.Catan;
 import model.Player;
-import view.MainMenuGUI;
 
 
 public class MainControl {

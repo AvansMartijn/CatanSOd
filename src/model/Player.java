@@ -89,7 +89,6 @@ public class Player {
 	// Create hand
 	public void createHand() {
 		hand = new Hand();
-
 	}
 
 	// Throw dice
