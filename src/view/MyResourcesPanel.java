@@ -28,11 +28,11 @@ public class MyResourcesPanel extends JPanel {
 	private JLabel[] myResourceAmountLabels;
 	private Color myBackgroundColor = new Color(189, 133, 100);
 	
-	private Player player;
+	private Player selfPlayer;
 
 	// Constructor
 	public MyResourcesPanel(Player selfPlayer) {
-		this.player = selfPlayer;
+		this.selfPlayer = selfPlayer;
 		setLayout(new GridLayout(0, 10));
 		setBackground(myBackgroundColor);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -62,42 +62,42 @@ public class MyResourcesPanel extends JPanel {
 			myResourceAmountLabels[i].setHorizontalAlignment(JLabel.CENTER);
 			add(myResourceIconLabels[i]);
 			add(myResourceAmountLabels[i]);
-		} // TODO update function
+		}
 		updateResourcesAmount();
 	}
 	
 	public void updateResourcesAmount() {
 		
-//		// resources in order: wood, stone, wool, iron, wheat
-//		int[] resourcesAmount = new int[] {0, 0, 0, 0, 0};
-//		
-//		// For the amount of resources in a Hand
-//		for(Resource r : player.getHand().getResources()) {
-//			
-//			switch(r.getRsType()) {
-//			case HOUT:
-//				resourcesAmount[0]++;
-//				break;
-//			case BAKSTEEN:
-//				resourcesAmount[1]++;
-//				break;
-//			case WOL:
-//				resourcesAmount[2]++;
-//				break;
-//			case ERTS:
-//				resourcesAmount[3]++;
-//				break;
-//			case GRAAN:
-//				resourcesAmount[4]++;
-//				break;
-//			default:
-//				break;
-//			}
-//		}
+		// resources in order: wood, stone, wool, iron, wheat
+		int[] resourcesAmount = new int[] {0, 0, 0, 0, 0};
 		
-//		// SetText on all labels
-//		for(int i = 0; i < myResourceAmountLabels.length; i++) {
-//			myResourceAmountLabels[i].setText(resourcesAmount[i] + "");
-//		}
+		// For the amount of resources in a Hand
+		for(Resource r : selfPlayer.getHand().getResources()) {
+			
+			switch(r.getRsType()) {
+			case HOUT:
+				resourcesAmount[0]++;
+				break;
+			case BAKSTEEN:
+				resourcesAmount[1]++;
+				break;
+			case WOL:
+				resourcesAmount[2]++;
+				break;
+			case ERTS:
+				resourcesAmount[3]++;
+				break;
+			case GRAAN:
+				resourcesAmount[4]++;
+				break;
+			default:
+				break;
+			}
+		}
+		
+		// SetText on all labels which contain resource amounts
+		for(int i = 0; i < myResourceAmountLabels.length; i++) {
+			myResourceAmountLabels[i].setText(resourcesAmount[i] + "");
+		}
 	}
 }

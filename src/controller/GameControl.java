@@ -97,7 +97,7 @@ public class GameControl {
 				break;
 			}
 		}
-		catanGame.setSelfPlayer(new Player(catanGame.getIdGame(), catanGame.getSelfPlayer().getUsername(), PlayerColor.valueOf(playerColor), followNR,
+		catanGame.setSelfPlayer(new Player(catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame(), catanGame.getSelfPlayer().getUsername(), PlayerColor.valueOf(playerColor), followNR,
 				PlayStatus.valueOf(playStatus)));
 	}
 

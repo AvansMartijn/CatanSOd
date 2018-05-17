@@ -32,36 +32,36 @@ public class Player {
 	private int roads;
 	
 
-	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {	
-		this.idPlayer = idPlayer;
-		this.idGame = idGame;
-		this.username = username;
-		this.color = color;
-		this.follownr = follownr;
-		this.playStatus = playStatus;
-		
-		villageArr = new ArrayList<Village>();
-		cityArr = new ArrayList<City>();
-		streetArr = new ArrayList<Street>();
-		
-//		for(int i = 0; i < 10; i++) {
-//			villageArr.add(new Village());
-//		}
-//		for(int i = 0; i < 10; i++) {
-//			streetArr.add(new Street());
-//		}
-//		for(int i = 0; i < 5; i++) {
-//			cityArr.add(new City());
-//		}
-//		settlementArr = new ArrayList<Settlement>();
-//		for(int i = 0; i<10; i++) {
-//			settlementArr.add(new Settlement(false));
-//		}
-//		for(int i = 0; i<5; i++) {
-//			settlementArr.add(new Settlement(true));
-//		}
-		
-	}
+//	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {	
+//		this.idPlayer = idPlayer;
+//		this.idGame = idGame;
+//		this.username = username;
+//		this.color = color;
+//		this.follownr = follownr;
+//		this.playStatus = playStatus;
+//		
+//		villageArr = new ArrayList<Village>();
+//		cityArr = new ArrayList<City>();
+//		streetArr = new ArrayList<Street>();
+//		
+////		for(int i = 0; i < 10; i++) {
+////			villageArr.add(new Village());
+////		}
+////		for(int i = 0; i < 10; i++) {
+////			streetArr.add(new Street());
+////		}
+////		for(int i = 0; i < 5; i++) {
+////			cityArr.add(new City());
+////		}
+////		settlementArr = new ArrayList<Settlement>();
+////		for(int i = 0; i<10; i++) {
+////			settlementArr.add(new Settlement(false));
+////		}
+////		for(int i = 0; i<5; i++) {
+////			settlementArr.add(new Settlement(true));
+////		}
+//		
+//	}
 	
 	public Player(int idPlayer, int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {
 		this.idPlayer = idPlayer;
@@ -74,6 +74,7 @@ public class Player {
 		villageArr = new ArrayList<Village>();
 		cityArr = new ArrayList<City>();
 		streetArr = new ArrayList<Street>();
+		createHand();
 		
 //		for(int i = 0; i < 10; i++) {
 //			villageArr.add(new Village());
