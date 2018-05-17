@@ -270,7 +270,7 @@ public class GuiController {
 				}
 			}
 		});
-		gameGUIPanel = new GameGUIPanel(boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel);
+		gameGUIPanel = new GameGUIPanel(boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
 		addTileListeners();
 		addBuildLocListeners();
 		addStreetLocListeners();

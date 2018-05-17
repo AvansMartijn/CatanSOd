@@ -95,7 +95,7 @@ public class PlayerStatsPanel extends JPanel {
 	private void updateStats() {
 		playerPointsLabel.setText("Punten: " + player.getPoints());
 		String[] playerStats = new String[] { "" + player.getSettlements(), "" + player.getCities(), "" + player.getRoads(),
-			"3" };
+			"" + "3"}; // TODO last one needs to be: player.getHand().getResources().size()
 		/*
 		 * "" + player.getHand().getResources().size() at last position of playerStats
 		 */ // TODO

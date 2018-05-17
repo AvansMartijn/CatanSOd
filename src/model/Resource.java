@@ -1,10 +1,14 @@
 package model;
 
 public class Resource {
-
-
+	private ResourceType rsType;
+	
 	public Resource(ResourceType resourceType) {
-		// TODO Auto-generated constructor stub
+		this.rsType = resourceType;
+	}
+
+	public ResourceType getRsType() {
+		return rsType;
 	}
 
 }

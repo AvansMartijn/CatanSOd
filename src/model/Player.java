@@ -316,19 +316,16 @@ public class Player {
 		this.hasLongestRoad = hasLongestRoad;
 	}
 
-	public String getSettlements() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getSettlements() {
+		return settlements;
 	}
 
-	public String getCities() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getCities() {
+		return cities;
 	}
 
-	public String getRoads() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getRoads() {
+		return roads;
 	}
 	
 }
