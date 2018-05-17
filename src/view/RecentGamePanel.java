@@ -20,6 +20,7 @@ public class RecentGamePanel extends JPanel {
 	public RecentGamePanel(Catan game) {
 		this.game = game;
 		this.setLayout(new GridBagLayout());
+		setPreferredSize(new Dimension(400, 100));
 		GridBagConstraints c = new GridBagConstraints();
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -29,14 +30,11 @@ public class RecentGamePanel extends JPanel {
 
 		JLabel label = new JLabel("Spel ID: " + game.getIdGame());
 		this.add(label, c);
-		// c.gridx = 1;
-		// c.gridy = 0;
-		// label = new JLabel("Ronde Nummer: 0");
-		// panel.add(label, c);
 		c.ipady = 20;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 2;
+		c.gridheight = 2;
 		ArrayList<Player> playerArray = game.getPlayers();
 		String displayString = "";
 		String turnUsername = "";
@@ -44,19 +42,21 @@ public class RecentGamePanel extends JPanel {
 			if (p.getFollownr() == game.getPlayerTurn()) {
 				turnUsername = p.getUsername();
 			}
-			displayString = String.format("%s %s: %s ", displayString, p.getUsername(), p.getPlayStatus());
+			displayString = String.format("%s: %s ", p.getUsername(), p.getPlayStatus());
+			label = new JLabel(displayString);
+			this.add(label, c);
+			c.gridy ++;
+			c.gridx ++;
 		}
-		label = new JLabel(displayString);
-		this.add(label, c);
 		c.ipady = 10;
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy ++;
 		c.gridwidth = 2;
 		label = new JLabel(turnUsername + " is aan de beurt!");
 		this.add(label, c);
 		c.ipady = 10;
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy ++;
 		c.gridwidth = 2;
 	}
 	
