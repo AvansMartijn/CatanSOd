@@ -2,9 +2,11 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Font;
-
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
@@ -14,7 +16,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import java.io.IOException;
-
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -27,11 +30,10 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class waitingRoom extends JPanel {
 	private Font Bold = new Font("Arial", Font.BOLD, 30);
-
 	private Color lightBlue2 = new Color(230, 253, 255);
 	private Color lightblue3 = new Color(173, 216, 250);
-
 	private JPanel buttons = new JPanel();
+	private JPanel videos = new JPanel();
 	private int joint = 0;
 	private JLabel playersInRoom = new JLabel();
 
@@ -41,6 +43,9 @@ public class waitingRoom extends JPanel {
 		makebuttons();
 		this.add(buttons, BorderLayout.NORTH);
 		backgroundImage();
+		this.add(videos, BorderLayout.SOUTH);
+		videos.setBackground(lightblue3);
+		trailer();
 		this.setBackground(lightblue3);
 		this.setVisible(true);
 	}
@@ -56,6 +61,7 @@ public class waitingRoom extends JPanel {
 		}
 		JLabel background = new JLabel(new ImageIcon(image));
 		this.add(background, BorderLayout.CENTER);
+
 	}
 
 	public void makeJLabels() {
@@ -194,7 +200,33 @@ public class waitingRoom extends JPanel {
 		this.joint = this.joint + joint;
 	}
 
+	public void trailer() {
+		Font Bold = new Font("Arial", Font.BOLD, 40);
 
-	
-	
+		JButton video = new JButton("Trailer");
+		video.setForeground(Color.BLACK);
+		video.setBackground(lightBlue2);
+		video.setFont(Bold);
+		video.setSize(50, 20);
+		video.setMargin(new Insets(20, 20, 20, 20));
+		video.setEnabled(true);
+		video.setToolTipText("bekijk de trailer");
+		video.setVisible(true);
+		video.setBorderPainted(true);
+		video.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Desktop.getDesktop()
+							.open(new File("D:\\java codering voor programmeren\\CatanSOd\\Music\\Catan Trailer.mpg"));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("sorry you don't have the required programs");
+				}
+
+			}
+		});
+		videos.add(video, BorderLayout.CENTER);
+	}
 }
