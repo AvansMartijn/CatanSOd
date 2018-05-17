@@ -328,7 +328,7 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (!gameControl.buildCity(blb.getBuildingLocation())) {
+					if (!gameControl.buildVillage(blb.getBuildingLocation())) {
 						System.out.println("Je kan hier geen neerzetting bouwen");
 					}
 
@@ -391,9 +391,10 @@ public class GuiController {
 	public void addPlayerColorToStreetLocs() {
 		for (StreetLocationButton slb : boardPanel.getStreetLocationButtonArrayList()) {			
 			Color color = Color.BLACK;
-
+//			System.out.println("cameher");
 			Street street = slb.getStreetLocation().getStreet();	
 			if (street != null) {
+//				System.out.println("notnull");
 				color = convertPlayerColorToAWT(street.getPlayer().getColor());
 			}
 			slb.setBackground(color);		
@@ -425,6 +426,7 @@ public class GuiController {
 		refreshRobber();
 		refreshDice();
 		addPlayerColorToBuildingLocs();
+		addPlayerColorToStreetLocs();
 	}
 
 	public void refreshRobber() {

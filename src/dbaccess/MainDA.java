@@ -568,8 +568,8 @@ public class MainDA {
 	
 	public void updateStreet(String idPiece, int idPlayer, int x_From, int y_From, int x_to, int y_to) {
 
-		String query = "UPDATE spelerstuk SET idstuk = '" + idPiece + "',  x_van =  + " + x_From + ", y_van = " + y_From + ", x_naar = " + x_to + ", y_naar = " + y_to 
-				+ " WHERE '" + idPlayer + "';";
+		String query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From + ", x_naar = " + x_to + ", y_naar = " + y_to 
+				+ " WHERE idspeler ='" + idPlayer + "' AND idstuk = '" + idPiece + "';";		
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add Street");
 		}
@@ -660,7 +660,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idstuk, x_van, y_van, x_naar, y_naar FROM spelerstuk WHERE idstuk LIKE 's%' AND idspeler = " + playerID + ";";
+		String query = "SELECT idstuk, x_van, y_van, x_naar, y_naar FROM spelerstuk WHERE idstuk LIKE 'r%' AND idspeler = " + playerID + ";";		
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
