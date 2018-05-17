@@ -22,44 +22,59 @@ public class RecentGamePanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 100));
 		GridBagConstraints c = new GridBagConstraints();
-		
-		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weightx = 1;
 
+		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		c.gridx = 1;
+		c.gridy = 1;
+//		c.weightx = 1;
 		JLabel label = new JLabel("Spel ID: " + game.getIdGame());
 		this.add(label, c);
-		c.ipady = 20;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 2;
-		c.gridheight = 2;
+
 		ArrayList<Player> playerArray = game.getPlayers();
-		String displayString = "";
+		String[] displayStringArr = new String[4];
 		String turnUsername = "";
 		for (Player p : playerArray) {
 			if (p.getFollownr() == game.getPlayerTurn()) {
 				turnUsername = p.getUsername();
 			}
-			displayString = String.format("%s: %s ", p.getUsername(), p.getPlayStatus());
-			label = new JLabel(displayString);
-			this.add(label, c);
-			c.gridy ++;
-			c.gridx ++;
+			displayStringArr[p.getFollownr() - 1] = String.format("%s) %s: %s ", p.getFollownr(), p.getUsername(), p.getPlayStatus());
 		}
-		c.ipady = 10;
 		c.gridx = 0;
-		c.gridy ++;
-		c.gridwidth = 2;
+		c.gridy = 2;
+
+		this.add(new JLabel(displayStringArr[0]), c);
+		c.gridx = 0;
+		c.gridy = 3;
+//		c.gridwidth = 1;
+//		c.gridheight = 1;
+		this.add(new JLabel(displayStringArr[1]), c);
+		c.gridx = 0;
+		c.gridy = 4;
+//		c.gridwidth = 1;
+//		c.gridheight = 1;
+		this.add(new JLabel(displayStringArr[2]), c);
+		c.gridx = 0;
+		c.gridy = 5;
+//		c.gridwidth = 1;
+//		c.gridheight = 1;
+		this.add(new JLabel(displayStringArr[3]), c);
+		
+//		c.ipady = 10;
+//		c.gridx = 0;
+//		c.gridy++;
+//		c.gridwidth = 2;
+		c.gridx = 1;
+		c.gridy = 6;
+//		c.gridwidth = 1;
+//		c.gridheight = 1;
 		label = new JLabel(turnUsername + " is aan de beurt!");
 		this.add(label, c);
-		c.ipady = 10;
-		c.gridx = 0;
-		c.gridy ++;
-		c.gridwidth = 2;
+//		c.ipady = 10;
+//		c.gridx = 0;
+//		c.gridy++;
+//		c.gridwidth = 2;
 	}
-	
+
 	public Catan getGame() {
 		return game;
 	}

@@ -75,6 +75,7 @@ public class MainMenuGUI extends JPanel {
 	public class Title extends JPanel {
 		public Title() {
 			this.add(new JLabel("Welkom terug, " + username + "!")); // Must be logged in user.
+			this.setPreferredSize(new Dimension(400, 20));
 		}
 	}
 
