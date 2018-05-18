@@ -31,12 +31,12 @@ public class GameTopPanel extends JPanel {
 	private JButton GoToMainMenuButton;
 
 	// Constructor
-	public GameTopPanel(String myGameName) {
+	public GameTopPanel(int myGameName) {
 		create(myGameName);
 	}
 
 	// Create
-	private void create(String myGameName) {
+	private void create(int myGameName) {
 		setLayout(new BorderLayout());
 		setBackground(TopBarColor);
 
@@ -67,22 +67,9 @@ public class GameTopPanel extends JPanel {
 		add(GameLabel, BorderLayout.CENTER);
 		add(GoToMainMenuButton, BorderLayout.EAST);
 
-		GoToMainMenuButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				Object[] options = {"Ja",
-                "Nee"};
-				
-				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?", "Waarschuwing", JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);					
-				if (result == JOptionPane.YES_OPTION) {
-					System.exit(0);
-				}
-
-			}
-
-		});
+	}
+	
+	public JButton getGoToMainMenuButton() {
+		return GoToMainMenuButton;
 	}
 }

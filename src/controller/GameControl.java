@@ -15,6 +15,7 @@ import model.PlayerColor;
 import model.Street;
 import model.StreetLocation;
 import model.Village;
+import view.PlayerStatsPanel;
 
 public class GameControl {
 	private GameBoardControl gameBoardControl;
@@ -45,7 +46,7 @@ public class GameControl {
 	/**
 	 * Create a game record in the DB AND sets idGame
 	 */
-	public int createGame(boolean randomBoard) {
+	public int createGameInDB(boolean randomBoard) {
 		int gameID = mainDA.createGame(randomBoard);
 		// createNewPlayer();
 		// addPlayerToDB(player);
@@ -90,13 +91,13 @@ public class GameControl {
 			}
 		}
 
-		Player player = new Player(mainDA.getPlayerID(username, gameID), gameID, username,
+		Player player = new Player(mainDA.getLastUsedPlayerID() + 1, gameID, username,
 				PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
 		return player;
 	}
 
 	public void addPlayerToDB(int idGame, Player player) {
-		mainDA.createPlayer(idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
+		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
 				player.getPlayStatus().toString());
 	}
 
@@ -154,6 +155,7 @@ public class GameControl {
 		// check if player has a village to build
 
 		if (catanGame.getSelfPlayer().getAmountAvailableVillages() <= 0) {
+			System.out.println("not enough villages to build");
 			return false;
 		}
 		// check if nothing is build already on that location
@@ -278,9 +280,11 @@ public class GameControl {
 
 	public void setVillageArrays() {
 		for (Player p : catanGame.getPlayers()) {
+			System.out.println(p.getIdPlayer());
 			ArrayList<Village> villageFromPlayer = mainDA.getVillageFromPlayer(p.getIdPlayer());
 			p.setVillageArr(villageFromPlayer);
 			for (Village v : villageFromPlayer) {
+				System.out.println(v.getIdBuilding());
 				v.setPlayer(p);
 				if (v.getBuildingLocation().getXLoc() == 0 || v.getBuildingLocation().getYLoc() == 0) {
 					v.setBuildingLocation(null);
@@ -340,6 +344,7 @@ public class GameControl {
 						int sl_start_y = sl.getBlStart().getYLoc();
 						int sl_end_x = sl.getBlEnd().getXLoc();
 						int sl_end_y = sl.getBlEnd().getYLoc();
+						//TODO Check both orientation !!!!!
 						if (sl_start_x == s_start_x && sl_start_y == s_start_y && sl_end_x == s_end_x
 								&& sl_end_y == s_end_y) {
 							s.setStreetLocation(sl);
@@ -365,6 +370,23 @@ public class GameControl {
 
 	public Catan getCatanGame() {
 		return catanGame;
+	}
+
+	public void unloadCatan() {
+		catanGame.setBank(null);
+		catanGame.setDice(null);
+		catanGame.setGameboard(null);
+		
+	}
+
+	
+	
+	public boolean shouldRefresh() {
+		return mainDA.getShouldRefresh(catanGame.getSelfPlayer().getIdPlayer());
+	}
+	
+	public Gameboard createBoard(ArrayList<Player> players) {
+		return gameBoardControl.createBoard(players);
 	}
 
 	// public void printPlayerVillages() {
