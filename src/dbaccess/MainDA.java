@@ -223,10 +223,11 @@ public class MainDA {
 	/**
 	 * Add a player piece
 	 */
-	public void addBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
+	public void addPlayerPiece(String idPiece, int idPlayer) {
 
-		String query = "INSERT INTO spelerstuk (idstuk, idspeler, x_van, y_van)" + " VALUES " + "('" + idPiece + "' , "
-				+ idPlayer + ", " + x_From + ", " + y_From + ");";
+		String query = "INSERT INTO spelerstuk (idstuk, idspeler, x_van, y_van, x_naar, y_naar)" + " VALUES " + "('"
+				+ idPiece + "' , " + idPlayer + ", null, null, null, null);";
+		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add Building");
 		}
@@ -310,8 +311,63 @@ public class MainDA {
 	/**
 	 * Add a player to the Database
 	 */
-	public void createPlayer(int idGame, String username, String playerColor, int followNR, String playStatus) {
+	public void createPlayer(int idPlayer, int idGame, String username, String playerColor, int followNR, String playStatus) {
 
+		String insertquery = "INSERT INTO speler (idspeler, idspel, username, kleur, speelstatus, shouldrefresh, volgnr)"
+				+ " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor + "', '"
+				+ playStatus + "', " + false + ", " + followNR + ");";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Adding player to DB failed");
+		}
+	}
+	
+	public void setTurn(int idPlayer, int idGame) {
+		String insertquery = "UPDATE spel SET beurt_idspeler = '" + idPlayer + "' WHERE idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Changing turn to DB failed");
+		}
+	}
+	
+	public int getTurn(int idGame) {
+		int idPlayer = 0;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String searchquery = "SELECT beurt_idspeler FROM spel WHERE idspel = " + idGame + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(searchquery);
+			while (myRs.next()) {
+				idPlayer = myRs.getInt(1);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get last player ID");
+		}
+		return idPlayer;
+	}
+	
+	public void setThrownDice(int thrown, int idGame) {
+		String insertquery = "UPDATE spel SET gedobbeld = '" + thrown + "' WHERE idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Changing thrownDice to DB failed");
+		}
+	}
+	
+	public void setFirstRound(int firstRound, int idGame) {
+		String insertquery = "UPDATE spel SET eersteronde = '" + firstRound + "' WHERE idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Changing firstround to DB failed");
+		}
+	}
+
+	public int getLastUsedPlayerID() {
 		int idPlayer = 0;
 
 		makeConnection();
@@ -322,7 +378,7 @@ public class MainDA {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				idPlayer = myRs.getInt(1) + 1;
+				idPlayer = myRs.getInt(1);
 			}
 			myRs.close();
 			stmt.close();
@@ -330,14 +386,7 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get last player ID");
 		}
-
-		String insertquery = "INSERT INTO speler (idspeler, idspel, username, kleur, speelstatus, shouldrefresh, volgnr)"
-				+ " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor + "', '"
-				+ playStatus + "', " + false + ", " + followNR + ");";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("Adding player to DB failed");
-		}
+		return idPlayer;
 	}
 
 	/**
@@ -552,24 +601,25 @@ public class MainDA {
 
 	public void updateBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
 		String query;
-		if(x_From == 0 && y_From == 0) {
+		if (x_From == 0 && y_From == 0) {
 			System.out.println("null null");
-			 query = "UPDATE spelerstuk SET x_van = null, y_van = null WHERE idspeler = '" + idPlayer + "' AND idstuk = '" + idPiece + "';";
-		}else {
-			 query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From
-					+ " WHERE idspeler = '" + idPlayer + "' AND idstuk = '" + idPiece + "';";
-		}		
+			query = "UPDATE spelerstuk SET x_van = null, y_van = null WHERE idspeler = '" + idPlayer
+					+ "' AND idstuk = '" + idPiece + "';";
+		} else {
+			query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From + " WHERE idspeler = '" + idPlayer
+					+ "' AND idstuk = '" + idPiece + "';";
+		}
 		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to update Building");
 		}
 
 	}
-	
+
 	public void updateStreet(String idPiece, int idPlayer, int x_From, int y_From, int x_to, int y_to) {
 
-		String query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From + ", x_naar = " + x_to + ", y_naar = " + y_to 
-				+ " WHERE idspeler ='" + idPlayer + "' AND idstuk = '" + idPiece + "';";		
+		String query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From + ", x_naar = " + x_to
+				+ ", y_naar = " + y_to + " WHERE idspeler ='" + idPlayer + "' AND idstuk = '" + idPiece + "';";
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add Street");
 		}
@@ -581,7 +631,8 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'c%' AND idspeler = " + playerID + ";";
+		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'c%' AND idspeler = " + playerID
+				+ ";";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -589,7 +640,7 @@ public class MainDA {
 				String idpiece = myRs.getString(1);
 				int x_from = myRs.getInt(2);
 				int y_from = myRs.getInt(3);
-				
+
 				City city = new City(idpiece);
 				city.setBuildingLocation(new BuildingLocation(x_from, y_from));
 				retArr.add(city);
@@ -602,13 +653,14 @@ public class MainDA {
 		}
 		return retArr;
 	}
-	
+
 	public ArrayList<Village> getVillageFromPlayer(int playerID) {
 		ArrayList<Village> retArr = new ArrayList<Village>();
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'd%' AND idspeler = " + playerID + ";";
+		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'd%' AND idspeler = " + playerID
+				+ ";";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -628,13 +680,14 @@ public class MainDA {
 		}
 		return retArr;
 	}
-	
+
 	public ArrayList<City> getCityFromPlayer(int playerID) {
 		ArrayList<City> retArr = new ArrayList<City>();
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'c%' AND idspeler = " + playerID + ";";
+		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'c%' AND idspeler = " + playerID
+				+ ";";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -654,13 +707,14 @@ public class MainDA {
 		}
 		return retArr;
 	}
-	
+
 	public ArrayList<Street> getStreetsFromPlayer(int playerID) {
 		ArrayList<Street> retArr = new ArrayList<Street>();
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idstuk, x_van, y_van, x_naar, y_naar FROM spelerstuk WHERE idstuk LIKE 'r%' AND idspeler = " + playerID + ";";		
+		String query = "SELECT idstuk, x_van, y_van, x_naar, y_naar FROM spelerstuk WHERE idstuk LIKE 'r%' AND idspeler = "
+				+ playerID + ";";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -670,7 +724,7 @@ public class MainDA {
 				int y_from = myRs.getInt(3);
 				int x_to = myRs.getInt(4);
 				int y_to = myRs.getInt(5);
-				
+
 				retArr.add(new Street(idpiece, x_from, y_from, x_to, y_to));
 			}
 			myRs.close();
@@ -681,7 +735,7 @@ public class MainDA {
 		}
 		return retArr;
 	}
-	
+
 	public ArrayList<String> getAllAccounts() {
 
 		ArrayList<String> retList = new ArrayList<String>();
@@ -701,9 +755,9 @@ public class MainDA {
 			myConn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			 System.out.println("Failed to get accounts from Database");
+			System.out.println("Failed to get accounts from Database");
 		}
 		return retList;
 	}
-	
+
 }
