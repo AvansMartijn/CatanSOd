@@ -360,6 +360,9 @@ public class GameControl {
 		setVillageArrays();
 		setCityArrays();
 		setStreetArrays();
+		for(Player p: game.getPlayers()) {
+			p.getHand().setResources(mainDA.updateResources(game.getIdGame(), p.getUsername()));
+		}
 
 	}
 

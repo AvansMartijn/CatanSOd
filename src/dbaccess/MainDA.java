@@ -14,6 +14,7 @@ import model.City;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.Resource;
 import model.ResourceType;
 import model.Street;
 import model.StreetLocation;
@@ -705,5 +706,35 @@ public class MainDA {
 		}
 		return retList;
 	}
+	
+	public ArrayList<Resource> updateResources(int idGame, String username) {
+
+		ArrayList<Resource> retList = new ArrayList<Resource>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = null;
+		if(username.equals("bank")) {
+			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler IS NULL;";
+		} else {
+			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler = '" + username + "';";
+		}
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String resourceID = myRs.getString(1);
+				retList.add(new Resource(resourceID));
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return retList;
+	}
+
 	
 }

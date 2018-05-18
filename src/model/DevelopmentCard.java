@@ -2,12 +2,12 @@ package model;
 
 public abstract class DevelopmentCard {
 
-	private Resource[] cardCost;
+	private ResourceType[] cardCost;
 	public int developmentCardType;
 	
 	// Constructor
 	public DevelopmentCard() {
-		cardCost = new Resource[] {new Resource(ResourceType.GRAAN), new Resource(ResourceType.WOL), new Resource(ResourceType.ERTS)};
+		cardCost = new ResourceType[] {ResourceType.GRAAN, ResourceType.WOL, ResourceType.ERTS};
 	}
 
 	public int getDevelopmentCardType() {
