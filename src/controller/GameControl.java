@@ -168,6 +168,8 @@ public class GameControl {
 				// x+1
 				isNeighbour = true;
 			}
+			
+			
 
 			if (isNeighbour) {
 				if (b.getVillage() != null) {
@@ -240,10 +242,12 @@ public class GameControl {
 			return false;
 		}
 
-		if (!streetLocation.hasAdjecentFriendlySettlement(catanGame.getSelfPlayer())) {
-			System.out.println("no adjecent friendly settlements");
+		if (!streetLocation.hasAdjacentFriendlySettlement(catanGame.getSelfPlayer()) && !streetLocation.hasAdjecentFriendlyStreet(catanGame.getSelfPlayer())) {
+			System.out.println("no adjecent friendly street or settlements");
 			return false;
 		}
+		
+		
 		// TODO Check if enough resources
 		// TODO Move resources from player to bank
 
@@ -326,6 +330,11 @@ public class GameControl {
 							sl.setStreet(s);
 
 						}
+						if (sl_start_x == s_end_x && sl_start_y == s_end_y && sl_end_x == s_start_x
+								&& sl_end_y == s_start_y) {
+							s.setStreetLocation(sl);
+							sl.setStreet(s);
+						}
 					}
 				}
 			}
@@ -342,7 +351,7 @@ public class GameControl {
 		setVillageArrays();
 		setCityArrays();
 		setStreetArrays();
-		for(Player p: game.getPlayers()) {
+		for (Player p : game.getPlayers()) {
 			p.getHand().setResources(mainDA.updateResources(game.getIdGame(), p.getUsername()));
 		}
 

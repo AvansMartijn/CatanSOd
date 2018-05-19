@@ -10,11 +10,14 @@ public class BuildingLocation {
 	private Harbour harbour;
 	private City city;
 	private Village village;
+	private ArrayList<StreetLocation> adjecentStreets;
 	
 	
 	
 
+
 	public BuildingLocation(int x, int y) {
+		adjecentStreets = new ArrayList<StreetLocation>();
 //		streetLocArr = new ArrayList<>();
 		this.x = x;
 		this.y = y;
@@ -50,6 +53,12 @@ public class BuildingLocation {
 	}
 	public void setVillage(Village village) {
 		this.village = village;
+	}	
+	public ArrayList<StreetLocation> getAdjacentStreets() {
+		return adjecentStreets;
 	}
+	public void setAdjacentStreets(ArrayList<StreetLocation> adjecentStreets) {
+		this.adjecentStreets = adjecentStreets;
+	}	
 
 }
