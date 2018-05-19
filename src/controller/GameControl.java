@@ -351,6 +351,12 @@ public class GameControl {
 		}
 	}
 
+	public void updateBoard() {
+		setVillageArrays();
+		setCityArrays();
+		setStreetArrays();
+	}
+	
 	public void setCatan(Catan game) { //, int[] dice, ArrayList<String> chatMessages
 		this.catanGame = game;
 //		catanGame.getDice().setDie(dice);

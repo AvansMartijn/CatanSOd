@@ -284,16 +284,16 @@ public class GuiController {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
 
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				refresh();
-				
-			}
-
-		}, 0, 5000);
+//		timer = new Timer();
+//		timer.schedule(new TimerTask() {
+//
+//			@Override
+//			public void run() {
+//				refresh();
+//				
+//			}
+//
+//		}, 0, 5000);
 		
 		addPlayerActionBuyButtonListener();
 		addPlayerActionTradeButtonListener();
@@ -499,9 +499,14 @@ public class GuiController {
 		return color;
 	}
 
-	public void refresh() {
-		refreshRobber();
-		refreshDice();
+//	public void refresh() {
+//		refreshRobber();
+//		refreshDice();
+//		addPlayerColorToBuildingLocs();
+//		addPlayerColorToStreetLocs();
+//	}
+	
+	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
 	}
