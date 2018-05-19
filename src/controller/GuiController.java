@@ -266,7 +266,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				String message = chatPanelTextField.getText();
 				if (message != null) {
-					if (gameControl.addMessageToDB(message)) {
+					if (gameControl.addMessage(message)) {
 						chatPanelTextField.setText("");
 					} else {
 						addSystemMessageToChat("Je mag maar 1 bericht per seconde versturen!");
@@ -311,15 +311,17 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					for (int i = 0; i < gameBoard.getTileArr().size(); i++) {
-						if (gameBoard.getTileArr().get(i).hasRobber()) {
-							gameBoard.getTileArr().get(i).setRobber(false);
-						}
-					}
-
-					b.getTile().setRobber(true);
-					gameControl.changeRobberInDB(b.getTile().getIdTile());
-					boardPanel.repaint();
+					gameControl.changeRobber(b.getTile().getIdTile());
+//					for (int i = 0; i < gameBoard.getTileArr().size(); i++) {
+//						if (gameBoard.getTileArr().get(i).hasRobber()) {
+//							gameBoard.getTileArr().get(i).setRobber(false);
+//						}
+//					}
+//					
+//					b.getTile().setRobber(true);
+//					gameControl.changeRobberInDB(b.getTile().getIdTile());
+//					boardPanel.repaint();
+					refreshRobber();
 				}
 
 			});
@@ -373,9 +375,9 @@ public class GuiController {
 //					gameControl.getCatanGame().getDice().setDie(die);
 //					gameControl.editDiceLastThrown(die);
 					gameControl.rollDice();
+					gameControl.getCatanGame().setRolledDice(true);
 					refreshDice();
 					//When the player rolls the dice, he starts his turn
-					gameControl.getCatanGame().setRolledDice(true);
 //				}
 			}
 		});

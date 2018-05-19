@@ -93,6 +93,11 @@ public class GameControl {
 		mainDA.createPlayer(idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
 				player.getPlayStatus().toString());
 	}
+	
+	public boolean addMessage(String message) {
+		catanGame.getMessages().add(message);
+		return addMessageToDB(message);
+	}
 
 	public boolean addMessageToDB(String message) {
 		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
@@ -101,6 +106,11 @@ public class GameControl {
 		} else {
 			return false;
 		}
+	}
+	
+	public void changeRobber(int idTile) {
+		catanGame.getGameboard().setRobber(idTile);
+		changeRobberInDB(idTile);
 	}
 
 	public void changeRobberInDB(int idTile) {

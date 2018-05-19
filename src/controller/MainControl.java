@@ -8,6 +8,7 @@ import dbaccess.MainDA;
 import model.Account;
 import model.Catan;
 import model.Player;
+import model.Tile;
 
 
 public class MainControl {
@@ -91,9 +92,19 @@ public class MainControl {
 		return mainDA.getAllAccounts();
 	}
 	
-	public int getRobberIdTile(int idGame) {
-		int idTile = this.mainDA.getRobberLocation(idGame);
-		return idTile;
+	public void updateRefreshRobber() {
+		int idTile = this.mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame());
+		gameControl.getCatanGame().getGameboard().setRobber(idTile);
+		guiController.refreshRobber();
+//		for (Tile t : gameControl.getCatanGame().getGameboard().getTileArr()) {
+//		if (t.getIdTile() == gameControl.getCatanGame().getGameboard().getRobberIDTile()) {
+//			t.setRobber(true);
+//
+//		} else {
+//			t.setRobber(false);
+//		}
+//	}
+//		return idTile;
 	}
 	
 	public void updateRefreshMessages() {
