@@ -54,10 +54,10 @@ public class BuildingLocation {
 	public void setVillage(Village village) {
 		this.village = village;
 	}	
-	public ArrayList<StreetLocation> getAdjecentStreets() {
+	public ArrayList<StreetLocation> getAdjacentStreets() {
 		return adjecentStreets;
 	}
-	public void setAdjecentStreets(ArrayList<StreetLocation> adjecentStreets) {
+	public void setAdjacentStreets(ArrayList<StreetLocation> adjecentStreets) {
 		this.adjecentStreets = adjecentStreets;
 	}	
 

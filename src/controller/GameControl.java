@@ -262,7 +262,7 @@ public class GameControl {
 			return false;
 		}
 
-		if (!streetLocation.hasAdjecentFriendlySettlement(catanGame.getSelfPlayer()) && !streetLocation.hasAdjecentFriendlyStreet(catanGame.getSelfPlayer())) {
+		if (!streetLocation.hasAdjacentFriendlySettlement(catanGame.getSelfPlayer()) && !streetLocation.hasAdjecentFriendlyStreet(catanGame.getSelfPlayer())) {
 			System.out.println("no adjecent friendly street or settlements");
 			return false;
 		}

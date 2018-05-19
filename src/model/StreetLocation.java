@@ -47,7 +47,7 @@ public class StreetLocation {
 		this.street = street;
 	}
 
-	public boolean hasAdjecentFriendlySettlement(Player player) {
+	public boolean hasAdjacentFriendlySettlement(Player player) {
 		boolean hasSettlement = false;
 		if (getBlStart().getCity() != null) {
 			if (getBlStart().getCity().getPlayer() == player) {
@@ -76,7 +76,7 @@ public class StreetLocation {
 	public boolean hasAdjecentFriendlyStreet(Player player) {
 		boolean hasStreet = false;
 
-		for (StreetLocation s : getBlStart().getAdjecentStreets()) {
+		for (StreetLocation s : getBlStart().getAdjacentStreets()) {
 			if (s.getStreet() != null) {
 				if (s.getStreet().getPlayer() == player) {
 					hasStreet = true;
@@ -84,7 +84,7 @@ public class StreetLocation {
 			}
 		}
 
-		for (StreetLocation s : getBlEnd().getAdjecentStreets()) {
+		for (StreetLocation s : getBlEnd().getAdjacentStreets()) {
 			if (s.getStreet() != null) {
 				if (s.getStreet().getPlayer() == player) {
 					hasStreet = true;
