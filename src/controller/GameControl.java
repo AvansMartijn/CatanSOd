@@ -362,8 +362,6 @@ public class GameControl {
 		setStreetArrays();
 		for(Player p: game.getPlayers()) {
 			p.getHand().setResources(mainDA.updateResources(game.getIdGame(), p.getIdPlayer()));
-			System.out.println(game.getIdGame() + p.getUsername() + p.getIdPlayer()); // TODO remove
-			System.out.println(p.getHand().getResources().size()); //TODO remove
 		}
 
 	}

@@ -715,7 +715,7 @@ public class MainDA {
 		ResultSet myRs = null;
 		String query = null;
 		if(idPlayer == 0) {
-			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler IS NULL;"; // TODO idplayer?
+			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler IS NULL;";
 		} else {
 			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler = '" + idPlayer + "';";
 		}
@@ -725,7 +725,6 @@ public class MainDA {
 			while (myRs.next()) {
 				String resourceID = myRs.getString(1);
 				retList.add(new Resource(resourceID));
-				System.out.println("RESOURCE ADDED"); // TODO remove
 			}
 			myRs.close();
 			stmt.close();
@@ -734,7 +733,6 @@ public class MainDA {
 			e.printStackTrace();
 			// System.out.println("Failed to get messages from Database");
 		}
-		System.out.println("Aantal resources is: " + retList.size()); // TODO remove
 		return retList;
 	}
 
