@@ -8,9 +8,7 @@ import java.awt.Toolkit;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import model.PlayStatus;
 import model.Player;
-import model.PlayerColor;
 
 @SuppressWarnings("serial")
 public class GameSouthContainerPanel extends JPanel {

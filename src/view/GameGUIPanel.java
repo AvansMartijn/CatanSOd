@@ -26,31 +26,19 @@ public class GameGUIPanel extends JPanel {
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private GridBagConstraints gridBagConstraints;
 
-	// private Player player;
-
 	// Constructor
-
 	public GameGUIPanel(GameTopPanel gameTopPanel, BoardPanel boardPanel, DiceDotPanel diceDotPanel, ChatPanel chatPanel,
-			PlayerActionPanel playerActionPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) { // TODO
-																														// array
-																														// of
-																														// players
-																														// as
-																														// you
-																														// need
-																														// 4
-																														// playerStatsPanels?
-		// this.player = player;
+			PlayerActionPanel playerActionPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) {
 
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
-		this.gameTopPanel = gameTopPanel; // TODO set gamelabel text in constructor
+		this.gameTopPanel = gameTopPanel;
 		this.playerActionsPanel = playerActionPanel;
-		resourcesPanel = new MyResourcesPanel(selfPlayer); // TODO selfplayer
+		resourcesPanel = new MyResourcesPanel(selfPlayer);
 		this.boardPanel = boardPanel;
 		this.diceDotPanel = diceDotPanel;
 		this.chatPanel = chatPanel;
-		this.gameSouthContainerPanel = gameSouthContainerPanel; // TODO create array of players in constructor
+		this.gameSouthContainerPanel = gameSouthContainerPanel;
 		createLayout();
 	}
 
@@ -97,10 +85,6 @@ public class GameGUIPanel extends JPanel {
 		add(gameSouthContainerPanel, gridBagConstraints);
 	}
 
-	public void setGameboardPanel() {
-
-	}
-
 	public JPanel getPlayerActionPanel() {
 		return playerActionsPanel;
 	}
@@ -110,7 +94,6 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.anchor = GridBagConstraints.EAST;
 		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
 		add(buildDialog, gridBagConstraints);
-
 	}
 
 	public void setBuyDialog(BuyDialog newBuyDialog) {
@@ -118,7 +101,6 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.anchor = GridBagConstraints.EAST;
 		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
 		add(buyDialog, gridBagConstraints);
-
 	}
 
 	public void setTradeDialog(TradeDialog newTradeDialog) {
@@ -126,23 +108,17 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.anchor = GridBagConstraints.EAST;
 		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
 		add(tradeDialog, gridBagConstraints);
-
 	}
 
 	public void removeBuildDialog(BuildDialog newBuildDialog) {
-
 		buildDialog.dispose();
-
 	}
 
 	public void removeBuyDialog(BuyDialog newBuyDialog) {
 		buyDialog.dispose();
-
 	}
 
 	public void removeTradeDialog(TradeDialog newTradeDialog) {
 		tradeDialog.dispose();
-
 	}
-
 }
