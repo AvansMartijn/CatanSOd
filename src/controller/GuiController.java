@@ -244,33 +244,28 @@ public class GuiController {
 
 	public void setIngameGuiPanel() {
 		playerStatsPanels = new PlayerStatsPanel[4];
-// <<<<<<< FixSquad2
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
-// =======
-// 		GameTopPanel gameTopPanel= new GameTopPanel(gameControl.getCatanGame().getIdGame());
-// 		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
+ 		GameTopPanel gameTopPanel= new GameTopPanel(gameControl.getCatanGame().getIdGame());
+ 		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
 
-// 			@Override
-// 			public void actionPerformed(ActionEvent e) {
+ 			@Override
+ 			public void actionPerformed(ActionEvent e) {
 
-// 				Object[] options = {"Ja",
-//                 "Nee"};
+ 				Object[] options = {"Ja",
+                 "Nee"};
 				
-// 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?", "Waarschuwing", JOptionPane.YES_NO_OPTION,
-// 						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);					
-// 				if (result == JOptionPane.YES_OPTION) {
-// 					gameControl.unloadCatan();
-// 					timer.cancel();
-// 					mainControl.loadProfile();
-// 				}
+ 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?", "Waarschuwing", JOptionPane.YES_NO_OPTION,
+ 						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);					
+ 				if (result == JOptionPane.YES_OPTION) {
+ 					gameControl.unloadCatan();
+ 					timer.cancel();
+ 					mainControl.loadProfile();
+ 				}
 
-// 			}
+ 			}
 
-// 		});
-// 		this.chatPanel = new ChatPanel(gameControl.getMessages());
-// 		this.dicePanel = new DiceDotPanel();
-// >>>>>>> development
+ 		});
 		this.playerActionPanel = new PlayerActionPanel();
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
@@ -280,7 +275,6 @@ public class GuiController {
 		}
 		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels,
 				gameControl.getCatanGame().getSelfPlayer());
-//		diceDotPanel.setLastThrown(gameControl.getCatanGame().getDice().getSeperateValues());
 
 		JTextField chatPanelTextField = chatPanel.getTextField();
 		chatPanelTextField.addActionListener(new ActionListener() {
@@ -310,7 +304,7 @@ public class GuiController {
 		addPlayerColorToBuildingLocs();
 		System.out.println("addplayercolortoStreet");
 		addPlayerColorToStreetLocs();
-		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
+		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
 				gameControl.getCatanGame().getSelfPlayer());
 		
 		addPlayerActionBuyButtonListener();
@@ -320,17 +314,6 @@ public class GuiController {
 
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
-		timer.schedule(new TimerTask() {
-			
-			@Override
-			public void run() {
-				chatPanel.setMessages(gameControl.getMessages());
-//				if(gameControl.shouldRefresh()) {
-					refresh();
-//				}
-			}
-			
-		}, 0, 3000);
 
 	}
 
@@ -340,29 +323,9 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-// <<<<<<< FixSquad2
-// 					gameControl.changeRobber(b.getTile().getIdTile());
-// //					for (int i = 0; i < gameBoard.getTileArr().size(); i++) {
-// //						if (gameBoard.getTileArr().get(i).hasRobber()) {
-// //							gameBoard.getTileArr().get(i).setRobber(false);
-// //						}
-// //					}
-// //					
-// //					b.getTile().setRobber(true);
-// //					gameControl.changeRobberInDB(b.getTile().getIdTile());
-// //					boardPanel.repaint();
-// 					refreshRobber();
-// =======
-// 					for (int i = 0; i < gameControl.getCatanGame().getGameboard().getTileArr().size(); i++) {
-// 						if (gameControl.getCatanGame().getGameboard().getTileArr().get(i).hasRobber()) {
-// 							gameControl.getCatanGame().getGameboard().getTileArr().get(i).setRobber(false);
-// 						}
-// 					}
-
-// 					b.getTile().setRobber(true);
-// 					gameControl.changeRobberInDB(b.getTile().getIdTile());
-// 					boardPanel.repaint();
-// >>>>>>> development
+ 					b.getTile().setRobber(true);
+ 					gameControl.changeRobberInDB(b.getTile().getIdTile());
+ 					boardPanel.repaint();
 				}
 
 			});

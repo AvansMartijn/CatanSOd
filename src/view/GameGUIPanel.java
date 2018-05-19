@@ -18,7 +18,7 @@ public class GameGUIPanel extends JPanel {
 	private PlayerActionPanel playerActionsPanel;
 	private MyResourcesPanel resourcesPanel;
 	private BoardPanel boardPanel;
-	private DicePanel dicePanel;
+	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
 	private BuildDialog buildDialog;
 	private BuyDialog buyDialog;
@@ -30,7 +30,7 @@ public class GameGUIPanel extends JPanel {
 
 	// Constructor
 
-	public GameGUIPanel(BoardPanel boardPanel, DicePanel dicePanel, ChatPanel chatPanel,
+	public GameGUIPanel(GameTopPanel gameTopPanel, BoardPanel boardPanel, DiceDotPanel diceDotPanel, ChatPanel chatPanel,
 			PlayerActionPanel playerActionPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) { // TODO
 																														// array
 																														// of
@@ -48,7 +48,7 @@ public class GameGUIPanel extends JPanel {
 		this.playerActionsPanel = playerActionPanel;
 		resourcesPanel = new MyResourcesPanel(selfPlayer); // TODO selfplayer
 		this.boardPanel = boardPanel;
-		this.dicePanel = dicePanel;
+		this.diceDotPanel = diceDotPanel;
 		this.chatPanel = chatPanel;
 		this.gameSouthContainerPanel = gameSouthContainerPanel; // TODO create array of players in constructor
 		createLayout();
@@ -83,7 +83,7 @@ public class GameGUIPanel extends JPanel {
 
 		// Add DicePanel
 		gridBagConstraints.insets = new Insets(0, 0, 500, 150);
-		add(dicePanel, gridBagConstraints);
+		add(diceDotPanel, gridBagConstraints);
 
 		// Add resourcesPanel
 		gridBagConstraints.insets = new Insets(0, 0, 0, 0);

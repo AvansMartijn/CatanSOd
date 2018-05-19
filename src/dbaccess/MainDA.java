@@ -241,6 +241,29 @@ public class MainDA {
 		;
 
 	}
+	
+	public void addResourceCard(String idResourceCard, int idGame) {
+
+		String query = "INSERT INTO spelergrondstofkaart (idspel, idgrondstofkaart, idspeler)" + " VALUES " + "(" + idGame + ", '"+ idResourceCard + "' , null);";
+		System.out.println(query);
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to add resourceCard");
+		}
+		;
+
+	}
+	
+	public void addDevelopmentCard(String idDevelopmentCard, int idGame) {
+
+		String query = "INSERT INTO spelergrondstofkaart (idspel, idontwikkelingskaart, idspeler, gespeeld)" + " VALUES " 
+		+ "(" + idGame + ", '"+ idDevelopmentCard + "' , null, 0);";
+		System.out.println(query);
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to add Building");
+		}
+		;
+
+	}
 
 	/**
 	 * Get a tile from the Database
@@ -765,7 +788,6 @@ public class MainDA {
 		return retList;
 	}
 
-	
 	public ArrayList<Resource> updateResources(int idGame, int idPlayer) {
 
 		ArrayList<Resource> retList = new ArrayList<Resource>();
