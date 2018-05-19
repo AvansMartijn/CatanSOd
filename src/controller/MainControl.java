@@ -58,8 +58,10 @@ public class MainControl {
 	
 	public void joinGame(Catan game) {
 		gameControl.setCatan(game);
+		
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
+		
 		guiController.setGameBoard(gameControl.getCatanGame().getGameboard());
 		guiController.setIngameGuiPanel();
 		timer.schedule(new TimerTask() {

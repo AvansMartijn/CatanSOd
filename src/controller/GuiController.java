@@ -505,7 +505,7 @@ public class GuiController {
 	}
 	
 	public void refreshChat() {
-//		chatPanel.setMessages(gameControl.getMessages());
+		chatPanel.setMessages(gameControl.getCatanGame().getMessages());
 		chatPanel.repaint();
 	}
 
