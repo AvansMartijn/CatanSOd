@@ -707,17 +707,17 @@ public class MainDA {
 		return retList;
 	}
 	
-	public ArrayList<Resource> updateResources(int idGame, String username) {
+	public ArrayList<Resource> updateResources(int idGame, int idPlayer) {
 
 		ArrayList<Resource> retList = new ArrayList<Resource>();
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = null;
-		if(username.equals("bank")) {
-			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler IS NULL;";
+		if(idPlayer == 0) {
+			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler IS NULL;"; // TODO idplayer?
 		} else {
-			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler = '" + username + "';";
+			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler = '" + idPlayer + "';";
 		}
 		try {
 			stmt = myConn.createStatement();
@@ -725,6 +725,7 @@ public class MainDA {
 			while (myRs.next()) {
 				String resourceID = myRs.getString(1);
 				retList.add(new Resource(resourceID));
+				System.out.println("RESOURCE ADDED"); // TODO remove
 			}
 			myRs.close();
 			stmt.close();
@@ -733,6 +734,7 @@ public class MainDA {
 			e.printStackTrace();
 			// System.out.println("Failed to get messages from Database");
 		}
+		System.out.println("Aantal resources is: " + retList.size()); // TODO remove
 		return retList;
 	}
 
