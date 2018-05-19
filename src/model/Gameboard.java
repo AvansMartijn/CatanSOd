@@ -49,6 +49,29 @@ public class Gameboard {
 	public ArrayList<Tile> getTileArr() {
 		return tileArr;
 	}
+	
+	public int getRobberIDTile() {
+		for(Tile t: tileArr) {
+			if(t.hasRobber()) {
+				return t.getIdTile();
+			}
+		}
+		return 0;
+	}
+	
+	public void setRobber(int idTile) {
+		for(Tile t: tileArr) {
+			if(t.hasRobber()) {
+				t.setRobber(false);
+				break;
+			}
+		}
+		for(Tile t: tileArr) {
+			if(t.getIdTile() == idTile) {
+				t.setRobber(true);
+			}
+		}
+	}
 
 	public ArrayList<BuildingLocation> getBuildingLocArr() {
 		return buildingLocArr;

@@ -3,14 +3,9 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -26,20 +21,22 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	private final int SPACE_BETWEEN_CARDS = 5;
 	
 	private Color myBackgroundColor = new Color(189, 133, 100);
-	private ArrayList<JLabel> developmentCards;
+	private ArrayList<JButton> developmentCards;
 	private JPanel panel = new JPanel();
+	private Player selfPlayer;
 
 	public MyDevelopmentCardsPanel(Player selfPlayer) {
+		this.selfPlayer = selfPlayer;
 		create();
 		// TEST
-		for (int i = 0; i < 10; i++) {
-			addDevelopmentCard(panel);
+		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
+			addDevelopmentCard();
 		}
 		// END TEST
 	}
 
 	public void create() {
-		developmentCards = new ArrayList<JLabel>();
+		developmentCards = new ArrayList<JButton>();
 		setLayout(new FlowLayout());
 		setBackground(myBackgroundColor);
 		
@@ -54,19 +51,15 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	}
 
 	// Add development cards
-	public void addDevelopmentCard(JPanel jp) {
-		// Get Image
-		Image image = null;
-		try {
-			URL url = this.getClass().getResource("/images/Ontwikkelingskaart.jpg");
-			image = ImageIO.read(url);
-			image = image.getScaledInstance(CARD_WIDTH, CARD_HEIGHT, Image.SCALE_DEFAULT);
-		} catch (IOException e) {
-		}
-		JLabel myLabel = new JLabel(new ImageIcon(image));
-		developmentCards.add(myLabel);
+	public void addDevelopmentCard() {
+		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton();
+		developmentCards.add(developmentCardButton);
 		setPanelSize();
-		jp.add(myLabel);
+		panel.add(developmentCardButton);
+	}
+	
+	public void removeDevelopmentCard() {
+		
 	}
 	
 	private void setPanelSize() {

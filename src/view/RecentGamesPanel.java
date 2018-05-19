@@ -1,25 +1,20 @@
 package view;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import model.Catan;
 
 @SuppressWarnings("serial")
 public class RecentGamesPanel extends JPanel {
-	ArrayList<RecentGamePanel> gamePanels;
+	private ArrayList<RecentGamePanel> gamePanels;
+	private Color textBackgroundColor = new Color(223, 190, 172);
 	
 	public RecentGamesPanel(ArrayList<Catan> gameList, int page) {
 		gamePanels = new ArrayList<>();
+		setBackground(textBackgroundColor);
 		for(Catan game: gameList) {
 			gamePanels.add(new RecentGamePanel(game));
 		}

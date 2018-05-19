@@ -11,7 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 @SuppressWarnings("serial")
 public class ChatPanel extends JPanel {
@@ -21,7 +26,7 @@ public class ChatPanel extends JPanel {
 
 	private ArrayList<String> messages;
 
-	private JTextArea textArea;
+	private JTextPane textPane;
 	private JTextField userInputField;
 
 	public ChatPanel(ArrayList<String> messages) {
@@ -29,14 +34,12 @@ public class ChatPanel extends JPanel {
 		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		
-		textArea = new JTextArea(3, 30);
+		textPane = new JTextPane();
 		userInputField = new JTextField(20);
-		add(textArea);
-		JScrollPane scrollPane = new JScrollPane(textArea);
+		add(textPane);
+		JScrollPane scrollPane = new JScrollPane(textPane);
 		scrollPane.setPreferredSize(new Dimension(300, 650));
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.setEditable(false);
+		textPane.setEditable(false);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		setMessages(messages);
 		this.setLayout(new FlowLayout());
@@ -45,23 +48,37 @@ public class ChatPanel extends JPanel {
 		this.setVisible(true);
 	}
 
+	private void appendToPane(String msg, Color c)
+    {
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+
+        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
+        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+        int len = textPane.getDocument().getLength();
+        textPane.setCaretPosition(len);
+        textPane.setCharacterAttributes(aset, false);
+        textPane.replaceSelection(msg);
+    }
+
 
 	public void setMessages(ArrayList<String> messages) {
 		for(String s: messages) {
-			if(this.textArea.getText().contains(s)) {
+			if(this.textPane.getText().contains(s)) {
 				
 			} else {
-				textArea.append(s + "\n");
-				textArea.setCaretPosition(textArea.getDocument().getLength());
-				this.messages = messages;
+				appendToPane(s + "\n", Color.BLACK);
+				textPane.setCaretPosition(textPane.getDocument().getLength());
+//				this.messages = messages;
 				repaint();
 			}
 		}
 	}
 	
 	public void addSystemMessageToChat(String s){
-		textArea.append(s + "\n");
-		textArea.setCaretPosition(textArea.getDocument().getLength());
+//		textPane.append(s + "\n");
+		textPane.setCaretPosition(textPane.getDocument().getLength());
 		repaint();		
 		
 	}

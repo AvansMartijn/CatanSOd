@@ -16,6 +16,7 @@ import model.Player;
 @SuppressWarnings("serial")
 public class RecentGamePanel extends JPanel {
 	private Catan game;
+	private Color backgroundColor = new Color(240, 226, 223);
 
 	public RecentGamePanel(Catan game) {
 		this.game = game;
@@ -25,6 +26,7 @@ public class RecentGamePanel extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		setBackground(backgroundColor);
 		c.gridx = 1;
 		c.gridy = 1;
 //		c.weightx = 1;
