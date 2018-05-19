@@ -22,6 +22,7 @@ public class Catan {
 	 * This is in Catan, mainly because it is in Catan in the database.
 	 */
 	private boolean rolledDice;
+	private ArrayList<String> messages;
 	
 	/**
 	 * This creates a catanGame with all its players. 
@@ -209,4 +210,14 @@ public class Catan {
 			return false;
 		}
 	}
+
+	public ArrayList<String> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(ArrayList<String> messages) {
+		this.messages = messages;
+	}
+	
+	
 }

@@ -64,7 +64,7 @@ public class GuiController {
 	private GameGUIPanel gameGUIPanel;
 	private RecentGamesPanel currentGamesPanel;
 	private BoardPanel boardPanel;
-	private DiceDotPanel dicePanel;
+	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
 
 	private ArrayList<Catan> gameList;
@@ -181,7 +181,7 @@ public class GuiController {
 			p.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					joinGame(p.getGame());
+					mainControl.joinGame(p.getGame());
 
 				}
 
@@ -194,11 +194,7 @@ public class GuiController {
 		frame.pack();
 	}
 
-	private void joinGame(Catan game) {
-		gameControl.setCatan(game);
-		setGameBoard(gameControl.getGameboard());
-		setIngameGuiPanel();
-	}
+	
 
 	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
@@ -250,10 +246,10 @@ public class GuiController {
 
 	public void setIngameGuiPanel() {
 		playerStatsPanels = new PlayerStatsPanel[4];
-		this.chatPanel = new ChatPanel(gameControl.getMessages());
-		this.dicePanel = new DiceDotPanel();
+		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
+		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
 		this.playerActionPanel = new PlayerActionPanel();
-		this.boardPanel = new BoardPanel(gameControl.getGameboard());
+		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
 			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
@@ -261,7 +257,7 @@ public class GuiController {
 		}
 		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels,
 				gameControl.getCatanGame().getSelfPlayer());
-		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
+//		diceDotPanel.setLastThrown(gameControl.getCatanGame().getDice().getSeperateValues());
 
 		JTextField chatPanelTextField = chatPanel.getTextField();
 		chatPanelTextField.addActionListener(new ActionListener() {
@@ -279,7 +275,7 @@ public class GuiController {
 				}
 			}
 		});
-		gameGUIPanel = new GameGUIPanel(boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
+		gameGUIPanel = new GameGUIPanel(boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
 				gameControl.getCatanGame().getSelfPlayer());
 		addTileListeners();
 		addBuildLocListeners();
@@ -288,16 +284,16 @@ public class GuiController {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
 
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				refresh();
-				chatPanel.setMessages(gameControl.getMessages());
-			}
-
-		}, 0, 5000);
+//		timer = new Timer();
+//		timer.schedule(new TimerTask() {
+//
+//			@Override
+//			public void run() {
+//				refresh();
+//				
+//			}
+//
+//		}, 0, 5000);
 		
 		addPlayerActionBuyButtonListener();
 		addPlayerActionTradeButtonListener();
@@ -315,15 +311,17 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					for (int i = 0; i < gameBoard.getTileArr().size(); i++) {
-						if (gameBoard.getTileArr().get(i).hasRobber()) {
-							gameBoard.getTileArr().get(i).setRobber(false);
-						}
-					}
-
-					b.getTile().setRobber(true);
-					gameControl.changeRobberInDB(b.getTile().getIdTile());
-					boardPanel.repaint();
+					gameControl.changeRobber(b.getTile().getIdTile());
+//					for (int i = 0; i < gameBoard.getTileArr().size(); i++) {
+//						if (gameBoard.getTileArr().get(i).hasRobber()) {
+//							gameBoard.getTileArr().get(i).setRobber(false);
+//						}
+//					}
+//					
+//					b.getTile().setRobber(true);
+//					gameControl.changeRobberInDB(b.getTile().getIdTile());
+//					boardPanel.repaint();
+					refreshRobber();
 				}
 
 			});
@@ -363,23 +361,24 @@ public class GuiController {
 
 	private void addRollButtonListener() {
 
-		dicePanel.getButton().addActionListener(new ActionListener() {
+		diceDotPanel.getButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Catan catanGame = gameControl.getCatanGame();
+//				Catan catanGame = gameControl.getCatanGame();
 				//Only if it is the players' turn can the player roll the dice.
 				//Only if the player has not rolled the dice yet, can the player roll dice.
 				//This is separate for testing purposes, so just make it if(true) to disable the restriction. 
-				boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() == catanGame.getTurn() && !catanGame.hasRolledDice();
-				if(shouldRoll) {
-					int[] die = gameControl.rollDice();
-					dicePanel.setLastThrown(die);
-					gameControl.editDiceLastThrown(die);
-					dicePanel.repaint();
+//				boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() == catanGame.getTurn() && !catanGame.hasRolledDice();
+//				if(shouldRoll) {
+//					int[] die = gameControl.rollDice();
+//					gameControl.getCatanGame().getDice().setDie(die);
+//					gameControl.editDiceLastThrown(die);
+					gameControl.rollDice();
+					gameControl.getCatanGame().setRolledDice(true);
+					refreshDice();
 					//When the player rolls the dice, he starts his turn
-					catanGame.setRolledDice(true);
-				}
+//				}
 			}
 		});
 	}
@@ -393,7 +392,9 @@ public class GuiController {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
 					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-//					buyDialog = new BuyDialog();					
+					buyDialog = new BuyDialog(playerActionPanel);
+					gameGUIPanel.setBuyDialog(buyDialog);
+					
 				}
 				
 			}
@@ -410,7 +411,8 @@ public class GuiController {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
 					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-//					tradeDialog = new TradeDialog();				
+					tradeDialog = new TradeDialog(playerActionPanel);	
+					gameGUIPanel.setTradeDialog(tradeDialog);
 				}
 			}
 		});
@@ -426,7 +428,8 @@ public class GuiController {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
 					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-//					buildDialog = new BuildDialog();
+					buildDialog = new BuildDialog(playerActionPanel);
+					gameGUIPanel.setBuildDialog(buildDialog);
 				}
 			}
 		});
@@ -500,29 +503,37 @@ public class GuiController {
 		return color;
 	}
 
-	public void refresh() {
-		refreshRobber();
-		refreshDice();
+//	public void refresh() {
+//		refreshRobber();
+//		refreshDice();
+//		addPlayerColorToBuildingLocs();
+//		addPlayerColorToStreetLocs();
+//	}
+	
+	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
 	}
+	
+	public void refreshChat() {
+		chatPanel.setMessages(gameControl.getCatanGame().getMessages());
+		chatPanel.repaint();
+	}
 
 	public void refreshRobber() {
-		for (Tile t : gameBoard.getTileArr()) {
-			if (t.getIdTile() == gameControl.getRobberIdTile()) {
-				t.setRobber(true);
-
-			} else {
-				t.setRobber(false);
-			}
-		}
+//		for (Tile t : gameBoard.getTileArr()) {
+//			if (t.getIdTile() == gameControl.getRobberIdTile()) {
+//				t.setRobber(true);
+//
+//			} else {
+//				t.setRobber(false);
+//			}
+//		}
 		boardPanel.repaint();
 	}
 
 	public void refreshDice() {
-		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
-		gameControl.setDiceLastThrown(gameControl.getDiceLastThrown());
-		dicePanel.repaint();
+		diceDotPanel.repaint();
 	}
 
 	public void setGameBoard(Gameboard gameBoard) {

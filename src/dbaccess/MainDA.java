@@ -560,7 +560,6 @@ public class MainDA {
 	public void updateBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
 		String query;
 		if(x_From == 0 && y_From == 0) {
-			System.out.println("null null");
 			 query = "UPDATE spelerstuk SET x_van = null, y_van = null WHERE idspeler = '" + idPlayer + "' AND idstuk = '" + idPiece + "';";
 		}else {
 			 query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From

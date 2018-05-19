@@ -1,11 +1,14 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import dbaccess.MainDA;
 import model.Account;
 import model.Catan;
 import model.Player;
+import model.Tile;
 
 
 public class MainControl {
@@ -15,11 +18,14 @@ public class MainControl {
 	private Account account;
 	private GuiController guiController;
 	private ArrayList<Catan> catanGames;
+	private Timer timer;
 
 	public MainControl() {
 		mainDA = new MainDA();
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
+		timer = new Timer();
+		
 	}
 
 	public boolean loginAccount(String username, String password) {
@@ -51,6 +57,28 @@ public class MainControl {
 		guiController.setMainMenu(catanGames, account.getUsername());
 	}
 	
+	public void joinGame(Catan game) {
+		gameControl.setCatan(game);
+		
+		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
+		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
+		gameControl.updateBoard();
+		gameControl.getCatanGame().getGameboard().setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+		
+		guiController.setGameBoard(gameControl.getCatanGame().getGameboard());
+		guiController.setIngameGuiPanel();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				updateRefreshDice();
+				updateRefreshRobber();
+				updateRefreshMessages();
+				updateRefreshBoard();
+				
+			}
+		}, 2000);
+	}
+	
 	private ArrayList<Player> getPlayers(int idGame) {
 		return mainDA.getPlayersFromGame(idGame);
 	}
@@ -67,7 +95,38 @@ public class MainControl {
 	public ArrayList<String> getAllAccounts() {
 		return mainDA.getAllAccounts();
 	}
+	
+	public void updateRefreshRobber() {
+		gameControl.getCatanGame().getGameboard().setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+		guiController.refreshRobber();
+//		for (Tile t : gameControl.getCatanGame().getGameboard().getTileArr()) {
+//		if (t.getIdTile() == gameControl.getCatanGame().getGameboard().getRobberIDTile()) {
+//			t.setRobber(true);
+//
+//		} else {
+//			t.setRobber(false);
+//		}
+//	}
+//		return idTile;
+	}
+	
+	public void updateRefreshMessages() {
+		ArrayList<String> messageList = new ArrayList<String>();
+		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
+		gameControl.getCatanGame().setMessages(messageList);
+		guiController.refreshChat();
+	}
+	
+	private void updateRefreshBoard() {
+		gameControl.updateBoard();
+		guiController.refreshBoard();
+	}
 
+	private void updateRefreshDice() {
+		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
+		guiController.refreshDice();
+	}
+	
 	public void logOut() {
 		this.account = null;
 	}

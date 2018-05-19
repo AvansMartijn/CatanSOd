@@ -35,12 +35,6 @@ public class GameControl {
 		this.mainDA = mainDA;
 	}
 
-	public void testMethod() {
-		// createGame(false);
-		// idGame = 770;
-		// playerID = mainDA.getPlayerID(username, idGame);
-		// joinGame();
-	}
 
 	/**
 	 * Create a game record in the DB AND sets idGame
@@ -99,14 +93,13 @@ public class GameControl {
 		mainDA.createPlayer(idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
 				player.getPlayStatus().toString());
 	}
-
-	public ArrayList<String> getMessages() {
-		ArrayList<String> messageList = new ArrayList<String>();
-		messageList = mainDA.getMessages(catanGame.getIdGame());
-		return messageList;
+	
+	public boolean addMessage(String message) {
+		catanGame.getMessages().add(message);
+		return addMessageToDB(message);
 	}
 
-	public boolean addMessage(String message) {
+	public boolean addMessageToDB(String message) {
 		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
 		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message)) {
 			return true;
@@ -114,34 +107,31 @@ public class GameControl {
 			return false;
 		}
 	}
+	
+	public void changeRobber(int idTile) {
+		catanGame.getGameboard().setRobber(idTile);
+		changeRobberInDB(idTile);
+	}
 
 	public void changeRobberInDB(int idTile) {
 		this.mainDA.changeRobberLocation(catanGame.getIdGame(), idTile);
-	}
-
-	public int getRobberIdTile() {
-		int idTile = this.mainDA.getRobberLocation(catanGame.getIdGame());
-		return idTile;
 	}
 
 	public void makeBank() {
 
 	}
 
-	public Gameboard getGameboard() {
-		return catanGame.getGameboard();
-	}
+//	public Gameboard getGameboard() {
+//		return catanGame.getGameboard();
+//	}
 
 	public void editDiceLastThrown(int[] die) {
 		mainDA.setLastThrow(die[0], die[1], catanGame.getIdGame());
 	}
 
-	public int[] getDiceLastThrown() {
-		return mainDA.getLastThrows(catanGame.getIdGame());
-	}
-
 	public int[] rollDice() {
 		catanGame.rollDice();
+		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		return catanGame.getDice().getDie();
 	}
 
@@ -188,6 +178,8 @@ public class GameControl {
 				// x+1
 				isNeighbour = true;
 			}
+			
+			
 
 			if (isNeighbour) {
 				if (b.getVillage() != null) {
@@ -260,10 +252,12 @@ public class GameControl {
 			return false;
 		}
 
-		if (!streetLocation.hasAdjecentFriendlySettlement(catanGame.getSelfPlayer())) {
-			System.out.println("no adjecent friendly settlements");
+		if (!streetLocation.hasAdjacentFriendlySettlement(catanGame.getSelfPlayer()) && !streetLocation.hasAdjecentFriendlyStreet(catanGame.getSelfPlayer())) {
+			System.out.println("no adjecent friendly street or settlements");
 			return false;
 		}
+		
+		
 		// TODO Check if enough resources
 		// TODO Move resources from player to bank
 
@@ -346,14 +340,27 @@ public class GameControl {
 							sl.setStreet(s);
 
 						}
+						if (sl_start_x == s_end_x && sl_start_y == s_end_y && sl_end_x == s_start_x
+								&& sl_end_y == s_start_y) {
+							s.setStreetLocation(sl);
+							sl.setStreet(s);
+						}
 					}
 				}
 			}
 		}
 	}
 
-	public void setCatan(Catan game) {
+	public void updateBoard() {
+		setVillageArrays();
+		setCityArrays();
+		setStreetArrays();
+	}
+	
+	public void setCatan(Catan game) { //, int[] dice, ArrayList<String> chatMessages
 		this.catanGame = game;
+//		catanGame.getDice().setDie(dice);
+//		catanGame.setMessages(chatMessages);
 		gameBoardControl = new GameBoardControl(mainDA, catanGame.getIdGame());
 		Gameboard gameboard = gameBoardControl.loadBoard();
 		game.fillCatan(gameboard);
