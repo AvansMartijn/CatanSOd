@@ -62,6 +62,8 @@ public class MainControl {
 		
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
+		gameControl.updateBoard();
+		gameControl.getCatanGame().getGameboard().setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		
 		guiController.setGameBoard(gameControl.getCatanGame().getGameboard());
 		guiController.setIngameGuiPanel();
@@ -69,7 +71,9 @@ public class MainControl {
 			@Override
 			public void run() {
 				updateRefreshDice();
+				updateRefreshRobber();
 				updateRefreshMessages();
+				updateRefreshBoard();
 				
 			}
 		}, 2000);
@@ -93,8 +97,7 @@ public class MainControl {
 	}
 	
 	public void updateRefreshRobber() {
-		int idTile = this.mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame());
-		gameControl.getCatanGame().getGameboard().setRobber(idTile);
+		gameControl.getCatanGame().getGameboard().setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshRobber();
 //		for (Tile t : gameControl.getCatanGame().getGameboard().getTileArr()) {
 //		if (t.getIdTile() == gameControl.getCatanGame().getGameboard().getRobberIDTile()) {
@@ -112,6 +115,11 @@ public class MainControl {
 		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setMessages(messageList);
 		guiController.refreshChat();
+	}
+	
+	private void updateRefreshBoard() {
+		gameControl.updateBoard();
+		guiController.refreshBoard();
 	}
 
 	private void updateRefreshDice() {
