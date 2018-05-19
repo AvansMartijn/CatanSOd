@@ -362,6 +362,7 @@ public class GameControl {
 		setStreetArrays();
 		for(Player p: game.getPlayers()) {
 			p.getHand().setResources(mainDA.updateResources(game.getIdGame(), p.getIdPlayer()));
+			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(game.getIdGame(), p.getIdPlayer()));
 		}
 
 	}

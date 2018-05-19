@@ -11,15 +11,21 @@ import java.util.ArrayList;
 import model.BuildingLocation;
 import model.Catan;
 import model.City;
+import model.DevelopmentCard;
+import model.Knight;
+import model.Monopoly;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Resource;
 import model.ResourceType;
+import model.RoadBuilding;
 import model.Street;
 import model.StreetLocation;
 import model.Tile;
+import model.VictoryPoint;
 import model.Village;
+import model.YearOfPlenty;
 
 public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
@@ -725,6 +731,54 @@ public class MainDA {
 			while (myRs.next()) {
 				String resourceID = myRs.getString(1);
 				retList.add(new Resource(resourceID));
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return retList;
+	}
+	
+	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
+
+		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = null;
+		if(idPlayer == 0) {
+			query = "SELECT idontwikkelingskaart, gespeeld FROM spelerontwikkelingskaart WHERE idspel = " + idGame + " AND idspeler IS NULL;";
+		} else {
+			query = "SELECT idontwikkelingskaart, gespeeld FROM spelerontwikkelingskaart WHERE idspel = " + idGame + " AND idspeler = " + idPlayer + ";";
+		}
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String developmentCardID = myRs.getString(1);
+				boolean played = myRs.getBoolean(2);
+				switch(developmentCardID.substring(3, 4)){
+				case "r": // ridder
+					retList.add(new Knight(developmentCardID, played));
+					break;
+				case "g": 
+					retList.add(new VictoryPoint(developmentCardID, played));
+					break;
+				case "s": // stratenbouw
+					retList.add(new RoadBuilding(developmentCardID, played));
+					break;
+				case "m": // monopoly
+					retList.add(new Monopoly(developmentCardID, played));
+					break;
+				case "u": // uitvinder
+					retList.add(new YearOfPlenty(developmentCardID, played));
+					break;
+				}
+				
+				
 			}
 			myRs.close();
 			stmt.close();

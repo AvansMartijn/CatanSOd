@@ -3,15 +3,9 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -29,11 +23,13 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	private Color myBackgroundColor = new Color(189, 133, 100);
 	private ArrayList<JButton> developmentCards;
 	private JPanel panel = new JPanel();
+	private Player selfPlayer;
 
 	public MyDevelopmentCardsPanel(Player selfPlayer) {
+		this.selfPlayer = selfPlayer;
 		create();
 		// TEST
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
 			addDevelopmentCard();
 		}
 		// END TEST

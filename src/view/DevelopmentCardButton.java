@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -18,8 +19,11 @@ public class DevelopmentCardButton extends JButton {
 		setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		
 		URL iconURL = this.getClass().getResource("/images/Ontwikkelingskaart.jpg");
-		ImageIcon myOpenIcon = new ImageIcon(iconURL);
-		JLabel myOpenLabel = new JLabel(myOpenIcon);
+		ImageIcon developmentCardImage = new ImageIcon(iconURL);
+		Image img = developmentCardImage.getImage();  
+	    Image resizedImage = img.getScaledInstance(CARD_WIDTH, CARD_HEIGHT,  java.awt.Image.SCALE_DEFAULT);
+	    developmentCardImage.setImage(resizedImage);
+		JLabel myOpenLabel = new JLabel(developmentCardImage);
 		
 		setBackground(Color.WHITE);
 		add(myOpenLabel);
