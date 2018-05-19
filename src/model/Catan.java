@@ -34,10 +34,11 @@ public class Catan {
 	 * @since 11 May 2018
 	 * @author Jasper Mooren
 	 */
-	public Catan(ArrayList<Player> players, Player selfPlayer) {
+	public Catan(ArrayList<Player> players, Player selfPlayer, int turn) {
 		this.players = players;
 		this.selfPlayer = selfPlayer;
 		this.idGame = players.get(0).getidGame();
+		this.turn = turn;
 		//First player (Players[0]) is the UITDAGER. The Rest is UIGEDAAGDE. 
 		//players[0] has already been made, so start at 1. 
 		
@@ -125,10 +126,10 @@ public class Catan {
 		return players;
 	}
 	
-	public int getPlayerTurn() {
-		int playerTurn = 4;
-		return playerTurn;
-	}
+//	public int getPlayerTurn() {
+//		int playerTurn = 4;
+//		return playerTurn;
+//	}
 
 	public Player getSelfPlayer() {
 		return selfPlayer;

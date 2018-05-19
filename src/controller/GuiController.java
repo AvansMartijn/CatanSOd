@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -36,6 +37,7 @@ import view.Frame;
 import view.GameGUIPanel;
 import view.GameSelect;
 import view.GameSouthContainerPanel;
+import view.GameTopPanel;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
 import view.NewGamePanel;
@@ -68,7 +70,7 @@ public class GuiController {
 	private ChatPanel chatPanel;
 
 	private ArrayList<Catan> gameList;
-	private Gameboard gameBoard;
+//	private Gameboard gameBoard;
 	private Timer timer;
 	
 	//TODO uncomment these when PlayerActionPanelExpended is merged (these classes are added in that branch)
@@ -81,6 +83,7 @@ public class GuiController {
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
+		timer = new Timer();
 		frame = new Frame();
 
 		setInlogPanel();
@@ -164,11 +167,8 @@ public class GuiController {
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int gameID = gameControl.createGame(false);
-				ArrayList<String> playerUsernames = newGamePanel.getInvitedPlayers();
-				for (String s : playerUsernames) {
-					gameControl.addPlayerToDB(gameID, gameControl.createNewPlayer(gameID, s));
-				}
+				mainControl.createNewGame(newGamePanel.getInvitedPlayers());
+				
 			}
 		});
 		optionsPanel.add(createGameButton);
@@ -182,7 +182,6 @@ public class GuiController {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					mainControl.joinGame(p.getGame());
-
 				}
 
 			});
@@ -194,7 +193,6 @@ public class GuiController {
 		frame.pack();
 	}
 
-	
 
 	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
@@ -246,8 +244,33 @@ public class GuiController {
 
 	public void setIngameGuiPanel() {
 		playerStatsPanels = new PlayerStatsPanel[4];
+// <<<<<<< FixSquad2
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
+// =======
+// 		GameTopPanel gameTopPanel= new GameTopPanel(gameControl.getCatanGame().getIdGame());
+// 		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
+
+// 			@Override
+// 			public void actionPerformed(ActionEvent e) {
+
+// 				Object[] options = {"Ja",
+//                 "Nee"};
+				
+// 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?", "Waarschuwing", JOptionPane.YES_NO_OPTION,
+// 						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);					
+// 				if (result == JOptionPane.YES_OPTION) {
+// 					gameControl.unloadCatan();
+// 					timer.cancel();
+// 					mainControl.loadProfile();
+// 				}
+
+// 			}
+
+// 		});
+// 		this.chatPanel = new ChatPanel(gameControl.getMessages());
+// 		this.dicePanel = new DiceDotPanel();
+// >>>>>>> development
 		this.playerActionPanel = new PlayerActionPanel();
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
@@ -275,25 +298,20 @@ public class GuiController {
 				}
 			}
 		});
-		gameGUIPanel = new GameGUIPanel(boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
-				gameControl.getCatanGame().getSelfPlayer());
+// <<<<<<< FixSquad2
+// 		gameGUIPanel = new GameGUIPanel(boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
+// 				gameControl.getCatanGame().getSelfPlayer());
+// =======
+// >>>>>>> development
 		addTileListeners();
 		addBuildLocListeners();
 		addStreetLocListeners();
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
+		System.out.println("addplayercolortoStreet");
 		addPlayerColorToStreetLocs();
-
-//		timer = new Timer();
-//		timer.schedule(new TimerTask() {
-//
-//			@Override
-//			public void run() {
-//				refresh();
-//				
-//			}
-//
-//		}, 0, 5000);
+		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
+				gameControl.getCatanGame().getSelfPlayer());
 		
 		addPlayerActionBuyButtonListener();
 		addPlayerActionTradeButtonListener();
@@ -302,6 +320,17 @@ public class GuiController {
 
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				chatPanel.setMessages(gameControl.getMessages());
+//				if(gameControl.shouldRefresh()) {
+					refresh();
+//				}
+			}
+			
+		}, 0, 3000);
 
 	}
 
@@ -311,17 +340,29 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					gameControl.changeRobber(b.getTile().getIdTile());
-//					for (int i = 0; i < gameBoard.getTileArr().size(); i++) {
-//						if (gameBoard.getTileArr().get(i).hasRobber()) {
-//							gameBoard.getTileArr().get(i).setRobber(false);
-//						}
-//					}
-//					
-//					b.getTile().setRobber(true);
-//					gameControl.changeRobberInDB(b.getTile().getIdTile());
-//					boardPanel.repaint();
-					refreshRobber();
+// <<<<<<< FixSquad2
+// 					gameControl.changeRobber(b.getTile().getIdTile());
+// //					for (int i = 0; i < gameBoard.getTileArr().size(); i++) {
+// //						if (gameBoard.getTileArr().get(i).hasRobber()) {
+// //							gameBoard.getTileArr().get(i).setRobber(false);
+// //						}
+// //					}
+// //					
+// //					b.getTile().setRobber(true);
+// //					gameControl.changeRobberInDB(b.getTile().getIdTile());
+// //					boardPanel.repaint();
+// 					refreshRobber();
+// =======
+// 					for (int i = 0; i < gameControl.getCatanGame().getGameboard().getTileArr().size(); i++) {
+// 						if (gameControl.getCatanGame().getGameboard().getTileArr().get(i).hasRobber()) {
+// 							gameControl.getCatanGame().getGameboard().getTileArr().get(i).setRobber(false);
+// 						}
+// 					}
+
+// 					b.getTile().setRobber(true);
+// 					gameControl.changeRobberInDB(b.getTile().getIdTile());
+// 					boardPanel.repaint();
+// >>>>>>> development
 				}
 
 			});
@@ -472,6 +513,7 @@ public class GuiController {
 	}
 
 	public void addPlayerColorToStreetLocs() {
+		
 		for (StreetLocationButton slb : boardPanel.getStreetLocationButtonArrayList()) {
 			Color color = Color.BLACK;
 			Street street = slb.getStreetLocation().getStreet();
@@ -521,14 +563,6 @@ public class GuiController {
 	}
 
 	public void refreshRobber() {
-//		for (Tile t : gameBoard.getTileArr()) {
-//			if (t.getIdTile() == gameControl.getRobberIdTile()) {
-//				t.setRobber(true);
-//
-//			} else {
-//				t.setRobber(false);
-//			}
-//		}
 		boardPanel.repaint();
 	}
 
@@ -536,7 +570,7 @@ public class GuiController {
 		diceDotPanel.repaint();
 	}
 
-	public void setGameBoard(Gameboard gameBoard) {
-		this.gameBoard = gameBoard;
-	}
+//	public void setGameBoard(Gameboard gameBoard) {
+//		this.gameBoard = gameBoard;
+//	}
 }

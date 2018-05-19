@@ -29,6 +29,7 @@ public class GameGUIPanel extends JPanel {
 	// private Player player;
 
 	// Constructor
+
 	public GameGUIPanel(BoardPanel boardPanel, DicePanel dicePanel, ChatPanel chatPanel,
 			PlayerActionPanel playerActionPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) { // TODO
 																														// array
@@ -40,9 +41,10 @@ public class GameGUIPanel extends JPanel {
 																														// 4
 																														// playerStatsPanels?
 		// this.player = player;
+
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
-		gameTopPanel = new GameTopPanel("CatanTest"); // TODO set gamelabel text in constructor
+		this.gameTopPanel = gameTopPanel; // TODO set gamelabel text in constructor
 		this.playerActionsPanel = playerActionPanel;
 		resourcesPanel = new MyResourcesPanel(selfPlayer); // TODO selfplayer
 		this.boardPanel = boardPanel;

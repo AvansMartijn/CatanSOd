@@ -20,6 +20,7 @@ public class RecentGamePanel extends JPanel {
 
 	public RecentGamePanel(Catan game) {
 		this.game = game;
+		this.setBackground(Color.WHITE);
 		this.setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 100));
 		GridBagConstraints c = new GridBagConstraints();
@@ -36,7 +37,7 @@ public class RecentGamePanel extends JPanel {
 		String[] displayStringArr = new String[4];
 		String turnUsername = "";
 		for (Player p : playerArray) {
-			if (p.getFollownr() == game.getPlayerTurn()) {
+			if (p.getIdPlayer() == game.getTurn()) {
 				turnUsername = p.getUsername();
 			}
 			displayStringArr[p.getFollownr() - 1] = String.format("%s) %s: %s ", p.getFollownr(), p.getUsername(), p.getPlayStatus());
