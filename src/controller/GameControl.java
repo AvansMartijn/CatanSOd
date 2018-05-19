@@ -35,12 +35,6 @@ public class GameControl {
 		this.mainDA = mainDA;
 	}
 
-	public void testMethod() {
-		// createGame(false);
-		// idGame = 770;
-		// playerID = mainDA.getPlayerID(username, idGame);
-		// joinGame();
-	}
 
 	/**
 	 * Create a game record in the DB AND sets idGame
@@ -100,13 +94,7 @@ public class GameControl {
 				player.getPlayStatus().toString());
 	}
 
-	public ArrayList<String> getMessages() {
-		ArrayList<String> messageList = new ArrayList<String>();
-		messageList = mainDA.getMessages(catanGame.getIdGame());
-		return messageList;
-	}
-
-	public boolean addMessage(String message) {
+	public boolean addMessageToDB(String message) {
 		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
 		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message)) {
 			return true;
@@ -119,29 +107,21 @@ public class GameControl {
 		this.mainDA.changeRobberLocation(catanGame.getIdGame(), idTile);
 	}
 
-	public int getRobberIdTile() {
-		int idTile = this.mainDA.getRobberLocation(catanGame.getIdGame());
-		return idTile;
-	}
-
 	public void makeBank() {
 
 	}
 
-	public Gameboard getGameboard() {
-		return catanGame.getGameboard();
-	}
+//	public Gameboard getGameboard() {
+//		return catanGame.getGameboard();
+//	}
 
 	public void editDiceLastThrown(int[] die) {
 		mainDA.setLastThrow(die[0], die[1], catanGame.getIdGame());
 	}
 
-	public int[] getDiceLastThrown() {
-		return mainDA.getLastThrows(catanGame.getIdGame());
-	}
-
 	public int[] rollDice() {
 		catanGame.rollDice();
+		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		return catanGame.getDice().getDie();
 	}
 
@@ -352,8 +332,10 @@ public class GameControl {
 		}
 	}
 
-	public void setCatan(Catan game) {
+	public void setCatan(Catan game) { //, int[] dice, ArrayList<String> chatMessages
 		this.catanGame = game;
+//		catanGame.getDice().setDie(dice);
+//		catanGame.setMessages(chatMessages);
 		gameBoardControl = new GameBoardControl(mainDA, catanGame.getIdGame());
 		Gameboard gameboard = gameBoardControl.loadBoard();
 		game.fillCatan(gameboard);

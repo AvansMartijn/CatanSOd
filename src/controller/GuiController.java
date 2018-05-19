@@ -64,7 +64,7 @@ public class GuiController {
 	private GameGUIPanel gameGUIPanel;
 	private RecentGamesPanel currentGamesPanel;
 	private BoardPanel boardPanel;
-	private DiceDotPanel dicePanel;
+	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
 
 	private ArrayList<Catan> gameList;
@@ -181,7 +181,7 @@ public class GuiController {
 			p.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					joinGame(p.getGame());
+					mainControl.joinGame(p.getGame());
 
 				}
 
@@ -194,11 +194,7 @@ public class GuiController {
 		frame.pack();
 	}
 
-	private void joinGame(Catan game) {
-		gameControl.setCatan(game);
-		setGameBoard(gameControl.getGameboard());
-		setIngameGuiPanel();
-	}
+	
 
 	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
@@ -250,10 +246,10 @@ public class GuiController {
 
 	public void setIngameGuiPanel() {
 		playerStatsPanels = new PlayerStatsPanel[4];
-		this.chatPanel = new ChatPanel(gameControl.getMessages());
-		this.dicePanel = new DiceDotPanel();
+		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
+		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
 		this.playerActionPanel = new PlayerActionPanel();
-		this.boardPanel = new BoardPanel(gameControl.getGameboard());
+		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
 			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
@@ -261,7 +257,7 @@ public class GuiController {
 		}
 		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels,
 				gameControl.getCatanGame().getSelfPlayer());
-		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
+//		diceDotPanel.setLastThrown(gameControl.getCatanGame().getDice().getSeperateValues());
 
 		JTextField chatPanelTextField = chatPanel.getTextField();
 		chatPanelTextField.addActionListener(new ActionListener() {
@@ -270,7 +266,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				String message = chatPanelTextField.getText();
 				if (message != null) {
-					if (gameControl.addMessage(message)) {
+					if (gameControl.addMessageToDB(message)) {
 						chatPanelTextField.setText("");
 					} else {
 						addSystemMessageToChat("Je mag maar 1 bericht per seconde versturen!");
@@ -279,7 +275,7 @@ public class GuiController {
 				}
 			}
 		});
-		gameGUIPanel = new GameGUIPanel(boardPanel, dicePanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
+		gameGUIPanel = new GameGUIPanel(boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
 				gameControl.getCatanGame().getSelfPlayer());
 		addTileListeners();
 		addBuildLocListeners();
@@ -294,7 +290,7 @@ public class GuiController {
 			@Override
 			public void run() {
 				refresh();
-				chatPanel.setMessages(gameControl.getMessages());
+				
 			}
 
 		}, 0, 5000);
@@ -363,23 +359,24 @@ public class GuiController {
 
 	private void addRollButtonListener() {
 
-		dicePanel.getButton().addActionListener(new ActionListener() {
+		diceDotPanel.getButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Catan catanGame = gameControl.getCatanGame();
+//				Catan catanGame = gameControl.getCatanGame();
 				//Only if it is the players' turn can the player roll the dice.
 				//Only if the player has not rolled the dice yet, can the player roll dice.
 				//This is separate for testing purposes, so just make it if(true) to disable the restriction. 
-				boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() == catanGame.getTurn() && !catanGame.hasRolledDice();
-				if(shouldRoll) {
-					int[] die = gameControl.rollDice();
-					dicePanel.setLastThrown(die);
-					gameControl.editDiceLastThrown(die);
-					dicePanel.repaint();
+//				boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() == catanGame.getTurn() && !catanGame.hasRolledDice();
+//				if(shouldRoll) {
+//					int[] die = gameControl.rollDice();
+//					gameControl.getCatanGame().getDice().setDie(die);
+//					gameControl.editDiceLastThrown(die);
+					gameControl.rollDice();
+					refreshDice();
 					//When the player rolls the dice, he starts his turn
-					catanGame.setRolledDice(true);
-				}
+					gameControl.getCatanGame().setRolledDice(true);
+//				}
 			}
 		});
 	}
@@ -506,23 +503,26 @@ public class GuiController {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
 	}
+	
+	public void refreshChat() {
+//		chatPanel.setMessages(gameControl.getMessages());
+		chatPanel.repaint();
+	}
 
 	public void refreshRobber() {
-		for (Tile t : gameBoard.getTileArr()) {
-			if (t.getIdTile() == gameControl.getRobberIdTile()) {
-				t.setRobber(true);
-
-			} else {
-				t.setRobber(false);
-			}
-		}
+//		for (Tile t : gameBoard.getTileArr()) {
+//			if (t.getIdTile() == gameControl.getRobberIdTile()) {
+//				t.setRobber(true);
+//
+//			} else {
+//				t.setRobber(false);
+//			}
+//		}
 		boardPanel.repaint();
 	}
 
 	public void refreshDice() {
-		dicePanel.setLastThrown(gameControl.getDiceLastThrown());
-		gameControl.setDiceLastThrown(gameControl.getDiceLastThrown());
-		dicePanel.repaint();
+		diceDotPanel.repaint();
 	}
 
 	public void setGameBoard(Gameboard gameBoard) {

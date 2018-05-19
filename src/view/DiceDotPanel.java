@@ -7,22 +7,18 @@ import java.awt.RenderingHints;
 
 import model.Dice;
 
-/**
- * @author Ger Saris
- * @version 1
- * @date 13-03-2018
- */
 @SuppressWarnings("serial")
 public class DiceDotPanel extends DicePanel
 {
 	// constants
 	private final Color customBrown = new Color(223, 190, 172);
 	private final int DOT = 20;
-	private int[] lastThrown;
+	private Dice dice;
 
 	// constructor
-	public DiceDotPanel(){
+	public DiceDotPanel(Dice dice){
 		setBackground(customBrown);
+		this.dice = dice;
 	}
 
 	@Override
@@ -42,6 +38,8 @@ public class DiceDotPanel extends DicePanel
 		// om nette scherpe randjes te krijgen - einde //
 		
 		// stippen tekenen
+		int[] lastThrown;
+		lastThrown = dice.getSeperateValues();
 		d1 = lastThrown[0];
 		d2 = lastThrown[1];
 		switch (d1)
@@ -118,14 +116,6 @@ public class DiceDotPanel extends DicePanel
 			break;
 		}
 		
-	}
-
-	public int[] getLastThrown() {
-		return lastThrown;
-	}
-
-	public void setLastThrown(int[] lastThrown) {
-		this.lastThrown = lastThrown;
 	}
 	
 }
