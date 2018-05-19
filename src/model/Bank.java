@@ -42,8 +42,8 @@ public class Bank {
 	private void createDevelopmentCards() {
 
 		// Arrays
-		DevelopmentCard[] typeCard = new DevelopmentCard[] { new Knight(), new Monopoly(), new RoadBuilding(),
-				new YearOfPlenty(), new VictoryPoint() };
+		DevelopmentCard[] typeCard = new DevelopmentCard[] { new Knight(null, false), new Monopoly(null, false), new RoadBuilding(null, false), // TODO change null to id
+				new YearOfPlenty(null, false), new VictoryPoint(null, false) };
 		int amountOfCards[] = new int[] { AMOUNT_OF_KNIGHTS, AMOUNT_OF_MONOPOLY, AMOUNT_OF_ROADBUILDING,
 				AMOUNT_OF_YEAROFPLENTY, AMOUNT_OF_VICTORYPOINT };
 

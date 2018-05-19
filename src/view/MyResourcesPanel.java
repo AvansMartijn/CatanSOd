@@ -78,16 +78,16 @@ public class MyResourcesPanel extends JPanel {
 			case HOUT:
 				resourcesAmount[0]++;
 				break;
-			case BAKSTEEN:
+			case ERTS:
 				resourcesAmount[1]++;
 				break;
 			case WOL:
 				resourcesAmount[2]++;
 				break;
-			case ERTS:
+			case GRAAN:
 				resourcesAmount[3]++;
 				break;
-			case GRAAN:
+			case BAKSTEEN:
 				resourcesAmount[4]++;
 				break;
 			default:
