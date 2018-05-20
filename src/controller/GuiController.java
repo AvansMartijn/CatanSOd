@@ -48,6 +48,7 @@ import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
 import view.TradeDialog;
+import view.WaitingRoom;
 import view.BuildDialog;
 
 public class GuiController {
@@ -193,6 +194,13 @@ public class GuiController {
 		frame.pack();
 	}
 
+	public void setWaitingRoom(ArrayList<Player> players) {
+		WaitingRoom waitingRoom = new WaitingRoom(players);
+		frame.setContentPane(waitingRoom);
+		frame.pack();
+		
+	}
+	
 	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -531,6 +539,7 @@ public class GuiController {
 	public void refreshPlayers() {
 		gameSouthContainerPanel.repaint();
 	}
+
 
 //	public void setGameBoard(Gameboard gameBoard) {
 //		this.gameBoard = gameBoard;

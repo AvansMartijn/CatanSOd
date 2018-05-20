@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -28,25 +29,28 @@ import javax.sound.sampled.Clip;
 
 import javax.swing.*;
 
+import model.Player;
+
 @SuppressWarnings("serial")
-public class waitingRoom extends JPanel {
+public class WaitingRoom extends JPanel {
 	private Font Bold = new Font("Arial", Font.BOLD, 30);
 	private Color lightBlue2 = new Color(230, 253, 255);
 	private Color lightblue3 = new Color(173, 216, 250);
 	private JPanel buttons = new JPanel();
-	private JPanel videos = new JPanel();
-	private int joint = 0;
+//	private JPanel videos = new JPanel();
+	private ArrayList<Player> players;
 	private JLabel playersInRoom = new JLabel();
 
-	public waitingRoom() {
+	public WaitingRoom(ArrayList<Player> players) {
+		this.players = players;
 		this.setLayout(new BorderLayout());
 		buttons.setBackground(lightblue3);
 		makebuttons();
 		this.add(buttons, BorderLayout.NORTH);
 		backgroundImage();
-		this.add(videos, BorderLayout.SOUTH);
-		videos.setBackground(lightblue3);
-		trailer();
+//		this.add(videos, BorderLayout.SOUTH);
+//		videos.setBackground(lightblue3);
+//		trailer();
 		this.setBackground(lightblue3);
 		this.setVisible(true);
 	}
@@ -66,12 +70,8 @@ public class waitingRoom extends JPanel {
 	}
 
 	public void makeJLabels() {
-
+		makePlayerLabels();
 		JLabel waiting = new JLabel();
-		// aantal gejoinde mensen opschrijven
-		playersInRoom.setText("Players joined: " + getJoint());
-		playersInRoom.setFont(Bold);
-		playersInRoom.setForeground(Color.BLACK);
 		// text voor het wachten
 		waiting.setText("wait a few minutes, the match will start soon");
 		waiting.setForeground(Color.white);
@@ -79,6 +79,16 @@ public class waitingRoom extends JPanel {
 		playersInRoom.setHorizontalAlignment(JLabel.CENTER);
 		buttons.add(playersInRoom);
 		// buttons.add(waiting, BorderLayout.NORTH);
+	}
+	public void makePlayerLabels() {
+		String playerString = new String();
+		for(Player p: players) {
+			playerString = playerString + p.getUsername() + ": " + p.getPlayStatus() + " ";
+		}
+		// aantal gejoinde mensen opschrijven
+		playersInRoom.setText(playerString);
+		playersInRoom.setFont(Bold);
+		playersInRoom.setForeground(Color.BLACK);
 	}
 
 	@SuppressWarnings("unused")
@@ -193,41 +203,34 @@ public class waitingRoom extends JPanel {
 		}
 	}
 
-	public int getJoint() {
-		return joint;
-	}
 
-	public void setJoint(int joint) {
-		this.joint = this.joint + joint;
-	}
-
-	public void trailer() {
-		Font Bold = new Font("Arial", Font.BOLD, 40);
-
-		JButton video = new JButton("Trailer");
-		video.setForeground(Color.BLACK);
-		video.setBackground(lightBlue2);
-		video.setFont(Bold);
-		video.setSize(50, 20);
-		video.setMargin(new Insets(20, 20, 20, 20));
-		video.setEnabled(true);
-		video.setToolTipText("bekijk de trailer");
-		video.setVisible(true);
-		video.setBorderPainted(true);
-		video.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Desktop.getDesktop()
-							.open(new File("D:\\java codering voor programmeren\\CatanSOd\\Music\\Catan Trailer.mpg"));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					System.out.println("sorry you don't have the required programs");
-				}
-
-			}
-		});
-		videos.add(video, BorderLayout.CENTER);
-	}
+//	public void trailer() {
+//		Font Bold = new Font("Arial", Font.BOLD, 40);
+//
+//		JButton video = new JButton("Trailer");
+//		video.setForeground(Color.BLACK);
+//		video.setBackground(lightBlue2);
+//		video.setFont(Bold);
+//		video.setSize(50, 20);
+//		video.setMargin(new Insets(20, 20, 20, 20));
+//		video.setEnabled(true);
+//		video.setToolTipText("bekijk de trailer");
+//		video.setVisible(true);
+//		video.setBorderPainted(true);
+//		video.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				try {
+//					Desktop.getDesktop()
+//							.open(new File("D:\\java codering voor programmeren\\CatanSOd\\Music\\Catan Trailer.mpg"));
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					System.out.println("sorry you don't have the required programs");
+//				}
+//
+//			}
+//		});
+//		videos.add(video, BorderLayout.CENTER);
+//	}
 }

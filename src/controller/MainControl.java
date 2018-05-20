@@ -8,7 +8,9 @@ import dbaccess.MainDA;
 import model.Account;
 import model.Catan;
 import model.Gameboard;
+import model.PlayStatus;
 import model.Player;
+import model.PlayerColor;
 import model.Tile;
 
 public class MainControl {
@@ -98,21 +100,67 @@ public class MainControl {
 		int gameID = gameControl.createGameInDB(false);
 		ArrayList<Player> players = new ArrayList<Player>();
 		for (String s : playerUsernames) {
-			Player player = gameControl.createNewPlayer(gameID, s);
+			Player player = createNewPlayer(gameID, s);
 			players.add(player);
-			gameControl.addPlayerToDB(gameID, player);
+			addPlayerToDB(gameID, player);
 		}
-
-		createPlayerPiecesInDB(players);
-		createResourceCardsInDB(gameID);
+		
+		guiController.setWaitingRoom(players);
+		Gameboard gameBoard = gameControl.createBoardAndAddToDB(players);
+		mainDA.changeRobberLocation(gameID, 10);
 		createDevelopmentCardsInDB(gameID);
+		createResourceCardsInDB(gameID);
+		createPlayerPiecesInDB(players);
+		
 		catanGame = new Catan(players, getSelfPlayer(players), players.get(0).getIdPlayer());
 		mainDA.setThrownDice(0, gameID);
-		Gameboard gameBoard = gameControl.createBoard(players);
+		mainDA.setTurn(players.get(0).getIdPlayer(), gameID);
 		catanGame.fillCatan(gameBoard);
-		mainDA.changeRobberLocation(gameID, 10);
 		gameControl.setCatan(catanGame);
 
+	}
+	
+	public Player createNewPlayer(int gameID, String username) {
+		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(gameID);
+		String playerColor = null;
+		int followNR = -1;
+		String playStatus = null;
+
+		if (lastPlayerNumber == -1) {
+			System.out.println("Color error");
+		} else {
+			switch (lastPlayerNumber) {
+			case 0:
+				playerColor = "ROOD";
+				followNR = 1;
+				playStatus = "UITDAGER";
+				break;
+			case 1:
+				playerColor = "WIT";
+				followNR = 2;
+				playStatus = "UITGEDAAGDE";
+				break;
+			case 2:
+				playerColor = "BLAUW";
+				followNR = 3;
+				playStatus = "UITGEDAAGDE";
+				break;
+			case 3:
+				playerColor = "ORANJE";
+				followNR = 4;
+				playStatus = "UITGEDAAGDE";
+				break;
+			}
+		}
+
+		Player player = new Player(mainDA.getLastUsedPlayerID() + 1, gameID, username,
+				PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
+		return player;
+	}
+
+	public void addPlayerToDB(int idGame, Player player) {
+		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
+				player.getPlayStatus().toString());
 	}
 
 	private void createDevelopmentCardsInDB(int gameID) {
@@ -155,19 +203,19 @@ public class MainControl {
 		// TODO Auto-generated method stub
 		String idPiece;
 		for (Player p : players) {
-			for (int i = 0; i <= 5; i++) {
+			for (int i = 1; i <= 5; i++) {
 				idPiece = "d0" + i;
 				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
 			}
-			for (int i = 0; i <= 4; i++) {
+			for (int i = 1; i <= 4; i++) {
 				idPiece = "c0" + i;
 				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
 			}
-			for (int i = 0; i <= 15; i++) {
+			for (int i = 1; i <= 15; i++) {
 				if(i < 10) {
-					idPiece = "r" + i;
-				}else {
 					idPiece = "r0" + i;
+				}else {
+					idPiece = "r" + i;
 				}
 				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
 			}
