@@ -31,7 +31,10 @@ public class PlayerActionPanel extends JPanel {
 		this.buyPanel = buyPanel;
 		this.tradePanel = tradePanel;
 		
-		add(playerOptionMenuPanel);
+		add(playerOptionMenuPanel, "playerOptionMenuPanel");
+		add(buyPanel, "buyPanel");
+		add(tradePanel, "tradePanel");
+		add(buildPanel, "buildPanel");
 	}
 
 	public PlayerOptionMenuPanel getPlayerOptionMenuPanel() {
