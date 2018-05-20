@@ -26,7 +26,7 @@ public class DicePanel extends JPanel {
 		setPreferredSize(new Dimension(PREF_WIDTH, PREF_HEIGHT));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
 		rollButton = new JButton();
-		rollButton.setText("Roll");
+		rollButton.setText("Gooi");
 		this.add(rollButton);
 	}
 

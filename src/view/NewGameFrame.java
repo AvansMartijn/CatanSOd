@@ -123,7 +123,6 @@ public class NewGameFrame extends JFrame {
 				removeButtonsList.clear();
 				this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				for (String username : invitedPlayers) {
-					String s = username;
 					JPanel panel = new JPanel();
 					JLabel name = new JLabel(username);
 					name.setFont(name.getFont().deriveFont(Font.BOLD, 16));
