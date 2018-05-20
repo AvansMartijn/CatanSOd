@@ -72,7 +72,6 @@ public class GuiController {
 
 	private ArrayList<Catan> gameList;
 //	private Gameboard gameBoard;
-	private Timer timer;
 	
 	//TODO uncomment these when PlayerActionPanelExpended is merged (these classes are added in that branch)
 //	private BuyDialog buyDialog;
@@ -84,7 +83,6 @@ public class GuiController {
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
-		timer = new Timer();
 		frame = new Frame();
 
 		setInlogPanel();
