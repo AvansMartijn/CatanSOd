@@ -1,12 +1,15 @@
 package view;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
@@ -84,7 +87,9 @@ public class LoginRegisterPanel extends JPanel {
 		public CenterPanel() {
 			
 			setPreferredSize(new Dimension(290, 250));
-			setBackground(new Color(50, 50, 50, 60));
+//			setBackground(new Color(50, 50, 50, 60));
+			setOpaque(true);
+			setBackground(new Color(0, 0, 0, 0));
 
 			setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
@@ -127,5 +132,6 @@ public class LoginRegisterPanel extends JPanel {
 			registerButton.setForeground(Color.WHITE);
 			add(registerButton);
 		}
+	
 	}
 }
