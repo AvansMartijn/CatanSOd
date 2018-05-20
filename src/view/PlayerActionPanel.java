@@ -3,6 +3,9 @@ package view;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -16,12 +19,15 @@ public class PlayerActionPanel extends JPanel {
 	private BuildPanel buildPanel;
 	private BuyPanel buyPanel;
 	private TradePanel tradePanel;
+	private CardLayout layout;
 	
 	// Constructor
 	public PlayerActionPanel(PlayerOptionMenuPanel playerOptionMenuPanel, BuildPanel buildPanel, BuyPanel buyPanel, TradePanel tradePanel) {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(myBackGroundColor);
-		setLayout(new CardLayout());
+		
+		CardLayout layout = new CardLayout();
+		setLayout(layout);
 		
 		this.playerOptionMenuPanel = playerOptionMenuPanel;
 		this.buildPanel = buildPanel;
@@ -43,24 +49,35 @@ public class PlayerActionPanel extends JPanel {
 		return buildPanel;
 	}
 
-	public void setBuildPanel(BuildPanel buildPanel) {
-		this.buildPanel = buildPanel;
+	public void setBuildPanel() {
+	    CardLayout cl = (CardLayout)(getLayout());
+	    cl.show(this, "buildPanel");
 	}
 
 	public BuyPanel getBuyPanel() {
 		return buyPanel;
 	}
 
-	public void setBuyPanel(BuyPanel buyPanel) {
-		this.buyPanel = buyPanel;
+	public void setBuyPanel() {
+		CardLayout cl = (CardLayout)(getLayout());
+	    cl.show(this, "buyPanel");
 	}
 
 	public TradePanel getTradePanel() {
 		return tradePanel;
 	}
 
-	public void setTradePanel(TradePanel tradePanel) {
-		this.tradePanel = tradePanel;
+	public void setTradePanel() {
+		CardLayout cl = (CardLayout)(getLayout());
+	    cl.show(this, "tradePanel");
+	}
+
+	public CardLayout getLayout() {
+		return layout;
+	}
+
+	public void setLayout(CardLayout layout) {
+		this.layout = layout;
 	}
 	
 }
