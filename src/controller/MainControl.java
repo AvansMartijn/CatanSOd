@@ -279,4 +279,7 @@ public class MainControl {
 		return mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 	}
 
+	public String getAcccountUsername() {
+		return account.getUsername();
+	}
 }

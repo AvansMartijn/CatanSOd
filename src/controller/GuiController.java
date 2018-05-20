@@ -154,7 +154,7 @@ public class GuiController {
 		JPanel optionsPanel = new JPanel();
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.X_AXIS));
 		JButton createGameButton = new JButton("Game aanmaken");
-		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts());
+		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
 		createGameButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -162,6 +162,9 @@ public class GuiController {
 				dialog.setTitle("Nieuw Spel");
 				dialog.setContentPane(newGamePanel);
 				dialog.pack();
+				dialog.setLocationRelativeTo(null);
+				dialog.toFront();
+				dialog.requestFocus();
 				dialog.setVisible(true);
 			}
 		});
