@@ -85,7 +85,7 @@ public class MainControl {
 				updateRefreshBoard();
 
 			}
-		}, 2000);
+		}, 0, 2000);
 	}
 
 	public void createNewGame(ArrayList<String> playerUsernames) {
@@ -193,6 +193,7 @@ public class MainControl {
 	}
 
 	public void updateRefreshMessages() {
+		System.out.println("maincontrol updaterefresh chat");
 		ArrayList<String> messageList = new ArrayList<String>();
 		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setMessages(messageList);

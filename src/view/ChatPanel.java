@@ -44,18 +44,17 @@ public class ChatPanel extends JPanel {
 	public void setMessages(ArrayList<String> messages) {
 		for(String s: messages) {
 			if(this.textPane.getText().contains(s)) {
-				
 			} else {
 				textPane.append(Color.BLACK, s + "\n");
 				textPane.setCaretPosition(textPane.getDocument().getLength());
-//				this.messages = messages;
+
 				repaint();
 			}
 		}
 	}
 	
-	public void addSystemMessageToChat(String s){
-//		textPane.append(s + "\n");
+	public void addSystemMessageToChat(Color c, String s){
+		textPane.append(c, s + "\n");
 		textPane.setCaretPosition(textPane.getDocument().getLength());
 		repaint();		
 		

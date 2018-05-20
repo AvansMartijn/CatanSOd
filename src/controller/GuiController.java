@@ -95,8 +95,8 @@ public class GuiController {
 		frame.setVisible(true);
 	}
 
-	public void addSystemMessageToChat(String s) {
-		chatPanel.addSystemMessageToChat(s);
+	public void addSystemMessageToChat(Color c, String s) {
+		chatPanel.addSystemMessageToChat(c, s);
 	}
 
 	public void setInlogPanel() {
@@ -286,7 +286,7 @@ public class GuiController {
 					if (gameControl.addMessage(message)) {
 						chatPanelTextField.setText("");
 					} else {
-						addSystemMessageToChat("Je mag maar 1 bericht per seconde versturen!");
+						addSystemMessageToChat(Color.RED, "Je mag maar 1 bericht per seconde versturen!");
 					}
 
 				}
@@ -520,6 +520,7 @@ public class GuiController {
 	}
 	
 	public void refreshChat() {
+		System.out.println("refreshchat");
 		chatPanel.setMessages(gameControl.getCatanGame().getMessages());
 		chatPanel.repaint();
 	}
