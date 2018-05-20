@@ -116,11 +116,15 @@ public class LoginRegisterPanel extends JPanel {
 			loginButton = new JButton("Inloggen");
 			loginButton.setPreferredSize(new Dimension(280, 40));
 			loginButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			loginButton.setBackground(new Color(40, 40, 40));
+			loginButton.setForeground(Color.WHITE);
 			add(loginButton);
 
 			registerButton = new JButton("Registreren");
 			registerButton.setPreferredSize(new Dimension(280, 40));
 			registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			registerButton.setBackground(new Color(40, 40, 40));
+			registerButton.setForeground(Color.WHITE);
 			add(registerButton);
 		}
 	}
