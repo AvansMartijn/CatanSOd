@@ -3,11 +3,17 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,7 +41,22 @@ public class LoginRegisterPanel extends JPanel {
 
 		grid.setConstraints(center, constraints);
 		add(center, constraints);
-
+	}
+	
+	public void paintComponent(Graphics g) {
+		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
+		
+		Image image = null;
+		try {
+			image = ImageIO.read(url);
+			image = image.getScaledInstance((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight(), Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+		}
+		JLabel background = new JLabel();
+		ImageIcon icon = new ImageIcon(url);
+		background.setIcon(icon);
+		background.setBounds(0, 0, (int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight());
+		add(background, -1);
 	}
 
 	public JButton getInlogButton() {
@@ -63,6 +84,7 @@ public class LoginRegisterPanel extends JPanel {
 		public CenterPanel() {
 			
 			setPreferredSize(new Dimension(290, 250));
+			setBackground(new Color(50, 50, 50, 60));
 
 			setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
@@ -94,11 +116,15 @@ public class LoginRegisterPanel extends JPanel {
 			loginButton = new JButton("Inloggen");
 			loginButton.setPreferredSize(new Dimension(280, 40));
 			loginButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			loginButton.setBackground(new Color(40, 40, 40));
+			loginButton.setForeground(Color.WHITE);
 			add(loginButton);
 
 			registerButton = new JButton("Registreren");
 			registerButton.setPreferredSize(new Dimension(280, 40));
 			registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			registerButton.setBackground(new Color(40, 40, 40));
+			registerButton.setForeground(Color.WHITE);
 			add(registerButton);
 		}
 	}
