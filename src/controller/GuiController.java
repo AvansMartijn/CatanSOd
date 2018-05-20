@@ -409,8 +409,9 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
-					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-//					buyDialog = new BuyDialog();					
+					//TODO uncomment this when PlayerActionPanelExtended is merged (this class is added in that branch)
+					buyDialog = new BuyDialog(playerActionPanel);	
+					gameGUIPanel.showBuyDialog(buyDialog);
 				}
 				
 			}
@@ -426,8 +427,9 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
-					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-//					tradeDialog = new TradeDialog();				
+					//TODO uncomment this when PlayerActionPanelExtended is merged (this class is added in that branch)
+					tradeDialog = new TradeDialog(playerActionPanel);
+					gameGUIPanel.showTradeDialog(tradeDialog);
 				}
 			}
 		});
@@ -442,8 +444,9 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
-					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-//					buildDialog = new BuildDialog();
+					//TODO uncomment this when PlayerActionPanelExtended is merged (this class is added in that branch)
+					buildDialog = new BuildDialog(playerActionPanel);
+					gameGUIPanel.showBuildDialog(buildDialog);
 				}
 			}
 		});

@@ -43,33 +43,42 @@ public class BuildPanel extends JPanel {
 		add(title);
 
 		streetButton = new JButton("Straat");
-		streetButton.setBounds(BUTTON_OFFSET_X, 80, BUTTON_WIDTH, BUTTON_HEIGHT);
+		streetButton.setBounds(BUTTON_OFFSET_X, 70, BUTTON_WIDTH, BUTTON_HEIGHT);
 		streetButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		streetButton.setBackground(textBackgroundColor);
 		streetButton.setForeground(TextColor);
 		add(streetButton);
 
 		villageButton = new JButton("Dorp");
-		villageButton.setBounds(BUTTON_OFFSET_X, 160, BUTTON_WIDTH, BUTTON_HEIGHT);
+		villageButton.setBounds(BUTTON_OFFSET_X, 140, BUTTON_WIDTH, BUTTON_HEIGHT);
 		villageButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		villageButton.setBackground(textBackgroundColor);
 		villageButton.setForeground(TextColor);
 		add(villageButton);
 
 		cityButton = new JButton("Stad");
-		cityButton.setBounds(BUTTON_OFFSET_X, 240, BUTTON_WIDTH, BUTTON_HEIGHT);
+		cityButton.setBounds(BUTTON_OFFSET_X, 210, BUTTON_WIDTH, BUTTON_HEIGHT);
 		cityButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		cityButton.setBackground(textBackgroundColor);
 		cityButton.setForeground(TextColor);
 		add(cityButton);
 
 		returnButton = new JButton("Terugkeren");
-		returnButton.setBounds(BUTTON_OFFSET_X, 270, BUTTON_WIDTH, BUTTON_HEIGHT);
+		returnButton.setBounds(BUTTON_OFFSET_X, 280, BUTTON_WIDTH, BUTTON_HEIGHT);
 		returnButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);
 		add(returnButton);
 	}
+
+	// public @Override void toFront() {
+	// int sta = super.getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
+	//
+	// super.setExtendedState(sta);
+	// super.setAlwaysOnTop(true);
+	// super.toFront();
+	// super.requestFocus();
+	// }
 
 	public JButton getStreetButton() {
 		return streetButton;
@@ -86,5 +95,4 @@ public class BuildPanel extends JPanel {
 	public JButton getReturnButton() {
 		return returnButton;
 	}
-
 }
