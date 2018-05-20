@@ -198,8 +198,8 @@ public class GuiController {
 	}
 
 	public void setWaitingRoom(ArrayList<Player> players) {
-		WaitingRoom waitingRoom = new WaitingRoom(players);
-		frame.setContentPane(waitingRoom);
+//		WaitingRoom waitingRoom = new WaitingRoom(players);
+//		frame.setContentPane(waitingRoom);
 		frame.pack();
 		
 	}
