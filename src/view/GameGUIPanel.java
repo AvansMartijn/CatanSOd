@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,15 +23,16 @@ public class GameGUIPanel extends JPanel {
 	private ChatPanel chatPanel;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private GridBagConstraints gridBagConstraints;
+	private PlayerOptionMenuPanel playerOptionMenuPanel;
 
 	// Constructor
 	public GameGUIPanel(GameTopPanel gameTopPanel, BoardPanel boardPanel, DiceDotPanel diceDotPanel, ChatPanel chatPanel,
-			PlayerActionPanel playerActionPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) {
+			PlayerOptionMenuPanel playerOptionMenuPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) {
 
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
 		this.gameTopPanel = gameTopPanel;
-		this.playerActionsPanel = playerActionPanel;
+		this.playerOptionMenuPanel = playerOptionMenuPanel;
 		resourcesPanel = new MyResourcesPanel(selfPlayer);
 		this.boardPanel = boardPanel;
 		this.diceDotPanel = diceDotPanel;
@@ -64,7 +66,7 @@ public class GameGUIPanel extends JPanel {
 		// Add PlayerActionsPanel // TODO only if its this players turn
 		gridBagConstraints.anchor = GridBagConstraints.EAST;
 		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(playerActionsPanel, gridBagConstraints);
+		add(playerOptionMenuPanel, gridBagConstraints);
 
 		// Add DicePanel
 		gridBagConstraints.insets = new Insets(0, 0, 500, 150);
