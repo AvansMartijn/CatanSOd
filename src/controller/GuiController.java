@@ -269,7 +269,7 @@ public class GuiController {
  						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);					
  				if (result == JOptionPane.YES_OPTION) {
  					gameControl.unloadCatan();
- 					timer.cancel();
+ 					mainControl.stopIngameTimer();
  					mainControl.loadProfile();
  				}
 
