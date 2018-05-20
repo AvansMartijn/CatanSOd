@@ -323,8 +323,7 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
- 					b.getTile().setRobber(true);
- 					gameControl.changeRobberInDB(b.getTile().getIdTile());
+ 					gameControl.changeRobber(b.getTile().getIdTile());
  					boardPanel.repaint();
 				}
 
