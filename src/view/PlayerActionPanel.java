@@ -25,7 +25,6 @@ public class PlayerActionPanel extends JPanel {
 		
 		setLayout(new CardLayout());
 		
-		System.out.println(buildPanel);
 		this.playerOptionMenuPanel = playerOptionMenuPanel;
 		this.buildPanel = buildPanel;
 		this.buyPanel = buyPanel;
@@ -41,8 +40,9 @@ public class PlayerActionPanel extends JPanel {
 		return playerOptionMenuPanel;
 	}
 
-	public void setPlayerOptionMenuPanel(PlayerOptionMenuPanel playerOptionMenuPanel) {
-		this.playerOptionMenuPanel = playerOptionMenuPanel;
+	public void setPlayerOptionMenuPanel() {
+		CardLayout cl = (CardLayout)(getLayout());
+		cl.show(this, "playerOptionMenuPanel");
 	}
 
 	public BuildPanel getBuildPanel() {

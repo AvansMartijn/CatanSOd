@@ -272,7 +272,6 @@ public class GuiController {
 		this.buildPanel = new BuildPanel();
 		this.tradePanel = new TradePanel();
 		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel);
-		System.out.println(playerActionPanel.getBuildPanel());
 
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
@@ -396,15 +395,14 @@ public class GuiController {
 		});
 	}
 
-	private void addPlayerActionBuyButtonListener() {
+	private void addPlayerActionBuyButtonListener() { // TODO IF STATEMENT IS BROKEN?, FOR TESTING PURPOSES CODE IS ABOVE IT
 
 		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setBuyPanel();
 				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-					System.out.println("PERFORMED");
-					playerActionPanel.setBuyPanel();
 
 				}
 			}
@@ -444,8 +442,8 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 
 				Catan catanGame = gameControl.getCatanGame();
+				catanGame.endTurn();
 				if (catanGame.isSelfPlayerTurn()) {
-					catanGame.endTurn();
 				}
 			}
 		});
