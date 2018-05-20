@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 public class LoginRegisterPanel extends JPanel {
 	private JButton loginButton;
 	private JButton registerButton;
+	private JButton exitButton;
 	private JTextField usernameText;
 	private JTextField passwordText;
 	private JLabel messageLabel;
@@ -34,6 +35,9 @@ public class LoginRegisterPanel extends JPanel {
 
 		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 
+		
+		   
+		
 		GridBagLayout grid = new GridBagLayout();
 		setLayout(grid);
 
@@ -45,21 +49,25 @@ public class LoginRegisterPanel extends JPanel {
 		grid.setConstraints(center, constraints);
 		add(center, constraints);
 	}
-	
+
 	public void paintComponent(Graphics g) {
+
 		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
-		
+
 		Image image = null;
 		try {
 			image = ImageIO.read(url);
-			image = image.getScaledInstance((int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight(), Image.SCALE_DEFAULT);
+			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
+					Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 		}
 		JLabel background = new JLabel();
 		ImageIcon icon = new ImageIcon(url);
 		background.setIcon(icon);
-		background.setBounds(0, 0, (int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight());
+		background.setBounds(0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight());
 		add(background, -1);
+		repaint();
+		
 	}
 
 	public JButton getInlogButton() {
@@ -68,6 +76,10 @@ public class LoginRegisterPanel extends JPanel {
 
 	public JButton getRegisterButton() {
 		return registerButton;
+	}
+
+	public JButton getExitButton() {
+		return exitButton;
 	}
 
 	public JTextField getUsernameText() {
@@ -85,9 +97,9 @@ public class LoginRegisterPanel extends JPanel {
 	public class CenterPanel extends JPanel {
 
 		public CenterPanel() {
-			
-			setPreferredSize(new Dimension(290, 250));
-//			setBackground(new Color(50, 50, 50, 60));
+
+			setPreferredSize(new Dimension(290, 300));
+			// setBackground(new Color(50, 50, 50, 60));
 			setOpaque(true);
 			setBackground(new Color(0, 0, 0, 0));
 
@@ -131,7 +143,14 @@ public class LoginRegisterPanel extends JPanel {
 			registerButton.setBackground(new Color(40, 40, 40));
 			registerButton.setForeground(Color.WHITE);
 			add(registerButton);
+
+			exitButton = new JButton("Afsluiten");
+			exitButton.setPreferredSize(new Dimension(280, 40));
+			exitButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			exitButton.setBackground(new Color(40, 40, 40));
+			exitButton.setForeground(Color.WHITE);
+			add(exitButton);
 		}
-	
+
 	}
 }

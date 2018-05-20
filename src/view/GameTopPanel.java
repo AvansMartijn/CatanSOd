@@ -57,7 +57,7 @@ public class GameTopPanel extends JPanel {
 		ChatButton.setBorderPainted(false);
 		GameLabel = new JLabel("Game " + myGameName);
 		GameLabel.setHorizontalAlignment(JLabel.CENTER);
-		GoToMainMenuButton = new JButton("Terug naar Spelmenu");
+		GoToMainMenuButton = new JButton("Naar Spelmenu");
 		GoToMainMenuButton.setBackground(ButtonBackgroundColor);
 
 		add(ChatButton, BorderLayout.WEST);
