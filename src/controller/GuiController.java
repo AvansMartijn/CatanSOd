@@ -29,8 +29,9 @@ import model.Street;
 import model.Tile;
 import model.Village;
 import view.BoardPanel;
+import view.BuildPanel;
 import view.BuildingLocationButton;
-import view.BuyDialog;
+import view.BuyPanel;
 import view.ChatPanel;
 import view.DiceDotPanel;
 import view.Frame;
@@ -42,25 +43,23 @@ import view.LoginRegisterPanel;
 import view.MainMenuGUI;
 import view.NewGamePanel;
 import view.PlayerActionPanel;
+import view.PlayerOptionMenuPanel;
 import view.PlayerStatsPanel;
 import view.RecentGamePanel;
 import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
+import view.TradePanel;
 import view.TradeDialog;
 import view.WaitingRoom;
 import view.BuildDialog;
+
 
 public class GuiController {
 
 	private GameControl gameControl;
 	private MainControl mainControl;
-
 	private Frame frame;
-	private PlayerActionPanel playerActionPanel;
-	private TradeDialog tradeDialog;
-	private BuildDialog buildDialog;
-	private BuyDialog buyDialog;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
 	private MainMenuGUI mainMenuGui;
@@ -69,15 +68,22 @@ public class GuiController {
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
+	private PlayerActionPanel playerActionPanel;
+	private PlayerOptionMenuPanel playerOptionMenuPanel;
+	private TradePanel tradePanel;
+	private BuyPanel buyPanel;
+	private BuildPanel buildPanel;
 
 	private ArrayList<Catan> gameList;
-//	private Gameboard gameBoard;
-	
-	//TODO uncomment these when PlayerActionPanelExpended is merged (these classes are added in that branch)
-//	private BuyDialog buyDialog;
-//	private TradeDialog tradeDialog;
-//	private BuildDialog buildDialog;
-	
+	// private Gameboard gameBoard;
+
+	// TODO uncomment these when PlayerActionPanelExpended is merged (these classes
+	// are added in that branch)
+	// private BuyDialog buyDialog;
+	// private TradeDialog tradeDialog;
+	// private BuildDialog buildDialog;
+
+
 	private int pageNr;
 
 	public GuiController(MainControl mainControl, GameControl gameControl) {
@@ -170,7 +176,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.createNewGame(newGamePanel.getInvitedPlayers());
-				
+
 			}
 		});
 		optionsPanel.add(createGameButton);
@@ -194,6 +200,7 @@ public class GuiController {
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
 	}
+
 
 	public void setWaitingRoom(ArrayList<Player> players) {
 //		WaitingRoom waitingRoom = new WaitingRoom(players);
@@ -254,27 +261,33 @@ public class GuiController {
 		playerStatsPanels = new PlayerStatsPanel[4];
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
- 		GameTopPanel gameTopPanel= new GameTopPanel(gameControl.getCatanGame().getIdGame());
- 		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
 
- 			@Override
- 			public void actionPerformed(ActionEvent e) {
+		GameTopPanel gameTopPanel = new GameTopPanel(gameControl.getCatanGame().getIdGame());
+		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
 
- 				Object[] options = {"Ja",
-                 "Nee"};
-				
- 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?", "Waarschuwing", JOptionPane.YES_NO_OPTION,
- 						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);					
- 				if (result == JOptionPane.YES_OPTION) {
- 					gameControl.unloadCatan();
- 					mainControl.stopIngameTimer();
- 					mainControl.loadProfile();
- 				}
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
- 			}
+				Object[] options = { "Ja", "Nee" };
 
- 		});
-		this.playerActionPanel = new PlayerActionPanel();
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?",
+						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+						options[0]);
+				if (result == JOptionPane.YES_OPTION) {
+					gameControl.unloadCatan();
+					mainControl.stopIngameTimer();
+					mainControl.loadProfile();
+				}
+
+			}
+
+		});
+		this.playerOptionMenuPanel = new PlayerOptionMenuPanel();
+		this.buyPanel = new BuyPanel();
+		this.buildPanel = new BuildPanel();
+		this.tradePanel = new TradePanel();
+		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel);
+    
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
@@ -308,12 +321,18 @@ public class GuiController {
 		addPlayerColorToBuildingLocs();
 		System.out.println("addplayercolortoStreet");
 		addPlayerColorToStreetLocs();
-		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
-				gameControl.getCatanGame().getSelfPlayer());
+		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel,
+				gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
+
+		addPlayerActionBuyButtonListener(); // TODO why not make a function which adds all these freaking functions?
+		addPlayerActionBuyQuitButtonListener();
 		
-		addPlayerActionBuyButtonListener();
 		addPlayerActionTradeButtonListener();
+		addPlayerActionTradeQuitButtonListener();
+		
 		addPlayerActionBuildButtonListener();
+		addPlayerActionBuildQuitButtonListener();
+		
 		addPlayerActionEndTurnButtonListener();
 
 		frame.setContentPane(gameGUIPanel);
@@ -327,8 +346,8 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
- 					gameControl.changeRobber(b.getTile().getIdTile());
- 					boardPanel.repaint();
+					gameControl.changeRobber(b.getTile().getIdTile());
+					boardPanel.repaint();
 				}
 
 			});
@@ -372,93 +391,119 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-//				Catan catanGame = gameControl.getCatanGame();
-				//Only if it is the players' turn can the player roll the dice.
-				//Only if the player has not rolled the dice yet, can the player roll dice.
-				//This is separate for testing purposes, so just make it if(true) to disable the restriction. 
-//				boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() == catanGame.getTurn() && !catanGame.hasRolledDice();
-//				if(shouldRoll) {
-//					int[] die = gameControl.rollDice();
-//					gameControl.getCatanGame().getDice().setDie(die);
-//					gameControl.editDiceLastThrown(die);
-					gameControl.rollDice();
-					gameControl.getCatanGame().setRolledDice(true);
-					refreshDice();
-					//When the player rolls the dice, he starts his turn
-//				}
+				// Catan catanGame = gameControl.getCatanGame();
+				// Only if it is the players' turn can the player roll the dice.
+				// Only if the player has not rolled the dice yet, can the player roll dice.
+				// This is separate for testing purposes, so just make it if(true) to disable
+				// the restriction.
+				// boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() ==
+				// catanGame.getTurn() && !catanGame.hasRolledDice();
+				// if(shouldRoll) {
+				// int[] die = gameControl.rollDice();
+				// gameControl.getCatanGame().getDice().setDie(die);
+				// gameControl.editDiceLastThrown(die);
+				gameControl.rollDice();
+				gameControl.getCatanGame().setRolledDice(true);
+				refreshDice();
+				// When the player rolls the dice, he starts his turn
+				// }
+			}
+		});
+	}
+
+	private void addPlayerActionBuyButtonListener() { // TODO IF STATEMENT IS BROKEN?, FOR TESTING PURPOSES CODE IS ABOVE IT
+
+		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setBuyPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+
+				}
 			}
 		});
 	}
 	
-	private void addPlayerActionBuyButtonListener() {
-		
-		playerActionPanel.getBuyButton().addActionListener(new ActionListener() {
+	private void addPlayerActionBuyQuitButtonListener() {
+		playerActionPanel.getBuyPanel().getReturnButton().addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
-					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-					buyDialog = new BuyDialog(playerActionPanel);
-					gameGUIPanel.setBuyDialog(buyDialog);
-					
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+
 				}
-				
 			}
 		});
-		
 	}
-	
+
 	private void addPlayerActionTradeButtonListener() {
-		
-		playerActionPanel.getTradeButton().addActionListener(new ActionListener() {
+
+		playerActionPanel.getPlayerOptionMenuPanel().getTradeButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
-					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-					tradeDialog = new TradeDialog(playerActionPanel);	
-					gameGUIPanel.setTradeDialog(tradeDialog);
+				playerActionPanel.setTradePanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				}
 			}
 		});
-		
+	}
+	
+	private void addPlayerActionTradeQuitButtonListener() {
+		playerActionPanel.getTradePanel().getReturnButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
+			}
+		});
 	}
 
 	private void addPlayerActionBuildButtonListener() {
-		
-		playerActionPanel.getBuildButton().addActionListener(new ActionListener() {
+
+		playerActionPanel.getPlayerOptionMenuPanel().getBuildButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
-					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-					buildDialog = new BuildDialog(playerActionPanel);
-					gameGUIPanel.setBuildDialog(buildDialog);
+				playerActionPanel.setBuildPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				}
 			}
 		});
-		
 	}
 	
+	private void addPlayerActionBuildQuitButtonListener() {
+		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
+			}
+		});
+	}
+
 	private void addPlayerActionEndTurnButtonListener() {
-		
-		playerActionPanel.getEndTurnButton().addActionListener(new ActionListener() {
 
+		playerActionPanel.getPlayerOptionMenuPanel().getEndTurnButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
+				playerActionPanel.setVisible(false); // TODO DONT FORGET TO SET THIS VISIBLE WHEN SELFPLAYER TURN IS BACK -- JIM
 				Catan catanGame = gameControl.getCatanGame();
-				if(catanGame.isSelfPlayerTurn()) {
-					catanGame.endTurn();					
+				catanGame.endTurn();
+				if (catanGame.isSelfPlayerTurn()) {
 				}
 			}
 		});
-		
+
 	}
-	
+
 	public void addPlayerColorToBuildingLocs() {
 		for (BuildingLocationButton blb : boardPanel.getBuildingLocationButtonArrayList()) {
 			Color color = Color.BLACK;
@@ -479,7 +524,7 @@ public class GuiController {
 	}
 
 	public void addPlayerColorToStreetLocs() {
-		
+
 		for (StreetLocationButton slb : boardPanel.getStreetLocationButtonArrayList()) {
 			Color color = Color.BLACK;
 			Street street = slb.getStreetLocation().getStreet();
@@ -511,18 +556,18 @@ public class GuiController {
 		return color;
 	}
 
-//	public void refresh() {
-//		refreshRobber();
-//		refreshDice();
-//		addPlayerColorToBuildingLocs();
-//		addPlayerColorToStreetLocs();
-//	}
-	
+	// public void refresh() {
+	// refreshRobber();
+	// refreshDice();
+	// addPlayerColorToBuildingLocs();
+	// addPlayerColorToStreetLocs();
+	// }
+
 	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
 	}
-	
+
 	public void refreshChat() {
 		System.out.println("refreshchat");
 		chatPanel.setMessages(gameControl.getCatanGame().getMessages());
@@ -542,7 +587,7 @@ public class GuiController {
 	}
 
 
-//	public void setGameBoard(Gameboard gameBoard) {
-//		this.gameBoard = gameBoard;
-//	}
+	// public void setGameBoard(Gameboard gameBoard) {
+	// this.gameBoard = gameBoard;
+	// }
 }

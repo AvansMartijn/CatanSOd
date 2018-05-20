@@ -79,6 +79,7 @@ public class MainControl {
 		}
 
 		guiController.setIngameGuiPanel();
+
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 			

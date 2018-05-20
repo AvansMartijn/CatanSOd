@@ -15,14 +15,11 @@ public class GameGUIPanel extends JPanel {
 	// Instance variables
 	private Color myBackGroundColor = new Color(240, 226, 223);
 	private GameTopPanel gameTopPanel;
-	private PlayerActionPanel playerActionsPanel;
+	private PlayerActionPanel playerActionPanel;
 	private MyResourcesPanel resourcesPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
-	private BuildDialog buildDialog;
-	private BuyDialog buyDialog;
-	private TradeDialog tradeDialog;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private GridBagConstraints gridBagConstraints;
 
@@ -33,7 +30,7 @@ public class GameGUIPanel extends JPanel {
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
 		this.gameTopPanel = gameTopPanel;
-		this.playerActionsPanel = playerActionPanel;
+		this.playerActionPanel = playerActionPanel;
 		resourcesPanel = new MyResourcesPanel(selfPlayer);
 		this.boardPanel = boardPanel;
 		this.diceDotPanel = diceDotPanel;
@@ -64,10 +61,10 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.gridx++;
 		add(boardPanel, gridBagConstraints);
 
-		// Add PlayerActionsPanel // TODO only if its this players turn
+		// Add PlayerOptionMenuPanel // TODO only if its this players turn
 		gridBagConstraints.anchor = GridBagConstraints.EAST;
 		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(playerActionsPanel, gridBagConstraints);
+		add(playerActionPanel, gridBagConstraints);
 
 		// Add DicePanel
 		gridBagConstraints.insets = new Insets(0, 0, 500, 150);
@@ -86,39 +83,6 @@ public class GameGUIPanel extends JPanel {
 	}
 
 	public JPanel getPlayerActionPanel() {
-		return playerActionsPanel;
-	}
-
-	public void setBuildDialog(BuildDialog newBuildDialog) {
-		buildDialog = newBuildDialog;
-		gridBagConstraints.anchor = GridBagConstraints.EAST;
-		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(buildDialog, gridBagConstraints);
-	}
-
-	public void setBuyDialog(BuyDialog newBuyDialog) {
-		buyDialog = newBuyDialog;
-		gridBagConstraints.anchor = GridBagConstraints.EAST;
-		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(buyDialog, gridBagConstraints);
-	}
-
-	public void setTradeDialog(TradeDialog newTradeDialog) {
-		tradeDialog = newTradeDialog;
-		gridBagConstraints.anchor = GridBagConstraints.EAST;
-		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(tradeDialog, gridBagConstraints);
-	}
-
-	public void removeBuildDialog(BuildDialog newBuildDialog) {
-		buildDialog.dispose();
-	}
-
-	public void removeBuyDialog(BuyDialog newBuyDialog) {
-		buyDialog.dispose();
-	}
-
-	public void removeTradeDialog(TradeDialog newTradeDialog) {
-		tradeDialog.dispose();
+		return playerActionPanel;
 	}
 }
