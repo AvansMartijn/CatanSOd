@@ -76,16 +76,16 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 
 		guiController.setIngameGuiPanel();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				updateRefreshDice();
-				updateRefreshRobber();
-				updateRefreshMessages();
-				updateRefreshBoard();
-
-			}
-		}, 2000);
+//		timer.schedule(new TimerTask() {
+//			@Override
+//			public void run() {
+//				updateRefreshDice();
+//				updateRefreshRobber();
+//				updateRefreshMessages();
+//				updateRefreshBoard();
+//
+//			}
+//		}, 2000);
 	}
 
 	public void createNewGame(ArrayList<String> playerUsernames) {

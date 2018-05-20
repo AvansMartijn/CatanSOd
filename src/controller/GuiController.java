@@ -30,7 +30,6 @@ import model.Tile;
 import model.Village;
 import view.BoardPanel;
 import view.BuildingLocationButton;
-import view.BuyDialog;
 import view.ChatPanel;
 import view.DiceDotPanel;
 import view.Frame;
@@ -47,19 +46,13 @@ import view.RecentGamePanel;
 import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
-import view.TradeDialog;
-import view.BuildDialog;
 
 public class GuiController {
 
 	private GameControl gameControl;
 	private MainControl mainControl;
-
 	private Frame frame;
 	private PlayerActionPanel playerActionPanel;
-	private TradeDialog tradeDialog;
-	private BuildDialog buildDialog;
-	private BuyDialog buyDialog;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
 	private MainMenuGUI mainMenuGui;
@@ -395,14 +388,12 @@ public class GuiController {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
 					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-					buyDialog = new BuyDialog(playerActionPanel);
-					gameGUIPanel.setBuyDialog(buyDialog);
 					
-				}
-				
+					
+					
+				}			
 			}
-		});
-		
+		});		
 	}
 	
 	private void addPlayerActionTradeButtonListener() {
@@ -414,12 +405,11 @@ public class GuiController {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
 					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-					tradeDialog = new TradeDialog(playerActionPanel);	
-					gameGUIPanel.setTradeDialog(tradeDialog);
+					
+					
 				}
 			}
-		});
-		
+		});		
 	}
 
 	private void addPlayerActionBuildButtonListener() {
@@ -431,12 +421,11 @@ public class GuiController {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
 					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-					buildDialog = new BuildDialog(playerActionPanel);
-					gameGUIPanel.setBuildDialog(buildDialog);
+					
+					
 				}
 			}
-		});
-		
+		});		
 	}
 	
 	private void addPlayerActionEndTurnButtonListener() {

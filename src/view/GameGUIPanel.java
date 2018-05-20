@@ -20,9 +20,6 @@ public class GameGUIPanel extends JPanel {
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
-	private BuildDialog buildDialog;
-	private BuyDialog buyDialog;
-	private TradeDialog tradeDialog;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private GridBagConstraints gridBagConstraints;
 
@@ -87,38 +84,5 @@ public class GameGUIPanel extends JPanel {
 
 	public JPanel getPlayerActionPanel() {
 		return playerActionsPanel;
-	}
-
-	public void setBuildDialog(BuildDialog newBuildDialog) {
-		buildDialog = newBuildDialog;
-		gridBagConstraints.anchor = GridBagConstraints.EAST;
-		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(buildDialog, gridBagConstraints);
-	}
-
-	public void setBuyDialog(BuyDialog newBuyDialog) {
-		buyDialog = newBuyDialog;
-		gridBagConstraints.anchor = GridBagConstraints.EAST;
-		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(buyDialog, gridBagConstraints);
-	}
-
-	public void setTradeDialog(TradeDialog newTradeDialog) {
-		tradeDialog = newTradeDialog;
-		gridBagConstraints.anchor = GridBagConstraints.EAST;
-		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(tradeDialog, gridBagConstraints);
-	}
-
-	public void removeBuildDialog(BuildDialog newBuildDialog) {
-		buildDialog.dispose();
-	}
-
-	public void removeBuyDialog(BuyDialog newBuyDialog) {
-		buyDialog.dispose();
-	}
-
-	public void removeTradeDialog(TradeDialog newTradeDialog) {
-		tradeDialog.dispose();
 	}
 }
