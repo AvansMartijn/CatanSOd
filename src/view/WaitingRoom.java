@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
@@ -31,8 +32,6 @@ import javax.sound.sampled.Clip;
 
 import javax.swing.*;
 
-import model.Player;
-
 @SuppressWarnings("serial")
 public class WaitingRoom extends JPanel {
 	private Font Bold = new Font("Arial", Font.BOLD, 30);
@@ -40,26 +39,31 @@ public class WaitingRoom extends JPanel {
 	private Color lightblue3 = new Color(173, 216, 250);
 	private JPanel buttons = new JPanel();
 	private JPanel playersPanel;
-	private String subject[] = { "Name: " + getName() + " / IdGame: " + " / Status: " };
+	// private String subject[] = { "Name: " + getName() + " / IdGame: " + " /
+	// Status: " };
+	private DefaultListModel dlm = new DefaultListModel();
 	private JButton deletePlayerButton;
-	private JList<String> playerList = new JList<String>(subject);
+	private JList<String> playerList = new JList<String>(dlm);
 	// private JPanel videos = new JPanel();
 	// private ArrayList<Player> players;
 	private JLabel playersInRoom = new JLabel();
 
+	public WaitingRoom() {
 
-	public WaitingRoom(ArrayList<Player> players) {
-		//this.players = players;
+		// this.players = players;
 		this.setLayout(new BorderLayout());
 		playersPanel = new JPanel();
 		buttons.setBackground(lightblue3);
 		makebuttons();
 		this.add(buttons, BorderLayout.NORTH);
 		backgroundImage();
-//		this.add(videos, BorderLayout.SOUTH);
-//		videos.setBackground(lightblue3);
-//		trailer();
+		// this.add(videos, BorderLayout.SOUTH);
+		// videos.setBackground(lightblue3);
+		// trailer();
 		this.setBackground(lightblue3);
+		makePlayerLabels();
+		playersPanel.setBackground(lightblue3);
+		this.add(playersPanel, BorderLayout.SOUTH);
 		this.setVisible(true);
 	}
 
@@ -78,7 +82,6 @@ public class WaitingRoom extends JPanel {
 	}
 
 	public void makeJLabels() {
-		makePlayerLabels();
 		JLabel waiting = new JLabel();
 		// text voor het wachten
 		waiting.setText("wait a few minutes, the match will start soon");
@@ -88,38 +91,43 @@ public class WaitingRoom extends JPanel {
 		buttons.add(playersInRoom);
 		// buttons.add(waiting, BorderLayout.NORTH);
 	}
-	public void makePlayerLabels() {
+
+	public void update(String ding) {
 		String playerString = new String();
-		playerList.add(playerString);
-		/*
-		 * for(Player p: players) { playerString = playerString + p.getUsername() + ": "
-		 * + p.getPlayerStatus() + " "; }
-		 */
-		playerString = "hoi";
+		ding = playerString;
+/*		for (Player p : players) {
+			playerString = playerString + p.getUsername() + ": " + p.getPlayerStatus() + " ";
+		}*/
+
+		dlm.addElement(playerString);
+		playerList.updateUI();
+
+	}
+
+	public void makePlayerLabels() {
+
 		// aantal gejoinde mensen opschrijven
 
 		playerList.setPreferredSize(new Dimension(400, 400));
 		JScrollPane s = new JScrollPane(playerList);
-		s.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		s.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		JScrollPane scrollableList = new JScrollPane(playerList);
 		playerList.setBackground(Color.WHITE);
 		playerList.setForeground(Color.DARK_GRAY);
-		playerList.setFont(Bold);
-		playerList.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				JList list = (JList) evt.getSource();
-				if (evt.getClickCount() == 1) {
+		playerList.setBackground(lightblue3);
+		JButton iets = new JButton("update?");
+		iets.setPreferredSize(new Dimension(400, 50));
+		iets.setBackground(lightBlue2);
+		iets.addActionListener(new ActionListener() {
 			
-					int index = list.locationToIndex(evt.getPoint());
-					System.out.println("hoi");
-				} else if (evt.getClickCount() == 3) {
-
-					// Triple-click detected
-					int index = list.locationToIndex(evt.getPoint());
-				}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				update("hi");
+				
 			}
 		});
 		playersPanel.add(scrollableList);
+		playersPanel.add(iets);
 	}
 
 	@SuppressWarnings("unused")
@@ -233,43 +241,41 @@ public class WaitingRoom extends JPanel {
 			exc.printStackTrace(System.out);
 		}
 	}
-	
+
 	public void playerList() {
-		
+
 	}
 
+	// public void trailer() {
+	// Font Bold = new Font("Arial", Font.BOLD, 40);
+	//
+	// JButton video = new JButton("Trailer");
+	// video.setForeground(Color.BLACK);
+	// video.setBackground(lightBlue2);
+	// video.setFont(Bold);
+	// video.setSize(50, 20);
+	// video.setMargin(new Insets(20, 20, 20, 20));
+	// video.setEnabled(true);
+	// video.setToolTipText("bekijk de trailer");
+	// video.setVisible(true);
+	// video.setBorderPainted(true);
+	// video.addActionListener(new ActionListener() {
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// try {
+	// Desktop.getDesktop()
+	// .open(new File("D:\\java codering voor programmeren\\CatanSOd\\Music\\Catan
+	// Trailer.mpg"));
+	// } catch (IOException e1) {
+	// // TODO Auto-generated catch block
+	// System.out.println("sorry you don't have the required programs");
+	// }
+	//
+	// }
+	// });
+	// videos.add(video, BorderLayout.CENTER);
+	// }
 
-
-
-//	public void trailer() {
-//		Font Bold = new Font("Arial", Font.BOLD, 40);
-//
-//		JButton video = new JButton("Trailer");
-//		video.setForeground(Color.BLACK);
-//		video.setBackground(lightBlue2);
-//		video.setFont(Bold);
-//		video.setSize(50, 20);
-//		video.setMargin(new Insets(20, 20, 20, 20));
-//		video.setEnabled(true);
-//		video.setToolTipText("bekijk de trailer");
-//		video.setVisible(true);
-//		video.setBorderPainted(true);
-//		video.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				try {
-//					Desktop.getDesktop()
-//							.open(new File("D:\\java codering voor programmeren\\CatanSOd\\Music\\Catan Trailer.mpg"));
-//				} catch (IOException e1) {
-//					// TODO Auto-generated catch block
-//					System.out.println("sorry you don't have the required programs");
-//				}
-//
-//			}
-//		});
-//		videos.add(video, BorderLayout.CENTER);
-//	}
-	
-	
 }
+
