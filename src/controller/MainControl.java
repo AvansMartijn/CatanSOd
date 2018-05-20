@@ -1,8 +1,6 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import dbaccess.MainDA;
 import model.Account;
@@ -20,13 +18,14 @@ public class MainControl {
 	private Account account;
 	private GuiController guiController;
 	private ArrayList<Catan> catanGames;
-	private Timer timer;
+	private boolean ingame;
+	private Thread ingameTimerThread;
 
 	public MainControl() {
 		mainDA = new MainDA();
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
-		timer = new Timer();
+		ingame = false;
 
 	}
 
@@ -70,7 +69,6 @@ public class MainControl {
 
 	public void joinGame(Catan game) {
 		gameControl.setCatan(game);
-
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
 		gameControl.updateBoard();
@@ -81,18 +79,28 @@ public class MainControl {
 		}
 
 		guiController.setIngameGuiPanel();
-		timer.schedule(new TimerTask() {
+		ingame = true;
+		ingameTimerThread = new Thread(new Runnable() {
+			
 			@Override
 			public void run() {
-				updateRefreshDice();
-				updateRefreshRobber();
-				updateRefreshMessages();
-				updateRefreshBoard();
-				updateRefreshPlayers();
-				System.out.println("Refreshed");
-
+				while(ingame) {
+					updateRefreshDice();
+					updateRefreshRobber();
+					updateRefreshMessages();
+					updateRefreshBoard();
+					updateRefreshPlayers();
+					System.out.println("Refreshed");
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
-		}, 0, 2000);
+		});
+		ingameTimerThread.start();
 	}
 
 	public void createNewGame(ArrayList<String> playerUsernames) {
@@ -279,4 +287,11 @@ public class MainControl {
 		return mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 	}
 
+	public String getAcccountUsername() {
+		return account.getUsername();
+	}
+
+	public void stopIngameTimer() {
+		ingame = false;
+	}
 }

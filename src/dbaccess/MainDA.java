@@ -1,5 +1,6 @@
 package dbaccess;
 
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import model.BuildingLocation;
 import model.Catan;
@@ -31,6 +34,7 @@ public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
 	private static final String user = "mfghaneg";
 	private static final String password = "Ab12345";
+
 	protected Connection myConn;
 
 	public MainDA() {
@@ -51,16 +55,50 @@ public class MainDA {
 		return true;
 	}
 
+	public static class C3P0DataSource {
+		   private static C3P0DataSource dataSource;
+		   private ComboPooledDataSource comboPooledDataSource;
+
+		   private C3P0DataSource() {
+		      try {
+		         comboPooledDataSource = new ComboPooledDataSource();
+		         comboPooledDataSource.setDriverClass("com.mysql.jdbc.Driver");
+		         comboPooledDataSource.setJdbcUrl(url);
+		         comboPooledDataSource.setUser(user);
+		         comboPooledDataSource.setPassword(password);}
+		      catch (PropertyVetoException ex1) {
+		         ex1.printStackTrace();
+		      }
+		   }
+
+		   public static C3P0DataSource getInstance() {
+		      if (dataSource == null)
+		         dataSource = new C3P0DataSource();
+		      return dataSource;
+		   }
+
+		   public Connection getConnection() {
+		      Connection con = null;
+		      try {
+		         con = comboPooledDataSource.getConnection();
+		      } catch (SQLException e) {
+		         e.printStackTrace();
+		      }
+		      return con;
+		   }
+	}
+
+
 	/**
 	 * Initializes a connection
 	 */
 	public void makeConnection() {
-
-		try {
-			myConn = DriverManager.getConnection(url, user, password);
-		} catch (SQLException ex) {
-			System.out.println("Connection failed");
-		}
+		myConn = C3P0DataSource.getInstance().getConnection();
+//		try {
+//			myConn = DriverManager.getConnection(url, user, password);
+//		} catch (SQLException ex) {
+//			System.out.println("Connection failed");
+//		}
 	}
 
 	/**
