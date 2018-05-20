@@ -72,8 +72,11 @@ public class MainControl {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
 		gameControl.updateBoard();
-		gameControl.getCatanGame().getGameboard()
-				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+		gameControl.getCatanGame().getGameboard().setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+		for(Player p: gameControl.getCatanGame().getPlayers()) {
+			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+		}
 
 		guiController.setIngameGuiPanel();
 		timer.schedule(new TimerTask() {
@@ -83,9 +86,11 @@ public class MainControl {
 				updateRefreshRobber();
 				updateRefreshMessages();
 				updateRefreshBoard();
+				updateRefreshPlayers();
+				System.out.println("Refreshed");
 
 			}
-		}, 2000);
+		}, 0, 2000);
 	}
 
 	public void createNewGame(ArrayList<String> playerUsernames) {
@@ -208,9 +213,21 @@ public class MainControl {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshDice();
 	}
+	
+	private void updateRefreshPlayers() {
+		for(Player p: gameControl.getCatanGame().getPlayers()) {
+			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+		}
+		guiController.refreshPlayers();
+	}
 
 	public void logOut() {
 		this.account = null;
+	}
+	
+	public boolean shouldRefresh() {
+		return mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 	}
 
 }

@@ -193,7 +193,6 @@ public class GuiController {
 		frame.pack();
 	}
 
-
 	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -292,11 +291,7 @@ public class GuiController {
 				}
 			}
 		});
-// <<<<<<< FixSquad2
-// 		gameGUIPanel = new GameGUIPanel(boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
-// 				gameControl.getCatanGame().getSelfPlayer());
-// =======
-// >>>>>>> development
+
 		addTileListeners();
 		addBuildLocListeners();
 		addStreetLocListeners();
@@ -530,6 +525,10 @@ public class GuiController {
 
 	public void refreshDice() {
 		diceDotPanel.repaint();
+	}
+	
+	public void refreshPlayers() {
+		gameSouthContainerPanel.repaint();
 	}
 
 //	public void setGameBoard(Gameboard gameBoard) {

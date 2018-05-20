@@ -369,13 +369,9 @@ public class GameControl {
 		gameBoardControl = new GameBoardControl(mainDA, catanGame.getIdGame());
 		Gameboard gameboard = gameBoardControl.loadBoard();
 		game.fillCatan(gameboard);
-		setVillageArrays();
-		setCityArrays();
-		setStreetArrays();
-		for(Player p: game.getPlayers()) {
-			p.getHand().setResources(mainDA.updateResources(game.getIdGame(), p.getIdPlayer()));
-			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(game.getIdGame(), p.getIdPlayer()));
-		}
+//		setVillageArrays();
+//		setCityArrays();
+//		setStreetArrays();
 
 	}
 
@@ -389,12 +385,7 @@ public class GameControl {
 		catanGame.setGameboard(null);
 		
 	}
-
 	
-	
-	public boolean shouldRefresh() {
-		return mainDA.getShouldRefresh(catanGame.getSelfPlayer().getIdPlayer());
-	}
 	
 	public Gameboard createBoard(ArrayList<Player> players) {
 		return gameBoardControl.createBoard(players);
