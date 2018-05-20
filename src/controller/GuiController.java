@@ -314,14 +314,14 @@ public class GuiController {
 		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel,
 				gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
 
-		addPlayerActionBuyButtonListener();
-		// TODO
+		addPlayerActionBuyButtonListener(); // TODO why not make a function which adds all these freaking functions?
+		addPlayerActionBuyQuitButtonListener();
 		
 		addPlayerActionTradeButtonListener();
 		addPlayerActionTradeQuitButtonListener();
 		
 		addPlayerActionBuildButtonListener();
-		// TODO
+		addPlayerActionBuildQuitButtonListener();
 		
 		addPlayerActionEndTurnButtonListener();
 
@@ -414,6 +414,19 @@ public class GuiController {
 			}
 		});
 	}
+	
+	private void addPlayerActionBuyQuitButtonListener() {
+		playerActionPanel.getBuyPanel().getReturnButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+
+				}
+			}
+		});
+	}
 
 	private void addPlayerActionTradeButtonListener() {
 
@@ -452,6 +465,18 @@ public class GuiController {
 			}
 		});
 	}
+	
+	private void addPlayerActionBuildQuitButtonListener() {
+		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
+			}
+		});
+	}
 
 	private void addPlayerActionEndTurnButtonListener() {
 
@@ -459,6 +484,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				playerActionPanel.setVisible(false); // TODO DONT FORGET TO SET THIS VISIBLE WHEN SELFPLAYER TURN IS BACK -- JIM
 				Catan catanGame = gameControl.getCatanGame();
 				catanGame.endTurn();
 				if (catanGame.isSelfPlayerTurn()) {
