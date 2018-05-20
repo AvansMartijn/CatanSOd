@@ -50,9 +50,7 @@ import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
 import view.TradePanel;
-import view.TradeDialog;
 import view.WaitingRoom;
-import view.BuildDialog;
 
 
 public class GuiController {
