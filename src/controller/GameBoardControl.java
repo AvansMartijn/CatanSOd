@@ -52,7 +52,7 @@ public class GameBoardControl {
 
 	}
 
-	public Gameboard createBoard(ArrayList<Player> players) {
+	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
 		createTiles();
 		createBuildingLocations();
 		assignHarbours();
@@ -60,7 +60,7 @@ public class GameBoardControl {
 		printAllTilesAndLocs();
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
 		addBoardToDB();
-		addPlayerPiecesToDB(players);
+//		addPlayerPiecesToDB(players);
 		return gameBoard;
 
 	}
@@ -260,28 +260,28 @@ public class GameBoardControl {
 		}
 	}
 
-	public void addPlayerPiecesToDB(ArrayList<Player> players) {
-		String idPiece;
-		for (Player p : players) {
-
-			for (int i = 1; i <= 5; i++) {
-				idPiece = "d0" + i;
-				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-			}
-			for (int i = 1; i <= 4; i++) {
-				idPiece = "c0" + i;
-				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-			}
-			for (int i = 1; i <= 15; i++) {
-				if (i > 9) {
-					idPiece = "r" + i;
-				} else {
-					idPiece = "r0" + i;
-				}
-				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-			}
-		}
-
-	}
+//	public void addPlayerPiecesToDB(ArrayList<Player> players) {
+//		String idPiece;
+//		for (Player p : players) {
+//
+//			for (int i = 1; i <= 5; i++) {
+//				idPiece = "d0" + i;
+//				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
+//			}
+//			for (int i = 1; i <= 4; i++) {
+//				idPiece = "c0" + i;
+//				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
+//			}
+//			for (int i = 1; i <= 15; i++) {
+//				if (i > 9) {
+//					idPiece = "r" + i;
+//				} else {
+//					idPiece = "r0" + i;
+//				}
+//				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
+//			}
+//		}
+//
+//	}
 
 }

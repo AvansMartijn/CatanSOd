@@ -1,14 +1,14 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import dbaccess.MainDA;
 import model.Account;
 import model.Catan;
 import model.Gameboard;
+import model.PlayStatus;
 import model.Player;
+import model.PlayerColor;
 import model.Tile;
 
 public class MainControl {
@@ -18,13 +18,14 @@ public class MainControl {
 	private Account account;
 	private GuiController guiController;
 	private ArrayList<Catan> catanGames;
-	private Timer timer;
+	private boolean ingame;
+	private Thread ingameTimerThread;
 
 	public MainControl() {
 		mainDA = new MainDA();
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
-		timer = new Timer();
+		ingame = false;
 
 	}
 
@@ -68,24 +69,38 @@ public class MainControl {
 
 	public void joinGame(Catan game) {
 		gameControl.setCatan(game);
-
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
 		gameControl.updateBoard();
-		gameControl.getCatanGame().getGameboard()
-				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+		gameControl.getCatanGame().getGameboard().setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+		for(Player p: gameControl.getCatanGame().getPlayers()) {
+			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+		}
 
 		guiController.setIngameGuiPanel();
-		timer.schedule(new TimerTask() {
+		ingame = true;
+		ingameTimerThread = new Thread(new Runnable() {
+			
 			@Override
 			public void run() {
-				updateRefreshDice();
-				updateRefreshRobber();
-				updateRefreshMessages();
-				updateRefreshBoard();
-
+				while(ingame) {
+					updateRefreshDice();
+					updateRefreshRobber();
+					updateRefreshMessages();
+					updateRefreshBoard();
+					updateRefreshPlayers();
+					System.out.println("Refreshed");
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
-		}, 2000);
+		});
+		ingameTimerThread.start();
 	}
 
 	public void createNewGame(ArrayList<String> playerUsernames) {
@@ -93,21 +108,67 @@ public class MainControl {
 		int gameID = gameControl.createGameInDB(false);
 		ArrayList<Player> players = new ArrayList<Player>();
 		for (String s : playerUsernames) {
-			Player player = gameControl.createNewPlayer(gameID, s);
+			Player player = createNewPlayer(gameID, s);
 			players.add(player);
-			gameControl.addPlayerToDB(gameID, player);
+			addPlayerToDB(gameID, player);
 		}
-
-		createPlayerPiecesInDB(players);
-		createResourceCardsInDB(gameID);
+		
+		guiController.setWaitingRoom(players);
+		Gameboard gameBoard = gameControl.createBoardAndAddToDB(players);
+		mainDA.changeRobberLocation(gameID, 10);
 		createDevelopmentCardsInDB(gameID);
+		createResourceCardsInDB(gameID);
+		createPlayerPiecesInDB(players);
+		
 		catanGame = new Catan(players, getSelfPlayer(players), players.get(0).getIdPlayer());
 		mainDA.setThrownDice(0, gameID);
-		Gameboard gameBoard = gameControl.createBoard(players);
+		mainDA.setTurn(players.get(0).getIdPlayer(), gameID);
 		catanGame.fillCatan(gameBoard);
-		mainDA.changeRobberLocation(gameID, 10);
 		gameControl.setCatan(catanGame);
 
+	}
+	
+	public Player createNewPlayer(int gameID, String username) {
+		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(gameID);
+		String playerColor = null;
+		int followNR = -1;
+		String playStatus = null;
+
+		if (lastPlayerNumber == -1) {
+			System.out.println("Color error");
+		} else {
+			switch (lastPlayerNumber) {
+			case 0:
+				playerColor = "ROOD";
+				followNR = 1;
+				playStatus = "UITDAGER";
+				break;
+			case 1:
+				playerColor = "WIT";
+				followNR = 2;
+				playStatus = "UITGEDAAGDE";
+				break;
+			case 2:
+				playerColor = "BLAUW";
+				followNR = 3;
+				playStatus = "UITGEDAAGDE";
+				break;
+			case 3:
+				playerColor = "ORANJE";
+				followNR = 4;
+				playStatus = "UITGEDAAGDE";
+				break;
+			}
+		}
+
+		Player player = new Player(mainDA.getLastUsedPlayerID() + 1, gameID, username,
+				PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
+		return player;
+	}
+
+	public void addPlayerToDB(int idGame, Player player) {
+		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
+				player.getPlayStatus().toString());
 	}
 
 	private void createDevelopmentCardsInDB(int gameID) {
@@ -150,19 +211,19 @@ public class MainControl {
 		// TODO Auto-generated method stub
 		String idPiece;
 		for (Player p : players) {
-			for (int i = 0; i <= 5; i++) {
+			for (int i = 1; i <= 5; i++) {
 				idPiece = "d0" + i;
 				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
 			}
-			for (int i = 0; i <= 4; i++) {
+			for (int i = 1; i <= 4; i++) {
 				idPiece = "c0" + i;
 				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
 			}
-			for (int i = 0; i <= 15; i++) {
+			for (int i = 1; i <= 15; i++) {
 				if(i < 10) {
-					idPiece = "r" + i;
-				}else {
 					idPiece = "r0" + i;
+				}else {
+					idPiece = "r" + i;
 				}
 				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
 			}
@@ -193,6 +254,7 @@ public class MainControl {
 	}
 
 	public void updateRefreshMessages() {
+		System.out.println("maincontrol updaterefresh chat");
 		ArrayList<String> messageList = new ArrayList<String>();
 		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setMessages(messageList);
@@ -208,9 +270,28 @@ public class MainControl {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshDice();
 	}
+	
+	private void updateRefreshPlayers() {
+		for(Player p: gameControl.getCatanGame().getPlayers()) {
+			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+		}
+		guiController.refreshPlayers();
+	}
 
 	public void logOut() {
 		this.account = null;
 	}
+	
+	public boolean shouldRefresh() {
+		return mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+	}
 
+	public String getAcccountUsername() {
+		return account.getUsername();
+	}
+
+	public void stopIngameTimer() {
+		ingame = false;
+	}
 }

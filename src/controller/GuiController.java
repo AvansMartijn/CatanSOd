@@ -48,6 +48,7 @@ import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
 import view.TradeDialog;
+import view.WaitingRoom;
 import view.BuildDialog;
 
 public class GuiController {
@@ -95,8 +96,8 @@ public class GuiController {
 		frame.setVisible(true);
 	}
 
-	public void addSystemMessageToChat(String s) {
-		chatPanel.addSystemMessageToChat(s);
+	public void addSystemMessageToChat(Color c, String s) {
+		chatPanel.addSystemMessageToChat(c, s);
 	}
 
 	public void setInlogPanel() {
@@ -153,7 +154,7 @@ public class GuiController {
 		JPanel optionsPanel = new JPanel();
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.X_AXIS));
 		JButton createGameButton = new JButton("Game aanmaken");
-		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts());
+		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
 		createGameButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -161,6 +162,9 @@ public class GuiController {
 				dialog.setTitle("Nieuw Spel");
 				dialog.setContentPane(newGamePanel);
 				dialog.pack();
+				dialog.setLocationRelativeTo(null);
+				dialog.toFront();
+				dialog.requestFocus();
 				dialog.setVisible(true);
 			}
 		});
@@ -193,7 +197,13 @@ public class GuiController {
 		frame.pack();
 	}
 
-
+	public void setWaitingRoom(ArrayList<Player> players) {
+//		WaitingRoom waitingRoom = new WaitingRoom(players);
+//		frame.setContentPane(waitingRoom);
+		frame.pack();
+		
+	}
+	
 	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -259,7 +269,7 @@ public class GuiController {
  						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);					
  				if (result == JOptionPane.YES_OPTION) {
  					gameControl.unloadCatan();
- 					timer.cancel();
+ 					mainControl.stopIngameTimer();
  					mainControl.loadProfile();
  				}
 
@@ -286,17 +296,13 @@ public class GuiController {
 					if (gameControl.addMessage(message)) {
 						chatPanelTextField.setText("");
 					} else {
-						addSystemMessageToChat("Je mag maar 1 bericht per seconde versturen!");
+						addSystemMessageToChat(Color.RED, "Je mag maar 1 bericht per seconde versturen!");
 					}
 
 				}
 			}
 		});
-// <<<<<<< FixSquad2
-// 		gameGUIPanel = new GameGUIPanel(boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
-// 				gameControl.getCatanGame().getSelfPlayer());
-// =======
-// >>>>>>> development
+
 		addTileListeners();
 		addBuildLocListeners();
 		addStreetLocListeners();
@@ -520,6 +526,7 @@ public class GuiController {
 	}
 	
 	public void refreshChat() {
+		System.out.println("refreshchat");
 		chatPanel.setMessages(gameControl.getCatanGame().getMessages());
 		chatPanel.repaint();
 	}
@@ -531,6 +538,11 @@ public class GuiController {
 	public void refreshDice() {
 		diceDotPanel.repaint();
 	}
+	
+	public void refreshPlayers() {
+		gameSouthContainerPanel.repaint();
+	}
+
 
 //	public void setGameBoard(Gameboard gameBoard) {
 //		this.gameBoard = gameBoard;

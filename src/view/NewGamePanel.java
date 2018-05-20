@@ -30,13 +30,14 @@ public class NewGamePanel extends JPanel {
     private JButton createGameButton;
     private JComboBox<String> boardChoice;
  
-    public NewGamePanel(ArrayList<String> availablePlayers) {
+    public NewGamePanel(ArrayList<String> availablePlayers, String selfUsername) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.availablePlayers = availablePlayers;
         createGameButton = new JButton("Game aanmaken!");
         removeButtonsList = new ArrayList<>();
         boardChoice = new JComboBox<String>(new String[] { "Normaal", "Random" });
         invitedPlayers = new ArrayList<String>();
+        invitedPlayers.add(selfUsername);
         invitedPlayersPanel = new InvitedPlayersPanel();
         inviteInput = new JList<String>();
         inviteInput.setMaximumSize(new Dimension(350, 150));
