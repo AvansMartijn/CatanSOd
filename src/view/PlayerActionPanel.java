@@ -18,15 +18,15 @@ public class PlayerActionPanel extends JPanel {
 	private TradePanel tradePanel;
 	
 	// Constructor
-	public PlayerActionPanel() {
+	public PlayerActionPanel(PlayerOptionMenuPanel playerOptionMenuPanel, BuildPanel buildPanel, BuyPanel buyPanel, TradePanel tradePanel) {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(myBackGroundColor);
 		setLayout(new CardLayout());
 		
-		playerOptionMenuPanel = new PlayerOptionMenuPanel();
-		buildPanel = new BuildPanel();
-		buyPanel = new BuyPanel();
-		tradePanel = new TradePanel();
+		this.playerOptionMenuPanel = playerOptionMenuPanel;
+		this.buildPanel = buildPanel;
+		this.buyPanel = buyPanel;
+		this.tradePanel = tradePanel;
 		
 		add(playerOptionMenuPanel);
 	}

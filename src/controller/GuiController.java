@@ -29,7 +29,9 @@ import model.Street;
 import model.Tile;
 import model.Village;
 import view.BoardPanel;
+import view.BuildPanel;
 import view.BuildingLocationButton;
+import view.BuyPanel;
 import view.ChatPanel;
 import view.DiceDotPanel;
 import view.Frame;
@@ -41,11 +43,13 @@ import view.LoginRegisterPanel;
 import view.MainMenuGUI;
 import view.NewGamePanel;
 import view.PlayerActionPanel;
+import view.PlayerOptionMenuPanel;
 import view.PlayerStatsPanel;
 import view.RecentGamePanel;
 import view.RecentGamesPanel;
 import view.StreetLocationButton;
 import view.TileButton;
+import view.TradePanel;
 
 public class GuiController {
 
@@ -61,6 +65,10 @@ public class GuiController {
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
 	private PlayerActionPanel playerActionPanel;
+	private PlayerOptionMenuPanel playerOptionMenuPanel;
+	private TradePanel tradePanel;
+	private BuyPanel buyPanel;
+	private BuildPanel buildPanel;
 
 	private ArrayList<Catan> gameList;
 //	private Gameboard gameBoard;
@@ -259,7 +267,12 @@ public class GuiController {
  			}
 
  		});
-		this.playerActionPanel = new PlayerActionPanel();
+ 		this.playerOptionMenuPanel = new PlayerOptionMenuPanel();
+ 		this.buyPanel = new BuyPanel();
+ 		this.buildPanel = new BuildPanel();
+ 		this.tradePanel = new TradePanel();
+		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel);
+		
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
@@ -388,7 +401,7 @@ public class GuiController {
 				
 				if(gameControl.getCatanGame().isSelfPlayerTurn()) {
 					//TODO uncomment this when PlayerActionPanelExpended is merged (this class is added in that branch)
-					
+//					playerActionPanel.add(comp)
 					
 					
 				}			
