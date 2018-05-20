@@ -1,7 +1,12 @@
 package controller;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -91,6 +96,26 @@ public class GuiController {
 
 		setInlogPanel();
 
+		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice graphicsDevice= graphicsEnvironment.getDefaultScreenDevice(); 
+		
+		boolean canChangeDisplay = graphicsDevice.isDisplayChangeSupported();
+		if (canChangeDisplay) {
+			DisplayMode displayMode = graphicsDevice.getDisplayMode();
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			int width = (int) screenSize.getWidth();
+			int height = (int) screenSize.getHeight();
+			int bitDepth = 16;
+			displayMode = new DisplayMode(width, height, bitDepth, displayMode.getRefreshRate());
+			try {
+				graphicsDevice.setDisplayMode(displayMode);
+			} catch(Throwable e) {
+				graphicsDevice.setFullScreenWindow(null);
+			}
+			
+		}
+
+		
 		frame.dispose();
 		frame.setUndecorated(true);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
