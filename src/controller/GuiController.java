@@ -41,7 +41,6 @@ import view.LoginRegisterPanel;
 import view.MainMenuGUI;
 import view.NewGamePanel;
 import view.PlayerActionPanel;
-import view.PlayerOptionMenuPanel;
 import view.PlayerStatsPanel;
 import view.RecentGamePanel;
 import view.RecentGamesPanel;
@@ -53,7 +52,6 @@ public class GuiController {
 	private GameControl gameControl;
 	private MainControl mainControl;
 	private Frame frame;
-	private PlayerActionPanel playerActionPanel;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
 	private MainMenuGUI mainMenuGui;
@@ -62,7 +60,7 @@ public class GuiController {
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
-	private PlayerOptionMenuPanel playerOptionMenuPanel;
+	private PlayerActionPanel playerActionPanel;
 
 	private ArrayList<Catan> gameList;
 //	private Gameboard gameBoard;
@@ -299,7 +297,7 @@ public class GuiController {
 		addPlayerColorToBuildingLocs();
 		System.out.println("addplayercolortoStreet");
 		addPlayerColorToStreetLocs();
-		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerOptionMenuPanel, gameSouthContainerPanel,
+		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel, gameSouthContainerPanel,
 				gameControl.getCatanGame().getSelfPlayer());
 		
 		addPlayerActionBuyButtonListener();
@@ -383,7 +381,7 @@ public class GuiController {
 	
 	private void addPlayerActionBuyButtonListener() {
 		
-		playerOptionMenuPanel.getBuyButton().addActionListener(new ActionListener() {
+		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -400,7 +398,7 @@ public class GuiController {
 	
 	private void addPlayerActionTradeButtonListener() {
 		
-		playerOptionMenuPanel.getTradeButton().addActionListener(new ActionListener() {
+		playerActionPanel.getPlayerOptionMenuPanel().getTradeButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -416,7 +414,7 @@ public class GuiController {
 
 	private void addPlayerActionBuildButtonListener() {
 		
-		playerOptionMenuPanel.getBuildButton().addActionListener(new ActionListener() {
+		playerActionPanel.getPlayerOptionMenuPanel().getBuildButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -432,7 +430,7 @@ public class GuiController {
 	
 	private void addPlayerActionEndTurnButtonListener() {
 		
-		playerOptionMenuPanel.getEndTurnButton().addActionListener(new ActionListener() {
+		playerActionPanel.getPlayerOptionMenuPanel().getEndTurnButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

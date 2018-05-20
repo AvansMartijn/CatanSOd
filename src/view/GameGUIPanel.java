@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,23 +15,22 @@ public class GameGUIPanel extends JPanel {
 	// Instance variables
 	private Color myBackGroundColor = new Color(240, 226, 223);
 	private GameTopPanel gameTopPanel;
-	private PlayerActionPanel playerActionsPanel;
+	private PlayerActionPanel playerActionPanel;
 	private MyResourcesPanel resourcesPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private GridBagConstraints gridBagConstraints;
-	private PlayerOptionMenuPanel playerOptionMenuPanel;
 
 	// Constructor
 	public GameGUIPanel(GameTopPanel gameTopPanel, BoardPanel boardPanel, DiceDotPanel diceDotPanel, ChatPanel chatPanel,
-			PlayerOptionMenuPanel playerOptionMenuPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) {
+			PlayerActionPanel playerActionPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) {
 
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
 		this.gameTopPanel = gameTopPanel;
-		this.playerOptionMenuPanel = playerOptionMenuPanel;
+		this.playerActionPanel = playerActionPanel;
 		resourcesPanel = new MyResourcesPanel(selfPlayer);
 		this.boardPanel = boardPanel;
 		this.diceDotPanel = diceDotPanel;
@@ -63,10 +61,10 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.gridx++;
 		add(boardPanel, gridBagConstraints);
 
-		// Add PlayerActionsPanel // TODO only if its this players turn
+		// Add PlayerOptionMenuPanel // TODO only if its this players turn
 		gridBagConstraints.anchor = GridBagConstraints.EAST;
 		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
-		add(playerOptionMenuPanel, gridBagConstraints);
+		add(playerActionPanel, gridBagConstraints);
 
 		// Add DicePanel
 		gridBagConstraints.insets = new Insets(0, 0, 500, 150);
@@ -85,6 +83,6 @@ public class GameGUIPanel extends JPanel {
 	}
 
 	public JPanel getPlayerActionPanel() {
-		return playerActionsPanel;
+		return playerActionPanel;
 	}
 }
