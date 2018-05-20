@@ -25,6 +25,7 @@ public class MainControl {
 		mainDA = new MainDA();
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
+		ingame = false;
 
 	}
 
