@@ -29,6 +29,7 @@ import model.Street;
 import model.Tile;
 import model.Village;
 import view.BoardPanel;
+import view.BottomOptionsPanel;
 import view.BuildPanel;
 import view.BuildingLocationButton;
 import view.BuyPanel;

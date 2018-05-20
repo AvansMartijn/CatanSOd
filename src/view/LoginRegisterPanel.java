@@ -50,25 +50,27 @@ public class LoginRegisterPanel extends JPanel {
 		add(center, constraints);
 	}
 
-	public void paintComponent(Graphics g) {
-
-		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
-
-		Image image = null;
-		try {
-			image = ImageIO.read(url);
-			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
-					Image.SCALE_DEFAULT);
-		} catch (IOException e) {
-		}
-		JLabel background = new JLabel();
-		ImageIcon icon = new ImageIcon(url);
-		background.setIcon(icon);
-		background.setBounds(0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight());
-		add(background, -1);
-		repaint();
-		
-	}
+//	public void paintComponent(Graphics g) {
+//
+//		
+//		
+//		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
+//
+//		Image image = null;
+//		try {
+//			image = ImageIO.read(url);
+//			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
+//					Image.SCALE_DEFAULT);
+//		} catch (IOException e) {
+//		}
+//		JLabel background = new JLabel();
+//		ImageIcon icon = new ImageIcon(url);
+//		background.setIcon(icon);
+//		background.setBounds(0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight());
+//		add(background, -1);
+//		repaint();
+//		
+//	}
 
 	public JButton getInlogButton() {
 		return loginButton;
