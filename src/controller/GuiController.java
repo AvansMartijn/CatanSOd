@@ -315,8 +315,14 @@ public class GuiController {
 				gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
 
 		addPlayerActionBuyButtonListener();
+		// TODO
+		
 		addPlayerActionTradeButtonListener();
+		addPlayerActionTradeQuitButtonListener();
+		
 		addPlayerActionBuildButtonListener();
+		// TODO
+		
 		addPlayerActionEndTurnButtonListener();
 
 		frame.setContentPane(gameGUIPanel);
@@ -416,6 +422,18 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradePanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
+			}
+		});
+	}
+	
+	private void addPlayerActionTradeQuitButtonListener() {
+		playerActionPanel.getTradePanel().getReturnButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
 				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				}
 			}
