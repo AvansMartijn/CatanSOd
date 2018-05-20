@@ -36,11 +36,10 @@ public class GameControl {
 		this.mainDA = mainDA;
 	}
 
-
-	/**
-	 * Create a game record in the DB AND sets idGame
-	 */
 	public int createGameInDB(boolean randomBoard) {
+		/**
+		 * Create a game record in the DB AND sets idGame
+		 */
 		int gameID = mainDA.createGame(randomBoard);
 		// createNewPlayer();
 		// addPlayerToDB(player);
@@ -50,49 +49,6 @@ public class GameControl {
 		// gameboard = gameBoardControl.createBoard();
 		return gameID;
 
-	}
-
-	public Player createNewPlayer(int gameID, String username) {
-		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(gameID);
-		String playerColor = null;
-		int followNR = -1;
-		String playStatus = null;
-
-		if (lastPlayerNumber == -1) {
-			System.out.println("Color error");
-		} else {
-			switch (lastPlayerNumber) {
-			case 0:
-				playerColor = "ROOD";
-				followNR = 1;
-				playStatus = "UITDAGER";
-				break;
-			case 1:
-				playerColor = "WIT";
-				followNR = 2;
-				playStatus = "UITGEDAAGDE";
-				break;
-			case 2:
-				playerColor = "BLAUW";
-				followNR = 3;
-				playStatus = "UITGEDAAGDE";
-				break;
-			case 3:
-				playerColor = "ORANJE";
-				followNR = 4;
-				playStatus = "UITGEDAAGDE";
-				break;
-			}
-		}
-
-		Player player = new Player(mainDA.getLastUsedPlayerID() + 1, gameID, username,
-				PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
-		return player;
-	}
-
-	public void addPlayerToDB(int idGame, Player player) {
-		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
-				player.getPlayStatus().toString());
 	}
 	
 	public boolean addMessage(String message) {
@@ -369,13 +325,9 @@ public class GameControl {
 		gameBoardControl = new GameBoardControl(mainDA, catanGame.getIdGame());
 		Gameboard gameboard = gameBoardControl.loadBoard();
 		game.fillCatan(gameboard);
-		setVillageArrays();
-		setCityArrays();
-		setStreetArrays();
-		for(Player p: game.getPlayers()) {
-			p.getHand().setResources(mainDA.updateResources(game.getIdGame(), p.getIdPlayer()));
-			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(game.getIdGame(), p.getIdPlayer()));
-		}
+//		setVillageArrays();
+//		setCityArrays();
+//		setStreetArrays();
 
 	}
 
@@ -389,15 +341,10 @@ public class GameControl {
 		catanGame.setGameboard(null);
 		
 	}
-
 	
 	
-	public boolean shouldRefresh() {
-		return mainDA.getShouldRefresh(catanGame.getSelfPlayer().getIdPlayer());
-	}
-	
-	public Gameboard createBoard(ArrayList<Player> players) {
-		return gameBoardControl.createBoard(players);
+	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
+		return gameBoardControl.createBoardAndAddToDB(players);
 	}
 
 	// public void printPlayerVillages() {

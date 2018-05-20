@@ -63,14 +63,12 @@ public class Gameboard {
 		for(Tile t: tileArr) {
 			if(t.hasRobber()) {
 				t.setRobber(false);
-				System.out.println("Has: " + t.getChipNumber());
 				break;
 			}
 		}
 		for(Tile t: tileArr) {
 			if(t.getIdTile() == idTile) {
 				t.setRobber(true);
-				System.out.println("Now set on: " + t.getChipNumber());
 			}
 		}
 	}

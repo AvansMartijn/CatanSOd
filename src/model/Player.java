@@ -2,7 +2,6 @@ package model;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
 public class Player {
 
 	private int idPlayer;
@@ -327,5 +326,6 @@ public class Player {
 	public int getRoads() {
 		return roads;
 	}
+	
 	
 }

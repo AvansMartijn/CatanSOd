@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -13,13 +14,16 @@ import java.awt.Insets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
@@ -29,25 +33,37 @@ import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class waitingRoom extends JPanel {
+public class WaitingRoom extends JPanel {
 	private Font Bold = new Font("Arial", Font.BOLD, 30);
 	private Color lightBlue2 = new Color(230, 253, 255);
 	private Color lightblue3 = new Color(173, 216, 250);
 	private JPanel buttons = new JPanel();
-	private JPanel videos = new JPanel();
-	private int joint = 0;
+	private JPanel playersPanel;
+	// private String subject[] = { "Name: " + getName() + " / IdGame: " + " /
+	// Status: " };
+	private DefaultListModel dlm = new DefaultListModel();
+	private JButton deletePlayerButton;
+	private JList<String> playerList = new JList<String>(dlm);
+	// private JPanel videos = new JPanel();
+	// private ArrayList<Player> players;
 	private JLabel playersInRoom = new JLabel();
 
-	public waitingRoom() {
+	public WaitingRoom() {
+
+		// this.players = players;
 		this.setLayout(new BorderLayout());
+		playersPanel = new JPanel();
 		buttons.setBackground(lightblue3);
 		makebuttons();
 		this.add(buttons, BorderLayout.NORTH);
 		backgroundImage();
-		this.add(videos, BorderLayout.SOUTH);
-		videos.setBackground(lightblue3);
-		trailer();
+		// this.add(videos, BorderLayout.SOUTH);
+		// videos.setBackground(lightblue3);
+		// trailer();
 		this.setBackground(lightblue3);
+		makePlayerLabels();
+		playersPanel.setBackground(lightblue3);
+		this.add(playersPanel, BorderLayout.SOUTH);
 		this.setVisible(true);
 	}
 
@@ -66,12 +82,7 @@ public class waitingRoom extends JPanel {
 	}
 
 	public void makeJLabels() {
-
 		JLabel waiting = new JLabel();
-		// aantal gejoinde mensen opschrijven
-		playersInRoom.setText("Players joined: " + getJoint());
-		playersInRoom.setFont(Bold);
-		playersInRoom.setForeground(Color.BLACK);
 		// text voor het wachten
 		waiting.setText("wait a few minutes, the match will start soon");
 		waiting.setForeground(Color.white);
@@ -79,6 +90,44 @@ public class waitingRoom extends JPanel {
 		playersInRoom.setHorizontalAlignment(JLabel.CENTER);
 		buttons.add(playersInRoom);
 		// buttons.add(waiting, BorderLayout.NORTH);
+	}
+
+	public void update(String ding) {
+		String playerString = new String();
+		ding = playerString;
+/*		for (Player p : players) {
+			playerString = playerString + p.getUsername() + ": " + p.getPlayerStatus() + " ";
+		}*/
+
+		dlm.addElement(playerString);
+		playerList.updateUI();
+
+	}
+
+	public void makePlayerLabels() {
+
+		// aantal gejoinde mensen opschrijven
+
+		playerList.setPreferredSize(new Dimension(400, 400));
+		JScrollPane s = new JScrollPane(playerList);
+		s.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		JScrollPane scrollableList = new JScrollPane(playerList);
+		playerList.setBackground(Color.WHITE);
+		playerList.setForeground(Color.DARK_GRAY);
+		playerList.setBackground(lightblue3);
+		JButton iets = new JButton("update?");
+		iets.setPreferredSize(new Dimension(400, 50));
+		iets.setBackground(lightBlue2);
+		iets.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				update("hi");
+				
+			}
+		});
+		playersPanel.add(scrollableList);
+		playersPanel.add(iets);
 	}
 
 	@SuppressWarnings("unused")
@@ -193,41 +242,40 @@ public class waitingRoom extends JPanel {
 		}
 	}
 
-	public int getJoint() {
-		return joint;
+	public void playerList() {
+
 	}
 
-	public void setJoint(int joint) {
-		this.joint = this.joint + joint;
-	}
+	// public void trailer() {
+	// Font Bold = new Font("Arial", Font.BOLD, 40);
+	//
+	// JButton video = new JButton("Trailer");
+	// video.setForeground(Color.BLACK);
+	// video.setBackground(lightBlue2);
+	// video.setFont(Bold);
+	// video.setSize(50, 20);
+	// video.setMargin(new Insets(20, 20, 20, 20));
+	// video.setEnabled(true);
+	// video.setToolTipText("bekijk de trailer");
+	// video.setVisible(true);
+	// video.setBorderPainted(true);
+	// video.addActionListener(new ActionListener() {
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// try {
+	// Desktop.getDesktop()
+	// .open(new File("D:\\java codering voor programmeren\\CatanSOd\\Music\\Catan
+	// Trailer.mpg"));
+	// } catch (IOException e1) {
+	// // TODO Auto-generated catch block
+	// System.out.println("sorry you don't have the required programs");
+	// }
+	//
+	// }
+	// });
+	// videos.add(video, BorderLayout.CENTER);
+	// }
 
-	public void trailer() {
-		Font Bold = new Font("Arial", Font.BOLD, 40);
-
-		JButton video = new JButton("Trailer");
-		video.setForeground(Color.BLACK);
-		video.setBackground(lightBlue2);
-		video.setFont(Bold);
-		video.setSize(50, 20);
-		video.setMargin(new Insets(20, 20, 20, 20));
-		video.setEnabled(true);
-		video.setToolTipText("bekijk de trailer");
-		video.setVisible(true);
-		video.setBorderPainted(true);
-		video.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Desktop.getDesktop()
-							.open(new File("D:\\java codering voor programmeren\\CatanSOd\\Music\\Catan Trailer.mpg"));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					System.out.println("sorry you don't have the required programs");
-				}
-
-			}
-		});
-		videos.add(video, BorderLayout.CENTER);
-	}
 }
+
