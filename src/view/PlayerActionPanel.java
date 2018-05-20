@@ -3,8 +3,6 @@ package view;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
 
 import javax.swing.JPanel;
 
@@ -19,16 +17,15 @@ public class PlayerActionPanel extends JPanel {
 	private BuildPanel buildPanel;
 	private BuyPanel buyPanel;
 	private TradePanel tradePanel;
-	private CardLayout layout;
 	
 	// Constructor
 	public PlayerActionPanel(PlayerOptionMenuPanel playerOptionMenuPanel, BuildPanel buildPanel, BuyPanel buyPanel, TradePanel tradePanel) {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(myBackGroundColor);
 		
-		CardLayout layout = new CardLayout();
-		setLayout(layout);
+		setLayout(new CardLayout());
 		
+		System.out.println(buildPanel);
 		this.playerOptionMenuPanel = playerOptionMenuPanel;
 		this.buildPanel = buildPanel;
 		this.buyPanel = buyPanel;
@@ -70,14 +67,5 @@ public class PlayerActionPanel extends JPanel {
 	public void setTradePanel() {
 		CardLayout cl = (CardLayout)(getLayout());
 	    cl.show(this, "tradePanel");
-	}
-
-	public CardLayout getLayout() {
-		return layout;
-	}
-
-	public void setLayout(CardLayout layout) {
-		this.layout = layout;
-	}
-	
+	}	
 }

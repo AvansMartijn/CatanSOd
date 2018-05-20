@@ -272,6 +272,7 @@ public class GuiController {
 		this.buildPanel = new BuildPanel();
 		this.tradePanel = new TradePanel();
 		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel);
+		System.out.println(playerActionPanel.getBuildPanel());
 
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
@@ -397,61 +398,65 @@ public class GuiController {
 
 	private void addPlayerActionBuyButtonListener() {
 
+		System.out.println("CREATED");
 		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				//if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+					System.out.println("PERFORMED");
 					// TODO uncomment this when PlayerActionPanelExpended is merged (this class is
 					// added in that branch)
 
 					playerActionPanel.setBuyPanel();
 
-				}
+				//}
 			}
 		});
 	}
 
 	private void addPlayerActionTradeButtonListener() {
 
+		System.out.println("CREATED");
 		playerActionPanel.getPlayerOptionMenuPanel().getTradeButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				//if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+					System.out.println("PERFORMED");
 					// TODO uncomment this when PlayerActionPanelExpended is merged (this class is
 					// added in that branch)
 					playerActionPanel.setBuildPanel();
-				}
+				//}
 			}
 		});
 	}
 
 	private void addPlayerActionBuildButtonListener() {
 
+		System.out.println("CREATED");
 		playerActionPanel.getPlayerOptionMenuPanel().getBuildButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				//if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+					System.out.println("PERFORMED");
 					// TODO uncomment this when PlayerActionPanelExpended is merged (this class is
 					// added in that branch)
 					playerActionPanel.setBuildPanel();
 
-				}
+				//}
 			}
 		});
 	}
 
 	private void addPlayerActionEndTurnButtonListener() {
 
+		System.out.println("CREATED");
 		playerActionPanel.getPlayerOptionMenuPanel().getEndTurnButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("PERFORMED");
 
 				Catan catanGame = gameControl.getCatanGame();
 				if (catanGame.isSelfPlayerTurn()) {

@@ -27,6 +27,7 @@ public class GameGUIPanel extends JPanel {
 	public GameGUIPanel(GameTopPanel gameTopPanel, BoardPanel boardPanel, DiceDotPanel diceDotPanel, ChatPanel chatPanel,
 			PlayerActionPanel playerActionPanel, GameSouthContainerPanel gameSouthContainerPanel, Player selfPlayer) {
 
+		System.out.println(playerActionPanel.getBuildPanel()); // TODO remove
 		setBackground(myBackGroundColor);
 		setLayout(new GridBagLayout());
 		this.gameTopPanel = gameTopPanel;
