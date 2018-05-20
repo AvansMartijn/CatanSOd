@@ -37,6 +37,7 @@ public class WaitingRoom extends JPanel {
 	private Color lightBlue2 = new Color(230, 253, 255);
 	private Color lightblue3 = new Color(173, 216, 250);
 	private JPanel buttons = new JPanel();
+	private JList<String> playersList;
 //	private JPanel videos = new JPanel();
 	private ArrayList<Player> players;
 	private JLabel playersInRoom = new JLabel();
@@ -44,6 +45,7 @@ public class WaitingRoom extends JPanel {
 	public WaitingRoom(ArrayList<Player> players) {
 		this.players = players;
 		this.setLayout(new BorderLayout());
+		playersPanel = new JPanel();
 		buttons.setBackground(lightblue3);
 		makebuttons();
 		this.add(buttons, BorderLayout.NORTH);
