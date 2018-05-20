@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -13,7 +14,8 @@ import java.awt.Insets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 import java.io.IOException;
@@ -38,14 +40,16 @@ public class WaitingRoom extends JPanel {
 	private Color lightblue3 = new Color(173, 216, 250);
 	private JPanel buttons = new JPanel();
 	private JPanel playersPanel;
+	private String subject[] = { "Name: " + getName() + " / IdGame: " + " / Status: " };
 	private JButton deletePlayerButton;
-	private JList<String> playersList;
-//	private JPanel videos = new JPanel();
-	private ArrayList<Player> players;
+	private JList<String> playerList = new JList<String>(subject);
+	// private JPanel videos = new JPanel();
+	// private ArrayList<Player> players;
 	private JLabel playersInRoom = new JLabel();
 
+
 	public WaitingRoom(ArrayList<Player> players) {
-		this.players = players;
+		//this.players = players;
 		this.setLayout(new BorderLayout());
 		playersPanel = new JPanel();
 		buttons.setBackground(lightblue3);
@@ -86,13 +90,36 @@ public class WaitingRoom extends JPanel {
 	}
 	public void makePlayerLabels() {
 		String playerString = new String();
-		for(Player p: players) {
-			playerString = playerString + p.getUsername() + ": " + p.getPlayStatus() + " ";
-		}
+		playerList.add(playerString);
+		/*
+		 * for(Player p: players) { playerString = playerString + p.getUsername() + ": "
+		 * + p.getPlayerStatus() + " "; }
+		 */
+		playerString = "hoi";
 		// aantal gejoinde mensen opschrijven
-		playersInRoom.setText(playerString);
-		playersInRoom.setFont(Bold);
-		playersInRoom.setForeground(Color.BLACK);
+
+		playerList.setPreferredSize(new Dimension(400, 400));
+		JScrollPane s = new JScrollPane(playerList);
+		s.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		JScrollPane scrollableList = new JScrollPane(playerList);
+		playerList.setBackground(Color.WHITE);
+		playerList.setForeground(Color.DARK_GRAY);
+		playerList.setFont(Bold);
+		playerList.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				JList list = (JList) evt.getSource();
+				if (evt.getClickCount() == 1) {
+			
+					int index = list.locationToIndex(evt.getPoint());
+					System.out.println("hoi");
+				} else if (evt.getClickCount() == 3) {
+
+					// Triple-click detected
+					int index = list.locationToIndex(evt.getPoint());
+				}
+			}
+		});
+		playersPanel.add(scrollableList);
 	}
 
 	@SuppressWarnings("unused")
@@ -206,6 +233,12 @@ public class WaitingRoom extends JPanel {
 			exc.printStackTrace(System.out);
 		}
 	}
+	
+	public void playerList() {
+		
+	}
+
+
 
 
 //	public void trailer() {
@@ -237,4 +270,6 @@ public class WaitingRoom extends JPanel {
 //		});
 //		videos.add(video, BorderLayout.CENTER);
 //	}
+	
+	
 }
