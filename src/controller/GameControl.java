@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import dbaccess.MainDA;
 import model.Bank;
@@ -12,6 +13,7 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.ResourceType;
 import model.Street;
 import model.StreetLocation;
 import model.Village;
@@ -86,14 +88,19 @@ public class GameControl {
 		mainDA.setLastThrow(die[0], die[1], catanGame.getIdGame());
 	}
 
-	public int[] rollDice() {
+	public void rollDice() {
 		catanGame.rollDice();
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
-		return catanGame.getDice().getDie();
+		mainDA.setThrownDice(1, catanGame.getIdGame());
+//		return catanGame.getDice().getDie();
 	}
 
 	public void setDiceLastThrown(int[] die) {
 		catanGame.getDice().setDie(die);
+	}
+	
+	public boolean hasRolledDice() {
+		return mainDA.hasThrown(catanGame.getIdGame());
 	}
 
 	public boolean buildVillage(BuildingLocation buildingLocation) {
@@ -198,7 +205,6 @@ public class GameControl {
 
 	public boolean buildStreet(StreetLocation streetLocation) {
 		Street street = catanGame.getSelfPlayer().getAvailableStreet();
-		System.out.println(street.getIdBuilding());
 		if (catanGame.getSelfPlayer().getAmountAvailableStreets() <= 0) {
 			System.out.println("not enough streets");
 			return false;
@@ -216,9 +222,13 @@ public class GameControl {
 
 		// TODO Check if enough resources
 		// TODO Move resources from player to bank
+		//TODO ALSO LOCALLY
 
 		streetLocation.setStreet(street);
 		street.setStreetLocation(streetLocation);
+		int index = Integer.parseInt(street.getIdBuilding().substring(1, 3));
+		System.out.println(index);
+		catanGame.getSelfPlayer().getStreetArr().set(index, street);
 		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(),
 				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
@@ -228,11 +238,9 @@ public class GameControl {
 
 	public void setVillageArrays() {
 		for (Player p : catanGame.getPlayers()) {
-			System.out.println(p.getIdPlayer());
 			ArrayList<Village> villageFromPlayer = mainDA.getVillageFromPlayer(p.getIdPlayer());
 			p.setVillageArr(villageFromPlayer);
 			for (Village v : villageFromPlayer) {
-				System.out.println(v.getIdBuilding());
 				v.setPlayer(p);
 				if (v.getBuildingLocation().getXLoc() == 0 || v.getBuildingLocation().getYLoc() == 0) {
 					v.setBuildingLocation(null);
@@ -342,6 +350,52 @@ public class GameControl {
 
 	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
 		return gameBoardControl.createBoardAndAddToDB(players);
+	}
+	
+	public boolean canBuy(ResourceType[] costArray) {
+		HashMap<ResourceType, Integer> amountOfResources = catanGame.getSelfPlayer().getHand().getAmountOfResources();
+		int ownedBrick = amountOfResources.get(ResourceType.BAKSTEEN);
+		int ownedWood = amountOfResources.get(ResourceType.HOUT);
+		int ownedIron = amountOfResources.get(ResourceType.ERTS);
+		int ownedWool = amountOfResources.get(ResourceType.WOL);
+		int ownedWheat = amountOfResources.get(ResourceType.GRAAN);
+		
+		int brickCost  = 0;
+		int woodCost = 0;
+		int woolCost = 0;
+		int ironCost = 0;
+		int wheatCost = 0;
+		
+		for(ResourceType rs: costArray) {
+			switch(rs) {
+			case BAKSTEEN:
+				brickCost++;
+				break;
+			case ERTS:
+				ironCost++;
+				break;
+			case WOL:
+				woolCost++;
+				break;
+			case HOUT:
+				woodCost++;
+				break;
+			case GRAAN:
+				wheatCost++;
+				break;
+			case WOESTIJN:
+				break;
+			default:
+				break;
+			}
+		}
+		
+		if(ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost && ownedWheat >= wheatCost ) {
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 	// public void printPlayerVillages() {

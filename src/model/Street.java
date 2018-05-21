@@ -3,6 +3,7 @@ package model;
 public class Street extends Building{
 
 	private StreetLocation streetLocation;
+	public final static ResourceType[] cost = new ResourceType[] {ResourceType.BAKSTEEN, ResourceType.HOUT};
 	
 	private int db_xfrom;
 	private int db_yfrom;

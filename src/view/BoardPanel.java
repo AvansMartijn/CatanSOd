@@ -105,6 +105,7 @@ public class BoardPanel extends JPanel {
 			tileButton.setLocation((int) locPoint.getX(), (int) locPoint.getY());
 			tileButton.setSize(tileWidth, tileHeight);
 
+			tileButton.setEnabled(false);
 			tileButtonArrayList.add(tileButton);
 			add(tileButton, 0);
 
@@ -121,7 +122,8 @@ public class BoardPanel extends JPanel {
 			blb.setLocation((int) locPoint.getX() - buildingLocWidthHeight / 2,
 					(int) locPoint.getY() - buildingLocWidthHeight / 2);
 			blb.setSize(buildingLocWidthHeight, buildingLocWidthHeight);
-
+			
+			blb.setEnabled(false);
 			buildingLocButtonArray.add(blb);
 			add(blb, 0);
 		}
@@ -175,7 +177,7 @@ public class BoardPanel extends JPanel {
 			slb.setLocation((int) (streetLocationPoint.getX() - (streetWidth / 2)),
 					(int) (streetLocationPoint.getY() - (streetHeight / 2)));
 			slb.setSize(streetWidth, streetHeight);
-
+			slb.setEnabled(false);
 			streetLocButtonArray.add(slb);
 			add(slb, 0);
 		}
