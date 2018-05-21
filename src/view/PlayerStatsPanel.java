@@ -33,6 +33,8 @@ public class PlayerStatsPanel extends JPanel {
 	private JLabel playerNameLabel;
 	private JLabel playerPointsLabel;
 	private JLabel[] statLabels;
+	private JLabel longestRoadLabel;
+	private JLabel largestArmyLabel;
 
 	private Player player;
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -43,6 +45,10 @@ public class PlayerStatsPanel extends JPanel {
 		this.player = player;
 		playerNameLabel = new JLabel(player.getUsername());
 		playerPointsLabel = new JLabel("Punten: " + player.getPoints());
+		this.longestRoadLabel = new JLabel();
+		
+		this.largestArmyLabel = new JLabel();
+	
 
 		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -89,6 +95,8 @@ public class PlayerStatsPanel extends JPanel {
 			add(new JLabel(new ImageIcon(image)), gridBagConstraints);
 		}
 		updateStats();
+		addImage(largestArmyLabel, 4, 4, "/images/LargestArmy_Icon.png", 80, 80);
+		addImage(longestRoadLabel, 4, 2, "/images/LongestRoad_Icon.png", 60, 60);
 	}
 	
 	// Update stats
@@ -115,19 +123,21 @@ public class PlayerStatsPanel extends JPanel {
 		// Check if player haslongestroad or largestarmy
 		gridBagConstraints.anchor = GridBagConstraints.CENTER;
 		
-//		player.setHasLongestRoad(true);
-//		player.setHasLargestArmy(true);
-//		if(player.getHasLongestRoad()) {
-//			addImage(4, 2, "/images/LongestRoad_Icon.png", 60, 60); // TODO add this label as variable so you can set if to not visible
-//		}
-//		if(player.getHasLargestArmy()) {
-//			addImage(4, 4, "/images/LargestArmy_Icon.png", 80, 80);
-//		}
+		if(player.getHasLongestRoad()) {
+			longestRoadLabel.setVisible(true);
+		} else {
+			longestRoadLabel.setVisible(false);
+		}
+		if(player.getHasLargestArmy()) {
+			largestArmyLabel.setVisible(true);
+		} else {
+			largestArmyLabel.setVisible(false);
+		}
 		
 	}
 
 	// Add image
-	private void addImage(int x, int y, String imageName, int sizeX, int sizeY) {
+	private void addImage(JLabel label, int x, int y, String imageName, int sizeX, int sizeY) {
 		gridBagConstraints.gridx = x;
 		gridBagConstraints.gridy = y;
 		gridBagConstraints.gridwidth = 3;
@@ -139,6 +149,8 @@ public class PlayerStatsPanel extends JPanel {
 			image = image.getScaledInstance(sizeX, sizeY, Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 		}
-		add(new JLabel(new ImageIcon(image)), gridBagConstraints);
+		ImageIcon imageIcon = new ImageIcon(image);
+		label.setIcon(imageIcon);
+		add(label, gridBagConstraints);
 	}
 }

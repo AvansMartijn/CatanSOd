@@ -1,7 +1,12 @@
 package controller;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -103,6 +108,26 @@ public class GuiController {
 
 		setInlogPanel();
 
+		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice graphicsDevice= graphicsEnvironment.getDefaultScreenDevice(); 
+		
+		boolean canChangeDisplay = graphicsDevice.isDisplayChangeSupported();
+		if (canChangeDisplay) {
+			DisplayMode displayMode = graphicsDevice.getDisplayMode();
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			int width = (int) screenSize.getWidth();
+			int height = (int) screenSize.getHeight();
+			int bitDepth = 16;
+			displayMode = new DisplayMode(width, height, bitDepth, displayMode.getRefreshRate());
+			try {
+				graphicsDevice.setDisplayMode(displayMode);
+			} catch(Throwable e) {
+				graphicsDevice.setFullScreenWindow(null);
+			}
+			
+		}
+
+		
 		frame.dispose();
 		frame.setUndecorated(true);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -342,10 +367,15 @@ public class GuiController {
 		this.playerOptionMenuPanel = new PlayerOptionMenuPanel();
 		this.buyPanel = new BuyPanel();
 		this.buildPanel = new BuildPanel();
-		this.tradePanel = new TradePanel();
-		this.returnToBuildPanel = new ReturnToBuildPanel();
-		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel,
-				returnToBuildPanel);
+		this.tradePanel = new TradePanel(gameControl.getCatanGame().getSelfPlayer());
+		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel);
+    
+
+// 		this.tradePanel = new TradePanel();
+// 		this.returnToBuildPanel = new ReturnToBuildPanel();
+// 		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel,
+// 				returnToBuildPanel);
+
 
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
@@ -377,7 +407,9 @@ public class GuiController {
 		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel,
 				gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
 
+
 		addListeners();
+
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
 
@@ -506,6 +538,31 @@ public class GuiController {
 			}
 		});
 	}
+
+	
+	private void addPlayerActionTradeSendRequestButtonListener() {
+		playerActionPanel.getTradePanel().getSendRequestButton().addActionListener(new ActionListener() { // TODO maybe in GameControl
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// give
+				String text = playerActionPanel.getTradePanel().getWoodGive();
+				System.out.println("AMOUNT " + text);
+				playerActionPanel.getTradePanel().getWheatGive();
+				playerActionPanel.getTradePanel().getStoneGive();
+				playerActionPanel.getTradePanel().getIronGive();
+				playerActionPanel.getTradePanel().getWoolGive();
+				
+				// receive
+				playerActionPanel.getTradePanel().getWoodGive();
+				playerActionPanel.getTradePanel().getWheatGive();
+				playerActionPanel.getTradePanel().getStoneGive();
+				playerActionPanel.getTradePanel().getIronGive();
+				playerActionPanel.getTradePanel().getWoolGive();
+			}
+		});
+	}
+	
 
 	private void addPlayerActionTradeQuitButtonListener() {
 		playerActionPanel.getTradePanel().getReturnButton().addActionListener(new ActionListener() {
