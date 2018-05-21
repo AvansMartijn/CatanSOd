@@ -15,6 +15,7 @@ import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.DevelopmentCard;
+import model.DevelopmentCardType;
 import model.Knight;
 import model.Monopoly;
 import model.PlayStatus;
@@ -873,19 +874,19 @@ public class MainDA {
 				boolean played = myRs.getBoolean(2);
 				switch(developmentCardID.substring(3, 4)){
 				case "r": // ridder
-					retList.add(new Knight(developmentCardID, played));
+					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.KNIGHT));
 					break;
 				case "g": 
-					retList.add(new VictoryPoint(developmentCardID, played));
+					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.VICTORY_POINT));
 					break;
 				case "s": // stratenbouw
-					retList.add(new RoadBuilding(developmentCardID, played));
+					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.ROAD_BUILDING));
 					break;
 				case "m": // monopoly
-					retList.add(new Monopoly(developmentCardID, played));
+					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.MONOPOLY));
 					break;
 				case "u": // uitvinder
-					retList.add(new YearOfPlenty(developmentCardID, played));
+					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.YEAR_OF_PLENTY));
 					break;
 				}
 				

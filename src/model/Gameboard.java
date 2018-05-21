@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Gameboard {
 	private ArrayList<Tile> tileArr = new ArrayList<Tile>();
-	//create buildinglocation array and streetlocation array to check if an object for a location is already made (to make sure we don't have duplicates)
+	//create buildinglocation array and streetlocation array to check if an object 
+	//for a location is already made (to make sure we don't have duplicates)
 	private ArrayList<BuildingLocation> buildingLocArr = new ArrayList<BuildingLocation>();
 	private ArrayList<StreetLocation> streetLocArr = new ArrayList<StreetLocation>();
 
