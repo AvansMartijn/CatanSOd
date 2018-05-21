@@ -77,6 +77,10 @@ public class GuiController {
 	private BuildPanel buildPanel;
 	private ReturnToBuildPanel returnToBuildPanel;
 
+	private Boolean streetBoolean = false;
+	private Boolean villageBoolean = false;
+	private Boolean cityBoolean = false;
+
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
 
@@ -333,7 +337,8 @@ public class GuiController {
 		this.buildPanel = new BuildPanel();
 		this.tradePanel = new TradePanel();
 		this.returnToBuildPanel = new ReturnToBuildPanel();
-		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel, returnToBuildPanel);
+		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel,
+				returnToBuildPanel);
 
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
@@ -492,7 +497,8 @@ public class GuiController {
 		});
 	}
 
-	private void addPlayerActionBuildButtonListener() {
+	// actionlisteners for build menu
+	private void addPlayerActionBuildButtonsListener() {
 
 		playerActionPanel.getPlayerOptionMenuPanel().getBuildButton().addActionListener(new ActionListener() {
 
@@ -503,59 +509,50 @@ public class GuiController {
 				}
 			}
 		});
-	}
 
-	private void addPlayerActionBuildQuitButtonListener() {
+		playerActionPanel.getBuildPanel().getStreetButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				streetBoolean = true;
+				playerActionPanel.setReturnToBuildPanel();
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
+			}
+		});
+
+		playerActionPanel.getBuildPanel().getVillageButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				villageBoolean = true;
+				playerActionPanel.setReturnToBuildPanel();
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
+			}
+		});
+
+		playerActionPanel.getBuildPanel().getCityButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cityBoolean = true;
+				playerActionPanel.setReturnToBuildPanel();
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
+			}
+		});
+
 		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
 			}
 		});
-	}
-	
-	private void addPlayerActionBuildStreetListener() {
-		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setPlayerOptionMenuPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {	
-					playerActionPanel.setReturnToBuildPanel();
-					
-				}
-			}
-		});
-	}
-	
-	private void addPlayerActionBuildVillageListener() {
-		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setPlayerOptionMenuPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {	
-					playerActionPanel.setReturnToBuildPanel();
-				}
-			}
-		});
-	}
-	
-	private void addPlayerActionBuildCityListener() {
-		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setPlayerOptionMenuPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-					playerActionPanel.setReturnToBuildPanel();
-					
-				}
-			}
-		});
 	}
 
 	private void addBuildBackButtonListener() {
@@ -564,18 +561,35 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setPlayerOptionMenuPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 
-					Object[] options = { "Ja", "Nee" };
+				// recognize which building type is selected
 
-					int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt stoppen met bouwen?",
-							"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
-							options[0]);
-					if (result == JOptionPane.YES_OPTION) {
+				if (streetBoolean) {
+					
+				} else if (villageBoolean) {
+					
+				} else if (cityBoolean) {
 
-					}
 				}
+
+				// give error message in chat of wrong type is selected
+
+				// of building built, remove resources from hand.
+
+				Object[] options = { "Ja", "Nee" };
+
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt stoppen met bouwen?",
+						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+						options[0]);
+				if (result == JOptionPane.YES_OPTION) {
+					streetBoolean = false;
+					villageBoolean = false;
+					cityBoolean = false;
+					playerActionPanel.setBuildPanel();
+
+				}
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
 			}
 		});
 	}
@@ -685,18 +699,19 @@ public class GuiController {
 		addStreetLocListeners();
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
+
 		addPlayerActionBuyButtonListener();
 		addPlayerActionBuyQuitButtonListener();
+
 		addPlayerActionTradeButtonListener();
 		addPlayerActionTradeQuitButtonListener();
-		addPlayerActionBuildButtonListener();
-		addPlayerActionBuildQuitButtonListener();
+
+		addPlayerActionBuildButtonsListener();
+
 		addBuildBackButtonListener();
-		addPlayerActionBuildStreetListener();
-		addPlayerActionBuildVillageListener();
+
 		addPlayerActionEndTurnButtonListener();
-		addPlayerActionBuildCityListener();
-		
+
 	}
 
 	// public void setGameBoard(Gameboard gameBoard) {

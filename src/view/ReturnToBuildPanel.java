@@ -14,9 +14,7 @@ public class ReturnToBuildPanel extends JPanel {
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
 
-	private final int BUTTON_SIZE = 220;
-
-	private final int BUTTON_OFFSET_X = 60;
+	private final int BUTTON_SIZE = 160;
 
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
@@ -40,15 +38,15 @@ public class ReturnToBuildPanel extends JPanel {
 		title.setBounds(90, 20, 180, 40);
 		add(title);
 		
-		subTitleLabel = new JLabel("Wat wil je bouwen?");
+		subTitleLabel = new JLabel("Selecteer een bouwlocatie");
 		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel.setForeground(TextColor);
-		subTitleLabel.setBounds(110, 50, 320, 40);
+		subTitleLabel.setBounds(90, 60, 320, 40);
 		add(subTitleLabel);
 
 		returnButton = new JButton("TERUG");
-		returnButton.setBounds(BUTTON_OFFSET_X, 280, BUTTON_SIZE, BUTTON_SIZE);
-		returnButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+		returnButton.setBounds(90, 140, BUTTON_SIZE, BUTTON_SIZE);
+		returnButton.setFont(new Font("SansSerif", Font.BOLD, 25));
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);
 		add(returnButton);
@@ -57,6 +55,5 @@ public class ReturnToBuildPanel extends JPanel {
 	public JButton getReturnButton() {
 		return returnButton;
 	}
-
 }
 
