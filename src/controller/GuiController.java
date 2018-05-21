@@ -368,7 +368,8 @@ public class GuiController {
 		this.buyPanel = new BuyPanel();
 		this.buildPanel = new BuildPanel();
 		this.tradePanel = new TradePanel(gameControl.getCatanGame().getSelfPlayer());
-		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel);
+		this.returnToBuildPanel = new ReturnToBuildPanel();
+		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel, returnToBuildPanel);
     
 
 // 		this.tradePanel = new TradePanel();
