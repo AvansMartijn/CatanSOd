@@ -412,7 +412,7 @@ public class GuiController {
 						gameControl.addMessage("Heeft een nederzetting (TODO stad of dorp) gebouwd op " + blb.getBuildingLocation());
 						boardPanel.disableBuildingLocButtons();
 						playerActionPanel.setBuildPanel();
-						boardPanel.repaint();
+						addPlayerColorToBuildingLocs();
 					}
 				}
 			});
@@ -431,7 +431,7 @@ public class GuiController {
 						gameControl.addMessage("Heeft een straat gebouwd op " + slb.getStreetLocation());
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
-						boardPanel.repaint();
+						addPlayerColorToStreetLocs();
 					}
 				}
 			});

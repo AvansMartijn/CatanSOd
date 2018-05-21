@@ -220,15 +220,10 @@ public class GameControl {
 			return false;
 		}
 
-		// TODO Check if enough resources
 		// TODO Move resources from player to bank
-		//TODO ALSO LOCALLY
 
 		streetLocation.setStreet(street);
 		street.setStreetLocation(streetLocation);
-		int index = Integer.parseInt(street.getIdBuilding().substring(1, 3));
-		System.out.println(index);
-		catanGame.getSelfPlayer().getStreetArr().set(index, street);
 		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(),
 				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
