@@ -342,7 +342,6 @@ public class GameControl {
 		
 	}
 	
-	
 	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
 		return gameBoardControl.createBoardAndAddToDB(players);
 	}

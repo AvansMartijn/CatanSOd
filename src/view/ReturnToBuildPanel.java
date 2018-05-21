@@ -9,13 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class BuildPanel extends JPanel {
+public class ReturnToBuildPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
 
-	private final int BUTTON_WIDTH = 220;
-	private final int BUTTON_HEIGHT = 50;
+	private final int BUTTON_SIZE = 220;
 
 	private final int BUTTON_OFFSET_X = 60;
 
@@ -25,12 +24,10 @@ public class BuildPanel extends JPanel {
 
 	private JLabel title;
 	private JLabel subTitleLabel;
-	private JButton streetButton;
-	private JButton villageButton;
-	private JButton cityButton;
+
 	private JButton returnButton;
 
-	public BuildPanel() {
+	public ReturnToBuildPanel() {
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
@@ -49,45 +46,12 @@ public class BuildPanel extends JPanel {
 		subTitleLabel.setBounds(110, 50, 320, 40);
 		add(subTitleLabel);
 
-		streetButton = new JButton("STRAAT");
-		streetButton.setBounds(BUTTON_OFFSET_X, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
-		streetButton.setFont(new Font("SansSerif", Font.BOLD, 20));
-		streetButton.setBackground(textBackgroundColor);
-		streetButton.setForeground(TextColor);
-		add(streetButton);
-
-		villageButton = new JButton("DORP");
-		villageButton.setBounds(BUTTON_OFFSET_X, 160, BUTTON_WIDTH, BUTTON_HEIGHT);
-		villageButton.setFont(new Font("SansSerif", Font.BOLD, 20));
-		villageButton.setBackground(textBackgroundColor);
-		villageButton.setForeground(TextColor);
-		add(villageButton);
-
-		cityButton = new JButton("STAD");
-		cityButton.setBounds(BUTTON_OFFSET_X, 220, BUTTON_WIDTH, BUTTON_HEIGHT);
-		cityButton.setFont(new Font("SansSerif", Font.BOLD, 20));
-		cityButton.setBackground(textBackgroundColor);
-		cityButton.setForeground(TextColor);
-		add(cityButton);
-
 		returnButton = new JButton("TERUG");
-		returnButton.setBounds(BUTTON_OFFSET_X, 280, BUTTON_WIDTH, BUTTON_HEIGHT);
+		returnButton.setBounds(BUTTON_OFFSET_X, 280, BUTTON_SIZE, BUTTON_SIZE);
 		returnButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);
 		add(returnButton);
-	}
-
-	public JButton getStreetButton() {
-		return streetButton;
-	}
-
-	public JButton getVillageButton() {
-		return villageButton;
-	}
-
-	public JButton getCityButton() {
-		return cityButton;
 	}
 
 	public JButton getReturnButton() {
@@ -95,3 +59,4 @@ public class BuildPanel extends JPanel {
 	}
 
 }
+

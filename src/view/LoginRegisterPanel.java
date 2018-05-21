@@ -33,10 +33,7 @@ public class LoginRegisterPanel extends JPanel {
 
 	public LoginRegisterPanel() {
 
-		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
-
-		
-		   
+		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));	   
 		
 		GridBagLayout grid = new GridBagLayout();
 		setLayout(grid);
@@ -52,8 +49,6 @@ public class LoginRegisterPanel extends JPanel {
 
 //	public void paintComponent(Graphics g) {
 //
-//		
-//		
 //		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
 //
 //		Image image = null;
@@ -69,7 +64,7 @@ public class LoginRegisterPanel extends JPanel {
 //		background.setBounds(0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight());
 //		add(background, -1);
 //		repaint();
-//		
+//
 //	}
 
 	public JButton getInlogButton() {

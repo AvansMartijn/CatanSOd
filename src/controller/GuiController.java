@@ -49,6 +49,7 @@ import view.PlayerOptionMenuPanel;
 import view.PlayerStatsPanel;
 import view.RecentGamePanel;
 import view.RecentGamesPanel;
+import view.ReturnToBuildPanel;
 import view.StreetLocationButton;
 import view.TileButton;
 import view.TradePanel;
@@ -74,6 +75,7 @@ public class GuiController {
 	private TradePanel tradePanel;
 	private BuyPanel buyPanel;
 	private BuildPanel buildPanel;
+	private ReturnToBuildPanel returnToBuildPanel;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -212,15 +214,15 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				Object[] options = { "Ja", "Nee" };
 
-				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt uitloggen?",
-						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt uitloggen?", "Waarschuwing",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 				if (result == JOptionPane.YES_OPTION) {
-				mainControl.logOut();
-				setInlogPanel();
-				// TODO Auto-generated method stub
+					mainControl.logOut();
+					setInlogPanel();
+					// TODO Auto-generated method stub
 				}
 			}
 		});
@@ -313,7 +315,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Object[] options = { "Ja", "Annuleren" };
+				Object[] options = { "Ja", "Nee" };
 
 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?",
 						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
@@ -330,7 +332,8 @@ public class GuiController {
 		this.buyPanel = new BuyPanel();
 		this.buildPanel = new BuildPanel();
 		this.tradePanel = new TradePanel();
-		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel);
+		this.returnToBuildPanel = new ReturnToBuildPanel();
+		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel, returnToBuildPanel);
 
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
@@ -353,32 +356,16 @@ public class GuiController {
 					} else {
 						addSystemMessageToChat(Color.RED, "Je mag maar 1 bericht per seconde versturen!");
 					}
-
 				}
 			}
 		});
 
-		addTileListeners();
-		addBuildLocListeners();
-		addStreetLocListeners();
-		addRollButtonListener();
-		addPlayerColorToBuildingLocs();
-		System.out.println("addplayercolortoStreet");
+		// System.out.println("addplayercolortoStreet");
 		addPlayerColorToStreetLocs();
 		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel,
 				gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
 
-		addPlayerActionBuyButtonListener(); // TODO why not make a function which adds all these freaking functions?
-		addPlayerActionBuyQuitButtonListener();
-
-		addPlayerActionTradeButtonListener();
-		addPlayerActionTradeQuitButtonListener();
-
-		addPlayerActionBuildButtonListener();
-		addPlayerActionBuildQuitButtonListener();
-
-		addPlayerActionEndTurnButtonListener();
-
+		addListeners();
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
 
@@ -393,7 +380,6 @@ public class GuiController {
 					gameControl.changeRobber(b.getTile().getIdTile());
 					boardPanel.repaint();
 				}
-
 			});
 		}
 	}
@@ -408,7 +394,6 @@ public class GuiController {
 					if (!gameControl.buildVillage(blb.getBuildingLocation())) {
 						System.out.println("Je kan hier geen neerzetting bouwen");
 					}
-
 				}
 			});
 		}
@@ -423,7 +408,6 @@ public class GuiController {
 					if (!gameControl.buildStreet(slb.getStreetLocation())) {
 						System.out.println("je kan hier geen straat bouwen");
 					}
-
 				}
 			});
 		}
@@ -532,6 +516,69 @@ public class GuiController {
 			}
 		});
 	}
+	
+	private void addPlayerActionBuildStreetListener() {
+		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {	
+					playerActionPanel.setReturnToBuildPanel();
+					
+				}
+			}
+		});
+	}
+	
+	private void addPlayerActionBuildVillageListener() {
+		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {	
+					playerActionPanel.setReturnToBuildPanel();
+				}
+			}
+		});
+	}
+	
+	private void addPlayerActionBuildCityListener() {
+		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+					playerActionPanel.setReturnToBuildPanel();
+					
+				}
+			}
+		});
+	}
+
+	private void addBuildBackButtonListener() {
+
+		playerActionPanel.getReturnToBuildPanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+
+					Object[] options = { "Ja", "Nee" };
+
+					int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt stoppen met bouwen?",
+							"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+							options[0]);
+					if (result == JOptionPane.YES_OPTION) {
+
+					}
+				}
+			}
+		});
+	}
 
 	private void addPlayerActionEndTurnButtonListener() {
 
@@ -547,7 +594,6 @@ public class GuiController {
 				}
 			}
 		});
-
 	}
 
 	public void addPlayerColorToBuildingLocs() {
@@ -632,7 +678,29 @@ public class GuiController {
 		gameSouthContainerPanel.repaint();
 	}
 
+	private void addListeners() {
+
+		addTileListeners();
+		addBuildLocListeners();
+		addStreetLocListeners();
+		addRollButtonListener();
+		addPlayerColorToBuildingLocs();
+		addPlayerActionBuyButtonListener();
+		addPlayerActionBuyQuitButtonListener();
+		addPlayerActionTradeButtonListener();
+		addPlayerActionTradeQuitButtonListener();
+		addPlayerActionBuildButtonListener();
+		addPlayerActionBuildQuitButtonListener();
+		addBuildBackButtonListener();
+		addPlayerActionBuildStreetListener();
+		addPlayerActionBuildVillageListener();
+		addPlayerActionEndTurnButtonListener();
+		addPlayerActionBuildCityListener();
+		
+	}
+
 	// public void setGameBoard(Gameboard gameBoard) {
 	// this.gameBoard = gameBoard;
 	// }
+
 }
