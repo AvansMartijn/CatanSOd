@@ -9,8 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
+
+import model.Player;
 
 @SuppressWarnings("serial")
 public class TradePanel extends JPanel {
@@ -57,13 +58,16 @@ public class TradePanel extends JPanel {
 	private JFormattedTextField ironGive;
 	private JFormattedTextField woolGive;
 
-	private JFormattedTextField woodRecieve;
-	private JFormattedTextField wheatRecieve;
-	private JFormattedTextField stoneRecieve;
-	private JFormattedTextField ironRecieve;
-	private JFormattedTextField woolRecieve;
+	private JFormattedTextField woodReceive;
+	private JFormattedTextField wheatReceive;
+	private JFormattedTextField stoneReceive;
+	private JFormattedTextField ironReceive;
+	private JFormattedTextField woolReceive;
+	
+	private Player selfPlayer;
 
-	public TradePanel() {
+	public TradePanel(Player selfPlayer) {
+		this.selfPlayer = selfPlayer;
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
@@ -100,7 +104,7 @@ public class TradePanel extends JPanel {
 		NumberFormatter formatter = new NumberFormatter(format);
 		formatter.setValueClass(Integer.class);
 		formatter.setMinimum(0);
-		formatter.setMaximum(19);
+		formatter.setMaximum(selfPlayer.getHand().getResources().size()); // TODO update function and do this for each individual resource, we need more formatters for each textfield
 		formatter.setAllowsInvalid(true);
 		formatter.setCommitsOnValidEdit(true);
 		formatter.setOverwriteMode(true);
@@ -167,30 +171,30 @@ public class TradePanel extends JPanel {
 		subTitleLabel3.setBounds(240, 50, 250, 60);
 		add(subTitleLabel3);
 
-		woodRecieve = new JFormattedTextField(formatter);
-		woodRecieve.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
+		woodReceive = new JFormattedTextField(formatter);
+		woodReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		add(woodRecieve);
+		add(woodReceive);
 
-		wheatRecieve = new JFormattedTextField(formatter);
-		wheatRecieve.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
+		wheatReceive = new JFormattedTextField(formatter);
+		wheatReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		add(wheatRecieve);
+		add(wheatReceive);
 
-		stoneRecieve = new JFormattedTextField(formatter);
-		stoneRecieve.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
+		stoneReceive = new JFormattedTextField(formatter);
+		stoneReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		add(stoneRecieve);
+		add(stoneReceive);
 
-		ironRecieve = new JFormattedTextField(formatter);
-		ironRecieve.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
+		ironReceive = new JFormattedTextField(formatter);
+		ironReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		add(ironRecieve);
+		add(ironReceive);
 
-		woolRecieve = new JFormattedTextField(formatter);
-		woolRecieve.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
+		woolReceive = new JFormattedTextField(formatter);
+		woolReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		add(woolRecieve);
+		add(woolReceive);
 
 	}
 
@@ -202,43 +206,43 @@ public class TradePanel extends JPanel {
 		return returnButton;
 	}
 
-	public JTextField getWoodGive() {
-		return woodGive;
+	public String getWoodGive() {
+		return woodGive.getText();
 	}
 
-	public JTextField getWheatGive() {
-		return wheatGive;
+	public String getWheatGive() {
+		return wheatGive.getText();
 	}
 
-	public JTextField getStoneGive() {
-		return stoneGive;
+	public String getStoneGive() {
+		return stoneGive.getText();
 	}
 
-	public JTextField getIronGive() {
-		return ironGive;
+	public String getIronGive() {
+		return ironGive.getText();
 	}
 
-	public JTextField getWoolGive() {
-		return woolGive;
+	public String getWoolGive() {
+		return woolGive.getText();
 	}
 
-	public JTextField getWoodRecieve() {
-		return woodRecieve;
+	public String getWoodReceive() {
+		return woodReceive.getText();
 	}
 
-	public JTextField getWheatRecieve() {
-		return wheatRecieve;
+	public String getWheatReceive() {
+		return wheatReceive.getText();
 	}
 
-	public JTextField getStoneRecieve() {
-		return stoneRecieve;
+	public String getStoneReceive() {
+		return stoneReceive.getText();
 	}
 
-	public JTextField getIronRecieve() {
-		return ironRecieve;
+	public String getIronReceive() {
+		return ironReceive.getText();
 	}
 
-	public JTextField getWoolRecieve() {
-		return woolRecieve;
+	public String getWoolReceive() {
+		return woolReceive.getText();
 	}
 }
