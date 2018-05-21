@@ -20,22 +20,24 @@ public class MainMenuGUI extends JPanel {
 	private RecentGamesPanel currentGames;
 	private JPanel mainPanel;
 	private String username;
-	private JPanel optionsPanel;
+	private JPanel topOptionsPanel;
 	private JScrollPane scrollPane;
+	private JPanel bottomOptionsPanel;
 	private int pageNr;
 
-	public MainMenuGUI(String username, JPanel optionsPanel, RecentGamesPanel currentGames) {
+	public MainMenuGUI(String username, JPanel topOptionsPanel, JPanel bottomOptionsPanel, RecentGamesPanel currentGames) {
 		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		setBackground(backgroundColor);
 		mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(420, 800));
-		this.optionsPanel = optionsPanel;
+		this.topOptionsPanel = topOptionsPanel;
+		this.bottomOptionsPanel = bottomOptionsPanel;
 		this.currentGames = currentGames;
 		this.username = username;
 		pageNr = 0;
 
 		mainPanel.add(new Title());
-		mainPanel.add(this.optionsPanel);
+		mainPanel.add(this.topOptionsPanel);
 		mainPanel.setBackground(innerColor);
 
 		int height = currentGames.getGamePanels().size() * 110;
@@ -46,6 +48,7 @@ public class MainMenuGUI extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(420, 700));
 		mainPanel.add(scrollPane);
 		
+		mainPanel.add(this.bottomOptionsPanel);
 		
 		GridBagLayout gridLayout = new GridBagLayout();
 		setLayout(gridLayout);

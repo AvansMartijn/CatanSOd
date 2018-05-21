@@ -7,11 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resources;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -25,10 +27,13 @@ import model.City;
 import model.Gameboard;
 import model.Player;
 import model.PlayerColor;
+import model.Resource;
+import model.ResourceType;
 import model.Street;
 import model.Tile;
 import model.Village;
 import view.BoardPanel;
+import view.BottomOptionsPanel;
 import view.BuildPanel;
 import view.BuildingLocationButton;
 import view.BuyPanel;
@@ -42,16 +47,17 @@ import view.GameTopPanel;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
 import view.NewGamePanel;
+import view.TopOptionsPanel;
 import view.PlayerActionPanel;
 import view.PlayerOptionMenuPanel;
 import view.PlayerStatsPanel;
 import view.RecentGamePanel;
 import view.RecentGamesPanel;
+import view.ReturnToBuildPanel;
 import view.StreetLocationButton;
 import view.TileButton;
 import view.TradePanel;
 import view.WaitingRoom;
-
 
 public class GuiController {
 
@@ -60,6 +66,8 @@ public class GuiController {
 	private Frame frame;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
+	private TopOptionsPanel topOptionsPanel;
+	private BottomOptionsPanel bottomOptionsPanel;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
 	private RecentGamesPanel currentGamesPanel;
@@ -71,6 +79,11 @@ public class GuiController {
 	private TradePanel tradePanel;
 	private BuyPanel buyPanel;
 	private BuildPanel buildPanel;
+	private ReturnToBuildPanel returnToBuildPanel;
+
+	private Boolean streetBoolean = false;
+	private Boolean villageBoolean = false;
+	private Boolean cityBoolean = false;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -80,7 +93,6 @@ public class GuiController {
 	// private BuyDialog buyDialog;
 	// private TradeDialog tradeDialog;
 	// private BuildDialog buildDialog;
-
 
 	private int pageNr;
 
@@ -115,7 +127,7 @@ public class GuiController {
 				if (!mainControl.loginAccount(username, password)) {
 					usernameTextField.setText("");
 					passwordTextField.setText("");
-					loginregisterPanel.setMessagelabel("Invalid Credentials");
+					loginregisterPanel.setMessagelabel("Ongeldige gegevens ingevoerd");
 					frame.pack();
 				} else {
 					mainControl.loadProfile();
@@ -136,28 +148,42 @@ public class GuiController {
 					if (!mainControl.createAccount(username, password)) {
 						usernameTextField.setText("");
 						passwordTextField.setText("");
-						loginregisterPanel.setMessagelabel("Username already exists");
+						loginregisterPanel.setMessagelabel("Gebruikersnaam bestaat al");
 						frame.pack();
 					} else {
-						loginregisterPanel.setMessagelabel("Successfully created account");
+						loginregisterPanel.setMessagelabel("Account succesvol aangemaakt");
 					}
 				} else {
 					loginregisterPanel.setMessagelabel("Ongeldige invoer: Speciale tekens zijn niet toegestaan");
 				}
-
 			}
+		});
 
+		loginregisterPanel.getExitButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				Object[] options = { "Ja", "Annuleren" };
+
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afsluiten?",
+						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+				if (result == JOptionPane.YES_OPTION) {
+
+					System.exit(0);
+				}
+			}
 		});
 		frame.setContentPane(loginregisterPanel);
 		frame.pack();
 	}
 
 	public void setMainMenu(ArrayList<Catan> gameList, String username) {
-		JPanel optionsPanel = new JPanel();
-		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.X_AXIS));
-		JButton createGameButton = new JButton("Game aanmaken");
+
+		topOptionsPanel = new TopOptionsPanel();
+
 		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
-		createGameButton.addActionListener(new ActionListener() {
+		topOptionsPanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JDialog dialog = new JDialog();
@@ -170,6 +196,7 @@ public class GuiController {
 				dialog.setVisible(true);
 			}
 		});
+
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -177,9 +204,6 @@ public class GuiController {
 
 			}
 		});
-		optionsPanel.add(createGameButton);
-
-		optionsPanel.add(new JButton("Uitnodigingen bekijken"));
 
 		currentGamesPanel = new RecentGamesPanel(gameList, pageNr);
 		ArrayList<RecentGamePanel> gamePanels = currentGamesPanel.getGamePanels();
@@ -192,21 +216,54 @@ public class GuiController {
 
 			});
 		}
+		bottomOptionsPanel = new BottomOptionsPanel();
 
-		this.mainMenuGui = new MainMenuGUI(username, optionsPanel, currentGamesPanel);
+		bottomOptionsPanel.getLogoutButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				Object[] options = { "Ja", "Nee" };
+
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt uitloggen?", "Waarschuwing",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+				if (result == JOptionPane.YES_OPTION) {
+					mainControl.logOut();
+					setInlogPanel();
+					// TODO Auto-generated method stub
+				}
+			}
+		});
+
+		bottomOptionsPanel.getExitButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				Object[] options = { "Ja", "Nee" };
+
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afsluiten?",
+						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+				if (result == JOptionPane.YES_OPTION) {
+					mainControl.logOut();
+					System.exit(0);
+				}
+			}
+		});
+
+		this.mainMenuGui = new MainMenuGUI(username, topOptionsPanel, bottomOptionsPanel, currentGamesPanel);
 
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
 	}
 
-
 	public void setWaitingRoom(ArrayList<Player> players) {
-//		WaitingRoom waitingRoom = new WaitingRoom(players);
-//		frame.setContentPane(waitingRoom);
+		// WaitingRoom waitingRoom = new WaitingRoom(players);
+		// frame.setContentPane(waitingRoom);
 		frame.pack();
-		
+
 	}
-	
+
 	public void retrieveGames(int pageId) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -259,6 +316,9 @@ public class GuiController {
 		playerStatsPanels = new PlayerStatsPanel[4];
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
+		if(gameControl.hasRolledDice()) {
+			diceDotPanel.getButton().setVisible(false);
+		}
 
 		GameTopPanel gameTopPanel = new GameTopPanel(gameControl.getCatanGame().getIdGame());
 		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
@@ -276,7 +336,6 @@ public class GuiController {
 					mainControl.stopIngameTimer();
 					mainControl.loadProfile();
 				}
-
 			}
 
 		});
@@ -284,8 +343,10 @@ public class GuiController {
 		this.buyPanel = new BuyPanel();
 		this.buildPanel = new BuildPanel();
 		this.tradePanel = new TradePanel();
-		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel);
-    
+		this.returnToBuildPanel = new ReturnToBuildPanel();
+		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel,
+				returnToBuildPanel);
+
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
@@ -307,32 +368,16 @@ public class GuiController {
 					} else {
 						addSystemMessageToChat(Color.RED, "Je mag maar 1 bericht per seconde versturen!");
 					}
-
 				}
 			}
 		});
 
-		addTileListeners();
-		addBuildLocListeners();
-		addStreetLocListeners();
-		addRollButtonListener();
-		addPlayerColorToBuildingLocs();
-		System.out.println("addplayercolortoStreet");
+		// System.out.println("addplayercolortoStreet");
 		addPlayerColorToStreetLocs();
 		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel,
 				gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
 
-		addPlayerActionBuyButtonListener(); // TODO why not make a function which adds all these freaking functions?
-		addPlayerActionBuyQuitButtonListener();
-		
-		addPlayerActionTradeButtonListener();
-		addPlayerActionTradeQuitButtonListener();
-		
-		addPlayerActionBuildButtonListener();
-		addPlayerActionBuildQuitButtonListener();
-		
-		addPlayerActionEndTurnButtonListener();
-
+		addListeners();
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
 
@@ -345,9 +390,10 @@ public class GuiController {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					gameControl.changeRobber(b.getTile().getIdTile());
+					boardPanel.disableTileButtons();
 					boardPanel.repaint();
+					gameControl.addMessage("Heeft de struikrover verzet naar " + b.getTile().getIdTile());
 				}
-
 			});
 		}
 	}
@@ -360,9 +406,14 @@ public class GuiController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (!gameControl.buildVillage(blb.getBuildingLocation())) {
-						System.out.println("Je kan hier geen neerzetting bouwen");
+						addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
+						
+					} else {
+						gameControl.addMessage("Heeft een nederzetting (TODO stad of dorp) gebouwd op " + blb.getBuildingLocation());
+						boardPanel.disableBuildingLocButtons();
+						playerActionPanel.setBuildPanel();
+						addPlayerColorToBuildingLocs();
 					}
-
 				}
 			});
 		}
@@ -375,9 +426,13 @@ public class GuiController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (!gameControl.buildStreet(slb.getStreetLocation())) {
-						System.out.println("je kan hier geen straat bouwen");
+						addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
+					} else {
+						gameControl.addMessage("Heeft een straat gebouwd op " + slb.getStreetLocation());
+						boardPanel.disableStreetLocButtons();
+						playerActionPanel.setBuildPanel();
+						addPlayerColorToStreetLocs();
 					}
-
 				}
 			});
 		}
@@ -400,8 +455,10 @@ public class GuiController {
 				// int[] die = gameControl.rollDice();
 				// gameControl.getCatanGame().getDice().setDie(die);
 				// gameControl.editDiceLastThrown(die);
+//				gameControl.getCatanGame().setRolledDice(false);
 				gameControl.rollDice();
-				gameControl.getCatanGame().setRolledDice(true);
+				diceDotPanel.getButton().setVisible(false);
+//				gameControl.getCatanGame().setRolledDice(true);
 				refreshDice();
 				// When the player rolls the dice, he starts his turn
 				// }
@@ -409,7 +466,8 @@ public class GuiController {
 		});
 	}
 
-	private void addPlayerActionBuyButtonListener() { // TODO IF STATEMENT IS BROKEN?, FOR TESTING PURPOSES CODE IS ABOVE IT
+	private void addPlayerActionBuyButtonListener() { // TODO IF STATEMENT IS BROKEN?, FOR TESTING PURPOSES CODE IS
+														// ABOVE IT
 
 		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
 
@@ -422,10 +480,10 @@ public class GuiController {
 			}
 		});
 	}
-	
+
 	private void addPlayerActionBuyQuitButtonListener() {
 		playerActionPanel.getBuyPanel().getReturnButton().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
@@ -448,10 +506,10 @@ public class GuiController {
 			}
 		});
 	}
-	
+
 	private void addPlayerActionTradeQuitButtonListener() {
 		playerActionPanel.getTradePanel().getReturnButton().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
@@ -461,27 +519,110 @@ public class GuiController {
 		});
 	}
 
-	private void addPlayerActionBuildButtonListener() {
+	// actionlisteners for build menu
+	private void addPlayerActionBuildButtonsListener() {
 
 		playerActionPanel.getPlayerOptionMenuPanel().getBuildButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setBuildPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				if(gameControl.canBuy(Village.cost)) {
+					playerActionPanel.getBuildPanel().getVillageButton().setEnabled(true);
+				} else {
+					playerActionPanel.getBuildPanel().getVillageButton().setEnabled(false);
 				}
+				if(gameControl.canBuy(Street.cost)) {
+					playerActionPanel.getBuildPanel().getStreetButton().setEnabled(true);
+				} else {
+					playerActionPanel.getBuildPanel().getStreetButton().setEnabled(false);
+				}
+				if(gameControl.canBuy(City.cost)) {
+					playerActionPanel.getBuildPanel().getCityButton().setEnabled(true);
+				} else {
+					playerActionPanel.getBuildPanel().getCityButton().setEnabled(false);
+				}
+				playerActionPanel.setBuildPanel();
+				
+//				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+//				}
 			}
 		});
-	}
-	
-	private void addPlayerActionBuildQuitButtonListener() {
+
+		playerActionPanel.getBuildPanel().getStreetButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				streetBoolean = true;
+				boardPanel.enableStreetLocButtons();
+				playerActionPanel.setReturnToBuildPanel();
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
+			}
+		});
+
+		playerActionPanel.getBuildPanel().getVillageButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				villageBoolean = true;
+				boardPanel.enableBuildingLocButtons();
+				playerActionPanel.setReturnToBuildPanel();
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
+			}
+		});
+
+		playerActionPanel.getBuildPanel().getCityButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				cityBoolean = true;
+				boardPanel.enableBuildingLocButtons();
+				playerActionPanel.setReturnToBuildPanel();
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
+			}
+		});
+
 		playerActionPanel.getBuildPanel().getReturnButton().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
+			}
+		});
+
+	}
+
+	private void addBuildBackButtonListener() {
+
+		playerActionPanel.getReturnToBuildPanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				// recognize which building type is selected
+
+				
+				// give error message in chat of wrong type is selected
+
+				// of building built, remove resources from hand.
+
+				Object[] options = { "Ja", "Nee" };
+
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt stoppen met bouwen?",
+						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+						options[0]);
+				if (result == JOptionPane.YES_OPTION) {
+					boardPanel.disableStreetLocButtons();
+					boardPanel.disableBuildingLocButtons();
+					playerActionPanel.setBuildPanel();
+
 				}
+				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				// }
 			}
 		});
 	}
@@ -492,14 +633,14 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				playerActionPanel.setVisible(false); // TODO DONT FORGET TO SET THIS VISIBLE WHEN SELFPLAYER TURN IS BACK -- JIM
+				playerActionPanel.setVisible(false); // TODO DONT FORGET TO SET THIS VISIBLE WHEN SELFPLAYER TURN IS
+														// BACK -- JIM
 				Catan catanGame = gameControl.getCatanGame();
 				catanGame.endTurn();
 				if (catanGame.isSelfPlayerTurn()) {
 				}
 			}
 		});
-
 	}
 
 	public void addPlayerColorToBuildingLocs() {
@@ -554,6 +695,9 @@ public class GuiController {
 		return color;
 	}
 
+	
+	
+	
 	// public void refresh() {
 	// refreshRobber();
 	// refreshDice();
@@ -579,13 +723,35 @@ public class GuiController {
 	public void refreshDice() {
 		diceDotPanel.repaint();
 	}
-	
+
 	public void refreshPlayers() {
 		gameSouthContainerPanel.repaint();
 	}
 
+	private void addListeners() {
+
+		addTileListeners();
+		addBuildLocListeners();
+		addStreetLocListeners();
+		addRollButtonListener();
+		addPlayerColorToBuildingLocs();
+
+		addPlayerActionBuyButtonListener();
+		addPlayerActionBuyQuitButtonListener();
+
+		addPlayerActionTradeButtonListener();
+		addPlayerActionTradeQuitButtonListener();
+
+		addPlayerActionBuildButtonsListener();
+
+		addBuildBackButtonListener();
+
+		addPlayerActionEndTurnButtonListener();
+
+	}
 
 	// public void setGameBoard(Gameboard gameBoard) {
 	// this.gameBoard = gameBoard;
 	// }
+
 }
