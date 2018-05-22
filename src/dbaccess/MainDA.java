@@ -923,4 +923,37 @@ public class MainDA {
 		return shouldRefresh;
 	}
 
+	public void createTradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick, int w_wool, int w_iron, int w_wheat, int w_wood) {
+
+		String query =  "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)" + 
+		" VALUES " + "(" + idPlayer + ", "+ g_brick + ", " + g_wool + ", " + g_iron + ", " + g_wheat + ", "+ g_wood + ", " + w_brick + ", " + w_wool + ", " + w_iron+ ", "+ w_wheat + ", " + w_wood + ");";
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to add tradeRequest");
+		}
+
+	}
+	
+	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {
+
+		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT * FROM ruilaanbod WHERE idspel = " + idGame + " AND idspeler IS NULL;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String developmentCardID = myRs.getString(1);
+				boolean played = myRs.getBoolean(2);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return retList;
+	}
 }
