@@ -431,8 +431,9 @@ public class GameControl {
 
 			amount = Math.max(amount, 1 + amount_from + amount_to);
 		}
+		System.out.println(amount);
 		return amount;
-
+		
 		// }
 		// return 0;
 	}
@@ -469,6 +470,7 @@ public class GameControl {
 
 			amount = Math.max(amount, 1 + amount_from + amount_to);
 		}
+//		System.out.println(amount);
 		return amount;
 	}
 

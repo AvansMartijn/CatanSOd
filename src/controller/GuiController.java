@@ -804,7 +804,8 @@ public class GuiController {
 
 		addBuildBackButtonListener();
 
-		addPlayerActionEndTurnButtonListener();
+		addPlayerActionEndTurnButtonListener();	
+		
 
 	}
 
