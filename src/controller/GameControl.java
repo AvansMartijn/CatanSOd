@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import dbaccess.MainDA;
@@ -391,6 +393,109 @@ public class GameControl {
 		
 		return false;
 		
+	}
+	
+	private ArrayList<StreetLocation> visitedLocations;
+
+	public int getTradeRouteLength(String username) {
+		// if (player != null) {
+		// int amount = 0;
+		ArrayList<BuildingLocation> buildingLocations = catanGame.getGameboard().getBuildingLocArr();
+		ArrayList<StreetLocation> roads = new ArrayList<>();
+		sortBuildingLocationList(buildingLocations);
+
+		for (BuildingLocation bl : buildingLocations) {
+			for (StreetLocation sl : bl.getAdjacentStreetLocations()) {
+				if (sl.getStreet() != null) {
+					if (sl.getStreet().getPlayer().getUsername().equals(username)) {
+						roads.add(sl);
+					}
+				}
+			}
+
+		}
+
+		for (StreetLocation stl : roads) {
+			visitedLocations = new ArrayList<StreetLocation>();
+			visitedLocations.add(stl);
+
+		}
+		int amount = 0;
+		for (StreetLocation r : roads) {
+			visitedLocations = new ArrayList<StreetLocation>();
+
+			visitedLocations.add(r);
+
+			int amount_from = getTradeRouteLength(r.getBlStart().getXLoc(), r.getBlStart().getYLoc(), username);
+			int amount_to = getTradeRouteLength(r.getBlEnd().getXLoc(), r.getBlEnd().getYLoc(), username);
+
+			amount = Math.max(amount, 1 + amount_from + amount_to);
+		}
+		return amount;
+
+		// }
+		// return 0;
+	}
+
+	public int getTradeRouteLength(int x, int y, String username) {
+		ArrayList<StreetLocation> queue = new ArrayList<StreetLocation>();
+		ArrayList<StreetLocation> roads = new ArrayList<StreetLocation>();
+		ArrayList<BuildingLocation> buildingLocations = catanGame.getGameboard().getBuildingLocArr();
+		sortBuildingLocationList(buildingLocations);
+		for (BuildingLocation bl : buildingLocations) {
+			for (StreetLocation sl : bl.getAdjacentStreetLocations()) {
+				if (sl.getStreet() != null) {
+					if (sl.getStreet().getPlayer().getUsername().equals(username)) {
+						roads.add(sl);
+					}
+				}
+			}
+
+		}
+
+		for (StreetLocation st : roads) {
+			if (!visitedLocations.contains(st) && isConnected(x, y, st)) {
+				visitedLocations.add(st);
+				queue.add(st);
+			}
+		}
+
+		int amount = 0;
+		for (int i = 0; i < queue.size(); i++) {
+			StreetLocation r = queue.get(i);
+
+			int amount_from = getTradeRouteLength(r.getBlStart().getXLoc(), r.getBlStart().getYLoc(), username);
+			int amount_to = getTradeRouteLength(r.getBlEnd().getXLoc(), r.getBlEnd().getYLoc(), username);
+
+			amount = Math.max(amount, 1 + amount_from + amount_to);
+		}
+		return amount;
+	}
+
+	private boolean isConnected(int x, int y, StreetLocation r) {
+		boolean connected = false;
+
+		connected |= x == r.getBlStart().getXLoc() && y == r.getBlStart().getYLoc();
+		connected |= x == r.getBlEnd().getXLoc() && y == r.getBlEnd().getYLoc();
+
+		return connected;
+	}
+
+	private void sortBuildingLocationList(ArrayList<BuildingLocation> arrayToSort) {
+		Collections.sort(arrayToSort, new Comparator<BuildingLocation>() {
+			@Override
+			public int compare(BuildingLocation o1, BuildingLocation o2) {
+				return o1.getYLoc() - o2.getYLoc();
+			}
+
+		});
+		Collections.sort(arrayToSort, new Comparator<BuildingLocation>() {
+			@Override
+			public int compare(BuildingLocation o1, BuildingLocation o2) {
+				return o1.getXLoc() - o2.getXLoc();
+			}
+
+		});
 	}
 
 	// public void printPlayerVillages() {

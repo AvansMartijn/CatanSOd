@@ -121,8 +121,8 @@ public class GameBoardControl {
 									&& strLocArr.get(strLocCount).getBlEnd() == sl.getBlStart()) {
 						exists = true;
 						tileArr.get(count).addStreetLoc(sl);
-						sl.getBlStart().getAdjacentStreets().add(sl);
-						sl.getBlEnd().getAdjacentStreets().add(sl);
+						sl.getBlStart().getAdjacentStreetLocations().add(sl);
+						sl.getBlEnd().getAdjacentStreetLocations().add(sl);
 						break;
 					}
 				}
@@ -132,8 +132,8 @@ public class GameBoardControl {
 				if (!exists) {
 					tileArr.get(count).addStreetLoc(strLocArr.get(strLocCount));
 					streetLocArr.add(strLocArr.get(strLocCount));
-					strLocArr.get(strLocCount).getBlStart().getAdjacentStreets().add(strLocArr.get(strLocCount));
-					strLocArr.get(strLocCount).getBlEnd().getAdjacentStreets().add(strLocArr.get(strLocCount));
+					strLocArr.get(strLocCount).getBlStart().getAdjacentStreetLocations().add(strLocArr.get(strLocCount));
+					strLocArr.get(strLocCount).getBlEnd().getAdjacentStreetLocations().add(strLocArr.get(strLocCount));
 				}
 				//assign streets to buildinglocations adjecentstreets array
 				
