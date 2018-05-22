@@ -26,6 +26,7 @@ import model.RoadBuilding;
 import model.Street;
 import model.StreetLocation;
 import model.Tile;
+import model.TradeRequest;
 import model.VictoryPoint;
 import model.Village;
 import model.YearOfPlenty;
@@ -923,10 +924,11 @@ public class MainDA {
 		return shouldRefresh;
 	}
 
-	public void createTradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick, int w_wool, int w_iron, int w_wheat, int w_wood) {
+	public void createTradeRequest(TradeRequest tR) {
 
 		String query =  "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)" + 
-		" VALUES " + "(" + idPlayer + ", "+ g_brick + ", " + g_wool + ", " + g_iron + ", " + g_wheat + ", "+ g_wood + ", " + w_brick + ", " + w_wool + ", " + w_iron+ ", "+ w_wheat + ", " + w_wood + ");";
+		" VALUES " + "(" + tR.getIdPlayer() + ", "+ tR.getG_brick() + ", " + tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", "+ tR.getG_wood() + ", " 
+				+ tR.getW_brick() + ", " + tR.getW_wool() + ", " + tR.getW_iron()+ ", "+ tR.getG_wheat() + ", " + tR.getW_wood() + ");";
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tradeRequest");
 		}
