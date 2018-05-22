@@ -16,20 +16,15 @@ import model.Catan;
 import model.City;
 import model.DevelopmentCard;
 import model.DevelopmentCardType;
-import model.Knight;
-import model.Monopoly;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Resource;
 import model.ResourceType;
-import model.RoadBuilding;
 import model.Street;
 import model.StreetLocation;
 import model.Tile;
-import model.VictoryPoint;
 import model.Village;
-import model.YearOfPlenty;
 
 public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
@@ -872,25 +867,7 @@ public class MainDA {
 			while (myRs.next()) {
 				String developmentCardID = myRs.getString(1);
 				boolean played = myRs.getBoolean(2);
-				switch(developmentCardID.substring(3, 4)){
-				case "r": // ridder
-					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.KNIGHT));
-					break;
-				case "g": 
-					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.VICTORY_POINT));
-					break;
-				case "s": // stratenbouw
-					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.ROAD_BUILDING));
-					break;
-				case "m": // monopoly
-					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.MONOPOLY));
-					break;
-				case "u": // uitvinder
-					retList.add(new DevelopmentCard(developmentCardID, played, DevelopmentCardType.YEAR_OF_PLENTY));
-					break;
-				}
-				
-				
+				retList.add(new DevelopmentCard(developmentCardID, played));
 			}
 			myRs.close();
 			stmt.close();

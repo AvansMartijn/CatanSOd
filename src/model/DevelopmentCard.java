@@ -1,30 +1,71 @@
 package model;
 
+import java.security.InvalidParameterException;
+
 public class DevelopmentCard {
 
-	private ResourceType[] cardCost;
+	public static final ResourceType[] CARD_COST = 
+		{ResourceType.GRAAN, ResourceType.WOL, ResourceType.ERTS};
 	private DevelopmentCardType developmentCardType;
 	private String developmentCardID;
 	private boolean played;
-	
-	/**
-	 * DevelopmentCard add it from database.
-	 * 
-	 * @param developmentCardID format: o[0-9][0-9][g,s,m,u,r]. This is from the database. 
-	 * @param played if the development card has been played. 
-	 * @param developmentCardType which development Card
-	 * @since 21 May 2018
-	 * @author Jasper Mooren
-	 */
-	public DevelopmentCard(String developmentCardID, boolean played, DevelopmentCardType developmentCardType) {
-		cardCost = new ResourceType[] {ResourceType.GRAAN, ResourceType.WOL, ResourceType.ERTS};
+
+	public DevelopmentCard(String developmentCardID, boolean played) {
 		this.developmentCardID = developmentCardID;
 		this.played = played;
-		this.developmentCardType = developmentCardType;
+		switch(developmentCardID.substring(3, 4)){
+		case "r": // ridder
+			developmentCardType = DevelopmentCardType.KNIGHT;
+			break;
+		case "g": //victory point
+			developmentCardType = DevelopmentCardType.VICTORY_POINT;
+			break;
+		case "s": // stratenbouw
+			developmentCardType = DevelopmentCardType.ROAD_BUILDING;
+			break;
+		case "m": // monopoly
+			developmentCardType = DevelopmentCardType.MONOPOLY;
+			break;
+		case "u": // uitvinder
+			developmentCardType = DevelopmentCardType.YEAR_OF_PLENTY;
+			break;
+		}
 	}
-
-	public ResourceType[] getCardCost() {
-		return cardCost;
+	
+	/**
+	 * This creates and returns a {@code new DevelopmentCard} based in an {@code id}.
+	 * id goes from 0-24:
+	 * o01g, o02g, o03g, o04g, o05g, o06s, o07s, o08m, o09m, o10u, o11u, o12r, o13r, 
+	 * o14r, o15r, o16r, o17r, o18r, o19r, o20r, o21r, o22r, o23r, o24r, o25r.
+	 * 
+	 * @param id the ID of the DevelopmentCard
+	 * @return a {@code new DevelopmentCard object}
+	 */
+	public DevelopmentCard createDevelopmentCard(int id) throws InvalidParameterException {
+		if(id < 0 || id > 24) {
+			throw new InvalidParameterException();
+		}
+		String developmentCardID = "o";
+		if(id < 9) {
+			developmentCardID += "0";
+		}
+		developmentCardID += (id + 1);
+		if(id < 5) {
+			developmentCardID += "g";
+		}
+		else if(id < 7) {
+			developmentCardID += "s";
+		}
+		else if(id < 9) {
+			developmentCardID += "m";
+		}
+		else if(id < 11) {
+			developmentCardID += "u";
+		}
+		else {
+			developmentCardID += "r";
+		}
+		return new DevelopmentCard(developmentCardID, false);
 	}
 	
 	public DevelopmentCardType getDevelopmentCardType() {

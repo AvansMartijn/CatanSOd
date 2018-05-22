@@ -34,7 +34,7 @@ public class Hand {
 		return resources;
 	}
 	
-	public DevelopmentCard takeDevelopmentCard(int cardType) {
+	public DevelopmentCard takeDevelopmentCard(DevelopmentCardType cardType) {
 		for (int i = 0; i < developmentCards.size(); i++) {
 			if(developmentCards.get(i).getDevelopmentCardType() == cardType) {
 				return developmentCards.remove(i);
