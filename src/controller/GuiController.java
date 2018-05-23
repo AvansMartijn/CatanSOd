@@ -153,7 +153,7 @@ public class GuiController {
 					usernameTextField.setText("");
 					passwordTextField.setText("");
 					loginregisterPanel.setMessagelabel("Ongeldige gegevens ingevoerd");
-					frame.pack();
+					frame.pack(); // TODO discuss with martijn
 				} else {
 					mainControl.loadProfile();
 				}
