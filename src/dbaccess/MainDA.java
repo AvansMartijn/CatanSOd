@@ -878,4 +878,27 @@ public class MainDA {
 		}
 		return retList;
 	}
+
+	public boolean hasThrown(int idGame) {
+		boolean shouldRefresh = false;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT gedobbeld FROM spel WHERE idspel = " + idGame + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				shouldRefresh = myRs.getBoolean(1);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get has Thrown");
+		}
+
+		return shouldRefresh;
+	}
+
 }

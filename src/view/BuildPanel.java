@@ -1,8 +1,5 @@
 package view;
 
-
-
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -18,7 +15,7 @@ public class BuildPanel extends JPanel {
 	private final int PANEL_HEIGHT = 350;
 
 	private final int BUTTON_WIDTH = 220;
-	private final int BUTTON_HEIGHT = 70;
+	private final int BUTTON_HEIGHT = 50;
 
 	private final int BUTTON_OFFSET_X = 60;
 
@@ -27,6 +24,7 @@ public class BuildPanel extends JPanel {
 	private Color TextColor = new Color(50, 50, 50);
 
 	private JLabel title;
+	private JLabel subTitleLabel;
 	private JButton streetButton;
 	private JButton villageButton;
 	private JButton cityButton;
@@ -44,30 +42,36 @@ public class BuildPanel extends JPanel {
 		title.setForeground(TextColor);
 		title.setBounds(90, 20, 180, 40);
 		add(title);
+		
+		subTitleLabel = new JLabel("Wat wil je bouwen?");
+		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+		subTitleLabel.setForeground(TextColor);
+		subTitleLabel.setBounds(110, 50, 320, 40);
+		add(subTitleLabel);
 
-		streetButton = new JButton("Straat");
-		streetButton.setBounds(BUTTON_OFFSET_X, 80, BUTTON_WIDTH, BUTTON_HEIGHT);
+		streetButton = new JButton("STRAAT");
+		streetButton.setBounds(BUTTON_OFFSET_X, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
 		streetButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		streetButton.setBackground(textBackgroundColor);
 		streetButton.setForeground(TextColor);
 		add(streetButton);
 
-		villageButton = new JButton("Dorp");
+		villageButton = new JButton("DORP");
 		villageButton.setBounds(BUTTON_OFFSET_X, 160, BUTTON_WIDTH, BUTTON_HEIGHT);
 		villageButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		villageButton.setBackground(textBackgroundColor);
 		villageButton.setForeground(TextColor);
 		add(villageButton);
 
-		cityButton = new JButton("Stad");
-		cityButton.setBounds(BUTTON_OFFSET_X, 240, BUTTON_WIDTH, BUTTON_HEIGHT);
+		cityButton = new JButton("STAD");
+		cityButton.setBounds(BUTTON_OFFSET_X, 220, BUTTON_WIDTH, BUTTON_HEIGHT);
 		cityButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		cityButton.setBackground(textBackgroundColor);
 		cityButton.setForeground(TextColor);
 		add(cityButton);
 
-		returnButton = new JButton("Terugkeren");
-		returnButton.setBounds(BUTTON_OFFSET_X, 270, BUTTON_WIDTH, BUTTON_HEIGHT);
+		returnButton = new JButton("TERUG");
+		returnButton.setBounds(BUTTON_OFFSET_X, 280, BUTTON_WIDTH, BUTTON_HEIGHT);
 		returnButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);

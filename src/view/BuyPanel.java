@@ -15,7 +15,7 @@ public class BuyPanel extends JPanel {
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
 
-	private final int BUTTON_SIZE = 200;
+	private final int BUTTON_SIZE = 150;
 	
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
@@ -37,27 +37,27 @@ public class BuyPanel extends JPanel {
 		setLayout(null);
 
 		titleLabel = new JLabel("ONTWIKKELINGSKAART KOPEN");
-		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 35));
+		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
 		titleLabel.setForeground(TextColor);
-		titleLabel.setBounds(40, 10, 280, 40);
+		titleLabel.setBounds(10, 10, 320, 40);
 		add(titleLabel);
 		
-		subTitleLabel = new JLabel("Weet je zeker dat je een ontwikkelignskaart wilt kopen?");
-		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+		subTitleLabel = new JLabel("Weet je zeker dat je een ontwikkelingskaart wilt kopen?");
+		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel.setForeground(TextColor);
-		subTitleLabel.setBounds(40, 10, 280, 40);
+		subTitleLabel.setBounds(10, 60, 320, 40);
 		add(subTitleLabel);
 		
 		yesButton = new JButton("JA");
-		yesButton.setBounds(60, 300, BUTTON_SIZE, BUTTON_SIZE);
-		yesButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+		yesButton.setBounds(10, 140, BUTTON_SIZE, BUTTON_SIZE);
+		yesButton.setFont(new Font("SansSerif", Font.BOLD, 35));
 		yesButton.setBackground(textBackgroundColor);
 		yesButton.setForeground(TextColor);
 		add(yesButton);
 
 		returnButton = new JButton("NEE");
-		returnButton.setBounds(220, 300, BUTTON_SIZE, BUTTON_SIZE);
-		returnButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+		returnButton.setBounds(180, 140, BUTTON_SIZE, BUTTON_SIZE);
+		returnButton.setFont(new Font("SansSerif", Font.BOLD, 35));
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);
 		add(returnButton);

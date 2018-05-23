@@ -17,9 +17,10 @@ public class PlayerActionPanel extends JPanel {
 	private BuildPanel buildPanel;
 	private BuyPanel buyPanel;
 	private TradePanel tradePanel;
+	private ReturnToBuildPanel returnToBuildPanel;
 	
 	// Constructor
-	public PlayerActionPanel(PlayerOptionMenuPanel playerOptionMenuPanel, BuildPanel buildPanel, BuyPanel buyPanel, TradePanel tradePanel) {
+	public PlayerActionPanel(PlayerOptionMenuPanel playerOptionMenuPanel, BuildPanel buildPanel, BuyPanel buyPanel, TradePanel tradePanel, ReturnToBuildPanel returnToBuildPanel) {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(myBackGroundColor);
 		
@@ -29,11 +30,13 @@ public class PlayerActionPanel extends JPanel {
 		this.buildPanel = buildPanel;
 		this.buyPanel = buyPanel;
 		this.tradePanel = tradePanel;
+		this.returnToBuildPanel = returnToBuildPanel;
 		
 		add(playerOptionMenuPanel, "playerOptionMenuPanel");
 		add(buyPanel, "buyPanel");
 		add(tradePanel, "tradePanel");
 		add(buildPanel, "buildPanel");
+		add(returnToBuildPanel, "returnToBuildPanel");
 	}
 
 	public PlayerOptionMenuPanel getPlayerOptionMenuPanel() {
@@ -70,5 +73,14 @@ public class PlayerActionPanel extends JPanel {
 	public void setTradePanel() {
 		CardLayout cl = (CardLayout)(getLayout());
 	    cl.show(this, "tradePanel");
+	}
+
+	public ReturnToBuildPanel getReturnToBuildPanel() {
+		return returnToBuildPanel;
+	}
+
+	public void setReturnToBuildPanel() {
+		CardLayout cl = (CardLayout)(getLayout());
+	    cl.show(this, "returnToBuildPanel");
 	}	
 }
