@@ -30,9 +30,7 @@ public class Dice
 	}
 	
 	public int getValue() {
-		int ret = 0;
-		ret = die[0] = die[1];
-		return ret;
+		return die[0] + die[1];
 	}
 
 	public int[] getDie() {

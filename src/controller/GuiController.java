@@ -104,6 +104,7 @@ public class GuiController {
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
+		gameControl.setGuiController(this);
 		frame = new Frame();
 
 		setInlogPanel();
@@ -426,6 +427,7 @@ public class GuiController {
 					boardPanel.disableTileButtons();
 					boardPanel.repaint();
 					gameControl.addMessage("Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+					gameControl.stealCardCauseRobber();
 				}
 			});
 		}
@@ -811,5 +813,13 @@ public class GuiController {
 	// public void setGameBoard(Gameboard gameBoard) {
 	// this.gameBoard = gameBoard;
 	// }
+	
+	public BoardPanel getBoardPanel() {
+		return boardPanel;
+	}
+
+	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
+		
+	}
 
 }

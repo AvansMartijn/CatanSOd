@@ -259,6 +259,10 @@ public class GameBoardControl {
 			System.out.println("");
 		}
 	}
+	
+	public Gameboard getGameBoard() {
+		return gameBoard;
+	}
 
 //	public void addPlayerPiecesToDB(ArrayList<Player> players) {
 //		String idPiece;

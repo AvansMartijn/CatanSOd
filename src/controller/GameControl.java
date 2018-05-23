@@ -16,11 +16,13 @@ import model.PlayerColor;
 import model.ResourceType;
 import model.Street;
 import model.StreetLocation;
+import model.Tile;
 import model.Village;
 import view.PlayerStatsPanel;
 
 public class GameControl {
 	private GameBoardControl gameBoardControl;
+	private GuiController guiController;
 	private MainDA mainDA;
 	// private String username;
 	private Catan catanGame;
@@ -36,6 +38,12 @@ public class GameControl {
 
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
+		//This will be added in the GuiController(). So it won't be null in the program. 
+		guiController = null;
+	}
+	
+	public void setGuiController(GuiController guiController) {
+		this.guiController = guiController;
 	}
 
 	public int createGameInDB(boolean randomBoard) {
@@ -90,9 +98,62 @@ public class GameControl {
 
 	public void rollDice() {
 		catanGame.rollDice();
+		int rolledValue = catanGame.getDice().getValue();
+		
+		if(rolledValue == 7) {
+			setRobber();
+			TakeAwayResources();
+		}
+		else {
+			giveResources();
+		}
+		
+		//Edit database with rolled values
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 //		return catanGame.getDice().getDie();
+	}
+
+	private void setRobber() {
+		guiController.getBoardPanel().enableTileButtons();
+	}
+
+	//Action Listener in the Tile calls this. 
+	public void stealCardCauseRobber() {
+		Tile robberTile = gameBoardControl.getGameBoard().getRobberTile();
+		ArrayList<Player> playersAtRobberTile = getPlayersAroundTile(robberTile);
+		guiController.createStealDialog(playersAtRobberTile);
+	}
+
+	private ArrayList<Player> getPlayersAroundTile(Tile tile) {
+		ArrayList<BuildingLocation> buildingLocations = tile.getBuildingLocArr();
+		ArrayList<Player> playersAtRobberTile = new ArrayList<>();
+		for (BuildingLocation buildingLocation : buildingLocations) {
+			if(buildingLocation.hasBuilding()) {
+				Player newPlayer = buildingLocation.getBuilding().getPlayer();
+				boolean playerExistsInArrray = false;
+				for (Player player : playersAtRobberTile) {
+					if(newPlayer == player && newPlayer == catanGame.getSelfPlayer()) {
+						playerExistsInArrray = true;
+						break;
+					}
+				}
+				if(!playerExistsInArrray) {
+					playersAtRobberTile.add(newPlayer);					
+				}
+			}
+		}
+		return playersAtRobberTile;
+	}
+	
+	private void TakeAwayResources() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void giveResources() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public void setDiceLastThrown(int[] die) {
