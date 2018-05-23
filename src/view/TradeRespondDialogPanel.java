@@ -14,25 +14,24 @@ import javax.swing.text.NumberFormatter;
 @SuppressWarnings("serial")
 public class TradeRespondDialogPanel extends JPanel {
 
-	private final int PANEL_WIDTH = 340;
-	private final int PANEL_HEIGHT = 390;
+	private final int PANEL_WIDTH = 275;
+	private final int PANEL_HEIGHT = 300;
 
 	private final int BUTTON_WIDTH = 160;
 	private final int BUTTON_HEIGHT = 35;
 
 	private final int TEXTFIELD_INPUT_WIDTH = 35;
 	private final int TEXTFIELD_INPUT_HEIGHT = 20;
-	private final int TEXTFIELD_OFFSET_X1 = 60;
-	private final int TEXTFIELD_OFFSET_X2 = 255;
-	private final int TEXTFIELD_OFFSET_Y = 35;
+	private final int TEXTFIELD_OFFSET_X1 = 20;
+	private final int TEXTFIELD_OFFSET_X2 = 215;
+	private final int TEXTFIELD_OFFSET_Y = 30;
 
 	// requests for sending the trade offer
 	// private int[] resourceOffer;
 	// private int[] resourceRequest;
 
-	
 	private String playerName;
-	
+
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
@@ -50,9 +49,6 @@ public class TradeRespondDialogPanel extends JPanel {
 	private JLabel woolLabel;
 
 	private JButton sendRequestButton;
-	private JButton returnButton;
-	private JButton previousButton;
-	private JButton nextButton;
 
 	private JFormattedTextField woodGive;
 	private JFormattedTextField wheatGive;
@@ -65,56 +61,39 @@ public class TradeRespondDialogPanel extends JPanel {
 	private JFormattedTextField stoneReceive;
 	private JFormattedTextField ironReceive;
 	private JFormattedTextField woolReceive;
-	
-	public TradeRespondDialogPanel(String playerName) {
+
+	public TradeRespondDialogPanel(String newPlayerName) {
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
-		this.playerName = playerName;
+
+		this.playerName = newPlayerName;
 
 		setLayout(null);
 
-		titleLabel = new JLabel("TEGENBOD");
-		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+		titleLabel = new JLabel("Tegenbod van " + playerName);
+		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
 		titleLabel.setForeground(TextColor);
-		titleLabel.setBounds(100, 10, 320, 40);
+		titleLabel.setBounds(0, 5, 280, 40);
+		titleLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(titleLabel);
 
-		subTitleLabel = new JLabel(playerName + " heeft een tegenbod verstuurd");
+		subTitleLabel = new JLabel("wat wil je doen?");
 		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel.setForeground(TextColor);
-		subTitleLabel.setBounds(40, 35, 280, 40);
+		subTitleLabel.setBounds(0, 30, 280, 40);
+		subTitleLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(subTitleLabel);
 
 		createResourceInput();
 
 		sendRequestButton = new JButton("Tegenbod Accepteren");
-		sendRequestButton.setBounds(5, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
+		sendRequestButton.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
+		sendRequestButton.setHorizontalAlignment(JLabel.CENTER);
 		sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		sendRequestButton.setBackground(textBackgroundColor);
 		sendRequestButton.setForeground(TextColor);
 		add(sendRequestButton);
-
-		returnButton = new JButton("Tegenbod afwijzen");
-		returnButton.setBounds(175, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
-		returnButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-		returnButton.setBackground(textBackgroundColor);
-		returnButton.setForeground(TextColor);
-		add(returnButton);
-
-		previousButton = new JButton("Vorige bod");
-		previousButton.setBounds(5, 345, BUTTON_WIDTH, BUTTON_HEIGHT);
-		previousButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-		previousButton.setBackground(textBackgroundColor);
-		previousButton.setForeground(TextColor);
-		add(previousButton);
-
-		nextButton = new JButton("Volgende bod");
-		nextButton.setBounds(175, 345, BUTTON_WIDTH, BUTTON_HEIGHT);
-		nextButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-		nextButton.setBackground(textBackgroundColor);
-		nextButton.setForeground(TextColor);
-		add(nextButton);
 
 	}
 
@@ -132,13 +111,14 @@ public class TradeRespondDialogPanel extends JPanel {
 		subTitleLabel1 = new JLabel("grondstoffen");
 		subTitleLabel1.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel1.setForeground(TextColor);
-		subTitleLabel1.setBounds(130, 40, 200, 60);
+		subTitleLabel1.setBounds(40, 40, 200, 60);
+		subTitleLabel1.setHorizontalAlignment(JLabel.CENTER);
 		add(subTitleLabel1);
 
 		subTitleLabel2 = new JLabel("geven");
 		subTitleLabel2.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel2.setForeground(TextColor);
-		subTitleLabel2.setBounds(60, 50, 200, 60);
+		subTitleLabel2.setBounds(20, 50, 200, 60);
 		add(subTitleLabel2);
 
 		woodGive = new JFormattedTextField(formatter);
@@ -166,29 +146,34 @@ public class TradeRespondDialogPanel extends JPanel {
 		add(woolGive);
 
 		woodLabel = new JLabel("Hout");
-		woodLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
+		woodLabel.setBounds(35, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
+		woodLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(woodLabel);
 
 		wheatLabel = new JLabel("Graan");
-		wheatLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
+		wheatLabel.setBounds(35, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
+		wheatLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(wheatLabel);
 
 		stoneLabel = new JLabel("Steen");
-		stoneLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
+		stoneLabel.setBounds(35, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
+		stoneLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(stoneLabel);
 
 		ironLabel = new JLabel("Ijzer");
-		ironLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
+		ironLabel.setBounds(35, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
+		ironLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(ironLabel);
 
 		woolLabel = new JLabel("Wol");
-		woolLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
+		woolLabel.setBounds(35, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
+		woolLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(woolLabel);
 
 		subTitleLabel3 = new JLabel("ontvangen");
 		subTitleLabel3.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel3.setForeground(TextColor);
-		subTitleLabel3.setBounds(240, 50, 250, 60);
+		subTitleLabel3.setBounds(200, 50, 250, 60);
 		add(subTitleLabel3);
 
 		woodReceive = new JFormattedTextField(formatter);
@@ -215,23 +200,10 @@ public class TradeRespondDialogPanel extends JPanel {
 		woolReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(woolReceive);
-
 	}
 
 	public JButton getSendRequestButton() {
 		return sendRequestButton;
-	}
-
-	public JButton getReturnButton() {
-		return returnButton;
-	}
-
-	public JButton getPreviousButton() {
-		return previousButton;
-	}
-
-	public JButton getNextButton() {
-		return nextButton;
 	}
 
 	public String getWoodGive() {

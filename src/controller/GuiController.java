@@ -62,7 +62,7 @@ import view.ReturnToBuildPanel;
 import view.StreetLocationButton;
 import view.TileButton;
 import view.TradePanel;
-import view.TradeRespondDialog;
+import view.TradeRespondPanels;
 import view.WaitingRoom;
 
 public class GuiController {
@@ -86,7 +86,7 @@ public class GuiController {
 	private BuyPanel buyPanel;
 	private BuildPanel buildPanel;
 	private ReturnToBuildPanel returnToBuildPanel;
-	private TradeRespondDialog tradeRespondDialog;
+	private TradeRespondPanels tradeRespondDialog;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -564,54 +564,8 @@ public class GuiController {
 
 	private void addTradeRespondDialogActionListeners() {
 
-		// panel 1
-		tradeRespondDialog.getTradeRespondDialogPanel1().getPreviousButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tradeRespondDialog.setTradeRespondDialogPanel3();
-			}
-		});
-
-		tradeRespondDialog.getTradeRespondDialogPanel1().getNextButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tradeRespondDialog.setTradeRespondDialogPanel2();
-			}
-		});
-		// panel 2
-		tradeRespondDialog.getTradeRespondDialogPanel2().getPreviousButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tradeRespondDialog.setTradeRespondDialogPanel1();
-			}
-		});
-
-		tradeRespondDialog.getTradeRespondDialogPanel2().getNextButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tradeRespondDialog.setTradeRespondDialogPanel3();
-			}
-		});
-		// panel 3
-		tradeRespondDialog.getTradeRespondDialogPanel3().getPreviousButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tradeRespondDialog.setTradeRespondDialogPanel2();
-			}
-		});
-
-		tradeRespondDialog.getTradeRespondDialogPanel3().getNextButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tradeRespondDialog.setTradeRespondDialogPanel1();
-			}
-		});
+		
+		
 	}
 
 	private void addPlayerActionTradeQuitButtonListener() {
