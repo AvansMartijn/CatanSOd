@@ -52,7 +52,7 @@ import view.GameTopPanel;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
 import view.NewGamePanel;
-import view.TopOptionsPanel;
+import view.RecentGamesTopPanel;
 import view.PlayerActionPanel;
 import view.PlayerOptionMenuPanel;
 import view.PlayerStatsPanel;
@@ -62,7 +62,7 @@ import view.ReturnToBuildPanel;
 import view.StreetLocationButton;
 import view.TileButton;
 import view.TradePanel;
-import view.TradeRespondPanels;
+import view.TradeRespondDialog;
 import view.WaitingRoom;
 
 public class GuiController {
@@ -72,7 +72,7 @@ public class GuiController {
 	private Frame frame;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
-	private TopOptionsPanel topOptionsPanel;
+	private RecentGamesTopPanel topOptionsPanel;
 	private BottomOptionsPanel bottomOptionsPanel;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
@@ -86,7 +86,7 @@ public class GuiController {
 	private BuyPanel buyPanel;
 	private BuildPanel buildPanel;
 	private ReturnToBuildPanel returnToBuildPanel;
-	private TradeRespondPanels tradeRespondDialog;
+	private TradeRespondDialog tradeRespondDialog;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -202,7 +202,7 @@ public class GuiController {
 
 	public void setMainMenu(ArrayList<Catan> gameList, String username) {
 
-		topOptionsPanel = new TopOptionsPanel();
+		topOptionsPanel = new RecentGamesTopPanel();
 
 		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
 		topOptionsPanel.getCreateGameButton().addActionListener(new ActionListener() {
@@ -250,6 +250,7 @@ public class GuiController {
 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt uitloggen?", "Waarschuwing",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 				if (result == JOptionPane.YES_OPTION) {
+					mainControl.stopIngameTimer();
 					mainControl.logOut();
 					setInlogPanel();
 					// TODO Auto-generated method stub

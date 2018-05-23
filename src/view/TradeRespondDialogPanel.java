@@ -31,38 +31,21 @@ public class TradeRespondDialogPanel extends JPanel {
 	// private int[] resourceRequest;
 
 	private String playerName;
+	private Boolean counterOffer, tradeAccept;
 
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
 
-	private JLabel titleLabel;
-	private JLabel subTitleLabel;
-	private JLabel subTitleLabel1;
-	private JLabel subTitleLabel2;
-	private JLabel subTitleLabel3;
+	private JLabel titleLabel, subTitleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3;
+	private JLabel woodLabel, wheatLabel, stoneLabel, ironLabel, woolLabel;
 
-	private JLabel woodLabel;
-	private JLabel wheatLabel;
-	private JLabel stoneLabel;
-	private JLabel ironLabel;
-	private JLabel woolLabel;
+	private JFormattedTextField woodGive, wheatGive, stoneGive, ironGive, woolGive;
+	private JFormattedTextField woodReceive, wheatReceive, stoneReceive, ironReceive, woolReceive;
 
 	private JButton sendRequestButton;
 
-	private JFormattedTextField woodGive;
-	private JFormattedTextField wheatGive;
-	private JFormattedTextField stoneGive;
-	private JFormattedTextField ironGive;
-	private JFormattedTextField woolGive;
-
-	private JFormattedTextField woodReceive;
-	private JFormattedTextField wheatReceive;
-	private JFormattedTextField stoneReceive;
-	private JFormattedTextField ironReceive;
-	private JFormattedTextField woolReceive;
-
-	public TradeRespondDialogPanel(String newPlayerName) {
+	public TradeRespondDialogPanel(String newPlayerName, boolean counterOffer) {
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
@@ -71,30 +54,36 @@ public class TradeRespondDialogPanel extends JPanel {
 
 		setLayout(null);
 
-		titleLabel = new JLabel("Tegenbod van " + playerName);
+		String title = setMessage();
+
+		titleLabel = new JLabel(title);
 		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
 		titleLabel.setForeground(TextColor);
 		titleLabel.setBounds(0, 5, 280, 40);
 		titleLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(titleLabel);
 
-		subTitleLabel = new JLabel("wat wil je doen?");
-		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
-		subTitleLabel.setForeground(TextColor);
-		subTitleLabel.setBounds(0, 30, 280, 40);
-		subTitleLabel.setHorizontalAlignment(JLabel.CENTER);
-		add(subTitleLabel);
+		if (counterOffer || tradeAccept) {
 
-		createResourceInput();
+			subTitleLabel = new JLabel("wat wil je doen?");
+			subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+			subTitleLabel.setForeground(TextColor);
+			subTitleLabel.setBounds(0, 30, 280, 40);
+			subTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+			add(subTitleLabel);
 
-		sendRequestButton = new JButton("Tegenbod Accepteren");
-		sendRequestButton.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
-		sendRequestButton.setHorizontalAlignment(JLabel.CENTER);
-		sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-		sendRequestButton.setBackground(textBackgroundColor);
-		sendRequestButton.setForeground(TextColor);
-		add(sendRequestButton);
+			createResourceInput();
 
+			sendRequestButton = new JButton("Tegenbod Accepteren");
+			sendRequestButton.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
+			sendRequestButton.setHorizontalAlignment(JLabel.CENTER);
+			sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+			sendRequestButton.setBackground(textBackgroundColor);
+			sendRequestButton.setForeground(TextColor);
+			add(sendRequestButton);
+
+		} else {
+		}
 	}
 
 	private void createResourceInput() {
@@ -248,5 +237,18 @@ public class TradeRespondDialogPanel extends JPanel {
 
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
+	}
+
+	private String setMessage() {
+		String message = "";
+
+		if (counterOffer) {
+			message = playerName + " heeft een tegenbod gedaan";
+		} else if (tradeAccept) {
+			message = playerName + " heeft je handelsverzoek geaccepteerd";
+		} else {
+			message = playerName + " heeft je handelsverzoek afgewezen";
+		}
+		return message;
 	}
 }

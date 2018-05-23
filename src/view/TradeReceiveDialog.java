@@ -34,32 +34,14 @@ public class TradeReceiveDialog extends JDialog {
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
 
-	private JLabel titleLabel;
-	private JLabel subTitleLabel;
-	private JLabel subTitleLabel1;
-	private JLabel subTitleLabel2;
-	private JLabel subTitleLabel3;
+	private JLabel titleLabel, subTitleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3;
+	private JLabel woodLabel, wheatLabel, stoneLabel, ironLabel, woolLabel;
 
-	private JLabel woodLabel;
-	private JLabel wheatLabel;
-	private JLabel stoneLabel;
-	private JLabel ironLabel;
-	private JLabel woolLabel;
+	private JButton sendRequestButton, returnButton;
 
-	private JButton sendRequestButton;
-	private JButton returnButton;
+	private JFormattedTextField woodGive, wheatGive, stoneGive, ironGive, woolGive;
 
-	private JFormattedTextField woodGive;
-	private JFormattedTextField wheatGive;
-	private JFormattedTextField stoneGive;
-	private JFormattedTextField ironGive;
-	private JFormattedTextField woolGive;
-
-	private JFormattedTextField woodReceive;
-	private JFormattedTextField wheatReceive;
-	private JFormattedTextField stoneReceive;
-	private JFormattedTextField ironReceive;
-	private JFormattedTextField woolReceive;
+	private JFormattedTextField woodReceive, wheatReceive, stoneReceive, ironReceive, woolReceive;
 
 	public TradeReceiveDialog() {
 
@@ -73,7 +55,7 @@ public class TradeReceiveDialog extends JDialog {
 		titleLabel.setForeground(TextColor);
 		titleLabel.setBounds(25, 10, 320, 40);
 		add(titleLabel);
-		
+
 		subTitleLabel = new JLabel("Speler * heeft een handelsverzoek verstuurd");
 		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel.setForeground(TextColor);
@@ -104,7 +86,7 @@ public class TradeReceiveDialog extends JDialog {
 		NumberFormatter formatter = new NumberFormatter(format);
 		formatter.setValueClass(Integer.class);
 		formatter.setMinimum(0);
-		formatter.setMaximum(100); 
+		formatter.setMaximum(100);
 		formatter.setAllowsInvalid(true);
 		formatter.setCommitsOnValidEdit(true);
 		formatter.setOverwriteMode(true);
