@@ -26,6 +26,7 @@ public class LoginRegisterPanel extends JPanel {
 	private JTextField usernameText;
 	private JTextField passwordText;
 	private JLabel messageLabel;
+	private Image image;
 
 	public LoginRegisterPanel() {
 
@@ -41,19 +42,21 @@ public class LoginRegisterPanel extends JPanel {
 
 		grid.setConstraints(center, constraints);
 		add(center, constraints);
-	}
-
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		
 		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
 
-		Image image = null;
+		
 		try {
 			image = ImageIO.read(url);
 			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
 					Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 		}
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
 		g.drawImage(image, 0, 0, this);
 	}
 
