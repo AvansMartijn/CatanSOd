@@ -2,10 +2,15 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +22,8 @@ import model.Player;
 public class RecentGamePanel extends JPanel {
 	private Catan game;
 	private Color backgroundColor = new Color(240, 226, 223);
+	private Image image;
+	// TODO get isFinished, isRandomlyGenerated.
 
 	public RecentGamePanel(Catan game) {
 		this.game = game;
@@ -76,6 +83,21 @@ public class RecentGamePanel extends JPanel {
 //		c.gridx = 0;
 //		c.gridy++;
 //		c.gridwidth = 2;
+		
+		URL url = this.getClass().getResource("/images/GamePanel.png");
+		
+		try {
+			image = ImageIO.read(url);
+			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
+					Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+		}
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		g.drawImage(image, 0, 0, this);
 	}
 
 	public Catan getGame() {
