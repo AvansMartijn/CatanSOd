@@ -95,13 +95,13 @@ public class GameControl {
 		catanGame.rollDice();
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
-//		return catanGame.getDice().getDie();
+		// return catanGame.getDice().getDie();
 	}
 
 	public void setDiceLastThrown(int[] die) {
 		catanGame.getDice().setDie(die);
 	}
-	
+
 	public boolean hasRolledDice() {
 		return mainDA.hasThrown(catanGame.getIdGame());
 	}
@@ -366,7 +366,7 @@ public class GameControl {
 	public Gameboard createBoardAndAddToDB(ArrayList<Player> players, boolean randomBoard) {
 		return gameBoardControl.createBoardAndAddToDB(players, randomBoard);
 	}
-	
+
 	public boolean canBuy(ResourceType[] costArray) {
 		HashMap<ResourceType, Integer> amountOfResources = catanGame.getSelfPlayer().getHand().getAmountOfResources();
 		int ownedBrick = amountOfResources.get(ResourceType.BAKSTEEN);
@@ -374,15 +374,15 @@ public class GameControl {
 		int ownedIron = amountOfResources.get(ResourceType.ERTS);
 		int ownedWool = amountOfResources.get(ResourceType.WOL);
 		int ownedWheat = amountOfResources.get(ResourceType.GRAAN);
-		
-		int brickCost  = 0;
+
+		int brickCost = 0;
 		int woodCost = 0;
 		int woolCost = 0;
 		int ironCost = 0;
 		int wheatCost = 0;
-		
-		for(ResourceType rs: costArray) {
-			switch(rs) {
+
+		for (ResourceType rs : costArray) {
+			switch (rs) {
 			case BAKSTEEN:
 				brickCost++;
 				break;
@@ -404,13 +404,14 @@ public class GameControl {
 				break;
 			}
 		}
-		
-		if(ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost && ownedWheat >= wheatCost ) {
+
+		if (ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost
+				&& ownedWheat >= wheatCost) {
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
 	
 	private ArrayList<StreetLocation> visitedLocations;
@@ -520,4 +521,66 @@ public class GameControl {
 	
 	
 
+	public void getTradeRequest() {
+
+	}
+
+	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
+			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
+
+		mainDA.createTradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive, ironGive,
+				wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
+
+	}
+
+	public int[] getHarbourLocations() {
+
+		int[] resourceRatios = new int[] { 4, 4, 4, 4, 4 };
+
+		ArrayList<Village> villageLocations = catanGame.getSelfPlayer().getVillageArr();
+		ArrayList<City> cityLocations = catanGame.getSelfPlayer().getCityArr();
+
+		for (int j = 0; j < villageLocations.size(); j++) {
+
+			if (villageLocations.get(j).getBuildingLocation().getHarbour() != null) {
+				setHarbourResource(resourceRatios, villageLocations.get(j).getBuildingLocation());
+			}
+		}
+		for (int i = 0; i < cityLocations.size(); i++) {
+
+			if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
+				setHarbourResource(resourceRatios, cityLocations.get(i).getBuildingLocation());
+			}
+		}
+		return resourceRatios;
+	}
+
+	private void setHarbourResource(int[] resources, BuildingLocation buildingLocation) {
+
+		switch (buildingLocation.getHarbour().getRsType()) {
+
+		case BAKSTEEN:
+			resources[0] = 2;
+			break;
+		case ERTS:
+			resources[1] = 2;
+			break;
+		case WOL:
+			resources[2] = 2;
+			break;
+		case GRAAN:
+			resources[3] = 2;
+			break;
+		case HOUT:
+			resources[4] = 2;
+			break;
+		default:
+			for (int i = 0; i < resources.length; i++) {
+
+				if (resources[i] != 2) {
+					resources[i] = 3;
+				}
+			}
+		}
+	}
 }

@@ -1,6 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.Bank;
+import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.Hand;
@@ -13,7 +16,7 @@ import model.Village;
 public class PlayerControl {
 
 	Player player;
-//	Robber robber;
+	// Robber robber;
 	Village village;
 	City city;
 	Catan catan;
@@ -35,13 +38,13 @@ public class PlayerControl {
 	// player can claim all resource cards of a specific declared type from all the
 	// players
 	public void monopoly(Resource resource, Player nummer) {
-//		for (int i = 0; i < catan.getPlayers().length; i++) {
-//			for (int j = 0; j < hand.getResources().size(); j++) {
-//				if (hand.getResources().get(j).equals(resource)) {
-//					// TODO geef de speler zijn resource van de andere speler.
-//				}
-//			}
-//		}
+		// for (int i = 0; i < catan.getPlayers().length; i++) {
+		// for (int j = 0; j < hand.getResources().size(); j++) {
+		// if (hand.getResources().get(j).equals(resource)) {
+		// // TODO geef de speler zijn resource van de andere speler.
+		// }
+		// }
+		// }
 	}
 
 	// may put two streets on the board of choice
@@ -51,7 +54,7 @@ public class PlayerControl {
 
 	// move the robber to a new destination
 	public void knight(Tile tile) {
-//		robber.setOnTile(tile);
+		// robber.setOnTile(tile);
 		for (int i = 0; i < tile.getBuildingLocArr().size(); i++) {
 			// TODO persoon moet door de array van building locations gaan van de tile waar
 			// de robber op staat en dan kijken hoeveel spelers er aan grenzen en dan een
@@ -62,7 +65,6 @@ public class PlayerControl {
 
 	// may take two resources from the bank
 	public void yearOfPlenty() {
-		// TODO de bank moet nog gemakt worden.
+		// TODO de bank moet nog gemaakt worden.
 	}
-
 }

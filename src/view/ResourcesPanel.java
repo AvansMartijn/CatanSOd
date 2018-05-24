@@ -17,7 +17,7 @@ import model.Player;
 import model.Resource;
 
 @SuppressWarnings("serial")
-public class MyResourcesPanel extends JPanel {
+public class ResourcesPanel extends JPanel {
 
 	private final int AMOUNT_OF_RESOURCES = 5;
 	private final int PANEL_WIDTH = 500;
@@ -31,7 +31,7 @@ public class MyResourcesPanel extends JPanel {
 	private Player selfPlayer;
 
 	// Constructor
-	public MyResourcesPanel(Player selfPlayer) {
+	public ResourcesPanel(Player selfPlayer) {
 		this.selfPlayer = selfPlayer;
 		setLayout(new GridLayout(0, 10));
 		setBackground(myBackgroundColor);
