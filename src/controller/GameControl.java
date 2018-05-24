@@ -92,13 +92,13 @@ public class GameControl {
 		catanGame.rollDice();
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
-//		return catanGame.getDice().getDie();
+		// return catanGame.getDice().getDie();
 	}
 
 	public void setDiceLastThrown(int[] die) {
 		catanGame.getDice().setDie(die);
 	}
-	
+
 	public boolean hasRolledDice() {
 		return mainDA.hasThrown(catanGame.getIdGame());
 	}
@@ -346,7 +346,7 @@ public class GameControl {
 	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
 		return gameBoardControl.createBoardAndAddToDB(players);
 	}
-	
+
 	public boolean canBuy(ResourceType[] costArray) {
 		HashMap<ResourceType, Integer> amountOfResources = catanGame.getSelfPlayer().getHand().getAmountOfResources();
 		int ownedBrick = amountOfResources.get(ResourceType.BAKSTEEN);
@@ -354,15 +354,15 @@ public class GameControl {
 		int ownedIron = amountOfResources.get(ResourceType.ERTS);
 		int ownedWool = amountOfResources.get(ResourceType.WOL);
 		int ownedWheat = amountOfResources.get(ResourceType.GRAAN);
-		
-		int brickCost  = 0;
+
+		int brickCost = 0;
 		int woodCost = 0;
 		int woolCost = 0;
 		int ironCost = 0;
 		int wheatCost = 0;
-		
-		for(ResourceType rs: costArray) {
-			switch(rs) {
+
+		for (ResourceType rs : costArray) {
+			switch (rs) {
 			case BAKSTEEN:
 				brickCost++;
 				break;
@@ -384,13 +384,14 @@ public class GameControl {
 				break;
 			}
 		}
-		
-		if(ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost && ownedWheat >= wheatCost ) {
+
+		if (ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost
+				&& ownedWheat >= wheatCost) {
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
 
 	// public void printPlayerVillages() {
@@ -415,4 +416,17 @@ public class GameControl {
 	// }
 	// }
 
+	public void getTradeRequest() {
+
+		
+		
+	}
+
+	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
+			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
+
+		mainDA.createTradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive, ironGive,
+				wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
+
+	}
 }

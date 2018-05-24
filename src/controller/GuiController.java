@@ -534,7 +534,7 @@ public class GuiController {
 
 	private void addTradeButtonsListeners() {
 
-		playerActionPanel.getPlayerOptionMenuPanel().getTradeButton().addActionListener(new ActionListener() {
+		playerActionPanel.getPlayerOptionMenuPanel().getPlayerTradeButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -578,17 +578,17 @@ public class GuiController {
 				}
 			}
 		});
-		
-		playerActionPanel.getTradePanel().getReturnButton().addActionListener(new ActionListener() {
+
+		playerActionPanel.getPlayerTradePanel().getReturnButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setPlayerOptionMenuPanel();
+				playerActionPanel.setTradeOptionsPanel();
 				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				}
 			}
 		});
-		
+
 		playerActionPanel.getTradeBankPanel().getReturnButton().addActionListener(new ActionListener() {
 
 			@Override
@@ -598,7 +598,7 @@ public class GuiController {
 				}
 			}
 		});
-		
+
 		playerActionPanel.getTradeRequestListPanel().getReturnButton().addActionListener(new ActionListener() {
 
 			@Override
@@ -611,25 +611,29 @@ public class GuiController {
 	}
 
 	private void addPlayerActionTradeSendRequestButtonListener() {
-		playerActionPanel.getTradePanel().getSendRequestButton().addActionListener(new ActionListener() { // TODO maybe
-																											// in
-																											// GameControl
+		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() { // TODO
+																												// maybe
+			// in
+			// GameControl
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// give
-				String text = playerActionPanel.getTradePanel().getWoodGive();
-				System.out.println("AMOUNT " + text);
-				playerActionPanel.getTradePanel().getWheatGive();
-				playerActionPanel.getTradePanel().getStoneGive();
-				playerActionPanel.getTradePanel().getIronGive();
-				playerActionPanel.getTradePanel().getWoolGive();
+				int stoneGive = playerActionPanel.getPlayerTradePanel().getStoneGive();
+				int woolGive = playerActionPanel.getPlayerTradePanel().getWoolGive();
+				int ironGive = playerActionPanel.getPlayerTradePanel().getIronGive();
+				int wheatGive = playerActionPanel.getPlayerTradePanel().getWheatGive();
+				int woodGive = playerActionPanel.getPlayerTradePanel().getWoodGive();
 
 				// receive
-				playerActionPanel.getTradePanel().getWoodReceive();
-				playerActionPanel.getTradePanel().getWheatReceive();
-				playerActionPanel.getTradePanel().getStoneReceive();
-				playerActionPanel.getTradePanel().getIronReceive();
-				playerActionPanel.getTradePanel().getWoolReceive();
+				int stoneReceive = playerActionPanel.getPlayerTradePanel().getWoodReceive();
+				int woolReceive = playerActionPanel.getPlayerTradePanel().getWheatReceive();
+				int ironReceive = playerActionPanel.getPlayerTradePanel().getStoneReceive();
+				int wheatReceive = playerActionPanel.getPlayerTradePanel().getIronReceive();
+				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoolReceive();
+
+				gameControl.createTradeRequest(stoneGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
+						woolReceive, ironReceive, wheatReceive, woodReceive);
+
 			}
 		});
 	}
@@ -833,22 +837,29 @@ public class GuiController {
 
 	private void addListeners() {
 
+		// board listeners
 		addTileListeners();
 		addBuildLocListeners();
 		addStreetLocListeners();
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
 
+		// buy listeners
 		addPlayerActionBuyButtonListener();
 		addPlayerActionBuyQuitButtonListener();
-
+		
+		// Trade listeners
 		addTradeButtonsListeners();
 		addTradeRespondDialogActionListeners();
+		addPlayerActionTradeSendRequestButtonListener();
 
+		// build listeners
 		addPlayerActionBuildButtonsListener();
 		addBuildBackButtonListener();
 
+		// end turn listener
 		addPlayerActionEndTurnButtonListener();
+		
 
 	}
 

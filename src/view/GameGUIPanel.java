@@ -16,7 +16,7 @@ public class GameGUIPanel extends JPanel {
 	private Color myBackGroundColor = new Color(240, 226, 223);
 	private GameTopPanel gameTopPanel;
 	private PlayerActionPanel playerActionPanel;
-	private MyResourcesPanel resourcesPanel;
+	private ResourcesPanel resourcesPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
@@ -31,7 +31,7 @@ public class GameGUIPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		this.gameTopPanel = gameTopPanel;
 		this.playerActionPanel = playerActionPanel;
-		resourcesPanel = new MyResourcesPanel(selfPlayer);
+		resourcesPanel = new ResourcesPanel(selfPlayer);
 		this.boardPanel = boardPanel;
 		this.diceDotPanel = diceDotPanel;
 		this.chatPanel = chatPanel;

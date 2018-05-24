@@ -29,7 +29,7 @@ public class TradeBankPanel extends JPanel {
 	private final int TEXTFIELD_INPUT_WIDTH = 35;
 	private final int TEXTFIELD_INPUT_HEIGHT = 20;
 	private final int RADIOBUTTON_OFFSET = 25;
-	private final int TEXTFIELD_OFFSET = 120;
+	private final int TEXTFIELD_OFFSET = 140;
 	private final int LABEL_OFFSET = 180;
 	private final int TEXTFIELD_OFFSET_Y = 35;
 
@@ -45,17 +45,17 @@ public class TradeBankPanel extends JPanel {
 
 	private JLabel titleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3;
 
-	private JLabel woodLabel, wheatLabel, stoneLabel, ironLabel, woolLabel;
+	private JLabel woodLabel, wheatLabel, brickLabel, ironLabel, woolLabel;
 
-	private JLabel woodHarbour, wheatHarbour, stoneHarbour, ironHarbour, woolHarbour;
+	private JLabel woodHarbour, wheatHarbour, brickHarbour, ironHarbour, woolHarbour;
 
 	private JButton sendRequestButton, returnButton;
 
 	private ButtonGroup give;
 
-	private JRadioButton woodGive, wheatGive, stoneGive, ironGive, woolGive;
+	private JRadioButton woodGive, wheatGive, brickGive, ironGive, woolGive;
 
-	private JFormattedTextField woodReceive, wheatReceive, stoneReceive, ironReceive, woolReceive;
+	private JFormattedTextField woodReceive, wheatReceive, brickReceive, ironReceive, woolReceive;
 
 	private Player selfPlayer;
 
@@ -118,116 +118,116 @@ public class TradeBankPanel extends JPanel {
 
 		give = new ButtonGroup();
 
-		woodGive = new JRadioButton();
-		woodGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
-		woodGive.setBackground(backgroundColor);
-		give.add(woodGive);
-		add(woodGive);
-
-		wheatGive = new JRadioButton();
-		wheatGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 2, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
-		wheatGive.setBackground(backgroundColor);
-		give.add(wheatGive);
-		add(wheatGive);
-
-		stoneGive = new JRadioButton();
-		stoneGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 3, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
-		stoneGive.setBackground(backgroundColor);
-		give.add(stoneGive);
-		add(stoneGive);
-
-		ironGive = new JRadioButton();
-		ironGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 4, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
-		ironGive.setBackground(backgroundColor);
-		give.add(ironGive);
-		add(ironGive);
+		brickGive = new JRadioButton();
+		brickGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
+		brickGive.setBackground(backgroundColor);
+		give.add(brickGive);
+		add(brickGive);
 
 		woolGive = new JRadioButton();
-		woolGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 5, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
+		woolGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 2, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
 		woolGive.setBackground(backgroundColor);
 		give.add(woolGive);
 		add(woolGive);
 
-		woodLabel = new JLabel("Hout");
-		woodLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
-		add(woodLabel);
+		ironGive = new JRadioButton();
+		ironGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 3, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
+		ironGive.setBackground(backgroundColor);
+		give.add(ironGive);
+		add(ironGive);
 
-		wheatLabel = new JLabel("Graan");
-		wheatLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
-		add(wheatLabel);
+		wheatGive = new JRadioButton();
+		wheatGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 4, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
+		wheatGive.setBackground(backgroundColor);
+		give.add(wheatGive);
+		add(wheatGive);
 
-		stoneLabel = new JLabel("Steen");
-		stoneLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
-		add(stoneLabel);
+		woodGive = new JRadioButton();
+		woodGive.setBounds(RADIOBUTTON_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 5, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
+		woodGive.setBackground(backgroundColor);
+		give.add(woodGive);
+		add(woodGive);
 
-		ironLabel = new JLabel("Ijzer");
-		ironLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
-		add(ironLabel);
+		brickLabel = new JLabel("Baksteen");
+		brickLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
+		add(brickLabel);
 
 		woolLabel = new JLabel("Wol");
-		woolLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
+		woolLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
 		add(woolLabel);
+
+		ironLabel = new JLabel("Erts");
+		ironLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
+		add(ironLabel);
+
+		wheatLabel = new JLabel("Graan");
+		wheatLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
+		add(wheatLabel);
+
+		woodLabel = new JLabel("Hout");
+		woodLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
+		add(woodLabel);
 
 		subTitleLabel3 = new JLabel("ontvangen");
 		subTitleLabel3.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel3.setForeground(TextColor);
-		subTitleLabel3.setBounds(100, 50, 250, 60);
+		subTitleLabel3.setBounds(130, 50, 250, 60);
 		add(subTitleLabel3);
 
-		woodReceive = new JFormattedTextField();
-		woodReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
+		brickReceive = new JFormattedTextField();
+		brickReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		add(woodReceive);
-
-		wheatReceive = new JFormattedTextField();
-		wheatReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
-				TEXTFIELD_INPUT_HEIGHT);
-		add(wheatReceive);
-
-		stoneReceive = new JFormattedTextField();
-		stoneReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
-				TEXTFIELD_INPUT_HEIGHT);
-		add(stoneReceive);
-
-		ironReceive = new JFormattedTextField();
-		ironReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
-				TEXTFIELD_INPUT_HEIGHT);
-		add(ironReceive);
+		add(brickReceive);
 
 		woolReceive = new JFormattedTextField();
-		woolReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
+		woolReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(woolReceive);
 
-		woodHarbour = new JLabel("Je hebt hier");
-		woodHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
-		woodHarbour.setForeground(TextColor);
-		woodHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
-		add(woodHarbour);
+		ironReceive = new JFormattedTextField();
+		ironReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
+				TEXTFIELD_INPUT_HEIGHT);
+		add(ironReceive);
 
-		wheatHarbour = new JLabel("Je hebt hier");
-		wheatHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
-		wheatHarbour.setForeground(TextColor);
-		wheatHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
-		add(wheatHarbour);
+		wheatReceive = new JFormattedTextField();
+		wheatReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
+				TEXTFIELD_INPUT_HEIGHT);
+		add(wheatReceive);
 
-		stoneHarbour = new JLabel("Je hebt hier");
-		stoneHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
-		stoneHarbour.setForeground(TextColor);
-		stoneHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
-		add(stoneHarbour);
+		woodReceive = new JFormattedTextField();
+		woodReceive.setBounds(TEXTFIELD_OFFSET, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
+				TEXTFIELD_INPUT_HEIGHT);
+		add(woodReceive);
 
-		ironHarbour = new JLabel("Je hebt hier");
-		ironHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
-		ironHarbour.setForeground(TextColor);
-		ironHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
-		add(ironHarbour);
+		brickHarbour = new JLabel("Je hebt hier");
+		brickHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
+		brickHarbour.setForeground(TextColor);
+		brickHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
+		add(brickHarbour);
 
 		woolHarbour = new JLabel("Je hebt hier");
 		woolHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
 		woolHarbour.setForeground(TextColor);
-		woolHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
+		woolHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
 		add(woolHarbour);
+
+		ironHarbour = new JLabel("Je hebt hier");
+		ironHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
+		ironHarbour.setForeground(TextColor);
+		ironHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
+		add(ironHarbour);
+
+		wheatHarbour = new JLabel("Je hebt hier");
+		wheatHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
+		wheatHarbour.setForeground(TextColor);
+		wheatHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
+		add(wheatHarbour);
+
+		woodHarbour = new JLabel("Je hebt hier");
+		woodHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
+		woodHarbour.setForeground(TextColor);
+		woodHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
+		add(woodHarbour);
 
 	}
 
@@ -248,7 +248,7 @@ public class TradeBankPanel extends JPanel {
 	}
 
 	public String getStoneGive() {
-		return stoneGive.getText();
+		return brickGive.getText();
 	}
 
 	public String getIronGive() {
@@ -268,7 +268,7 @@ public class TradeBankPanel extends JPanel {
 	}
 
 	public String getStoneReceive() {
-		return stoneReceive.getText();
+		return brickReceive.getText();
 	}
 
 	public String getIronReceive() {
@@ -278,7 +278,5 @@ public class TradeBankPanel extends JPanel {
 	public String getWoolReceive() {
 		return woolReceive.getText();
 	}
-	
-	
-	
+
 }

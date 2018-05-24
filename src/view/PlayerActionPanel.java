@@ -77,7 +77,7 @@ public class PlayerActionPanel extends JPanel {
 		cl.show(this, "buyPanel");
 	}
 
-	public TradePlayerPanel getTradePanel() {
+	public TradePlayerPanel getPlayerTradePanel() {
 		return tradePanel;
 	}
 
