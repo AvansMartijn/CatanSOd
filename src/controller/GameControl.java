@@ -8,6 +8,7 @@ import model.Bank;
 import model.BuildingLocation;
 import model.Catan;
 import model.City;
+import model.DevelopmentCardType;
 import model.Dice;
 import model.Gameboard;
 import model.PlayStatus;
@@ -92,13 +93,13 @@ public class GameControl {
 		catanGame.rollDice();
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
-//		return catanGame.getDice().getDie();
+		// return catanGame.getDice().getDie();
 	}
 
 	public void setDiceLastThrown(int[] die) {
 		catanGame.getDice().setDie(die);
 	}
-	
+
 	public boolean hasRolledDice() {
 		return mainDA.hasThrown(catanGame.getIdGame());
 	}
@@ -346,7 +347,7 @@ public class GameControl {
 	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
 		return gameBoardControl.createBoardAndAddToDB(players);
 	}
-	
+
 	public boolean canBuy(ResourceType[] costArray) {
 		HashMap<ResourceType, Integer> amountOfResources = catanGame.getSelfPlayer().getHand().getAmountOfResources();
 		int ownedBrick = amountOfResources.get(ResourceType.BAKSTEEN);
@@ -354,15 +355,15 @@ public class GameControl {
 		int ownedIron = amountOfResources.get(ResourceType.ERTS);
 		int ownedWool = amountOfResources.get(ResourceType.WOL);
 		int ownedWheat = amountOfResources.get(ResourceType.GRAAN);
-		
-		int brickCost  = 0;
+
+		int brickCost = 0;
 		int woodCost = 0;
 		int woolCost = 0;
 		int ironCost = 0;
 		int wheatCost = 0;
-		
-		for(ResourceType rs: costArray) {
-			switch(rs) {
+
+		for (ResourceType rs : costArray) {
+			switch (rs) {
 			case BAKSTEEN:
 				brickCost++;
 				break;
@@ -384,14 +385,17 @@ public class GameControl {
 				break;
 			}
 		}
-		
-		if(ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost && ownedWheat >= wheatCost ) {
+
+		if (ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost
+				&& ownedWheat >= wheatCost) {
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
+
+
 
 	// public void printPlayerVillages() {
 	// for (Player p : gamePlayers) {
