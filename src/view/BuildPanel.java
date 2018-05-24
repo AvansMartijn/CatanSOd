@@ -16,19 +16,14 @@ public class BuildPanel extends JPanel {
 
 	private final int BUTTON_WIDTH = 220;
 	private final int BUTTON_HEIGHT = 50;
-
 	private final int BUTTON_OFFSET_X = 60;
 
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
 
-	private JLabel title;
-	private JLabel subTitleLabel;
-	private JButton streetButton;
-	private JButton villageButton;
-	private JButton cityButton;
-	private JButton returnButton;
+	private JLabel title, subTitleLabel;
+	private JButton streetButton, villageButton, cityButton, returnButton;
 
 	public BuildPanel() {
 
@@ -42,7 +37,7 @@ public class BuildPanel extends JPanel {
 		title.setForeground(TextColor);
 		title.setBounds(90, 20, 180, 40);
 		add(title);
-		
+
 		subTitleLabel = new JLabel("Wat wil je bouwen?");
 		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel.setForeground(TextColor);

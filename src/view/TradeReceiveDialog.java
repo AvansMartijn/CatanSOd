@@ -6,23 +6,19 @@ import java.awt.Font;
 import java.text.NumberFormat;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
-import model.Player;
-
 @SuppressWarnings("serial")
-public class TradePanel extends JPanel {
+public class TradeReceiveDialog extends JDialog {
 
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
 
-	private final int BUTTON_WIDTH = 160;
+	private final int BUTTON_WIDTH = 150;
 	private final int BUTTON_HEIGHT = 35;
-
-	private final int BUTTON_OFFSET_X = 20;
 
 	private final int TEXTFIELD_INPUT_WIDTH = 35;
 	private final int TEXTFIELD_INPUT_HEIGHT = 20;
@@ -38,59 +34,45 @@ public class TradePanel extends JPanel {
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
 
-	private JLabel titleLabel;
-	private JLabel subTitleLabel1;
-	private JLabel subTitleLabel2;
-	private JLabel subTitleLabel3;
+	private JLabel titleLabel, subTitleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3;
+	private JLabel woodLabel, wheatLabel, stoneLabel, ironLabel, woolLabel;
 
-	private JLabel woodLabel;
-	private JLabel wheatLabel;
-	private JLabel stoneLabel;
-	private JLabel ironLabel;
-	private JLabel woolLabel;
+	private JButton sendRequestButton, returnButton;
 
-	private JButton sendRequestButton;
-	private JButton returnButton;
+	private JFormattedTextField woodGive, wheatGive, stoneGive, ironGive, woolGive;
 
-	private JFormattedTextField woodGive;
-	private JFormattedTextField wheatGive;
-	private JFormattedTextField stoneGive;
-	private JFormattedTextField ironGive;
-	private JFormattedTextField woolGive;
+	private JFormattedTextField woodReceive, wheatReceive, stoneReceive, ironReceive, woolReceive;
 
-	private JFormattedTextField woodReceive;
-	private JFormattedTextField wheatReceive;
-	private JFormattedTextField stoneReceive;
-	private JFormattedTextField ironReceive;
-	private JFormattedTextField woolReceive;
-	
-	private Player selfPlayer;
-
-	public TradePanel(Player selfPlayer) {
-		this.selfPlayer = selfPlayer;
+	public TradeReceiveDialog() {
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
 
 		setLayout(null);
 
-		titleLabel = new JLabel("HANDELEN");
-		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 35));
+		titleLabel = new JLabel("HANDELSVERZOEK");
+		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
 		titleLabel.setForeground(TextColor);
-		titleLabel.setBounds(80, 10, 280, 40);
+		titleLabel.setBounds(25, 10, 320, 40);
 		add(titleLabel);
+
+		subTitleLabel = new JLabel("Speler * heeft een handelsverzoek verstuurd");
+		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+		subTitleLabel.setForeground(TextColor);
+		subTitleLabel.setBounds(40, 35, 280, 40);
+		add(subTitleLabel);
 
 		createResourceInput();
 
-		sendRequestButton = new JButton("Verzoek versturen");
-		sendRequestButton.setBounds(BUTTON_OFFSET_X, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
+		sendRequestButton = new JButton("Tegenbod versturen");
+		sendRequestButton.setBounds(10, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
 		sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		sendRequestButton.setBackground(textBackgroundColor);
 		sendRequestButton.setForeground(TextColor);
 		add(sendRequestButton);
 
-		returnButton = new JButton("terug");
-		returnButton.setBounds(220, 300, 100, BUTTON_HEIGHT);
+		returnButton = new JButton("Tegenbod afwijzen");
+		returnButton.setBounds(170, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
 		returnButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);
@@ -104,15 +86,15 @@ public class TradePanel extends JPanel {
 		NumberFormatter formatter = new NumberFormatter(format);
 		formatter.setValueClass(Integer.class);
 		formatter.setMinimum(0);
-		formatter.setMaximum(selfPlayer.getHand().getResources().size()); // TODO update function and do this for each individual resource, we need more formatters for each textfield
+		formatter.setMaximum(100);
 		formatter.setAllowsInvalid(true);
 		formatter.setCommitsOnValidEdit(true);
 		formatter.setOverwriteMode(true);
 
-		subTitleLabel1 = new JLabel("grondstoffen:");
+		subTitleLabel1 = new JLabel("grondstoffen");
 		subTitleLabel1.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel1.setForeground(TextColor);
-		subTitleLabel1.setBounds(130, 30, 200, 60);
+		subTitleLabel1.setBounds(130, 40, 200, 60);
 		add(subTitleLabel1);
 
 		subTitleLabel2 = new JLabel("geven");

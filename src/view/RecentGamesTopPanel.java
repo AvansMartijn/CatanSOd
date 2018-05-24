@@ -9,17 +9,15 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 @SuppressWarnings("serial")
-public class TopOptionsPanel extends JPanel {
+public class RecentGamesTopPanel extends JPanel {
 
-	private JButton createGameButton;
-	private JButton inviteButton;
+	private JButton createGameButton, inviteButton;
 
-	private JRadioButton recentButton;
-	private JRadioButton closedGameButton;
+	private JRadioButton recentButton, closedGameButton;
 
 	private Color backgroundColor = new Color(189, 133, 100);
 
-	public TopOptionsPanel() {
+	public RecentGamesTopPanel() {
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
