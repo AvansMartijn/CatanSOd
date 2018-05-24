@@ -8,10 +8,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,8 +34,8 @@ public class LoginRegisterPanel extends JPanel {
 
 	public LoginRegisterPanel() {
 
-		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));	   
-		
+		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+
 		GridBagLayout grid = new GridBagLayout();
 		setLayout(grid);
 
@@ -42,22 +46,38 @@ public class LoginRegisterPanel extends JPanel {
 
 		grid.setConstraints(center, constraints);
 		add(center, constraints);
-		
+
 		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
 
-		
 		try {
 			image = ImageIO.read(url);
 			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
 					Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 		}
+
+		playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		g.drawImage(image, 0, 0, this);
+	}
+
+	private void playBackgroundMusic(String fileName) {
+		Clip clip = null;
+		try {
+		URL sound = getClass().getResource("/Music/" + fileName);
+		AudioInputStream audioInputStream = AudioSystem
+		.getAudioInputStream(sound);
+		clip = AudioSystem.getClip();
+		clip.open(audioInputStream);
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (Exception ex) {
+			
+		}
+
 	}
 
 	public JButton getInlogButton() {
@@ -139,7 +159,7 @@ public class LoginRegisterPanel extends JPanel {
 			exitButton.setBackground(new Color(40, 40, 40));
 			exitButton.setForeground(Color.WHITE);
 			add(exitButton);
-		}
 
+		}
 	}
 }
