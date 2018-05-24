@@ -35,10 +35,6 @@ public class TradeBankPanel extends JPanel {
 
 	private final int RADIOBUTTON_SIZE = 20;
 
-	// requests for sending the trade offer
-	// private int[] resourceOffer;
-	// private int[] resourceRequest;
-
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
@@ -97,9 +93,7 @@ public class TradeBankPanel extends JPanel {
 		NumberFormatter formatter = new NumberFormatter(format);
 		formatter.setValueClass(Integer.class);
 		formatter.setMinimum(0);
-		formatter.setMaximum(selfPlayer.getHand().getResources().size()); // TODO update function and do this for each
-																			// individual resource, we need more
-																			// formatters for each textfield
+		formatter.setMaximum(selfPlayer.getHand().getResources().size());
 		formatter.setAllowsInvalid(true);
 		formatter.setCommitsOnValidEdit(true);
 		formatter.setOverwriteMode(true);
@@ -199,35 +193,45 @@ public class TradeBankPanel extends JPanel {
 				TEXTFIELD_INPUT_HEIGHT);
 		add(woodReceive);
 
-		brickHarbour = new JLabel("Je hebt hier");
+		brickHarbour = new JLabel();
 		brickHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
 		brickHarbour.setForeground(TextColor);
 		brickHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
 		add(brickHarbour);
 
-		woolHarbour = new JLabel("Je hebt hier");
+		woolHarbour = new JLabel();
 		woolHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
 		woolHarbour.setForeground(TextColor);
 		woolHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
 		add(woolHarbour);
 
-		ironHarbour = new JLabel("Je hebt hier");
+		ironHarbour = new JLabel();
 		ironHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
 		ironHarbour.setForeground(TextColor);
 		ironHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
 		add(ironHarbour);
 
-		wheatHarbour = new JLabel("Je hebt hier");
+		wheatHarbour = new JLabel();
 		wheatHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
 		wheatHarbour.setForeground(TextColor);
 		wheatHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
 		add(wheatHarbour);
 
-		woodHarbour = new JLabel("Je hebt hier");
+		woodHarbour = new JLabel();
 		woodHarbour.setFont(new Font("SansSerif", Font.BOLD, 12));
 		woodHarbour.setForeground(TextColor);
 		woodHarbour.setBounds(LABEL_OFFSET, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
 		add(woodHarbour);
+
+	}
+
+	public void updateRatio(int[] resources) {
+
+		brickHarbour.setText("Handelsratio: " + resources[0] + "/1");
+		woolHarbour.setText("Handelsratio: " + resources[1] + "/1");
+		ironHarbour.setText("Handelsratio: " + resources[2] + "/1");
+		wheatHarbour.setText("Handelsratio: " + resources[3] + "/1");
+		woodHarbour.setText("Handelsratio: " + resources[4] + "/1");
 
 	}
 

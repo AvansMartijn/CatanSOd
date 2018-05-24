@@ -547,6 +547,8 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int[] resources = gameControl.getHarbourLocations();
+				playerActionPanel.getTradeBankPanel().updateRatio(resources);
 				playerActionPanel.setTradeBankPanel();
 			}
 		});
@@ -598,6 +600,17 @@ public class GuiController {
 				}
 			}
 		});
+
+		playerActionPanel.getTradeBankPanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setTradeOptionsPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
+			}
+		});
+		
 
 		playerActionPanel.getTradeRequestListPanel().getReturnButton().addActionListener(new ActionListener() {
 
@@ -847,7 +860,7 @@ public class GuiController {
 		// buy listeners
 		addPlayerActionBuyButtonListener();
 		addPlayerActionBuyQuitButtonListener();
-		
+
 		// Trade listeners
 		addTradeButtonsListeners();
 		addTradeRespondDialogActionListeners();
@@ -859,7 +872,6 @@ public class GuiController {
 
 		// end turn listener
 		addPlayerActionEndTurnButtonListener();
-		
 
 	}
 

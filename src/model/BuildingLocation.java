@@ -11,10 +11,6 @@ public class BuildingLocation {
 	private City city;
 	private Village village;
 	private ArrayList<StreetLocation> adjecentStreets;
-	
-	
-	
-
 
 	public BuildingLocation(int x, int y) {
 		adjecentStreets = new ArrayList<StreetLocation>();

@@ -121,6 +121,4 @@ public class PlayerActionPanel extends JPanel {
 		CardLayout cl = (CardLayout) (getLayout());
 		cl.show(this, "tradeRequestListPanel");
 	}
-	
-	
 }
