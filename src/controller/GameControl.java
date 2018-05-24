@@ -418,8 +418,6 @@ public class GameControl {
 
 	public void getTradeRequest() {
 
-		
-		
 	}
 
 	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
@@ -429,51 +427,47 @@ public class GameControl {
 				wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
 
 	}
-	
+
 	public int[] getHarbourLocations() {
 
 		int[] resourceRatios = new int[] { 4, 4, 4, 4, 4 };
 
-		ArrayList<BuildingLocation> buildingLocation = catanGame.getGameboard().getBuildingLocArr();
-	//	ArrayList<City> cityLocations = player.getCityArr();
 		ArrayList<Village> villageLocations = catanGame.getSelfPlayer().getVillageArr();
+		ArrayList<City> cityLocations = catanGame.getSelfPlayer().getCityArr();
 
 		for (int j = 0; j < villageLocations.size(); j++) {
 
-			if (buildingLocation.get(j) == villageLocations.get(j).getBuildingLocation()
-					&& buildingLocation.get(j).getHarbour() != null) {
-				setHarbourResource(resourceRatios, buildingLocation.get(j));
+			if (villageLocations.get(j).getBuildingLocation().getHarbour() != null) {
+				setHarbourResource(resourceRatios, villageLocations.get(j).getBuildingLocation());
 			}
 		}
-	//	for (int i = 0; i < cityLocations.size(); i++) {
-	//		
-	//		if (buildingLocation.get(i) == cityLocations.get(i).getBuildingLocation()
-	//				&& buildingLocation.get(i).getHarbour() != null) {
-	//			setHarbourResource(resourceRatios, buildingLocation.get(i));
-	//		}
-	//		
-	//	}
+		for (int i = 0; i < cityLocations.size(); i++) {
+
+			if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
+				setHarbourResource(resourceRatios, cityLocations.get(i).getBuildingLocation());
+			}
+		}
 		return resourceRatios;
 	}
 
 	private void setHarbourResource(int[] resources, BuildingLocation buildingLocation) {
-		
+
 		switch (buildingLocation.getHarbour().getRsType()) {
 
 		case BAKSTEEN:
-			resources[0] =  2;
+			resources[0] = 2;
 			break;
 		case ERTS:
-			resources[1] =  2;
+			resources[1] = 2;
 			break;
 		case WOL:
-			resources[2] =  2;
+			resources[2] = 2;
 			break;
 		case GRAAN:
-			resources[3] =  2;
+			resources[3] = 2;
 			break;
 		case HOUT:
-			resources[4] =  2;
+			resources[4] = 2;
 			break;
 		default:
 			for (int i = 0; i < resources.length; i++) {
@@ -483,6 +477,5 @@ public class GameControl {
 				}
 			}
 		}
-	}	
-	
+	}
 }
