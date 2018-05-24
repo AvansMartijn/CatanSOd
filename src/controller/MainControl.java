@@ -104,7 +104,7 @@ public class MainControl {
 		ingameTimerThread.start();
 	}
 
-	public void createNewGame(ArrayList<String> playerUsernames) {
+	public void createNewGame(ArrayList<String> playerUsernames, boolean randomBoard) {
 		Catan catanGame;
 		int gameID = gameControl.createGameInDB(false);
 		ArrayList<Player> players = new ArrayList<Player>();
@@ -115,7 +115,7 @@ public class MainControl {
 		}
 		
 		guiController.setWaitingRoom(players);
-		Gameboard gameBoard = gameControl.createBoardAndAddToDB(players);
+		Gameboard gameBoard = gameControl.createBoardAndAddToDB(players, randomBoard);
 		mainDA.changeRobberLocation(gameID, 10);
 		createDevelopmentCardsInDB(gameID);
 		createResourceCardsInDB(gameID);

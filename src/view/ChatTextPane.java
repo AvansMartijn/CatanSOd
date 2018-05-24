@@ -24,7 +24,7 @@ public class ChatTextPane extends JTextPane {
 //		setCaretPosition(len); // place caret at the end (with no selection)
 //		setCharacterAttributes(aset, false);
 //		replaceSelection(s); // there is no selection, so inserts at caret
-		System.out.println("test");		
+//		System.out.println("test");		
 		 StyledDocument doc = this.getStyledDocument();
 
 	        Style style = this.addStyle("Color Style", null);

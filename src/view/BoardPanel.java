@@ -275,9 +275,9 @@ public class BoardPanel extends JPanel {
 		}
 	}
 
-	public void enableBuildingLocButtons() {
+	public void enableBuildingLocButtons(boolean state) {
 		for (BuildingLocationButton b : buildingLocButtonArray) {
-
+			b.setState(state);
 			b.setEnabled(true);
 		}
 	}

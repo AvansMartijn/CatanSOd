@@ -23,11 +23,15 @@ public class Resource {
 		case "w":
 			this.rsType = ResourceType.WOL;
 		}
-		 
 	}
 
 	public ResourceType getRsType() {
 		return rsType;
 	}
+
+	public String getResourceID() {
+		return resourceID;
+	}
+	
 
 }

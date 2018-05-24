@@ -15,20 +15,17 @@ import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.DevelopmentCard;
-import model.Knight;
-import model.Monopoly;
+import model.DevelopmentCardType;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Resource;
 import model.ResourceType;
-import model.RoadBuilding;
 import model.Street;
 import model.StreetLocation;
 import model.Tile;
-import model.VictoryPoint;
+import model.TradeRequest;
 import model.Village;
-import model.YearOfPlenty;
 
 public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
@@ -853,6 +850,14 @@ public class MainDA {
 		return retList;
 	}
 	
+	public void removeResource(String idResource, int idGame) {
+		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = null WHERE idgrondstofkaart = '" + idResource + "' AND idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Removing resource in DB failed");
+		}
+	}
+	
 	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
@@ -871,25 +876,7 @@ public class MainDA {
 			while (myRs.next()) {
 				String developmentCardID = myRs.getString(1);
 				boolean played = myRs.getBoolean(2);
-				switch(developmentCardID.substring(3, 4)){
-				case "r": // ridder
-					retList.add(new Knight(developmentCardID, played));
-					break;
-				case "g": 
-					retList.add(new VictoryPoint(developmentCardID, played));
-					break;
-				case "s": // stratenbouw
-					retList.add(new RoadBuilding(developmentCardID, played));
-					break;
-				case "m": // monopoly
-					retList.add(new Monopoly(developmentCardID, played));
-					break;
-				case "u": // uitvinder
-					retList.add(new YearOfPlenty(developmentCardID, played));
-					break;
-				}
-				
-				
+				retList.add(new DevelopmentCard(developmentCardID, played));
 			}
 			myRs.close();
 			stmt.close();
@@ -923,10 +910,11 @@ public class MainDA {
 		return shouldRefresh;
 	}
 
-	public void createTradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick, int w_wool, int w_iron, int w_wheat, int w_wood) {
+	public void createTradeRequest(TradeRequest tR) {
 
 		String query =  "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)" + 
-		" VALUES " + "(" + idPlayer + ", "+ g_brick + ", " + g_wool + ", " + g_iron + ", " + g_wheat + ", "+ g_wood + ", " + w_brick + ", " + w_wool + ", " + w_iron+ ", "+ w_wheat + ", " + w_wood + ");";
+		" VALUES " + "(" + tR.getIdPlayer() + ", "+ tR.getG_brick() + ", " + tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", "+ tR.getG_wood() + ", " 
+				+ tR.getW_brick() + ", " + tR.getW_wool() + ", " + tR.getW_iron()+ ", "+ tR.getG_wheat() + ", " + tR.getW_wood() + ");";
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tradeRequest");
 		}

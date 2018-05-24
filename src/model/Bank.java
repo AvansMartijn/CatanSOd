@@ -1,5 +1,6 @@
 package model;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public class Bank {
@@ -13,46 +14,87 @@ public class Bank {
 	private final static int AMOUNT_OF_VICTORYPOINT = 5;
 
 	// Instance variables
-	private ArrayList<ArrayList<Resource>> resources;
+	private ArrayList<Resource> resources;
 	private ArrayList<DevelopmentCard> developmentCards;
 
 	// Constructor
+	
+	/**
+	 * This constructor should be used to add a {@code Bank} from with all the information from the Database. 
+	 * 
+	 * @param resourceIDs all the ID's of the resources that should be added to the bank. 
+	 * @param developmentCardIDs all the ID's of the development cards that should be added to the bank. 
+	 * @since 21 May 2018
+	 * @author Jasper Mooren
+	 */
+	public Bank(ArrayList<String> resourceIDs, ArrayList<String> developmentCardIDs, ArrayList<Boolean> played) {
+		resources = new ArrayList<>();
+		developmentCards = new ArrayList<>();
+		addResourcesFromDatabase(resourceIDs);
+		try {
+			addDevelopmentCardsFromDatabase(developmentCardIDs, played);			
+		} catch (Exception e) {
+			System.out.println("developmentCardIDs and played don't have the same size!");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This constructor should be used to create a {@code Bank} in a new game. 
+	 * 
+	 * @since 21 May 2018
+	 * @author Jasper Mooren
+	 */
 	public Bank() {
-//		resources = new ArrayList<ArrayList<Resource>>();
-//		createResourceCards();
-//		developmentCards = new ArrayList<DevelopmentCard>();
-//		createDevelopmentCards();
+		resources = new ArrayList<>();
+		developmentCards = new ArrayList<>();
+		createResourceCards();
+		createDevelopmentCards();
+	}
+
+	/**
+	 * @param resourceIDs An {@code ArrayList<String>} of all the {@code resourceID}'s as found in the database. 
+	 * 
+	 * @since 21 May 2018
+	 * @author Jasper Mooren
+	 */
+	private void addResourcesFromDatabase(ArrayList<String> resourceIDs) {
+		for (int i = 0; i < resourceIDs.size(); i++) {
+			resources.add(new Resource(resourceIDs.get(i)));
+		}
+	}
+	
+	private void addDevelopmentCardsFromDatabase(ArrayList<String> developmentCardIDs, ArrayList<Boolean> played) 
+			throws InvalidParameterException {
+		if(developmentCardIDs.size() == played.size()) {
+			for (int i = 0; i < developmentCardIDs.size(); i++) {
+				developmentCards.add(new DevelopmentCard(developmentCardIDs.get(i), played.get(i)));			
+			}			
+		}
+		else {
+			throw new InvalidParameterException();
+		}
 	}
 
 	// Add Resources to resources ArrayList
-//	private void createResourceCards() {
-//
-//		// For the amount of different resources
-//		for (int i = 0; i < AMOUNT_OF_DIFFERENT_RESOURCES; i++) {
-//			resources.add(new ArrayList<Resource>());
-//			// For the amount needed of each resource
-//			for (int j = 0; j < AMOUNT_OF_EACH_RESOURCE; j++) {
-//				ResourceType[] resourceTypes = ResourceType.values();
-//				resources.get(i).add(new Resource(resourceTypes[i]));
-//			}
-//		}
-//	}
+	private void createResourceCards() {
+		String[] resourceType = {"B", "E", "G", "H", "W"};
+		String resourceID = "";
+		for (int i = 0; i < AMOUNT_OF_DIFFERENT_RESOURCES; i++) {
+			for (int j = 0; j < AMOUNT_OF_EACH_RESOURCE; j++) {
+				if(j < 9) {
+					resourceID = resourceType[i] + "0" + (j + 1);					
+				}
+				else {
+					resourceID = resourceType[i] + (j + 1);										
+				}
+				resources.add(new Resource(resourceID));
+			}			
+		}
+	}
 
 	// Add DevelopmentCards to developmentCards ArrayList
 	private void createDevelopmentCards() {
-
-		// Arrays
-		DevelopmentCard[] typeCard = new DevelopmentCard[] { new Knight(null, false), new Monopoly(null, false), new RoadBuilding(null, false), // TODO change null to id
-				new YearOfPlenty(null, false), new VictoryPoint(null, false) };
-		int amountOfCards[] = new int[] { AMOUNT_OF_KNIGHTS, AMOUNT_OF_MONOPOLY, AMOUNT_OF_ROADBUILDING,
-				AMOUNT_OF_YEAROFPLENTY, AMOUNT_OF_VICTORYPOINT };
-
-		// for the amount of typeCards
-		for (int i = 0; i < typeCard.length; i++) {
-			// for the amount of cards needed of a typeCard
-			for (int j = 0; j < amountOfCards[i]; j++) {
-				developmentCards.add(typeCard[i]);
-			}
-		}
+		
 	}
 }
