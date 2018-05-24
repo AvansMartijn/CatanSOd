@@ -23,7 +23,6 @@ public class Resource {
 		case "w":
 			this.rsType = ResourceType.WOL;
 		}
-		 
 	}
 
 	public ResourceType getRsType() {

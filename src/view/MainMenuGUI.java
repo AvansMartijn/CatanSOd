@@ -44,7 +44,7 @@ public class MainMenuGUI extends JPanel {
 		currentGames.setPreferredSize(new Dimension(400, height));
 		scrollPane = new JScrollPane(currentGames, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 		scrollPane.setPreferredSize(new Dimension(420, 700));
 		mainPanel.add(scrollPane);
 		

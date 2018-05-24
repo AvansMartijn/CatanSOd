@@ -1,22 +1,18 @@
 package view;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,6 +26,7 @@ public class LoginRegisterPanel extends JPanel {
 	private JTextField usernameText;
 	private JTextField passwordText;
 	private JLabel messageLabel;
+	private Image image;
 
 	public LoginRegisterPanel() {
 
@@ -45,27 +42,23 @@ public class LoginRegisterPanel extends JPanel {
 
 		grid.setConstraints(center, constraints);
 		add(center, constraints);
+		
+		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
+
+		
+		try {
+			image = ImageIO.read(url);
+			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
+					Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+		}
 	}
 
-//	public void paintComponent(Graphics g) {
-//
-//		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
-//
-//		Image image = null;
-//		try {
-//			image = ImageIO.read(url);
-//			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
-//					Image.SCALE_DEFAULT);
-//		} catch (IOException e) {
-//		}
-//		JLabel background = new JLabel();
-//		ImageIcon icon = new ImageIcon(url);
-//		background.setIcon(icon);
-//		background.setBounds(0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight());
-//		add(background, -1);
-//		repaint();
-//
-//	}
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		g.drawImage(image, 0, 0, this);
+	}
 
 	public JButton getInlogButton() {
 		return loginButton;
@@ -96,7 +89,6 @@ public class LoginRegisterPanel extends JPanel {
 		public CenterPanel() {
 
 			setPreferredSize(new Dimension(290, 300));
-			// setBackground(new Color(50, 50, 50, 60));
 			setOpaque(true);
 			setBackground(new Color(0, 0, 0, 0));
 
