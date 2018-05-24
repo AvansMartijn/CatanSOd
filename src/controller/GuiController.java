@@ -595,11 +595,11 @@ public class GuiController {
 				playerActionPanel.getTradePanel().getWoolGive();
 
 				// receive
-				playerActionPanel.getTradePanel().getWoodGive();
-				playerActionPanel.getTradePanel().getWheatGive();
-				playerActionPanel.getTradePanel().getStoneGive();
-				playerActionPanel.getTradePanel().getIronGive();
-				playerActionPanel.getTradePanel().getWoolGive();
+				playerActionPanel.getTradePanel().getWoodReceive();
+				playerActionPanel.getTradePanel().getWheatReceive();
+				playerActionPanel.getTradePanel().getStoneReceive();
+				playerActionPanel.getTradePanel().getIronReceive();
+				playerActionPanel.getTradePanel().getWoolReceive();
 			}
 		});
 	}

@@ -38,32 +38,16 @@ public class TradePlayerPanel extends JPanel {
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
 
-	private JLabel titleLabel;
-	private JLabel subTitleLabel1;
-	private JLabel subTitleLabel2;
-	private JLabel subTitleLabel3;
+	private JLabel titleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3;
 
-	private JLabel woodLabel;
-	private JLabel wheatLabel;
-	private JLabel stoneLabel;
-	private JLabel ironLabel;
-	private JLabel woolLabel;
+	private JLabel woodLabel, wheatLabel, stoneLabel, ironLabel, woolLabel;
 
-	private JButton sendRequestButton;
-	private JButton returnButton;
+	private JButton sendRequestButton, returnButton;
 
-	private JFormattedTextField woodGive;
-	private JFormattedTextField wheatGive;
-	private JFormattedTextField stoneGive;
-	private JFormattedTextField ironGive;
-	private JFormattedTextField woolGive;
+	private JFormattedTextField woodGive, wheatGive, stoneGive, ironGive, woolGive;
 
-	private JFormattedTextField woodReceive;
-	private JFormattedTextField wheatReceive;
-	private JFormattedTextField stoneReceive;
-	private JFormattedTextField ironReceive;
-	private JFormattedTextField woolReceive;
-	
+	private JFormattedTextField woodReceive, wheatReceive, stoneReceive, ironReceive, woolReceive;
+
 	private Player selfPlayer;
 
 	public TradePlayerPanel(Player selfPlayer) {
@@ -104,7 +88,9 @@ public class TradePlayerPanel extends JPanel {
 		NumberFormatter formatter = new NumberFormatter(format);
 		formatter.setValueClass(Integer.class);
 		formatter.setMinimum(0);
-		formatter.setMaximum(selfPlayer.getHand().getResources().size()); // TODO update function and do this for each individual resource, we need more formatters for each textfield
+		formatter.setMaximum(selfPlayer.getHand().getResources().size()); // TODO update function and do this for each
+																			// individual resource, we need more
+																			// formatters for each textfield
 		formatter.setAllowsInvalid(true);
 		formatter.setCommitsOnValidEdit(true);
 		formatter.setOverwriteMode(true);
