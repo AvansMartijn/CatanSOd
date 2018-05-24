@@ -50,7 +50,7 @@ public class GameControl {
 		gameBoardControl = new GameBoardControl(mainDA, gameID);
 
 		// TODO add gameboard to db
-		// gameboard = gameBoardControl.createBoard();
+//		 gameboard = gameBoardControl.createBoard();
 		return gameID;
 
 	}
@@ -345,8 +345,8 @@ public class GameControl {
 
 	}
 
-	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
-		return gameBoardControl.createBoardAndAddToDB(players);
+	public Gameboard createBoardAndAddToDB(ArrayList<Player> players, boolean randomBoard) {
+		return gameBoardControl.createBoardAndAddToDB(players, randomBoard);
 	}
 	
 	public boolean canBuy(ResourceType[] costArray) {

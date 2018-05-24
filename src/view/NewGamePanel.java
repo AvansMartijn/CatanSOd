@@ -142,6 +142,10 @@ public class NewGamePanel extends JPanel {
         }
     }
     
+    public Object getBoardChoice() {
+    	return boardChoice.getSelectedItem();
+    }
+    
     public JButton getCreateGameButton() {
     	return createGameButton;
     }

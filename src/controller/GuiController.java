@@ -225,7 +225,13 @@ public class GuiController {
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainControl.createNewGame(newGamePanel.getInvitedPlayers());
+				
+				String boardChoice = (String)newGamePanel.getBoardChoice();
+				if(boardChoice == "Random") {
+					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
+				}else {
+					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+				}
 
 			}
 		});

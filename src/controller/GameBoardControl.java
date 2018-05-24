@@ -1,6 +1,8 @@
 package controller;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 import dbaccess.MainDA;
 import model.BuildingLocation;
@@ -52,8 +54,10 @@ public class GameBoardControl {
 
 	}
 
-	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
-		createTiles();
+	public Gameboard createBoardAndAddToDB(ArrayList<Player> players, boolean randomBoard) {
+		createTiles(randomBoard);
+		
+		System.out.println(randomBoard);
 		createBuildingLocations();
 		assignHarbours();
 		createStreetLocations();
@@ -66,26 +70,62 @@ public class GameBoardControl {
 	}
 
 	// create all tiles with x & y coordinate, resourcetype and number
-	private void createTiles() {
-		tileArr.add(new Tile(1, 2, 4, ResourceType.GRAAN, 12));
-		tileArr.add(new Tile(2, 3, 3, ResourceType.HOUT, 10));
-		tileArr.add(new Tile(3, 3, 6, ResourceType.GRAAN, 18));
-		tileArr.add(new Tile(4, 4, 2, ResourceType.BAKSTEEN, 6));
-		tileArr.add(new Tile(5, 4, 5, ResourceType.HOUT, 16));
-		tileArr.add(new Tile(6, 4, 8, ResourceType.ERTS, 14));
-		tileArr.add(new Tile(7, 5, 4, ResourceType.ERTS, 2));
-		tileArr.add(new Tile(8, 5, 7, ResourceType.BAKSTEEN, 8));
-		tileArr.add(new Tile(9, 6, 3, ResourceType.GRAAN, 9));
-		tileArr.add(new Tile(10, 6, 6, ResourceType.WOESTIJN, 0));
-		tileArr.add(new Tile(11, 6, 9, ResourceType.WOL, 1));
-		tileArr.add(new Tile(12, 7, 5, ResourceType.GRAAN, 5));
-		tileArr.add(new Tile(13, 7, 8, ResourceType.WOL, 4));
-		tileArr.add(new Tile(14, 8, 4, ResourceType.WOL, 17));
-		tileArr.add(new Tile(15, 8, 7, ResourceType.HOUT, 3));
-		tileArr.add(new Tile(16, 8, 10, ResourceType.HOUT, 13));
-		tileArr.add(new Tile(17, 9, 6, ResourceType.WOL, 7));
-		tileArr.add(new Tile(18, 9, 9, ResourceType.BAKSTEEN, 15));
-		tileArr.add(new Tile(19, 10, 8, ResourceType.ERTS, 11));
+	private void createTiles(boolean randomBoard) {
+		
+		ResourceType[] resourceTypes = new ResourceType[]{ResourceType.GRAAN, ResourceType.HOUT, ResourceType.GRAAN, ResourceType.BAKSTEEN, ResourceType.HOUT
+				, ResourceType.ERTS, ResourceType.ERTS, ResourceType.BAKSTEEN, ResourceType.GRAAN, ResourceType.WOESTIJN, ResourceType.WOL, ResourceType.GRAAN
+				, ResourceType.WOL, ResourceType.WOL, ResourceType.HOUT, ResourceType.HOUT, ResourceType.WOL, ResourceType.BAKSTEEN, ResourceType.ERTS};
+		
+		int[] numbers = new int[] {12, 10, 18, 6, 16, 14, 2, 8, 9, 0, 1, 5, 4, 17, 3, 13, 7, 15, 11};
+		
+		if(randomBoard) {
+		int n = numbers.length;
+		Random random = new Random();			
+			for (int i = 0; i < numbers.length; i++) {				
+				int randomValue = i + random.nextInt(n - i);				
+				int randomElement = numbers[randomValue];
+				numbers[randomValue] = numbers[i];
+				numbers[i] = randomElement;
+			}
+
+			int x = resourceTypes.length;
+			Random random1 = new Random();			
+			for (int i = 0; i < numbers.length; i++) {				
+				int randomValue = i + random1.nextInt(x - i);				
+				ResourceType randomElement = resourceTypes[randomValue];
+				resourceTypes[randomValue] = resourceTypes[i];
+				resourceTypes[i] = randomElement;
+			}
+		}
+		
+		
+		
+		tileArr.add(new Tile(1, 2, 4));
+		tileArr.add(new Tile(2, 3, 3));
+		tileArr.add(new Tile(3, 3, 6));
+		tileArr.add(new Tile(4, 4, 2));
+		tileArr.add(new Tile(5, 4, 5));
+		tileArr.add(new Tile(6, 4, 8));
+		tileArr.add(new Tile(7, 5, 4));
+		tileArr.add(new Tile(8, 5, 7));
+		tileArr.add(new Tile(9, 6, 3));
+		tileArr.add(new Tile(10, 6, 6));
+		tileArr.add(new Tile(11, 6, 9));
+		tileArr.add(new Tile(12, 7, 5));
+		tileArr.add(new Tile(13, 7, 8));
+		tileArr.add(new Tile(14, 8, 4));
+		tileArr.add(new Tile(15, 8, 7));
+		tileArr.add(new Tile(16, 8, 10));
+		tileArr.add(new Tile(17, 9, 6));
+		tileArr.add(new Tile(18, 9, 9));
+		tileArr.add(new Tile(19, 10, 8));
+		
+		for(int i = 0; i < tileArr.size(); i++) {
+			tileArr.get(i).setRsType(resourceTypes[i]);
+			System.out.println(resourceTypes[i]);
+			tileArr.get(i).setChipNumber(numbers[i]);
+			System.out.println(numbers[i]);
+		}
 	}
 
 	private void createStreetLocations() {
