@@ -353,13 +353,14 @@ public class GameControl {
 	}
 
 	public void unloadCatan() {
-		catanGame.setBank(null);
-		catanGame.setDice(null);
-		catanGame.setGameboard(null);
-		catanGame.setMessages(null);
-		for(Player p: catanGame.getPlayers()) {
-			p.unload();
-		}
+//		catanGame.setBank(null);
+//		catanGame.setDice(null);
+//		catanGame.setGameboard(null);
+//		catanGame.setMessages(null);
+//		for(Player p: catanGame.getPlayers()) {
+//			p.unload();
+//		}
+		catanGame = null;
 	}
 
 	public Gameboard createBoardAndAddToDB(ArrayList<Player> players, boolean randomBoard) {

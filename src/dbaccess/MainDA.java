@@ -25,7 +25,6 @@ import model.Street;
 import model.StreetLocation;
 import model.Tile;
 import model.TradeRequest;
-import model.VictoryPoint;
 import model.Village;
 
 public class MainDA {
