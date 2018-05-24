@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import model.Catan;
 import model.PlayStatus;
@@ -35,10 +37,14 @@ public class RecentGamePanel extends JPanel {
 
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setBackground(backgroundColor);
-		c.gridx = 1;
+		c.anchor = GridBagConstraints.WEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(0, 300, 0, 10);
+		c.gridx = 5;
 		c.gridy = 1;
 		JLabel label = new JLabel("Spel ID: " + game.getIdGame());
 		label.setForeground(Color.WHITE);
+		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.add(label, c);
 
 		ArrayList<Player> playerArray = game.getPlayers();
@@ -51,17 +57,22 @@ public class RecentGamePanel extends JPanel {
 			displayStringArr[p.getFollownr() - 1] = String.format("%s) %s: %s ", p.getFollownr(), p.getUsername(), p.getPlayStatus());
 		}
 		
-		c.gridx = 0;
+		c.anchor = GridBagConstraints.WEST;
+		c.insets = new Insets(0, 10, 0, 300);
 		c.gridy = 2;
 		for(int i = 0; i < displayStringArr.length; i++) {
 			label = new  JLabel(displayStringArr[i]);
 			label.setForeground(Color.WHITE);
+			label.setHorizontalAlignment(SwingConstants.LEFT);
 			this.add(label, c);
 			c.gridy++;
 		}
-		c.gridx = 1;
+		c.insets = new Insets(0, 300, 0, 10);
+		c.gridx = 5;
+		c.anchor = GridBagConstraints.EAST;
 
 		label = new JLabel(turnUsername + " is aan de beurt!");
+		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		label.setForeground(Color.WHITE);
 		this.add(label, c);
 		
