@@ -849,6 +849,14 @@ public class MainDA {
 		return retList;
 	}
 	
+	public void removeResource(String idResource, int idGame) {
+		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = null WHERE idgrondstofkaart = '" + idResource + "' AND idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Removing resource in DB failed");
+		}
+	}
+	
 	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
