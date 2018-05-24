@@ -65,6 +65,7 @@ import view.TradeBankPanel;
 import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
 import view.TradeRespondDialog;
+import view.CurrentTradeRequestPanel;
 import view.WaitingRoom;
 
 public class GuiController {
@@ -91,6 +92,7 @@ public class GuiController {
 	private TradeOptionsPanel tradeOptionsPanel;
 	private TradePlayerPanel tradePlayerPanel;
 	private TradeBankPanel tradeBankPanel;
+	private CurrentTradeRequestPanel tradeRequestListPanel;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -373,8 +375,9 @@ public class GuiController {
 		this.tradeOptionsPanel = new TradeOptionsPanel();
 		this.tradePlayerPanel = new TradePlayerPanel(gameControl.getCatanGame().getSelfPlayer());
 		this.tradeBankPanel = new TradeBankPanel(gameControl.getCatanGame().getSelfPlayer());
+		this.tradeRequestListPanel = new CurrentTradeRequestPanel();
 		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePlayerPanel,
-				tradeBankPanel, returnToBuildPanel, tradeOptionsPanel);
+				tradeBankPanel, returnToBuildPanel, tradeOptionsPanel, tradeRequestListPanel);
 
 		// this.tradePanel = new TradePanel();
 		// this.returnToBuildPanel = new ReturnToBuildPanel();
@@ -536,26 +539,43 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				
+
+			}
+		});
+
+		playerActionPanel.getTradeOptionsPanel().getBankButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setTradeBankPanel();
 			}
 		});
 
 		playerActionPanel.getTradeOptionsPanel().getPlayerButton().addActionListener(new ActionListener() {
 
-	@Override
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setTradePanel();
-				
+				playerActionPanel.setTradePlayerPanel();
+
 			}
 		});
-	
 
 		playerActionPanel.getTradeOptionsPanel().getBackButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-				
+
+			}
+		});
+
+		playerActionPanel.getTradeOptionsPanel().getRequestsButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setTradeRequestListPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
 			}
 		});
 		
@@ -569,11 +589,21 @@ public class GuiController {
 			}
 		});
 		
-		playerActionPanel.getTradeOptionsPanel().getBankButton().addActionListener(new ActionListener() {
+		playerActionPanel.getTradeBankPanel().getReturnButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setTradeBankPanel();
+				playerActionPanel.setTradeOptionsPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
+			}
+		});
+		
+		playerActionPanel.getTradeRequestListPanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setTradeOptionsPanel();
 				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				}
 			}

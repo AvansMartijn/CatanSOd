@@ -20,11 +20,12 @@ public class PlayerActionPanel extends JPanel {
 	private ReturnToBuildPanel returnToBuildPanel;
 	private TradeOptionsPanel tradeOptionsPanel;
 	private TradeBankPanel tradeBankPanel;
+	private CurrentTradeRequestPanel tradeRequestListPanel;
 
 	// Constructor
 	public PlayerActionPanel(PlayerOptionMenuPanel playerOptionMenuPanel, BuildPanel buildPanel, BuyPanel buyPanel,
 			TradePlayerPanel tradePlayerPanel, TradeBankPanel tradeBankPanel, ReturnToBuildPanel returnToBuildPanel,
-			TradeOptionsPanel tradeOptionsPanel) {
+			TradeOptionsPanel tradeOptionsPanel, CurrentTradeRequestPanel tradeRequestListPanel) {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
 
@@ -37,6 +38,7 @@ public class PlayerActionPanel extends JPanel {
 		this.returnToBuildPanel = returnToBuildPanel;
 		this.tradeOptionsPanel = tradeOptionsPanel;
 		this.tradeBankPanel = tradeBankPanel;
+		this.tradeRequestListPanel = tradeRequestListPanel;
 
 		add(playerOptionMenuPanel, "playerOptionMenuPanel");
 		add(buyPanel, "buyPanel");
@@ -45,6 +47,7 @@ public class PlayerActionPanel extends JPanel {
 		add(tradeOptionsPanel, "tradeOptionsPanel");
 		add(tradePlayerPanel, "tradePlayerPanel");
 		add(tradeBankPanel, "tradeBankPanel");
+		add(tradeRequestListPanel, "tradeRequestListPanel");
 	}
 
 	public PlayerOptionMenuPanel getPlayerOptionMenuPanel() {
@@ -78,7 +81,7 @@ public class PlayerActionPanel extends JPanel {
 		return tradePanel;
 	}
 
-	public void setTradePanel() {
+	public void setTradePlayerPanel() {
 		CardLayout cl = (CardLayout) (getLayout());
 		cl.show(this, "tradePlayerPanel");
 	}
@@ -109,4 +112,15 @@ public class PlayerActionPanel extends JPanel {
 		CardLayout cl = (CardLayout) (getLayout());
 		cl.show(this, "tradeBankPanel");
 	}
+
+	public CurrentTradeRequestPanel getTradeRequestListPanel() {
+		return tradeRequestListPanel;
+	}
+
+	public void setTradeRequestListPanel() {
+		CardLayout cl = (CardLayout) (getLayout());
+		cl.show(this, "tradeRequestListPanel");
+	}
+	
+	
 }

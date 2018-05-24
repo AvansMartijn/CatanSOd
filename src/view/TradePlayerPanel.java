@@ -132,23 +132,28 @@ public class TradePlayerPanel extends JPanel {
 		add(woolGive);
 
 		woodLabel = new JLabel("Hout");
-		woodLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
+		woodLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y, 200, 60);
+		woodLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(woodLabel);
 
 		wheatLabel = new JLabel("Graan");
-		wheatLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
+		wheatLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 2, 200, 60);
+		wheatLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(wheatLabel);
 
 		stoneLabel = new JLabel("Steen");
-		stoneLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
+		stoneLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 3, 200, 60);
+		stoneLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(stoneLabel);
 
 		ironLabel = new JLabel("Ijzer");
-		ironLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
+		ironLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 4, 200, 60);
+		ironLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(ironLabel);
 
 		woolLabel = new JLabel("Wol");
-		woolLabel.setBounds(150, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
+		woolLabel.setBounds(70, 50 + TEXTFIELD_OFFSET_Y * 5, 200, 60);
+		woolLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(woolLabel);
 
 		subTitleLabel3 = new JLabel("ontvangen");

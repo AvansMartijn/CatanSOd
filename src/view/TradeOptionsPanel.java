@@ -24,7 +24,7 @@ public class TradeOptionsPanel extends JPanel {
 
 	private JLabel titleLabel, subTitleLabel;
 
-	private JButton bankButton, playerButton, backButton;
+	private JButton bankButton, playerButton, backButton, requestsButton;
 
 	public TradeOptionsPanel() {
 
@@ -37,29 +37,34 @@ public class TradeOptionsPanel extends JPanel {
 		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 35));
 		titleLabel.setForeground(TextColor);
 		titleLabel.setBounds(80, 20, 200, 40);
-
 		add(titleLabel);
 
 		subTitleLabel = new JLabel("handelen met");
 		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel.setForeground(TextColor);
-		subTitleLabel.setBounds(130, 70, 220, 40);
-
+		subTitleLabel.setBounds(130, 50, 220, 40);
 		add(subTitleLabel);
 
 		bankButton = new JButton("Bank");
-		bankButton.setBounds(BUTTON_OFFSET_X, 140, BUTTON_WIDTH, BUTTON_HEIGHT);
+		bankButton.setBounds(BUTTON_OFFSET_X, 80, BUTTON_WIDTH, BUTTON_HEIGHT);
 		bankButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		bankButton.setBackground(textBackgroundColor);
 		bankButton.setForeground(TextColor);
 		add(bankButton);
 
 		playerButton = new JButton("Speler");
-		playerButton.setBounds(BUTTON_OFFSET_X, 200, BUTTON_WIDTH, BUTTON_HEIGHT);
+		playerButton.setBounds(BUTTON_OFFSET_X, 140, BUTTON_WIDTH, BUTTON_HEIGHT);
 		playerButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		playerButton.setBackground(textBackgroundColor);
 		playerButton.setForeground(TextColor);
 		add(playerButton);
+		
+		requestsButton = new JButton("Handelsverzoeken");
+		requestsButton.setBounds(BUTTON_OFFSET_X, 200, BUTTON_WIDTH, BUTTON_HEIGHT);
+		requestsButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+		requestsButton.setBackground(textBackgroundColor);
+		requestsButton.setForeground(TextColor);
+		add(requestsButton);
 		
 		backButton = new JButton("Terug");
 		backButton.setBounds(BUTTON_OFFSET_X, 260, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -92,6 +97,14 @@ public class TradeOptionsPanel extends JPanel {
 
 	public void setBackButton(JButton backButton) {
 		this.backButton = backButton;
+	}
+
+	public JButton getRequestsButton() {
+		return requestsButton;
+	}
+
+	public void setRequestsButton(JButton requestsButton) {
+		this.requestsButton = requestsButton;
 	}
 	
 }
