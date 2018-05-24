@@ -35,7 +35,7 @@ public class MainMenuGUI extends JPanel {
 		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		setBackground(backgroundColor);
 		mainPanel = new JPanel();
-		mainPanel.setPreferredSize(new Dimension(420, 800));
+		mainPanel.setPreferredSize(new Dimension(520, 800));
 		this.topOptionsPanel = topOptionsPanel;
 		this.bottomOptionsPanel = bottomOptionsPanel;
 		this.currentGames = currentGames;
@@ -46,12 +46,10 @@ public class MainMenuGUI extends JPanel {
 		mainPanel.add(this.topOptionsPanel);
 		mainPanel.setBackground(innerColor);
 
-		int height = currentGames.getGamePanels().size() * 110;
-		currentGames.setPreferredSize(new Dimension(400, height));
 		scrollPane = new JScrollPane(currentGames, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-		scrollPane.setPreferredSize(new Dimension(420, 700));
+		scrollPane.setPreferredSize(new Dimension(520, 700));
 		mainPanel.add(scrollPane);
 		
 		mainPanel.add(this.bottomOptionsPanel);

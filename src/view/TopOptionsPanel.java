@@ -18,6 +18,7 @@ public class TopOptionsPanel extends JPanel {
 	private JRadioButton closedGameButton;
 
 	private Color backgroundColor = new Color(189, 133, 100);
+	private Color buttonBackgroundColor = new Color(223, 190, 172);
 
 	public TopOptionsPanel() {
 
@@ -26,9 +27,11 @@ public class TopOptionsPanel extends JPanel {
 		setBackground(backgroundColor);
 		
 		createGameButton = new JButton("Game aanmaken");
+		createGameButton.setBackground(buttonBackgroundColor);
 		add(createGameButton);
 
 		inviteButton = new JButton("Uitnodigingen");
+		inviteButton.setBackground(buttonBackgroundColor);
 		add(inviteButton);
 
 		ButtonGroup group = new ButtonGroup();
