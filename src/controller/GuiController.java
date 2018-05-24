@@ -444,15 +444,28 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (!gameControl.buildVillage(blb.getBuildingLocation())) {
-						addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
-						
-					} else {
-						gameControl.addMessage("Heeft een nederzetting (TODO stad of dorp) gebouwd op " + blb.getBuildingLocation());
-						boardPanel.disableBuildingLocButtons();
-						playerActionPanel.setBuildPanel();
-						addPlayerColorToBuildingLocs();
+					if(blb.getState()) {
+						if (!gameControl.buildCity(blb.getBuildingLocation())) {
+							addSystemMessageToChat(Color.RED, "Je kan hier geen stad bouwen");
+							
+						} else {
+							gameControl.addMessage("Heeft een nederzetting stad gebouwd op " + blb.getBuildingLocation());
+							boardPanel.disableBuildingLocButtons();
+							playerActionPanel.setBuildPanel();
+							addPlayerColorToBuildingLocs();
+						}
+					}else {
+						if (!gameControl.buildVillage(blb.getBuildingLocation())) {
+							addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
+							
+						} else {
+							gameControl.addMessage("Heeft een nederzetting dorp gebouwd op " + blb.getBuildingLocation());
+							boardPanel.disableBuildingLocButtons();
+							playerActionPanel.setBuildPanel();
+							addPlayerColorToBuildingLocs();
+						}
 					}
+		
 				}
 			});
 		}
@@ -629,7 +642,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				villageBoolean = true;
-				boardPanel.enableBuildingLocButtons();
+				
+				boardPanel.enableBuildingLocButtons(false);
 				playerActionPanel.setReturnToBuildPanel();
 				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				// }
@@ -641,7 +655,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 //				cityBoolean = true;
-				boardPanel.enableBuildingLocButtons();
+				boardPanel.enableBuildingLocButtons(true);
 				playerActionPanel.setReturnToBuildPanel();
 				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				// }

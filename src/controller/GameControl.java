@@ -499,27 +499,7 @@ public class GameControl {
 
 		});
 	}
-
-	// public void printPlayerVillages() {
-	// for (Player p : gamePlayers) {
-	// System.out.println(p.getUsername());
-	// for(Village v: p.getVillageArr()) {
-	//
-	// System.out.println(v.getBuildingLocation().getXLoc() + " " +
-	// v.getBuildingLocation().getYLoc());
-	// }
-	// }
-	// }
-
-	// public void printPlayerVillages() {
-	// for (Player p : gamePlayers) {
-	// System.out.println(p.getUsername());
-	// for(Village v: p.getVillageArr()) {
-	//
-	// System.out.println(v.getBuildingLocation().getXLoc() + " " +
-	// v.getBuildingLocation().getYLoc());
-	// }
-	// }
-	// }
+	
+	
 
 }
