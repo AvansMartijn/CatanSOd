@@ -29,4 +29,9 @@ public class Resource {
 		return rsType;
 	}
 
+	public String getResourceID() {
+		return resourceID;
+	}
+	
+
 }
