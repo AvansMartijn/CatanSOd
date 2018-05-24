@@ -228,7 +228,13 @@ public class GuiController {
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainControl.createNewGame(newGamePanel.getInvitedPlayers());
+				
+				String boardChoice = (String)newGamePanel.getBoardChoice();
+				if(boardChoice == "Random") {
+					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
+				}else {
+					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+				}
 
 			}
 		});
@@ -443,16 +449,29 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (!gameControl.buildVillage(blb.getBuildingLocation())) {
-						addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
 
-					} else {
-						gameControl.addMessage(
-								"Heeft een nederzetting (TODO stad of dorp) gebouwd op " + blb.getBuildingLocation());
-						boardPanel.disableBuildingLocButtons();
-						playerActionPanel.setBuildPanel();
-						addPlayerColorToBuildingLocs();
+					if(blb.getState()) {
+						if (!gameControl.buildCity(blb.getBuildingLocation())) {
+							addSystemMessageToChat(Color.RED, "Je kan hier geen stad bouwen");
+							
+						} else {
+							gameControl.addMessage("Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: " + blb.getBuildingLocation().getYLoc());
+							boardPanel.disableBuildingLocButtons();
+							playerActionPanel.setBuildPanel();
+							addPlayerColorToBuildingLocs();
+						}
+					}else {
+						if (!gameControl.buildVillage(blb.getBuildingLocation())) {
+							addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
+							
+						} else {
+							gameControl.addMessage("Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: " + blb.getBuildingLocation().getYLoc());
+							boardPanel.disableBuildingLocButtons();
+							playerActionPanel.setBuildPanel();
+							addPlayerColorToBuildingLocs();
+						}
 					}
+		
 				}
 			});
 		}
@@ -467,7 +486,8 @@ public class GuiController {
 					if (!gameControl.buildStreet(slb.getStreetLocation())) {
 						addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 					} else {
-						gameControl.addMessage("Heeft een straat gebouwd op " + slb.getStreetLocation());
+						gameControl.addMessage("Heeft een straat gebouwd tussen X: " + slb.getStreetLocation().getBlStart().getXLoc() + " Y: " + slb.getStreetLocation().getBlStart().getYLoc()
+								 + " en X: " + slb.getStreetLocation().getBlEnd().getXLoc() + " Y: " + slb.getStreetLocation().getBlEnd().getYLoc());
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
 						addPlayerColorToStreetLocs();
@@ -650,8 +670,9 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				boardPanel.enableBuildingLocButtons();
+//				villageBoolean = true;
+				
+				boardPanel.enableBuildingLocButtons(false);
 				playerActionPanel.setReturnToBuildPanel();
 			}
 		});
@@ -661,7 +682,9 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				boardPanel.enableBuildingLocButtons();
+//				cityBoolean = true;
+				boardPanel.enableBuildingLocButtons(true);
+
 				playerActionPanel.setReturnToBuildPanel();
 			}
 		});
@@ -820,7 +843,8 @@ public class GuiController {
 		addPlayerActionBuildButtonsListener();
 		addBuildBackButtonListener();
 
-		addPlayerActionEndTurnButtonListener();
+		addPlayerActionEndTurnButtonListener();	
+		
 
 	}
 
