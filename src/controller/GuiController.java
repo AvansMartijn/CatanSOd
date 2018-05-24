@@ -61,7 +61,9 @@ import view.RecentGamesPanel;
 import view.ReturnToBuildPanel;
 import view.StreetLocationButton;
 import view.TileButton;
-import view.TradePanel;
+import view.TradeBankPanel;
+import view.TradeOptionsPanel;
+import view.TradePlayerPanel;
 import view.TradeRespondDialog;
 import view.WaitingRoom;
 
@@ -82,11 +84,13 @@ public class GuiController {
 	private ChatPanel chatPanel;
 	private PlayerActionPanel playerActionPanel;
 	private PlayerOptionMenuPanel playerOptionMenuPanel;
-	private TradePanel tradePanel;
 	private BuyPanel buyPanel;
 	private BuildPanel buildPanel;
 	private ReturnToBuildPanel returnToBuildPanel;
 	private TradeRespondDialog tradeRespondDialog;
+	private TradeOptionsPanel tradeOptionsPanel;
+	private TradePlayerPanel tradePlayerPanel;
+	private TradeBankPanel tradeBankPanel;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -365,10 +369,12 @@ public class GuiController {
 		this.playerOptionMenuPanel = new PlayerOptionMenuPanel();
 		this.buyPanel = new BuyPanel();
 		this.buildPanel = new BuildPanel();
-		this.tradePanel = new TradePanel(gameControl.getCatanGame().getSelfPlayer());
 		this.returnToBuildPanel = new ReturnToBuildPanel();
-		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePanel,
-				returnToBuildPanel);
+		this.tradeOptionsPanel = new TradeOptionsPanel();
+		this.tradePlayerPanel = new TradePlayerPanel(gameControl.getCatanGame().getSelfPlayer());
+		this.tradeBankPanel = new TradeBankPanel(gameControl.getCatanGame().getSelfPlayer());
+		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePlayerPanel,
+				tradeBankPanel, returnToBuildPanel, tradeOptionsPanel);
 
 		// this.tradePanel = new TradePanel();
 		// this.returnToBuildPanel = new ReturnToBuildPanel();
@@ -518,20 +524,56 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 
-				}
 			}
 		});
 	}
 
-	private void addPlayerActionTradeButtonListener() {
+	private void addTradeButtonsListeners() {
 
 		playerActionPanel.getPlayerOptionMenuPanel().getTradeButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setTradeOptionsPanel();
+				
+			}
+		});
+
+		playerActionPanel.getTradeOptionsPanel().getPlayerButton().addActionListener(new ActionListener() {
+
+	@Override
+			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradePanel();
+				
+			}
+		});
+	
+
+		playerActionPanel.getTradeOptionsPanel().getBackButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				
+			}
+		});
+		
+		playerActionPanel.getTradePanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setPlayerOptionMenuPanel();
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
+			}
+		});
+		
+		playerActionPanel.getTradeOptionsPanel().getBankButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.setTradeBankPanel();
 				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				}
 			}
@@ -542,7 +584,6 @@ public class GuiController {
 		playerActionPanel.getTradePanel().getSendRequestButton().addActionListener(new ActionListener() { // TODO maybe
 																											// in
 																											// GameControl
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// give
@@ -565,20 +606,6 @@ public class GuiController {
 
 	private void addTradeRespondDialogActionListeners() {
 
-		
-		
-	}
-
-	private void addPlayerActionTradeQuitButtonListener() {
-		playerActionPanel.getTradePanel().getReturnButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setPlayerOptionMenuPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
-			}
-		});
 	}
 
 	// actionlisteners for build menu
@@ -785,12 +812,10 @@ public class GuiController {
 		addPlayerActionBuyButtonListener();
 		addPlayerActionBuyQuitButtonListener();
 
-		addPlayerActionTradeButtonListener();
-		addPlayerActionTradeQuitButtonListener();
+		addTradeButtonsListeners();
 		addTradeRespondDialogActionListeners();
 
 		addPlayerActionBuildButtonsListener();
-
 		addBuildBackButtonListener();
 
 		addPlayerActionEndTurnButtonListener();

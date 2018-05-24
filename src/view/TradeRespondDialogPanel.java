@@ -251,4 +251,13 @@ public class TradeRespondDialogPanel extends JPanel {
 		}
 		return message;
 	}
+
+	public Boolean getCounterOffer() {
+		return counterOffer;
+	}
+
+	public void setCounterOffer(Boolean counterOffer) {
+		this.counterOffer = counterOffer;
+	}
+
 }

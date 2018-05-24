@@ -37,9 +37,9 @@ public class TradeRespondPanels extends JPanel {
 		
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		
-		tradeRespondDialogPanel1 = new TradeRespondDialogPanel("Speler1");
-		tradeRespondDialogPanel2 = new TradeRespondDialogPanel("Speler2");
-		tradeRespondDialogPanel3 = new TradeRespondDialogPanel("Speler3");
+		tradeRespondDialogPanel1 = new TradeRespondDialogPanel("Speler1", true);
+		tradeRespondDialogPanel2 = new TradeRespondDialogPanel("Speler2", true);
+		tradeRespondDialogPanel3 = new TradeRespondDialogPanel("Speler3", true);
 
 		add(tradeRespondDialogPanel1);
 		add(tradeRespondDialogPanel2);

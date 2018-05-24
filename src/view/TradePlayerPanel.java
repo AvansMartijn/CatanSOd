@@ -14,7 +14,7 @@ import javax.swing.text.NumberFormatter;
 import model.Player;
 
 @SuppressWarnings("serial")
-public class TradePanel extends JPanel {
+public class TradePlayerPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
@@ -66,7 +66,7 @@ public class TradePanel extends JPanel {
 	
 	private Player selfPlayer;
 
-	public TradePanel(Player selfPlayer) {
+	public TradePlayerPanel(Player selfPlayer) {
 		this.selfPlayer = selfPlayer;
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
