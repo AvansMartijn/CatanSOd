@@ -449,7 +449,7 @@ public class GuiController {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen stad bouwen");
 							
 						} else {
-							gameControl.addMessage("Heeft een nederzetting stad gebouwd op " + blb.getBuildingLocation());
+							gameControl.addMessage("Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: " + blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
@@ -459,7 +459,7 @@ public class GuiController {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
 							
 						} else {
-							gameControl.addMessage("Heeft een nederzetting dorp gebouwd op " + blb.getBuildingLocation());
+							gameControl.addMessage("Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: " + blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
@@ -480,7 +480,8 @@ public class GuiController {
 					if (!gameControl.buildStreet(slb.getStreetLocation())) {
 						addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 					} else {
-						gameControl.addMessage("Heeft een straat gebouwd op " + slb.getStreetLocation());
+						gameControl.addMessage("Heeft een straat gebouwd tussen X: " + slb.getStreetLocation().getBlStart().getXLoc() + " Y: " + slb.getStreetLocation().getBlStart().getYLoc()
+								 + " en X: " + slb.getStreetLocation().getBlEnd().getXLoc() + " Y: " + slb.getStreetLocation().getBlEnd().getYLoc());
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
 						addPlayerColorToStreetLocs();
