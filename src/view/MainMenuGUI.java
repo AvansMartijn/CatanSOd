@@ -2,10 +2,15 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,12 +29,13 @@ public class MainMenuGUI extends JPanel {
 	private JScrollPane scrollPane;
 	private JPanel bottomOptionsPanel;
 	private int pageNr;
+	private Image image;
 
 	public MainMenuGUI(String username, JPanel topOptionsPanel, JPanel bottomOptionsPanel, RecentGamesPanel currentGames) {
 		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		setBackground(backgroundColor);
 		mainPanel = new JPanel();
-		mainPanel.setPreferredSize(new Dimension(420, 800));
+		mainPanel.setPreferredSize(new Dimension(520, 800));
 		this.topOptionsPanel = topOptionsPanel;
 		this.bottomOptionsPanel = bottomOptionsPanel;
 		this.currentGames = currentGames;
@@ -40,12 +46,10 @@ public class MainMenuGUI extends JPanel {
 		mainPanel.add(this.topOptionsPanel);
 		mainPanel.setBackground(innerColor);
 
-		int height = currentGames.getGamePanels().size() * 110;
-		currentGames.setPreferredSize(new Dimension(400, height));
 		scrollPane = new JScrollPane(currentGames, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
-		scrollPane.setPreferredSize(new Dimension(420, 700));
+		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+		scrollPane.setPreferredSize(new Dimension(520, 700));
 		mainPanel.add(scrollPane);
 		
 		mainPanel.add(this.bottomOptionsPanel);
@@ -57,6 +61,20 @@ public class MainMenuGUI extends JPanel {
 
         gridLayout.setConstraints(mainPanel, constraints);
         add(mainPanel, constraints);
+        
+		URL url = this.getClass().getResource("/images/MainMenuBackground.jpg");
+
+		try {
+			image = ImageIO.read(url);
+			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
+					Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+		}
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(image, 0, 0, this);
 	}
 	
 	public JPanel getCurrentGamesPanel() {

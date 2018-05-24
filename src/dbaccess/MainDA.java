@@ -15,21 +15,18 @@ import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.DevelopmentCard;
-import model.Knight;
-import model.Monopoly;
+import model.DevelopmentCardType;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Resource;
 import model.ResourceType;
-import model.RoadBuilding;
 import model.Street;
 import model.StreetLocation;
 import model.Tile;
 import model.TradeRequest;
 import model.VictoryPoint;
 import model.Village;
-import model.YearOfPlenty;
 
 public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
@@ -854,6 +851,14 @@ public class MainDA {
 		return retList;
 	}
 	
+	public void removeResource(String idResource, int idGame) {
+		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = null WHERE idgrondstofkaart = '" + idResource + "' AND idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Removing resource in DB failed");
+		}
+	}
+	
 	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
@@ -872,25 +877,7 @@ public class MainDA {
 			while (myRs.next()) {
 				String developmentCardID = myRs.getString(1);
 				boolean played = myRs.getBoolean(2);
-				switch(developmentCardID.substring(3, 4)){
-				case "r": // ridder
-					retList.add(new Knight(developmentCardID, played));
-					break;
-				case "g": 
-					retList.add(new VictoryPoint(developmentCardID, played));
-					break;
-				case "s": // stratenbouw
-					retList.add(new RoadBuilding(developmentCardID, played));
-					break;
-				case "m": // monopoly
-					retList.add(new Monopoly(developmentCardID, played));
-					break;
-				case "u": // uitvinder
-					retList.add(new YearOfPlenty(developmentCardID, played));
-					break;
-				}
-				
-				
+				retList.add(new DevelopmentCard(developmentCardID, played));
 			}
 			myRs.close();
 			stmt.close();

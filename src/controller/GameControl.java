@@ -15,6 +15,7 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.Resource;
 import model.ResourceType;
 import model.Street;
 import model.StreetLocation;
@@ -222,7 +223,7 @@ public class GameControl {
 			return false;
 		}
 
-		// TODO Move resources from player to bank
+		removeResources(Street.cost);
 
 		streetLocation.setStreet(street);
 		street.setStreetLocation(streetLocation);
@@ -231,6 +232,19 @@ public class GameControl {
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
 		System.out.println("street built");
 		return true;
+	}
+	
+	private void removeResources(ResourceType[] cost) {
+		for(ResourceType r: cost) {
+			for(Resource rs: catanGame.getSelfPlayer().getHand().getResources()) {
+				if(rs.getRsType().equals(r)) {
+					catanGame.getSelfPlayer().getHand().getResources().remove(rs);
+					mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
+				}
+				
+			}
+			
+		}
 	}
 
 	public void setVillageArrays() {
@@ -342,7 +356,10 @@ public class GameControl {
 		catanGame.setBank(null);
 		catanGame.setDice(null);
 		catanGame.setGameboard(null);
-
+		catanGame.setMessages(null);
+		for(Player p: catanGame.getPlayers()) {
+			p.unload();
+		}
 	}
 
 	public Gameboard createBoardAndAddToDB(ArrayList<Player> players, boolean randomBoard) {

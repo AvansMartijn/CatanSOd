@@ -326,6 +326,19 @@ public class Player {
 	public int getRoads() {
 		return roads;
 	}
+
+	public void unload() {
+		color                 = null;
+		playStatus            = null;
+		hand                  = null; 
+		overwinningspunten    = 0; 
+		points                = 0;
+		villageArr            = null;
+		cityArr               = null;
+		streetArr             = null;
+		                           
+		
+	}
 	
 	
 }
