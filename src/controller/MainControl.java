@@ -167,11 +167,50 @@ public class MainControl {
 		return player;
 	}
 
+	public void loadInvites() {
+		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
+		ArrayList<Catan> invitedGames = new ArrayList<Catan>();
+		ArrayList<Catan> ableToInviteGames = new ArrayList<Catan>();
+		for(Integer i: gameIDsOfUser) {
+			ArrayList<Player> players = getPlayers(i.intValue());
+			
+			Player selfPlayer = getSelfPlayer(players);
+			if(selfPlayer.getPlayStatus().equals("uitgedaagde")) {
+				invitedGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
+			} else if (selfPlayer.getPlayStatus().equals("uitdager")) {
+				 boolean containsDeclinedPlayer = players.stream().anyMatch(t -> t.getPlayStatus().equals("geweigerd") || t.getPlayStatus().equals("uitgedaagde"));
+				 if(containsDeclinedPlayer || players.size() < 4) {
+					 ableToInviteGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
+				 }
+			}
+		}
+		
+		guiController.setInvitePanel(invitedGames, ableToInviteGames);
+	}
+	
+	public void acceptInvite(Catan gameToAccept) {
+		ArrayList<Player> players = getPlayers(gameToAccept.getIdGame());
+		int playerId = getSelfPlayer(players).getIdPlayer();
+		mainDA.acceptInvite(playerId);
+		loadInvites();
+	}
+	
+	public void declineInvite(Catan gameToDecline) {
+		ArrayList<Player> players = getPlayers(gameToDecline.getIdGame());
+		int playerId = getSelfPlayer(players).getIdPlayer();
+		mainDA.declineInvite(playerId);
+		loadInvites();
+	}
+	
 	public void addPlayerToDB(int idGame, Player player) {
 		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
 				player.getPlayStatus().toString());
 	}
 
+	public void removePlayerFromDB(int idGame, String username) {
+		mainDA.deletePlayer(username, idGame);
+	}
+	
 	private void createDevelopmentCardsInDB(int gameID) {
 		String idCard = "o";
 		for(int i = 1; i <= 25; i++) {
@@ -208,7 +247,7 @@ public class MainControl {
 		}
 	}
 
-	private void createPlayerPiecesInDB(ArrayList<Player> players) {
+	public void createPlayerPiecesInDB(ArrayList<Player> players) {
 		// TODO Auto-generated method stub
 		String idPiece;
 		for (Player p : players) {

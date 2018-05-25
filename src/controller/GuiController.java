@@ -49,8 +49,10 @@ import view.GameGUIPanel;
 import view.GameSelect;
 import view.GameSouthContainerPanel;
 import view.GameTopPanel;
+import view.InvitePanel;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
+import view.ManageInvitesFrame;
 import view.NewGamePanel;
 import view.RecentGamesTopPanel;
 import view.PlayerActionPanel;
@@ -87,6 +89,7 @@ public class GuiController {
 	private PlayerOptionMenuPanel playerOptionMenuPanel;
 	private BuyPanel buyPanel;
 	private BuildPanel buildPanel;
+	private InvitePanel invitePanel;
 	private ReturnToBuildPanel returnToBuildPanel;
 	private TradeRespondDialog tradeRespondDialog;
 	private TradeOptionsPanel tradeOptionsPanel;
@@ -294,6 +297,75 @@ public class GuiController {
 		frame.pack();
 	}
 
+	
+	public void setInvitePanel(ArrayList<Catan> invitedList, ArrayList<Catan> ableToInviteList) {
+		InvitePanel invitePanel = new InvitePanel(invitedList, ableToInviteList);
+		invitePanel.getAcceptButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+			}
+		});
+		invitePanel.getDeclineButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+			}
+		});
+		invitePanel.getRefreshButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadInvites();
+			}
+		});
+		invitePanel.getInviteButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Catan catan = invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex());
+				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAcccountUsername(), mainControl.getAllAccounts(), catan);
+				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						if(frame.panel.getInvitedPlayers().size() < 4) {
+							JOptionPane.showConfirmDialog(null,
+									"Te weinig spelers", "Je moet minimaal 4 spelers hebben.", JOptionPane.YES_NO_OPTION);
+						} else	{
+							//Compare Lists and update in DB.
+							for(Player p : catan.getPlayers()) {
+								if(!frame.panel.getInvitedPlayers().contains(p.getUsername())) {
+									//Remove P 
+									mainControl.removePlayerFromDB(catan.getIdGame(), p.getUsername());
+								}
+							}
+							for(String s : frame.panel.getInvitedPlayers()) {
+								if(catan.getPlayers().contains(s)) {
+									//Add S
+									Player player = mainControl.createNewPlayer(catan.getIdGame(), s);	
+									mainControl.addPlayerToDB(catan.getIdGame(), player);
+									ArrayList<Player> arrayList = new ArrayList<>();
+									arrayList.add(player);
+									mainControl.createPlayerPiecesInDB(arrayList);
+								}
+							}
+						}
+						
+					}
+				});
+			}
+		});
+		this.invitePanel = invitePanel;
+		frame.setContentPane(this.invitePanel);
+		frame.pack();
+	}
+	
+	
+	
 	public void setWaitingRoom(ArrayList<Player> players) {
 		// WaitingRoom waitingRoom = new WaitingRoom(players);
 		// frame.setContentPane(waitingRoom);

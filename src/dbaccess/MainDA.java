@@ -944,4 +944,35 @@ public class MainDA {
 		}
 		return retList;
 	}
+	
+
+	public void deletePlayer(String username, int idGame) {
+
+		String insertquery = "DELETE a.*, b.* \r\n" + 
+				"FROM speler a \r\n" + 
+				"LEFT JOIN spelerstuk b \r\n" + 
+				"ON b.idspeler = a.idspeler \r\n" + 
+				"WHERE a.idspel = "+idGame+"AND a.username '"+username+"';";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Removing player from DB failed");
+		}
+	}
+	
+	public void acceptInvite(int playerId) {
+		String query = "UPDATE speler SET speelstatus = 'geaccepteerd' WHERE idspeler = " + playerId + ";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to change playstatus");
+		}
+	}
+	
+	public void declineInvite(int playerId) {
+		String query = "UPDATE speler SET speelstatus = 'geweigerd' WHERE idspeler = " + playerId + ";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to change playstatus");
+		}
+	}
+	
 }
