@@ -19,6 +19,7 @@ import model.Resource;
 import model.ResourceType;
 import model.Street;
 import model.StreetLocation;
+import model.TradeRequest;
 import model.Village;
 import view.PlayerStatsPanel;
 
@@ -51,7 +52,7 @@ public class GameControl {
 		gameBoardControl = new GameBoardControl(mainDA, gameID);
 
 		// TODO add gameboard to db
-//		 gameboard = gameBoardControl.createBoard();
+		// gameboard = gameBoardControl.createBoard();
 		return gameID;
 
 	}
@@ -233,17 +234,17 @@ public class GameControl {
 		System.out.println("street built");
 		return true;
 	}
-	
+
 	private void removeResources(ResourceType[] cost) {
-		for(ResourceType r: cost) {
-			for(Resource rs: catanGame.getSelfPlayer().getHand().getResources()) {
-				if(rs.getRsType().equals(r)) {
+		for (ResourceType r : cost) {
+			for (Resource rs : catanGame.getSelfPlayer().getHand().getResources()) {
+				if (rs.getRsType().equals(r)) {
 					catanGame.getSelfPlayer().getHand().getResources().remove(rs);
 					mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
 				}
-				
+
 			}
-			
+
 		}
 	}
 
@@ -353,13 +354,13 @@ public class GameControl {
 	}
 
 	public void unloadCatan() {
-//		catanGame.setBank(null);
-//		catanGame.setDice(null);
-//		catanGame.setGameboard(null);
-//		catanGame.setMessages(null);
-//		for(Player p: catanGame.getPlayers()) {
-//			p.unload();
-//		}
+		// catanGame.setBank(null);
+		// catanGame.setDice(null);
+		// catanGame.setGameboard(null);
+		// catanGame.setMessages(null);
+		// for(Player p: catanGame.getPlayers()) {
+		// p.unload();
+		// }
 		catanGame = null;
 	}
 
@@ -413,7 +414,7 @@ public class GameControl {
 		return false;
 
 	}
-	
+
 	private ArrayList<StreetLocation> visitedLocations;
 
 	public int getTradeRouteLength(String username) {
@@ -452,7 +453,7 @@ public class GameControl {
 		}
 		System.out.println(amount);
 		return amount;
-		
+
 		// }
 		// return 0;
 	}
@@ -489,7 +490,7 @@ public class GameControl {
 
 			amount = Math.max(amount, 1 + amount_from + amount_to);
 		}
-//		System.out.println(amount);
+		// System.out.println(amount);
 		return amount;
 	}
 
@@ -518,22 +519,63 @@ public class GameControl {
 
 		});
 	}
-	
-	
 
-	public void getTradeRequest() {
+	public void getBankTradeRequest(int[] resourceRatios, ResourceType resourceTypeToGive, ResourceType resourceTypeToReceive) {
+		int ratio;
+		switch (resourceTypeToGive) {
 
+		case BAKSTEEN:
+			ratio = resourceRatios[0];
+			break;
+		case ERTS:
+			ratio = resourceRatios[1];
+			break;
+		case WOL:
+			ratio = resourceRatios[2];
+			break;
+		case GRAAN:
+			ratio = resourceRatios[3];
+			break;
+		case HOUT:
+			ratio = resourceRatios[4];
+			break;
+		default:
+			ratio = 3;
+		}
+		
+		ArrayList<Resource> resourceCardsToGive = new ArrayList<>();
+		Resource resourceCardToReceive;
+		
+		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
+		if(resourceCardsToGive == null) {
+			addMessage("Je hebt niet genoeg " + resourceTypeToGive.name() +" kaarten");
+			return;
+		}
+		
+		resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
+		if(catanGame.getBank().takeResource(resourceTypeToReceive) != null){
+			addMessage("De bank heeft niet genoeg " + resourceTypeToGive.name() +" kaarten");
+			return;
+		}
+		
+		catanGame.getSelfPlayer().getHand().addResource(resourceCardToReceive);
+		catanGame.getBank().addMultipleResources(resourceCardsToGive);
+		for(Resource rs : resourceCardsToGive) {
+			mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
+		}
+		mainDA.addResourceToPlayer(resourceCardToReceive.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+		
 	}
-
+	
 	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
 
-		mainDA.createTradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive, ironGive,
-				wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
+		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
+				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
 
 	}
 
-	public int[] getHarbourLocations() {
+	public int[] getResourceRatios() {
 
 		int[] resourceRatios = new int[] { 4, 4, 4, 4, 4 };
 
@@ -541,15 +583,17 @@ public class GameControl {
 		ArrayList<City> cityLocations = catanGame.getSelfPlayer().getCityArr();
 
 		for (int j = 0; j < villageLocations.size(); j++) {
-
-			if (villageLocations.get(j).getBuildingLocation().getHarbour() != null) {
-				setHarbourResource(resourceRatios, villageLocations.get(j).getBuildingLocation());
+			if (villageLocations.get(j).getBuildingLocation() != null) {
+				if (villageLocations.get(j).getBuildingLocation().getHarbour() != null) {
+					setHarbourResource(resourceRatios, villageLocations.get(j).getBuildingLocation());
+				}
 			}
 		}
 		for (int i = 0; i < cityLocations.size(); i++) {
-
-			if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
-				setHarbourResource(resourceRatios, cityLocations.get(i).getBuildingLocation());
+			if (cityLocations.get(i).getBuildingLocation() != null) {
+				if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
+					setHarbourResource(resourceRatios, cityLocations.get(i).getBuildingLocation());
+				}
 			}
 		}
 		return resourceRatios;

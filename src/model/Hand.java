@@ -114,8 +114,35 @@ public class Hand {
 		this.resources = resources;
 	}
 
-	public void takeresource() {
-
+	public Resource takeResource(ResourceType rsType) {
+		Resource rsToReturn;
+		for(int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getRsType() == rsType) {
+				rsToReturn = resources.get(i);
+				resources.remove(i);
+				return rsToReturn;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Resource> takeMultipleResources(ResourceType rsType, int amount) {
+		ArrayList<Resource> rsToReturn = new ArrayList<>();
+		for(int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getRsType() == rsType) {
+				rsToReturn.add(resources.get(i));				
+			}
+		}
+		
+		if(rsToReturn.size() == amount) {
+			for(int x = 0; x < resources.size(); x++) {
+				if(resources.get(x).getRsType() == rsType) {
+					resources.remove(x);			
+				}
+			}
+			return rsToReturn;
+		}
+		return null;
 	}
 
 	public ArrayList<DevelopmentCard> getDevelopmentCards() {
