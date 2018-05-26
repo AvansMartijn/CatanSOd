@@ -520,7 +520,8 @@ public class GameControl {
 		});
 	}
 
-	public void getBankTradeRequest(int[] resourceRatios, ResourceType resourceTypeToGive, ResourceType resourceTypeToReceive) {
+	public void getBankTradeRequest(int[] resourceRatios, ResourceType resourceTypeToGive,
+			ResourceType resourceTypeToReceive) {
 		int ratio;
 		switch (resourceTypeToGive) {
 
@@ -542,36 +543,29 @@ public class GameControl {
 		default:
 			ratio = 3;
 		}
-		
+
 		ArrayList<Resource> resourceCardsToGive = new ArrayList<>();
 		Resource resourceCardToReceive;
-		
+
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
-		if(resourceCardsToGive == null) {
-			addMessage("Je hebt niet genoeg " + resourceTypeToGive.name() +" kaarten");
+		if (resourceCardsToGive == null) {
+			addMessage("Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
 			return;
 		}
-		
+
 		resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
-		if(catanGame.getBank().takeResource(resourceTypeToReceive) != null){
-			addMessage("De bank heeft niet genoeg " + resourceTypeToGive.name() +" kaarten");
+		if (catanGame.getBank().takeResource(resourceTypeToReceive) != null) {
+			addMessage("De bank heeft niet genoeg " + resourceTypeToGive.name() + " kaarten");
 			return;
 		}
-		
+
 		catanGame.getSelfPlayer().getHand().addResource(resourceCardToReceive);
 		catanGame.getBank().addMultipleResources(resourceCardsToGive);
-		for(Resource rs : resourceCardsToGive) {
+		for (Resource rs : resourceCardsToGive) {
 			mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
 		}
-		mainDA.addResourceToPlayer(resourceCardToReceive.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-		
-	}
-	
-	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
-			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
-
-		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
-				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
+		mainDA.addResourceToPlayer(resourceCardToReceive.getResourceID(), catanGame.getIdGame(),
+				catanGame.getSelfPlayer().getIdPlayer());
 
 	}
 
@@ -585,21 +579,21 @@ public class GameControl {
 		for (int j = 0; j < villageLocations.size(); j++) {
 			if (villageLocations.get(j).getBuildingLocation() != null) {
 				if (villageLocations.get(j).getBuildingLocation().getHarbour() != null) {
-					setHarbourResource(resourceRatios, villageLocations.get(j).getBuildingLocation());
+					setResourceRatio(resourceRatios, villageLocations.get(j).getBuildingLocation());
 				}
 			}
 		}
 		for (int i = 0; i < cityLocations.size(); i++) {
 			if (cityLocations.get(i).getBuildingLocation() != null) {
 				if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
-					setHarbourResource(resourceRatios, cityLocations.get(i).getBuildingLocation());
+					setResourceRatio(resourceRatios, cityLocations.get(i).getBuildingLocation());
 				}
 			}
 		}
 		return resourceRatios;
 	}
 
-	private void setHarbourResource(int[] resources, BuildingLocation buildingLocation) {
+	private void setResourceRatio(int[] resources, BuildingLocation buildingLocation) {
 
 		switch (buildingLocation.getHarbour().getRsType()) {
 
@@ -626,5 +620,13 @@ public class GameControl {
 				}
 			}
 		}
+	}
+
+	public void createPlayerTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
+			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
+
+		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
+				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
+
 	}
 }

@@ -358,21 +358,26 @@ public class GuiController {
 		}
 
 		GameTopPanel gameTopPanel = new GameTopPanel(gameControl.getCatanGame().getIdGame());
+		
 		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Object[] options = { "Ja", "Nee" };
+				Object[] options = { "Spel verlaten", "Afsluiten", "Annuleren" };
 
 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?",
-						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+						"Waarschuwing", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
 						options[0]);
 				if (result == JOptionPane.YES_OPTION) {
 					gameControl.unloadCatan();
 					mainControl.stopIngameTimer();
 					mainControl.loadProfile();
 				}
+				if(result == JOptionPane.NO_OPTION) {
+					System.exit(0);	
+				}
+				
 			}
 
 		});
@@ -687,7 +692,7 @@ public class GuiController {
 				int wheatReceive = playerActionPanel.getPlayerTradePanel().getIronReceive();
 				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoolReceive();
 
-				gameControl.createTradeRequest(stoneGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
+				gameControl.createPlayerTradeRequest(stoneGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
 						woolReceive, ironReceive, wheatReceive, woodReceive);
 
 			}
