@@ -85,4 +85,13 @@ public class GameGUIPanel extends JPanel {
 	public JPanel getPlayerActionPanel() {
 		return playerActionPanel;
 	}
+
+	public ResourcesPanel getResourcesPanel() {
+		return resourcesPanel;
+	}
+
+	public GameSouthContainerPanel getGameSouthContainerPanel() {
+		return gameSouthContainerPanel;
+	}
+	
 }

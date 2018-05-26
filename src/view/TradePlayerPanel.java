@@ -142,26 +142,31 @@ public class TradePlayerPanel extends JPanel {
 		add(subTitleLabel2);
 
 		brickGive = new JFormattedTextField(formatters[0]);
+		brickGive.setText("0");
 		brickGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(brickGive);
 
 		woolGive = new JFormattedTextField(formatters[1]);
+		woolGive.setText("0");
 		woolGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(woolGive);
 
 		ironGive = new JFormattedTextField(formatters[2]);
+		ironGive.setText("0");
 		ironGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(ironGive);
 
 		wheatGive = new JFormattedTextField(formatters[3]);
+		wheatGive.setText("0");
 		wheatGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(wheatGive);
 
 		woodGive = new JFormattedTextField(formatters[4]);
+		woodGive.setText("0");
 		woodGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(woodGive);
@@ -207,26 +212,31 @@ public class TradePlayerPanel extends JPanel {
 		formatter.setOverwriteMode(true);
 
 		brickReceive = new JFormattedTextField(formatter);
+		brickReceive.setText("0");
 		brickReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(brickReceive);
 
 		woolReceive = new JFormattedTextField(formatter);
+		woolReceive.setText("0");
 		woolReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(woolReceive);
 
 		ironReceive = new JFormattedTextField(formatter);
+		ironReceive.setText("0");
 		ironReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(ironReceive);
 
 		wheatReceive = new JFormattedTextField(formatter);
+		wheatReceive.setText("0");
 		wheatReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(wheatReceive);
 
 		woodReceive = new JFormattedTextField(formatter);
+		woodReceive.setText("0");
 		woodReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		add(woodReceive);

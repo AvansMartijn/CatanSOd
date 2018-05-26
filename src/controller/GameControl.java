@@ -522,16 +522,18 @@ public class GameControl {
 
 	public void getBankTradeRequest(int[] resourceRatios, ResourceType resourceTypeToGive,
 			ResourceType resourceTypeToReceive) {
+
 		int ratio;
 		switch (resourceTypeToGive) {
 
 		case BAKSTEEN:
 			ratio = resourceRatios[0];
-			break;
-		case ERTS:
-			ratio = resourceRatios[1];
+
 			break;
 		case WOL:
+			ratio = resourceRatios[1];
+			break;
+		case ERTS:
 			ratio = resourceRatios[2];
 			break;
 		case GRAAN:
@@ -544,6 +546,7 @@ public class GameControl {
 			ratio = 3;
 		}
 
+
 		ArrayList<Resource> resourceCardsToGive = new ArrayList<>();
 		Resource resourceCardToReceive;
 
@@ -553,10 +556,11 @@ public class GameControl {
 			return;
 		}
 
-		resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
-		if (catanGame.getBank().takeResource(resourceTypeToReceive) != null) {
-			addMessage("De bank heeft niet genoeg " + resourceTypeToGive.name() + " kaarten");
+		if (catanGame.getBank().takeResource(resourceTypeToReceive) == null) {
+			addMessage("De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
 			return;
+		} else {
+			resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
 		}
 
 		catanGame.getSelfPlayer().getHand().addResource(resourceCardToReceive);
@@ -567,6 +571,8 @@ public class GameControl {
 		mainDA.addResourceToPlayer(resourceCardToReceive.getResourceID(), catanGame.getIdGame(),
 				catanGame.getSelfPlayer().getIdPlayer());
 
+		addMessage(" ik heb " + ratio + " " + resourceTypeToGive + " kaarten geruild voor een " + resourceTypeToReceive
+				+ " kaart met de bank");
 	}
 
 	public int[] getResourceRatios() {

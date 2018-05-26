@@ -94,6 +94,7 @@ public class TradeBankPanel extends JPanel {
 		brickGive.setBounds(RADIOBUTTON1_OFFSET, 70 + RADIOBUTTON2_OFFSET_Y, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
 		brickGive.setBackground(backgroundColor);
 		brickGive.setActionCommand("brick");
+		brickGive.setSelected(true);
 		giveButtons.add(brickGive);
 		add(brickGive);
 
@@ -137,6 +138,7 @@ public class TradeBankPanel extends JPanel {
 		brickReceive.setBounds(RADIOBUTTON2_OFFSET, 70 + RADIOBUTTON2_OFFSET_Y, RADIOBUTTON_SIZE, RADIOBUTTON_SIZE);
 		brickReceive.setBackground(backgroundColor);
 		brickReceive.setActionCommand("brick");
+		brickReceive.setSelected(true);
 		receiveButtons.add(brickReceive);
 		add(brickReceive);
 

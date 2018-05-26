@@ -358,7 +358,7 @@ public class GuiController {
 		}
 
 		GameTopPanel gameTopPanel = new GameTopPanel(gameControl.getCatanGame().getIdGame());
-		
+
 		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
 
 			@Override
@@ -374,10 +374,10 @@ public class GuiController {
 					mainControl.stopIngameTimer();
 					mainControl.loadProfile();
 				}
-				if(result == JOptionPane.NO_OPTION) {
-					System.exit(0);	
+				if (result == JOptionPane.NO_OPTION) {
+					System.exit(0);
 				}
-				
+
 			}
 
 		});
@@ -655,8 +655,11 @@ public class GuiController {
 						.getSelectedResourceType(playerActionPanel.getTradeBankPanel().getReceiveButtonGroup());
 
 				gameControl.getBankTradeRequest(resourceRatios, resourceTypeToGive, resourceTypeToReceive);
-				
-				playerActionPanel.setPlayerOptionMenuPanel();
+
+				gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+
+				updatePlayerStats();
+
 			}
 		});
 
@@ -668,16 +671,21 @@ public class GuiController {
 				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				}
 			}
+
 		});
 	}
 
 	private void addPlayerActionTradeSendRequestButtonListener() {
-		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() { // TODO
-																												// maybe
+		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() { 
+		
+			// TODO
+			// maybe
 			// in
 			// GameControl
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				// give
 				int stoneGive = playerActionPanel.getPlayerTradePanel().getStoneGive();
 				int woolGive = playerActionPanel.getPlayerTradePanel().getWoolGive();
@@ -832,7 +840,6 @@ public class GuiController {
 				color = convertPlayerColorToAWT(city.getPlayer().getColor());
 			}
 			blb.setBackground(color);
-
 		}
 	}
 
@@ -845,7 +852,6 @@ public class GuiController {
 				color = convertPlayerColorToAWT(street.getPlayer().getColor());
 			}
 			slb.setBackground(color);
-
 		}
 	}
 
@@ -929,5 +935,10 @@ public class GuiController {
 	// public void setGameBoard(Gameboard gameBoard) {
 	// this.gameBoard = gameBoard;
 	// }
+	private void updatePlayerStats() {
 
+		for (int i = 0; i < playerStatsPanels.length; i++) {
+			playerStatsPanels[i].updateStats();
+		}
+	}
 }
