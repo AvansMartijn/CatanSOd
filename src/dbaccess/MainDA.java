@@ -914,7 +914,6 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get has Thrown");
 		}
-
 		return shouldRefresh;
 	}
 
@@ -926,7 +925,6 @@ public class MainDA {
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tradeRequest");
 		}
-
 	}
 	
 	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {

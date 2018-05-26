@@ -675,7 +675,7 @@ public class GuiController {
 		});
 	}
 
-	private void addPlayerActionTradeSendRequestButtonListener() {
+	private void addPlayerActionSendTradeRequestButtonListener() {
 		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() { 
 		
 			// TODO
@@ -921,7 +921,7 @@ public class GuiController {
 		// Trade listeners
 		addTradeButtonsListeners();
 		addTradeRespondDialogActionListeners();
-		addPlayerActionTradeSendRequestButtonListener();
+		addPlayerActionSendTradeRequestButtonListener();
 
 		// build listeners
 		addPlayerActionBuildButtonsListener();
