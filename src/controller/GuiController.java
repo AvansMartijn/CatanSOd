@@ -818,7 +818,28 @@ public class GuiController {
 		return boardPanel;
 	}
 
+	/**
+	 * This opens a dialog that will allow the player to chose who he will steal from. 
+	 * (because of replacing the robber).
+	 * 
+	 * @param playersAtRobberTile the Players that can be chosen from
+	 * @since 24 May 2018
+	 * @author Jasper Mooren
+	 */
 	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
+		
+	}
+
+	/**
+	 * player has to take away half of his resources. This dialog chooses which resources. 
+	 * 
+	 * @param amountOfResourcesToTake the amount of resources that the player should take away. 
+	 * @param amountOfResourcesAvailable the resources and amounts that the player has. 
+	 * @since 54 May 2018
+	 * @author Jasper Mooren
+	 */
+	public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake, HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
+		// TODO Auto-generated method stub
 		
 	}
 

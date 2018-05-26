@@ -97,4 +97,17 @@ public class Bank {
 	private void createDevelopmentCards() {
 		
 	}
+	
+	public ArrayList<Resource> getResources(){
+		return resources;
+	}
+	
+	public Resource takeResource(ResourceType resourceType) {
+		for (int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getRsType() == resourceType) {
+				return resources.remove(i);
+			}
+		}
+		return null;
+	}
 }
