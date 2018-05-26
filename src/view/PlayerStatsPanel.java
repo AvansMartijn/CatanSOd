@@ -25,6 +25,8 @@ public class PlayerStatsPanel extends JPanel {
 	private final int PANEL_WIDTH = 210;
 	private final int PANEL_HEIGHT = 240;
 	private final int STATS_AMOUNT = 4;
+	private final int LARGEST_ARMY_IMAGE_SIZE = 80;
+	private final int LONGEST_ROAD_IMAGE_SIZE = 60;
 
 	// Instance variables
 	private Color backgroundColor = new Color(223, 190, 172);
@@ -41,14 +43,13 @@ public class PlayerStatsPanel extends JPanel {
 
 	// Constructor
 	public PlayerStatsPanel(Player player) {
-		statLabels = new JLabel[STATS_AMOUNT];
+		this.statLabels = new JLabel[STATS_AMOUNT];
 		this.player = player;
-		playerNameLabel = new JLabel(player.getUsername());
-		playerPointsLabel = new JLabel("Punten: " + player.getPoints());
+		this.playerNameLabel = new JLabel(player.getUsername());
+		this.playerPointsLabel = new JLabel("Punten: " + player.getPoints());
 		this.longestRoadLabel = new JLabel();
-		
+
 		this.largestArmyLabel = new JLabel();
-	
 
 		setBackground(backgroundColor);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -76,12 +77,26 @@ public class PlayerStatsPanel extends JPanel {
 		playerPointsLabel.setForeground(player.getColorObject());
 		add(playerPointsLabel, gridBagConstraints);
 
+		addSatsImages();
+		createLabels();
+		updateStats();
+
+		gridBagConstraints.anchor = GridBagConstraints.CENTER;
+		addImage(largestArmyLabel, 4, 4, "/images/LargestArmy_Icon.png", LARGEST_ARMY_IMAGE_SIZE,
+				LARGEST_ARMY_IMAGE_SIZE);
+		addImage(longestRoadLabel, 4, 2, "/images/LongestRoad_Icon.png", LONGEST_ROAD_IMAGE_SIZE,
+				LONGEST_ROAD_IMAGE_SIZE);
+	}
+
+	// add building images
+	private void addSatsImages() {
 		// Add images of buildings
 		gridBagConstraints.insets = new Insets(2, 5, 2, 2);
 		gridBagConstraints.gridx = 0;
 		String[] urls = new String[] { "/images/Village-Icon.png", "/images/City-Icon.png", "/images/Road_Icon.png",
 				"/images/Cards-Icon.png" };
 
+		// Add amount icons
 		for (int i = 0; i < urls.length; i++) {
 			Image image = null;
 			try {
@@ -94,46 +109,46 @@ public class PlayerStatsPanel extends JPanel {
 			gridBagConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
 			add(new JLabel(new ImageIcon(image)), gridBagConstraints);
 		}
-		updateStats();
-		addImage(largestArmyLabel, 4, 4, "/images/LargestArmy_Icon.png", 80, 80);
-		addImage(longestRoadLabel, 4, 2, "/images/LongestRoad_Icon.png", 60, 60);
 	}
-	
-	// Update stats
-	private void updateStats() {
-		playerPointsLabel.setText("Punten: " + player.getPoints());
-		String[] playerStats = new String[] { "" + player.getSettlements(), "" + player.getCities(), "" + player.getRoads(),
-			"" + player.getHand().getResources().size()};
-		
+
+	// Create labels
+	private void createLabels() {
 		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 2;
 		gridBagConstraints.weightx = 0.24;
 		gridBagConstraints.weighty = 0.24;
 		gridBagConstraints.anchor = GridBagConstraints.WEST;
-		
-		
-		for(int i = 0; i < statLabels.length; i++) {
-			statLabels[i] = new JLabel(playerStats[i], SwingConstants.LEFT); // TODO how to position these more to the left?
+
+		for (int i = 0; i < statLabels.length; i++) {
+			statLabels[i] = new JLabel("", SwingConstants.LEFT);
 			statLabels[i].setForeground(Color.WHITE);
 			statLabels[i].setFont(new Font("Arial", Font.BOLD, 20));
 			add(statLabels[i], gridBagConstraints);
 			gridBagConstraints.gridy++;
 		}
-		
+	}
+
+	// Update stats
+	public void updateStats() {
+		playerPointsLabel.setText("Punten: " + player.getPoints());
+		String[] playerStats = new String[] { "" + player.getSettlements(), "" + player.getCities(),
+				"" + player.getRoads(), "" + player.getHand().getResources().size() };
+
+		for (int i = 0; i < statLabels.length; i++) {
+			statLabels[i].setText(playerStats[i]); // TODO how to position these more to the left?
+		}
+
 		// Check if player haslongestroad or largestarmy
-		gridBagConstraints.anchor = GridBagConstraints.CENTER;
-		
-		if(player.getHasLongestRoad()) {
+		if (player.getHasLongestRoad()) {
 			longestRoadLabel.setVisible(true);
 		} else {
 			longestRoadLabel.setVisible(false);
 		}
-		if(player.getHasLargestArmy()) {
+		if (player.getHasLargestArmy()) {
 			largestArmyLabel.setVisible(true);
 		} else {
 			largestArmyLabel.setVisible(false);
 		}
-		
 	}
 
 	// Add image

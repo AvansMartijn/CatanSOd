@@ -19,6 +19,7 @@ import model.Resource;
 import model.ResourceType;
 import model.Street;
 import model.StreetLocation;
+import model.TradeRequest;
 import model.Village;
 import view.PlayerStatsPanel;
 
@@ -527,10 +528,8 @@ public class GameControl {
 
 	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
-
-		mainDA.createTradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive, ironGive,
-				wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
-
+		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive, ironGive,
+				wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
 	}
 
 	public int[] getHarbourLocations() {
@@ -546,12 +545,13 @@ public class GameControl {
 				setHarbourResource(resourceRatios, villageLocations.get(j).getBuildingLocation());
 			}
 		}
-		for (int i = 0; i < cityLocations.size(); i++) {
-
-			if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
-				setHarbourResource(resourceRatios, cityLocations.get(i).getBuildingLocation());
-			}
-		}
+		// TODO
+//		for (int i = 0; i < cityLocations.size(); i++) {
+//
+//			if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
+//				setHarbourResource(resourceRatios, cityLocations.get(i).getBuildingLocation());
+//			}
+//		}
 		return resourceRatios;
 	}
 
