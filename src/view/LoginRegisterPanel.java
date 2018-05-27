@@ -2,7 +2,6 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,6 +22,7 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class LoginRegisterPanel extends JPanel {
+	
 	private JButton loginButton;
 	private JButton registerButton;
 	private JButton exitButton;
@@ -55,12 +55,11 @@ public class LoginRegisterPanel extends JPanel {
 		} catch (IOException e) {
 		}
 
-//		playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
+		playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		g.drawImage(image, 0, 0, this);
 	}
 

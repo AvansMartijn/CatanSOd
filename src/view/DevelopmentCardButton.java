@@ -16,8 +16,11 @@ public class DevelopmentCardButton extends JButton {
 	
 	private final int CARD_WIDTH = 150;
 	private final int CARD_HEIGHT = 220;
+	
+	private DevelopmentCardType developmentCardType;
 
 	public DevelopmentCardButton(DevelopmentCardType developmentCardType) {
+		this.developmentCardType = developmentCardType;
 		setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		
 		URL iconURL = this.getClass().getResource(getImagePath(developmentCardType));
@@ -48,4 +51,10 @@ public class DevelopmentCardButton extends JButton {
 		}
 		return null;
 	}
+
+	public DevelopmentCardType getDevelopmentCardType() {
+		return developmentCardType;
+	}
+	
+	
 }

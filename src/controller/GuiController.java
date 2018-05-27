@@ -66,6 +66,8 @@ import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
 import view.TradeRespondDialog;
 import view.CurrentTradeRequestPanel;
+import view.DevelopmentCardButton;
+import view.DevelopmentCardDialogPanel;
 import view.DevelopmentCardsPanel;
 import view.WaitingRoom;
 
@@ -540,16 +542,15 @@ public class GuiController {
 	}
 	
 	private void addDevelopmentCardsPanelButtonListeners() {
-		ArrayList<JButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
-		for(JButton b: developmentCards) {
+		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
+		for(DevelopmentCardButton b: developmentCards) {
 			b.addActionListener(new ActionListener() {
-				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO make a panel with the developmentCard text and a "spelen" or "annuleer" buttons
+					DevelopmentCardDialogPanel developmentCardDialogPanel = new DevelopmentCardDialogPanel(b);
 					JDialog dialog = new JDialog();
 					dialog.setTitle("Ontwikkelingskaart");
-					dialog.setContentPane(gameGUIPanel);
+					dialog.setContentPane(developmentCardDialogPanel); // TODO add actionlisteners for playbutton
 					dialog.pack();
 					dialog.setLocationRelativeTo(null);
 					dialog.toFront();
