@@ -178,7 +178,7 @@ public class MainControl {
 			if(selfPlayer.getPlayStatus().equals("uitgedaagde")) {
 				invitedGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
 			} else if (selfPlayer.getPlayStatus().equals("uitdager")) {
-				 boolean containsDeclinedPlayer = players.stream().anyMatch(t -> t.getPlayStatus().equals("geweigerd") || t.getPlayStatus().equals("uitgedaagde"));
+				 boolean containsDeclinedPlayer = players.stream().anyMatch(t -> t.getPlayStatus().equals("geweigerd"));
 				 if(containsDeclinedPlayer || players.size() < 4) {
 					 ableToInviteGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
 				 }
@@ -202,15 +202,17 @@ public class MainControl {
 		loadInvites();
 	}
 	
+	public void switchInvites(ArrayList<Player> playersToAdd, ArrayList<Player> playersToRemove, int gameId) {
+		for(int i = 0; i < playersToAdd.size(); i++) {
+			mainDA.switchPlayer(playersToRemove.get(i).getUsername(), playersToAdd.get(i).getUsername(), gameId);
+		}
+	}
+	
 	public void addPlayerToDB(int idGame, Player player) {
 		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
 				player.getPlayStatus().toString());
 	}
 
-	public void removePlayerFromDB(int idGame, String username) {
-		mainDA.deletePlayer(username, idGame);
-	}
-	
 	private void createDevelopmentCardsInDB(int gameID) {
 		String idCard = "o";
 		for(int i = 1; i <= 25; i++) {

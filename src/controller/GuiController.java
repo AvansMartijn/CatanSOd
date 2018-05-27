@@ -115,26 +115,26 @@ public class GuiController {
 
 		setInlogPanel();
 
-
-//		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//		GraphicsDevice graphicsDevice= graphicsEnvironment.getDefaultScreenDevice(); 
-//		
-//		boolean canChangeDisplay = graphicsDevice.isDisplayChangeSupported();
-//		if (canChangeDisplay) {
-//			DisplayMode displayMode = graphicsDevice.getDisplayMode();
-//			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//			int width = (int) screenSize.getWidth();
-//			int height = (int) screenSize.getHeight();
-//			int bitDepth = 16;
-//			displayMode = new DisplayMode(width, height, bitDepth, displayMode.getRefreshRate());
-//			try {
-//				graphicsDevice.setDisplayMode(displayMode);
-//			} catch(Throwable e) {
-//				graphicsDevice.setFullScreenWindow(null);
-//			}
-//			
-//		}
-
+		// GraphicsEnvironment graphicsEnvironment =
+		// GraphicsEnvironment.getLocalGraphicsEnvironment();
+		// GraphicsDevice graphicsDevice= graphicsEnvironment.getDefaultScreenDevice();
+		//
+		// boolean canChangeDisplay = graphicsDevice.isDisplayChangeSupported();
+		// if (canChangeDisplay) {
+		// DisplayMode displayMode = graphicsDevice.getDisplayMode();
+		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// int width = (int) screenSize.getWidth();
+		// int height = (int) screenSize.getHeight();
+		// int bitDepth = 16;
+		// displayMode = new DisplayMode(width, height, bitDepth,
+		// displayMode.getRefreshRate());
+		// try {
+		// graphicsDevice.setDisplayMode(displayMode);
+		// } catch(Throwable e) {
+		// graphicsDevice.setFullScreenWindow(null);
+		// }
+		//
+		// }
 
 		frame.dispose();
 		frame.setUndecorated(true);
@@ -161,7 +161,7 @@ public class GuiController {
 					usernameTextField.setText("");
 					passwordTextField.setText("");
 					loginregisterPanel.setMessagelabel("Ongeldige gegevens ingevoerd");
-//					frame.pack(); // TODO discuss with martijn
+					// frame.pack(); // TODO discuss with martijn
 				} else {
 					mainControl.loadProfile();
 				}
@@ -233,11 +233,11 @@ public class GuiController {
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				String boardChoice = (String)newGamePanel.getBoardChoice();
-				if(boardChoice == "Random") {
+
+				String boardChoice = (String) newGamePanel.getBoardChoice();
+				if (boardChoice == "Random") {
 					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
-				}else {
+				} else {
 					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
 				}
 
@@ -297,64 +297,69 @@ public class GuiController {
 		frame.pack();
 	}
 
-	
 	public void setInvitePanel(ArrayList<Catan> invitedList, ArrayList<Catan> ableToInviteList) {
 		InvitePanel invitePanel = new InvitePanel(invitedList, ableToInviteList);
 		invitePanel.getAcceptButton().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 			}
 		});
 		invitePanel.getDeclineButton().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 			}
 		});
 		invitePanel.getRefreshButton().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
 			}
 		});
 		invitePanel.getInviteButton().addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Catan catan = invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex());
-				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAcccountUsername(), mainControl.getAllAccounts(), catan);
+				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAcccountUsername(),
+						mainControl.getAllAccounts(), catan);
 				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
-					
+
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						if(frame.panel.getInvitedPlayers().size() < 4) {
-							JOptionPane.showConfirmDialog(null,
-									"Te weinig spelers", "Je moet minimaal 4 spelers hebben.", JOptionPane.YES_NO_OPTION);
-						} else	{
-							//Compare Lists and update in DB.
-							for(Player p : catan.getPlayers()) {
-								if(!frame.panel.getInvitedPlayers().contains(p.getUsername())) {
-									//Remove P 
-									mainControl.removePlayerFromDB(catan.getIdGame(), p.getUsername());
+						if (frame.panel.getInvitedPlayers().size() < 4) {
+							JOptionPane.showConfirmDialog(null, "Te weinig spelers",
+									"Je moet minimaal 4 spelers hebben.", JOptionPane.YES_NO_OPTION);
+						} else {
+							// Compare Lists and update in DB.
+							ArrayList<Player> playersToRemove = new ArrayList<>();
+							ArrayList<Player> playersToAdd = new ArrayList<>();
+							for (Player p : catan.getPlayers()) {
+								if (!frame.panel.getInvitedPlayers().stream()
+										.anyMatch(t -> t.getUsername().equals(p.getUsername()))) {
+									// Remove P
+									playersToRemove.add(p);
 								}
 							}
-							for(String s : frame.panel.getInvitedPlayers()) {
-								if(catan.getPlayers().contains(s)) {
-									//Add S
-									Player player = mainControl.createNewPlayer(catan.getIdGame(), s);	
-									mainControl.addPlayerToDB(catan.getIdGame(), player);
-									ArrayList<Player> arrayList = new ArrayList<>();
-									arrayList.add(player);
-									mainControl.createPlayerPiecesInDB(arrayList);
+							for (Player s : frame.panel.getInvitedPlayers()) {
+								if (catan.getPlayers().stream()
+										.anyMatch(t -> t.getUsername().equals(s.getUsername()))) {
+									// Add S
+									playersToAdd.add(s);
 								}
+								if (playersToRemove.size() == playersToAdd.size()) {
+									mainControl.switchInvites(playersToAdd, playersToRemove, catan.getIdGame());
+								}
+
 							}
+
 						}
-						
+
 					}
 				});
 			}

@@ -28,23 +28,19 @@ public class ManageInvitesPanel extends JPanel {
 	private JButton inviteButton;
 	private JList<String> inviteInput;
 	private ArrayList<String> availablePlayers;
-	private ArrayList<String> invitedPlayers;
+	private ArrayList<Player> invitedPlayers;
 	private ArrayList<JButton> removeButtonsList;
 	private JPanel invitedPlayersPanel;
 	private JButton saveInvitesButton;
 
-	public ManageInvitesPanel(String selfUsername, ArrayList<String> availablePlayers, Catan game) {
+	public ManageInvitesPanel(ArrayList<String> availablePlayers, Catan game) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.availablePlayers = availablePlayers;
 		saveInvitesButton = new JButton("Opslaan");
 		removeButtonsList = new ArrayList<>();
-
-		invitedPlayers = new ArrayList<String>();
-		addPlayer(selfUsername);
+		invitedPlayers = new ArrayList<Player>();
 		for(Player p : game.getPlayers()) {
-			if(!p.getUsername().equals(selfUsername)) {
-				addPlayer(p.getUsername());
-			}
+				addPlayer(p);
 		}
 		invitedPlayersPanel = new InvitedPlayersPanel();
 		inviteInput = new JList<String>();
@@ -54,7 +50,8 @@ public class ManageInvitesPanel extends JPanel {
 		inviteButton.addActionListener((new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addPlayer(inviteInput.getSelectedValue());
+				
+				addPlayer(new Player(inviteInput.getSelectedValue()));
 				if (invitedPlayers.size() == 4) {
 					inviteButton.setEnabled(false);
 				}
@@ -119,14 +116,13 @@ public class ManageInvitesPanel extends JPanel {
 		public InvitedPlayersPanel() {
 			// this.setPreferredSize(new Dimension(100, 300));
 			removeButtonsList.clear();
-			int idx = 0;
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			for (String username : invitedPlayers) {
+			for (Player player : invitedPlayers) {
 				JPanel panel = new JPanel();
-				JLabel name = new JLabel(username);
+				JLabel name = new JLabel(player.getUsername());
 				name.setFont(name.getFont().deriveFont(Font.BOLD, 16));
 				JButton remove = new JButton("X");
-				if (idx == 0) {
+				if(!player.getPlayStatus().toString().toLowerCase().equals("geweigerd") && !(player.getPlayStatus() == null)){
 					remove.setEnabled(false);
 				}
 				removeButtonsList.add(remove);
@@ -136,7 +132,6 @@ public class ManageInvitesPanel extends JPanel {
 						int indexOf = removeButtonsList.indexOf(remove);
 						removeButtonsList.remove(indexOf);
 						invitedPlayers.remove(indexOf);
-						UpdateInvitedPlayers();
 						if (invitedPlayers.size() < 3) {
 							inviteButton.setEnabled(true);
 						}
@@ -145,7 +140,6 @@ public class ManageInvitesPanel extends JPanel {
 				panel.add(name);
 				panel.add(remove);
 				this.add(panel);
-				idx++;
 			}
 			this.add(new GameOptionsPanel());
 		}
@@ -163,17 +157,13 @@ public class ManageInvitesPanel extends JPanel {
 		return saveInvitesButton;
 	}
 
-	public ArrayList<String> getInvitedPlayers() {
+	public ArrayList<Player> getInvitedPlayers() {
 		return invitedPlayers;
 	}
 
-	private void addPlayer(String username) {
+	private void addPlayer(Player player) {
 
-		invitedPlayers.add(username);
-		UpdateInvitedPlayers();
-		if (invitedPlayers.size() == 1) {
-			removeButtonsList.get(1).setEnabled(false);
-		}
+		invitedPlayers.add(player);
 		UpdateInvitedPlayers();
 	}
 
