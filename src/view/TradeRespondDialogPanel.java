@@ -54,7 +54,8 @@ public class TradeRespondDialogPanel extends JPanel {
 
 		setLayout(null);
 
-		String title = setMessage();
+	//	String title = setMessage();
+		String title = "test";
 
 		titleLabel = new JLabel(title);
 		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
@@ -240,18 +241,18 @@ public class TradeRespondDialogPanel extends JPanel {
 		this.playerName = playerName;
 	}
 
-	private String setMessage() {
-		String message = "";
+	//private String setMessage() {
+	//	String message = "";
 
-		if (counterOffer) {
-			message = playerName + " heeft een tegenbod gedaan";
-		} else if (tradeAccept) {
-			message = playerName + " heeft je handelsverzoek geaccepteerd";
-		} else {
-			message = playerName + " heeft je handelsverzoek afgewezen";
-		}
-		return message;
-	}
+	//	if (counterOffer) {
+	//		message = playerName + " heeft een tegenbod gedaan";
+	//	} else if (tradeAccept) {
+	//		message = playerName + " heeft je handelsverzoek geaccepteerd";
+	//	} else {
+	//		message = playerName + " heeft je handelsverzoek afgewezen";
+	//	}
+	//	return message;
+	//}
 
 	public Boolean getCounterOffer() {
 		return counterOffer;

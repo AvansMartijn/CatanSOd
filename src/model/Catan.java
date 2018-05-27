@@ -23,6 +23,7 @@ public class Catan {
 	 */
 	private boolean rolledDice;
 	private ArrayList<String> messages;
+	private ArrayList<TradeRequest> tradeRequestArr;
 	
 	/**
 	 * This creates a catanGame with all its players. 
@@ -54,6 +55,9 @@ public class Catan {
 		bank = new Bank();
 	}
 	
+	public void addTradeRequest(TradeRequest tradeRequest) {
+		tradeRequestArr.add(tradeRequest);
+	}
 	
 	//TODO These should be GameControl methods
 	/*

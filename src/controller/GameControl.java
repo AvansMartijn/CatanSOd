@@ -638,9 +638,19 @@ public class GameControl {
 
 	public void createPlayerTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
-
+		System.out.println(stoneGive +  woolGive+ ironGive+ wheatGive+ woodGive+stoneReceive+
+				woolReceive+ ironReceive+ wheatReceive+ woodReceive);
 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
 				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
 
+	}
+	
+	public void deleteTradeRequest() {
+		mainDA.deleteTradeRequests(catanGame.getIdGame());
+	}
+	
+	//check for incoming trade requests
+	public TradeRequest updateTradeRequests() {
+		return mainDA.getInitialTradeRequest(catanGame.getIdGame());
 	}
 }

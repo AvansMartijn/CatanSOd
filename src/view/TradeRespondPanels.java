@@ -53,4 +53,15 @@ public class TradeRespondPanels extends JPanel {
 		add(cancelButton);
 		
 	}
+
+	public JButton getCancelButton() {
+		return cancelButton;
+	}
+
+	public void setCancelButton(JButton cancelButton) {
+		this.cancelButton = cancelButton;
+	}
+	
+	
+	
 }

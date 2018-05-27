@@ -16,11 +16,35 @@ public class TradeRequest {
 
 	public TradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick,
 			int w_wool, int w_iron, int w_wheat, int w_wood) {
+		this.idPlayer = idPlayer;
+		this.g_brick = g_brick;
+		this.g_wool = g_wool;
+		this.g_iron = g_iron;
+		this.g_wheat = g_wheat;
+		this.g_wood = g_wood;
+		this.w_brick = w_brick;
+		this.w_wool = w_wool;
+		this.w_iron = w_iron;
+		this.w_wheat = w_wheat;
+		this.w_wood = w_wood;
+		
 		
 	}
 
 	public TradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick,
 			int w_wool, int w_iron, int w_wheat, int w_wood, boolean accepted) {
+		this.idPlayer = idPlayer;
+		this.g_brick = g_brick;
+		this.g_wool = g_wool;
+		this.g_iron = g_iron;
+		this.g_wheat = g_wheat;
+		this.g_wood = g_wood;
+		this.w_brick = w_brick;
+		this.w_wool = w_wool;
+		this.w_iron = w_iron;
+		this.w_wheat = w_wheat;
+		this.w_wood = w_wood;
+		this.accepted = accepted;
 
 	}
 

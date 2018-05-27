@@ -19,4 +19,8 @@ public class TradeRespondDialog extends JDialog {
 
 	}
 
+	public TradeRespondPanels getTradeRespondPanels() {
+		return tradeRespondPanels;
+	}
+
 }
