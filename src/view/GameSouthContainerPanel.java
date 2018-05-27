@@ -35,4 +35,7 @@ public class GameSouthContainerPanel extends JPanel {
 		add(playerStatsPanels[2]);
 		add(playerStatsPanels[3]);
 	}
+	
+	
+	
 }
