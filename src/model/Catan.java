@@ -40,6 +40,7 @@ public class Catan {
 		this.selfPlayer = selfPlayer;
 		this.idGame = players.get(0).getidGame();
 		this.turn = turn;
+		tradeRequestArr = new ArrayList<TradeRequest>();
 		//First player (Players[0]) is the UITDAGER. The Rest is UIGEDAAGDE. 
 		//players[0] has already been made, so start at 1. 
 		
