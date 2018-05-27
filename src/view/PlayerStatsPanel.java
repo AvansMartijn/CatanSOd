@@ -110,12 +110,6 @@ public class PlayerStatsPanel extends JPanel {
 			add(new JLabel(new ImageIcon(image)), gridBagConstraints);
 		}
 	}
-	
-	// Update stats
-	public void updateStats() {
-		playerPointsLabel.setText("Punten: " + player.getPoints());
-		String[] playerStats = new String[] { "" + player.getSettlements(), "" + player.getCities(), "" + player.getRoads(),
-			"" + player.getHand().getResources().size()};
 
 	// Create labels
 	private void createLabels() {

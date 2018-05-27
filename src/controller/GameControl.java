@@ -574,6 +574,7 @@ public class GameControl {
 
 		addMessage(" ik heb " + ratio + " " + resourceTypeToGive + " kaarten geruild voor een " + resourceTypeToReceive
 				+ " kaart met de bank");
+	}
 
 // 	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
 // 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
