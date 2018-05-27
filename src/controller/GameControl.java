@@ -640,6 +640,12 @@ public class GameControl {
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
 		System.out.println(stoneGive +  woolGive+ ironGive+ wheatGive+ woodGive+stoneReceive+
 				woolReceive+ ironReceive+ wheatReceive+ woodReceive);
+		for(Player p : catanGame.getPlayers()) {
+			if(p.getIdPlayer() != catanGame.getSelfPlayer().getIdPlayer()) {
+				mainDA.setShouldRefresh(p.getIdPlayer(), true);
+			}
+		}
+		
 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
 				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
 
