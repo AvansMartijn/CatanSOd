@@ -26,10 +26,6 @@ public class TradeRespondDialogPanel extends JPanel {
 	private final int TEXTFIELD_OFFSET_X2 = 215;
 	private final int TEXTFIELD_OFFSET_Y = 30;
 
-	// requests for sending the trade offer
-	// private int[] resourceOffer;
-	// private int[] resourceRequest;
-
 	private String playerName;
 	private Boolean counterOffer, tradeAccept;
 

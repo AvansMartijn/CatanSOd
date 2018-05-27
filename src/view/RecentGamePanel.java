@@ -24,6 +24,9 @@ import model.Player;
 @SuppressWarnings("serial")
 public class RecentGamePanel extends JPanel {
 	
+	private final int PANEL_WIDTH = 500;
+	private final int PANEL_HEIGHT = 100;
+	
 	private Catan game;
 	private Color backgroundColor = new Color(240, 226, 223);
 	private Image image;
@@ -32,7 +35,7 @@ public class RecentGamePanel extends JPanel {
 		this.game = game;
 		this.setBackground(Color.WHITE);
 		this.setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(500, 100));
+		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		GridBagConstraints c = new GridBagConstraints();
 
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -48,7 +51,7 @@ public class RecentGamePanel extends JPanel {
 		this.add(label, c);
 
 		ArrayList<Player> playerArray = game.getPlayers();
-		String[] displayStringArr = new String[4];
+		String[] displayStringArr = new String[4]; // TODO constant for length
 		String turnUsername = "";
 		for (Player p : playerArray) {
 			if (p.getIdPlayer() == game.getTurn()) {

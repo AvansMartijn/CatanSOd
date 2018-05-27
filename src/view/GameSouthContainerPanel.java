@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class GameSouthContainerPanel extends JPanel {
+	
+	private final int PANEL_HEIGHT = 240;
 
 	// Instance variables
 	private Color myBackGroundColor = new Color(240, 226, 223);
@@ -21,7 +23,7 @@ public class GameSouthContainerPanel extends JPanel {
 		setBackground(myBackGroundColor);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
-		 setPreferredSize(new Dimension((int)width, 240));
+		 setPreferredSize(new Dimension((int)width, PANEL_HEIGHT));
 			
 		developmentCardsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			

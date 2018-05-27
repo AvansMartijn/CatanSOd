@@ -131,8 +131,8 @@ public class PlayerStatsPanel extends JPanel {
 	// Update stats
 	public void updateStats() {
 		playerPointsLabel.setText("Punten: " + player.getPoints());
-		String[] playerStats = new String[] { "" + player.getSettlements(), "" + player.getCities(),
-				"" + player.getRoads(), "" + player.getHand().getResources().size() };
+		String[] playerStats = new String[] { "" + player.getAmountBuildVillages(), "" + player.getAmountBuildCities(),
+				"" + player.getAmountBuildStreets(), "" + player.getHand().getResources().size() };
 
 		for (int i = 0; i < statLabels.length; i++) {
 			statLabels[i].setText(playerStats[i]); // TODO how to position these more to the left?
