@@ -567,7 +567,7 @@ public class GuiController {
 
 	public void showTradeReceiveDialog(TradeRequest tr) {
 
-		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(tr);
+		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(gameControl.getCatanGame().getSelfPlayer(),tr);
 
 		tradeReceive.pack();
 		tradeReceive.setLocationRelativeTo(null);
@@ -599,7 +599,7 @@ public class GuiController {
 
 				gameControl.acceptTradeRequest(newTradeRequest);
 				gameControl.addMessage("heeft het handelsaanbod van "
-						+ gameControl.getCatanGame().getPlayers().get(0).getUsername() + "geaccepteerd");
+						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " geaccepteerd");
 
 			}
 		});
@@ -731,11 +731,6 @@ public class GuiController {
 	private void addPlayerActionSendTradeRequestButtonListener() {
 		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() {
 
-			// TODO
-			// maybe
-			// in
-			// GameControl
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -783,11 +778,8 @@ public class GuiController {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-
-						//tradeRequestArr.get(0);
 						gameControl.commenceTrade(0);
 						tradeRespond.dispose();
-
 					}
 				});
 
@@ -795,12 +787,9 @@ public class GuiController {
 				.addActionListener(new ActionListener() {
 
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						
+					public void actionPerformed(ActionEvent e) {	
 						gameControl.commenceTrade(1);
-
 						tradeRespond.dispose();
-
 					}
 				});
 
@@ -809,11 +798,9 @@ public class GuiController {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-
 						//tradeRequestArr.get(2);
 						gameControl.commenceTrade(2);
 						tradeRespond.dispose();
-
 					}
 				});
 
@@ -824,6 +811,7 @@ public class GuiController {
 				// TODO Auto-generated method stub
 
 				gameControl.deleteTradeRequest();
+			
 				tradeRespond.dispose();
 				playerActionPanel.setPlayerOptionMenuPanel();
 			}

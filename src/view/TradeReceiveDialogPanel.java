@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
+import model.Player;
+import model.ResourceType;
 import model.TradeRequest;
 
 @SuppressWarnings("serial")
@@ -46,8 +48,14 @@ public class TradeReceiveDialogPanel extends JPanel {
 
 	private JFormattedTextField woodReceive, wheatReceive, brickReceive, ironReceive, woolReceive;
 
-	public TradeReceiveDialogPanel(TradeRequest tr) {
-
+	private TradeRequest tR;
+	private Player player;
+	
+	public TradeReceiveDialogPanel(Player player, TradeRequest tR) {
+		
+		this.player = player;
+		this.tR = tR;
+		
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
 
@@ -65,7 +73,7 @@ public class TradeReceiveDialogPanel extends JPanel {
 		subTitleLabel.setBounds(40, 35, 280, 40);
 		add(subTitleLabel);
 
-		createResourceInput(tr);
+		createResourceInput(tR);
 
 		counterOfferButton = new JButton("Accepteren/Tegenaabod");
 		counterOfferButton.setBounds(10, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -85,14 +93,23 @@ public class TradeReceiveDialogPanel extends JPanel {
 
 	private void createResourceInput(TradeRequest tr) {
 
+		int[] resourceTypes = new int[5];
+		resourceTypes = getResourceAmount();
+		
 		NumberFormat format = NumberFormat.getInstance();
-		NumberFormatter formatter = new NumberFormatter(format);
-		formatter.setValueClass(Integer.class);
-		formatter.setMinimum(0);
-		formatter.setMaximum(100);
-		formatter.setAllowsInvalid(true);
-		formatter.setCommitsOnValidEdit(true);
-		formatter.setOverwriteMode(true);
+		NumberFormatter[] formatters = new NumberFormatter[5];
+
+		for (int i = 0; i < resourceTypes.length; i++) {
+
+			formatters[i] = new NumberFormatter(format);
+			formatters[i].setValueClass(Integer.class);
+			formatters[i].setMinimum(0);
+			formatters[i].setMaximum(resourceTypes[i]);
+			formatters[i].setAllowsInvalid(true);
+			formatters[i].setCommitsOnValidEdit(true);
+			formatters[i].setOverwriteMode(true);
+
+		}
 
 		subTitleLabel1 = new JLabel("grondstoffen");
 		subTitleLabel1.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -106,38 +123,38 @@ public class TradeReceiveDialogPanel extends JPanel {
 		subTitleLabel2.setBounds(60, 50, 200, 60);
 		add(subTitleLabel2);
 
-		brickGive = new JFormattedTextField(formatter);
+		brickGive = new JFormattedTextField();
 		brickGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		brickGive.setText("" + tr.getG_brick());
+		brickGive.setText("" + tr.getW_brick());
 		brickGive.setEditable(false);
 		add(brickGive);
 
-		woolGive = new JFormattedTextField(formatter);
+		woolGive = new JFormattedTextField();
 		woolGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		woolGive.setText("" + tr.getG_wool());
+		woolGive.setText("" + tr.getW_wool());
 		woolGive.setEditable(false);
 		add(woolGive);
 
-		ironGive = new JFormattedTextField(formatter);
+		ironGive = new JFormattedTextField();
 		ironGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		ironGive.setText("" + tr.getG_iron());
+		ironGive.setText("" + tr.getW_iron());
 		ironGive.setEditable(false);
 		add(ironGive);
 
-		wheatGive = new JFormattedTextField(formatter);
+		wheatGive = new JFormattedTextField();
 		wheatGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		wheatGive.setText("" + tr.getG_wheat());
+		wheatGive.setText("" + tr.getW_wheat());
 		wheatGive.setEditable(false);
 		add(wheatGive);
 
-		woodGive = new JFormattedTextField(formatter);
+		woodGive = new JFormattedTextField();
 		woodGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		woodGive.setText("" + tr.getG_wood());
+		woodGive.setText("" + tr.getW_wood());
 		woodGive.setEditable(false);
 		add(woodGive);
 
@@ -167,34 +184,34 @@ public class TradeReceiveDialogPanel extends JPanel {
 		subTitleLabel3.setBounds(240, 50, 250, 60);
 		add(subTitleLabel3);
 
-		brickReceive = new JFormattedTextField(formatter);
+		brickReceive = new JFormattedTextField(formatters[0]);
 		brickReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		brickReceive.setText("" + tr.getW_brick());
+		brickReceive.setText("" + tr.getG_brick());
 		add(brickReceive);
 
-		woolReceive = new JFormattedTextField(formatter);
+		woolReceive = new JFormattedTextField(formatters[0]);
 		woolReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		woolReceive.setText("" + tr.getW_wool());
+		woolReceive.setText("" + tr.getG_wool());
 		add(woolReceive);
 
-		ironReceive = new JFormattedTextField(formatter);
+		ironReceive = new JFormattedTextField(formatters[0]);
 		ironReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		ironReceive.setText("" + tr.getW_iron());
+		ironReceive.setText("" + tr.getG_iron());
 		add(ironReceive);
 
-		wheatReceive = new JFormattedTextField(formatter);
+		wheatReceive = new JFormattedTextField(formatters[0]);
 		wheatReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		wheatReceive.setText("" + tr.getW_wheat());
+		wheatReceive.setText("" + tr.getG_wheat());
 		add(wheatReceive);
 
-		woodReceive = new JFormattedTextField(formatter);
+		woodReceive = new JFormattedTextField(formatters[0]);
 		woodReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
-		woodReceive.setText("" + tr.getW_wood());
+		woodReceive.setText("" + tr.getG_wood());
 		add(woodReceive);
 
 	}
@@ -246,4 +263,34 @@ public class TradeReceiveDialogPanel extends JPanel {
 	public int getWoolReceive() {
 		return Integer.parseInt(woolReceive.getText());
 	}
+	
+	private int[] getResourceAmount() {
+		int[] resources = new int[] { 0, 0, 0, 0, 0 };
+
+		for (int i = 0; i < player.getHand().getResources().size(); i++) {
+			ResourceType resourceType = player.getHand().getResources().get(i).getRsType();
+
+			switch (resourceType) {
+			case BAKSTEEN:
+				resources[0]++;
+				break;
+			case WOL:
+				resources[1]++;
+				break;
+			case ERTS:
+				resources[2]++;
+				break;
+			case GRAAN:
+				resources[3]++;
+				break;
+			case HOUT:
+				resources[4]++;
+				break;
+			default:
+				// TODO maybe?
+			}
+		}
+		return resources;
+	}
+	
 }
