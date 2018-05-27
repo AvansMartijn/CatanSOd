@@ -40,7 +40,7 @@ public class TradeReceiveDialogPanel extends JPanel {
 	private JLabel titleLabel, subTitleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3;
 	private JLabel woodLabel, wheatLabel, brickLabel, ironLabel, woolLabel;
 
-	private JButton counterOfferButton, acceptButton, returnButton;
+	private JButton counterOfferButton, returnButton;
 
 	private JFormattedTextField woodGive, wheatGive, brickGive, ironGive, woolGive;
 
@@ -67,19 +67,12 @@ public class TradeReceiveDialogPanel extends JPanel {
 
 		createResourceInput(tr);
 
-		counterOfferButton = new JButton("Tegenbod");
+		counterOfferButton = new JButton("Accepteren/Tegenaabod");
 		counterOfferButton.setBounds(10, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
 		counterOfferButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		counterOfferButton.setBackground(textBackgroundColor);
 		counterOfferButton.setForeground(TextColor);
 		add(counterOfferButton);
-
-		acceptButton = new JButton("Accepteren");
-		acceptButton.setBounds(120, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
-		acceptButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-		acceptButton.setBackground(textBackgroundColor);
-		acceptButton.setForeground(TextColor);
-		add(acceptButton);
 
 		returnButton = new JButton("Afwijzen");
 		returnButton.setBounds(230, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -209,37 +202,33 @@ public class TradeReceiveDialogPanel extends JPanel {
 	public JButton getCounterOfferButton() {
 		return counterOfferButton;
 	}	
-	
-	public JButton getAcceptButton() {
-		return acceptButton;
-	}
 
 	public JButton getReturnButton() {
 		return returnButton;
 	}
 
 	public int getWoodGive() {
-		return Integer.parseInt(woodReceive.getText());
+		return Integer.parseInt(woodGive.getText());
 	}
 
 	public int getWheatGive() {
-		return Integer.parseInt(wheatReceive.getText());
+		return Integer.parseInt(wheatGive.getText());
 	}
 
 	public int getBrickGive() {
-		return Integer.parseInt(brickReceive.getText());
+		return Integer.parseInt(brickGive.getText());
 	}
 
 	public int getIronGive() {
-		return Integer.parseInt(ironReceive.getText());
+		return Integer.parseInt(ironGive.getText());
 	}
 
 	public int getWoolGive() {
-		return Integer.parseInt(woolReceive.getText());
+		return Integer.parseInt(woolGive.getText());
 	}
 
 	public int getWoodReceive() {
-		return Integer.parseInt(woodReceive.getText());
+		return Integer.parseInt(woodGive.getText());
 	}
 
 	public int getWheatReceive() {

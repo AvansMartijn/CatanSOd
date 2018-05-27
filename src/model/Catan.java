@@ -60,6 +60,15 @@ public class Catan {
 		tradeRequestArr.add(tradeRequest);
 	}
 	
+	public Player getPlayerByID(int id) {
+		for(Player p : players) {
+			if(p.getIdPlayer() == id) {
+				return p;
+			}
+		}
+		return null;
+	}
+	
 	//TODO These should be GameControl methods
 	/*
 	public void setup() {
@@ -223,6 +232,14 @@ public class Catan {
 
 	public void setMessages(ArrayList<String> messages) {
 		this.messages = messages;
+	}
+	
+	public void setTradeRequests(ArrayList<TradeRequest> tradeRequestArr) {
+		this.tradeRequestArr = tradeRequestArr;
+	}
+
+	public ArrayList<TradeRequest> getTradeRequestArr() {
+		return tradeRequestArr;
 	}
 	
 	

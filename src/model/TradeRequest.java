@@ -1,6 +1,8 @@
 package model;
 
 public class TradeRequest {
+	
+
 	private int idPlayer;
 	private int g_brick = 0;
 	private int g_wool = 0;
@@ -47,7 +49,16 @@ public class TradeRequest {
 		this.accepted = accepted;
 
 	}
+	
+	
+	public boolean isAccepted() {
+		return accepted;
+	}
 
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
+	
 	public int getIdPlayer() {
 		return idPlayer;
 	}

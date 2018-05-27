@@ -926,11 +926,18 @@ public class MainDA {
 	}
 
 	public void createTradeRequest(TradeRequest tR) {
-
-		String query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
+		String query;
+		if(tR.isAccepted()) {
+			query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
+					+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
+					+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
+					+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", 1);";
+		}else {
+		 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
 				+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
 				+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
 				+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ");";
+		}
 		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tradeRequest");
@@ -1002,5 +1009,62 @@ public class MainDA {
 			// System.out.println("Failed to get messages from Database");
 		}
 		return tr;
+	}
+	
+	public TradeRequest getSingleTradeRequest(int idGame, int idPlayer) {
+
+		TradeRequest tr = null;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT * FROM ruilaanbod WHERE idspeler = " + idPlayer + " AND idspel = " + idGame + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				int playerID = myRs.getInt(1);
+				int brickgive = myRs.getInt(2);
+				int woolgive = myRs.getInt(3);
+				int irongive = myRs.getInt(4);
+				int wheatgive = myRs.getInt(5);
+				int woodgive = myRs.getInt(6);
+				int brickreceive = myRs.getInt(7);
+				int woolreceive = myRs.getInt(8);
+				int ironreceive = myRs.getInt(9);
+				int wheatreceive = myRs.getInt(10);
+				int woodreceive = myRs.getInt(11);				
+				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return tr;
+	}
+	
+	public int getAmountOfOpenRequests(int idGame) {
+		int amount = 0;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT count(*) FROM ruilaanbod WHERE idspel = " + idGame + " ;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				 amount = myRs.getInt(1);				
+			}
+			System.out.println("amount retrieved from DB: " + amount);
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return amount;
 	}
 }

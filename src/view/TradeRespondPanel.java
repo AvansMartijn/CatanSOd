@@ -11,8 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
+import model.TradeRequest;
+
 @SuppressWarnings("serial")
-public class TradeRespondDialogPanel extends JPanel {
+public class TradeRespondPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 275;
 	private final int PANEL_HEIGHT = 300;
@@ -30,9 +32,6 @@ public class TradeRespondDialogPanel extends JPanel {
 	// private int[] resourceOffer;
 	// private int[] resourceRequest;
 
-	private String playerName;
-	private Boolean counterOffer, tradeAccept;
-
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
@@ -45,46 +44,37 @@ public class TradeRespondDialogPanel extends JPanel {
 
 	private JButton sendRequestButton;
 
-	public TradeRespondDialogPanel(String newPlayerName, boolean counterOffer) {
+	public TradeRespondPanel(String playerName, TradeRequest tR) {
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
 
-		this.playerName = newPlayerName;
-
 		setLayout(null);
 
-	//	String title = setMessage();
-		String title = "test";
-
-		titleLabel = new JLabel(title);
+		titleLabel = new JLabel("Bod van speler " + tR.getIdPlayer());
 		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
 		titleLabel.setForeground(TextColor);
 		titleLabel.setBounds(0, 5, 280, 40);
 		titleLabel.setHorizontalAlignment(JLabel.CENTER);
 		add(titleLabel);
 
-		if (counterOffer || tradeAccept) {
+		subTitleLabel = new JLabel("wat wil je doen?");
+		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+		subTitleLabel.setForeground(TextColor);
+		subTitleLabel.setBounds(0, 30, 280, 40);
+		subTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+		add(subTitleLabel);
 
-			subTitleLabel = new JLabel("wat wil je doen?");
-			subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
-			subTitleLabel.setForeground(TextColor);
-			subTitleLabel.setBounds(0, 30, 280, 40);
-			subTitleLabel.setHorizontalAlignment(JLabel.CENTER);
-			add(subTitleLabel);
+		createResourceInput();
 
-			createResourceInput();
+		sendRequestButton = new JButton("Tegenbod Accepteren");
+		sendRequestButton.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
+		sendRequestButton.setHorizontalAlignment(JLabel.CENTER);
+		sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+		sendRequestButton.setBackground(textBackgroundColor);
+		sendRequestButton.setForeground(TextColor);
+		add(sendRequestButton);
 
-			sendRequestButton = new JButton("Tegenbod Accepteren");
-			sendRequestButton.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
-			sendRequestButton.setHorizontalAlignment(JLabel.CENTER);
-			sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-			sendRequestButton.setBackground(textBackgroundColor);
-			sendRequestButton.setForeground(TextColor);
-			add(sendRequestButton);
-
-		} else {
-		}
 	}
 
 	private void createResourceInput() {
@@ -197,69 +187,43 @@ public class TradeRespondDialogPanel extends JPanel {
 		return sendRequestButton;
 	}
 
-	public String getWoodGive() {
-		return woodGive.getText();
+	public int getWoodGive() {
+		return Integer.parseInt(woodGive.getText());
 	}
 
-	public String getWheatGive() {
-		return wheatGive.getText();
+	public int getWheatGive() {
+		return Integer.parseInt(wheatGive.getText());
 	}
 
-	public String getStoneGive() {
-		return brickGive.getText();
+	public int getBrickGive() {
+		return Integer.parseInt(brickGive.getText());
 	}
 
-	public String getIronGive() {
-		return ironGive.getText();
+	public int getIronGive() {
+		return Integer.parseInt(ironGive.getText());
 	}
 
-	public String getWoolGive() {
-		return woolGive.getText();
+	public int getWoolGive() {
+		return Integer.parseInt(woolGive.getText());
 	}
 
-	public String getWoodReceive() {
-		return woodReceive.getText();
+	public int getWoodReceive() {
+		return Integer.parseInt(woodReceive.getText());
 	}
 
-	public String getWheatReceive() {
-		return wheatReceive.getText();
+	public int getWheatReceive() {
+		return Integer.parseInt(wheatReceive.getText());
 	}
 
-	public String getStoneReceive() {
-		return brickReceive.getText();
+	public int getBrickReceive() {
+		return Integer.parseInt(brickReceive.getText());
 	}
 
-	public String getIronReceive() {
-		return ironReceive.getText();
+	public int getIronReceive() {
+		return Integer.parseInt(ironReceive.getText());
 	}
 
-	public String getWoolReceive() {
-		return woolReceive.getText();
+	public int getWoolReceive() {
+		return Integer.parseInt(woolReceive.getText());
 	}
-
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
-	}
-
-	//private String setMessage() {
-	//	String message = "";
-
-	//	if (counterOffer) {
-	//		message = playerName + " heeft een tegenbod gedaan";
-	//	} else if (tradeAccept) {
-	//		message = playerName + " heeft je handelsverzoek geaccepteerd";
-	//	} else {
-	//		message = playerName + " heeft je handelsverzoek afgewezen";
-	//	}
-	//	return message;
-	//}
-
-	public Boolean getCounterOffer() {
-		return counterOffer;
-	}
-
-	public void setCounterOffer(Boolean counterOffer) {
-		this.counterOffer = counterOffer;
-	}
-
 }
