@@ -334,7 +334,7 @@ public class GuiController {
 					public void actionPerformed(ActionEvent arg0) {
 						if (frame.panel.getInvitedPlayers().size() < 4) {
 							JOptionPane.showConfirmDialog(null, "Te weinig spelers",
-									"Je moet minimaal 4 spelers hebben.", JOptionPane.YES_NO_OPTION);
+									"Je moet minimaal 4 spelers hebben.", JOptionPane.OK_OPTION);
 						} else {
 							// Compare Lists and update in DB.
 							ArrayList<Player> playersToRemove = new ArrayList<>();
