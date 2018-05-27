@@ -34,7 +34,7 @@ public class BoardPanel extends JPanel {
 	private final int tileImgHeight = 152;
 	private final int buildingLocWidthHeight = 30;
 
-	HashMap<Point, Point> cordMap;
+	private HashMap<Point, Point> cordMap;
 
 	private ArrayList<TileButton> tileButtonArrayList = new ArrayList<TileButton>();
 	private ArrayList<BuildingLocationButton> buildingLocButtonArray = new ArrayList<BuildingLocationButton>();

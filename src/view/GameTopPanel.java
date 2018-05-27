@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 public class GameTopPanel extends JPanel {
 
 	private final int HEIGHT = 40;
+	private final int IMAGE_SIZE = 30;
 
 	// Instance variables
 	private Color TopBarColor = new Color(189, 133, 95);
@@ -48,7 +49,7 @@ public class GameTopPanel extends JPanel {
 		try {
 			URL url = this.getClass().getResource("/images/chat.png");
 			image = ImageIO.read(url);
-			image = image.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+			image = image.getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 		}
 

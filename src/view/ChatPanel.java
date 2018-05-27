@@ -15,6 +15,8 @@ public class ChatPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 400;
 	private final int PANEL_HEIGHT = 700;
+	private final int SCROLLPANE_WIDTH = 400;
+	private final int SCROLLPANE_HEIGHT = 650;
 
 //	private ArrayList<String> messages;
 
@@ -27,11 +29,11 @@ public class ChatPanel extends JPanel {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		
 		textPane = new ChatTextPane();
-		textPane.setPreferredSize(new Dimension(400, 650));
+		textPane.setPreferredSize(new Dimension(SCROLLPANE_WIDTH, SCROLLPANE_HEIGHT));
 		userInputField = new JTextField(20);
 //		add(textPane);
 		JScrollPane scrollPane = new JScrollPane(textPane);
-		scrollPane.setPreferredSize(new Dimension(400, 650));
+		scrollPane.setPreferredSize(new Dimension(SCROLLPANE_WIDTH, SCROLLPANE_HEIGHT));
 		textPane.setEditable(false);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		setMessages(messages);
