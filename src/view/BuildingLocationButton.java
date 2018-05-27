@@ -17,6 +17,10 @@ public class BuildingLocationButton extends JButton {
 	private int x[] = new int[n];
 	private int y[] = new int[n];
 	private double angle = 2 * Math.PI / n;
+	//if false state is village, if true state is city
+	private boolean state;
+
+	
 
 	public BuildingLocationButton(BuildingLocation buildLoc) {
 		this.buildingLocation = buildLoc;
@@ -96,5 +100,13 @@ public class BuildingLocationButton extends JButton {
 		}
 		g.drawPolygon(x, y, n);
 		g.fillPolygon(x, y, n);
+	}
+	
+	public boolean getState() {
+		return state;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
 	}
 }

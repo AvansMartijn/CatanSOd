@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PrimitiveIterator.OfDouble;
 
@@ -63,7 +65,7 @@ public class GameControl {
 		gameBoardControl = new GameBoardControl(mainDA, gameID);
 
 		// TODO add gameboard to db
-		// gameboard = gameBoardControl.createBoard();
+//		 gameboard = gameBoardControl.createBoard();
 		return gameID;
 
 	}
@@ -118,7 +120,7 @@ public class GameControl {
 		//Edit database with rolled values
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
-//		return catanGame.getDice().getDie();
+		// return catanGame.getDice().getDie();
 	}
 
 	private void setRobber() {
@@ -234,7 +236,7 @@ public class GameControl {
 	public void setDiceLastThrown(int[] die) {
 		catanGame.getDice().setDie(die);
 	}
-	
+
 	public boolean hasRolledDice() {
 		return mainDA.hasThrown(catanGame.getIdGame());
 	}
@@ -356,7 +358,7 @@ public class GameControl {
 			return false;
 		}
 
-		// TODO Move resources from player to bank
+		removeResources(Street.cost);
 
 		streetLocation.setStreet(street);
 		street.setStreetLocation(streetLocation);
@@ -365,6 +367,19 @@ public class GameControl {
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
 		System.out.println("street built");
 		return true;
+	}
+	
+	private void removeResources(ResourceType[] cost) {
+		for(ResourceType r: cost) {
+			for(Resource rs: catanGame.getSelfPlayer().getHand().getResources()) {
+				if(rs.getRsType().equals(r)) {
+					catanGame.getSelfPlayer().getHand().getResources().remove(rs);
+					mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
+				}
+				
+			}
+			
+		}
 	}
 
 	public void setVillageArrays() {
@@ -473,16 +488,20 @@ public class GameControl {
 	}
 
 	public void unloadCatan() {
-		catanGame.setBank(null);
-		catanGame.setDice(null);
-		catanGame.setGameboard(null);
-
+//		catanGame.setBank(null);
+//		catanGame.setDice(null);
+//		catanGame.setGameboard(null);
+//		catanGame.setMessages(null);
+//		for(Player p: catanGame.getPlayers()) {
+//			p.unload();
+//		}
+		catanGame = null;
 	}
 
-	public Gameboard createBoardAndAddToDB(ArrayList<Player> players) {
-		return gameBoardControl.createBoardAndAddToDB(players);
+	public Gameboard createBoardAndAddToDB(ArrayList<Player> players, boolean randomBoard) {
+		return gameBoardControl.createBoardAndAddToDB(players, randomBoard);
 	}
-	
+
 	public boolean canBuy(ResourceType[] costArray) {
 		HashMap<ResourceType, Integer> amountOfResources = catanGame.getSelfPlayer().getHand().getAmountOfResources();
 		int ownedBrick = amountOfResources.get(ResourceType.BAKSTEEN);
@@ -490,15 +509,15 @@ public class GameControl {
 		int ownedIron = amountOfResources.get(ResourceType.ERTS);
 		int ownedWool = amountOfResources.get(ResourceType.WOL);
 		int ownedWheat = amountOfResources.get(ResourceType.GRAAN);
-		
-		int brickCost  = 0;
+
+		int brickCost = 0;
 		int woodCost = 0;
 		int woolCost = 0;
 		int ironCost = 0;
 		int wheatCost = 0;
-		
-		for(ResourceType rs: costArray) {
-			switch(rs) {
+
+		for (ResourceType rs : costArray) {
+			switch (rs) {
 			case BAKSTEEN:
 				brickCost++;
 				break;
@@ -520,35 +539,183 @@ public class GameControl {
 				break;
 			}
 		}
-		
-		if(ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost && ownedWheat >= wheatCost ) {
+
+		if (ownedBrick >= brickCost && ownedIron >= ironCost && ownedWool >= woolCost && ownedWood >= woodCost
+				&& ownedWheat >= wheatCost) {
 			return true;
 		}
-		
+
 		return false;
+
+	}
+	
+	private ArrayList<StreetLocation> visitedLocations;
+
+	public int getTradeRouteLength(String username) {
+		// if (player != null) {
+		// int amount = 0;
+		ArrayList<BuildingLocation> buildingLocations = catanGame.getGameboard().getBuildingLocArr();
+		ArrayList<StreetLocation> roads = new ArrayList<>();
+		sortBuildingLocationList(buildingLocations);
+
+		for (BuildingLocation bl : buildingLocations) {
+			for (StreetLocation sl : bl.getAdjacentStreetLocations()) {
+				if (sl.getStreet() != null) {
+					if (sl.getStreet().getPlayer().getUsername().equals(username)) {
+						roads.add(sl);
+					}
+				}
+			}
+
+		}
+
+		for (StreetLocation stl : roads) {
+			visitedLocations = new ArrayList<StreetLocation>();
+			visitedLocations.add(stl);
+
+		}
+		int amount = 0;
+		for (StreetLocation r : roads) {
+			visitedLocations = new ArrayList<StreetLocation>();
+
+			visitedLocations.add(r);
+
+			int amount_from = getTradeRouteLength(r.getBlStart().getXLoc(), r.getBlStart().getYLoc(), username);
+			int amount_to = getTradeRouteLength(r.getBlEnd().getXLoc(), r.getBlEnd().getYLoc(), username);
+
+			amount = Math.max(amount, 1 + amount_from + amount_to);
+		}
+		System.out.println(amount);
+		return amount;
 		
+		// }
+		// return 0;
 	}
 
-	// public void printPlayerVillages() {
-	// for (Player p : gamePlayers) {
-	// System.out.println(p.getUsername());
-	// for(Village v: p.getVillageArr()) {
-	//
-	// System.out.println(v.getBuildingLocation().getXLoc() + " " +
-	// v.getBuildingLocation().getYLoc());
-	// }
-	// }
-	// }
+	public int getTradeRouteLength(int x, int y, String username) {
+		ArrayList<StreetLocation> queue = new ArrayList<StreetLocation>();
+		ArrayList<StreetLocation> roads = new ArrayList<StreetLocation>();
+		ArrayList<BuildingLocation> buildingLocations = catanGame.getGameboard().getBuildingLocArr();
+		sortBuildingLocationList(buildingLocations);
+		for (BuildingLocation bl : buildingLocations) {
+			for (StreetLocation sl : bl.getAdjacentStreetLocations()) {
+				if (sl.getStreet() != null) {
+					if (sl.getStreet().getPlayer().getUsername().equals(username)) {
+						roads.add(sl);
+					}
+				}
+			}
 
-	// public void printPlayerVillages() {
-	// for (Player p : gamePlayers) {
-	// System.out.println(p.getUsername());
-	// for(Village v: p.getVillageArr()) {
-	//
-	// System.out.println(v.getBuildingLocation().getXLoc() + " " +
-	// v.getBuildingLocation().getYLoc());
-	// }
-	// }
-	// }
+		}
 
+		for (StreetLocation st : roads) {
+			if (!visitedLocations.contains(st) && isConnected(x, y, st)) {
+				visitedLocations.add(st);
+				queue.add(st);
+			}
+		}
+
+		int amount = 0;
+		for (int i = 0; i < queue.size(); i++) {
+			StreetLocation r = queue.get(i);
+
+			int amount_from = getTradeRouteLength(r.getBlStart().getXLoc(), r.getBlStart().getYLoc(), username);
+			int amount_to = getTradeRouteLength(r.getBlEnd().getXLoc(), r.getBlEnd().getYLoc(), username);
+
+			amount = Math.max(amount, 1 + amount_from + amount_to);
+		}
+//		System.out.println(amount);
+		return amount;
+	}
+
+	private boolean isConnected(int x, int y, StreetLocation r) {
+		boolean connected = false;
+
+		connected |= x == r.getBlStart().getXLoc() && y == r.getBlStart().getYLoc();
+		connected |= x == r.getBlEnd().getXLoc() && y == r.getBlEnd().getYLoc();
+
+		return connected;
+	}
+
+	private void sortBuildingLocationList(ArrayList<BuildingLocation> arrayToSort) {
+		Collections.sort(arrayToSort, new Comparator<BuildingLocation>() {
+			@Override
+			public int compare(BuildingLocation o1, BuildingLocation o2) {
+				return o1.getYLoc() - o2.getYLoc();
+			}
+
+		});
+		Collections.sort(arrayToSort, new Comparator<BuildingLocation>() {
+			@Override
+			public int compare(BuildingLocation o1, BuildingLocation o2) {
+				return o1.getXLoc() - o2.getXLoc();
+			}
+
+		});
+	}
+	
+	
+
+	public void getTradeRequest() {
+
+	}
+
+	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
+			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
+
+		mainDA.createTradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive, ironGive,
+				wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
+
+	}
+
+	public int[] getHarbourLocations() {
+
+		int[] resourceRatios = new int[] { 4, 4, 4, 4, 4 };
+
+		ArrayList<Village> villageLocations = catanGame.getSelfPlayer().getVillageArr();
+		ArrayList<City> cityLocations = catanGame.getSelfPlayer().getCityArr();
+
+		for (int j = 0; j < villageLocations.size(); j++) {
+
+			if (villageLocations.get(j).getBuildingLocation().getHarbour() != null) {
+				setHarbourResource(resourceRatios, villageLocations.get(j).getBuildingLocation());
+			}
+		}
+		for (int i = 0; i < cityLocations.size(); i++) {
+
+			if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
+				setHarbourResource(resourceRatios, cityLocations.get(i).getBuildingLocation());
+			}
+		}
+		return resourceRatios;
+	}
+
+	private void setHarbourResource(int[] resources, BuildingLocation buildingLocation) {
+
+		switch (buildingLocation.getHarbour().getRsType()) {
+
+		case BAKSTEEN:
+			resources[0] = 2;
+			break;
+		case ERTS:
+			resources[1] = 2;
+			break;
+		case WOL:
+			resources[2] = 2;
+			break;
+		case GRAAN:
+			resources[3] = 2;
+			break;
+		case HOUT:
+			resources[4] = 2;
+			break;
+		default:
+			for (int i = 0; i < resources.length; i++) {
+
+				if (resources[i] != 2) {
+					resources[i] = 3;
+				}
+			}
+		}
+	}
 }

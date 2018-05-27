@@ -68,7 +68,8 @@ public class BuildingLocation {
 		this.building = village;
 	}	
 	
-	public ArrayList<StreetLocation> getAdjacentStreets() {
+// 	public ArrayList<StreetLocation> getAdjacentStreets() {
+	public ArrayList<StreetLocation> getAdjacentStreetLocations() {
 		return adjecentStreets;
 	}
 	

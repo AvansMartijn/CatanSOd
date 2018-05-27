@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -23,21 +24,10 @@ public class RecentGamesPanel extends JPanel {
 			add(g);
 		}
 		revalidate();
-//		BoxLayout gridLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-//		this.setLayout(gridLayout);
-//
-//		for (int i = (3 * page); i < (3 * page) + 3; i++) {
-//			if (gameList.size() <= i) {
-//				break;
-//			}
-//			
-//			Catan game = gameList.get(i);
-//			
-//			this.add(gamePanel);
-//		}
-//		JLabel label = new JLabel("Pagina: " + page);
-//		label.setAlignmentX(Component.CENTER_ALIGNMENT);
-//		this.add(label);
+		
+		int height = getGamePanels().size() * 110;
+		setPreferredSize(new Dimension(500, height));
+		
 	}
 	
 	public ArrayList<RecentGamePanel> getGamePanels() {

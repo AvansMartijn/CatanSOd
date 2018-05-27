@@ -24,7 +24,7 @@ public class BoardPanel extends JPanel {
 	private Gameboard gameBoard;
 	private final int panelWidth = 810;
 	private final int panelHeight = 700;
-	private Color myBackGroundColor = new Color(240, 226, 223);
+	private Color backGroundColor = new Color(240, 226, 223);
 
 	private final int streetWidth = 20;
 	private final int streetHeight = 20;
@@ -52,7 +52,7 @@ public class BoardPanel extends JPanel {
 		setLayout(null);
 		
 		// TEST
-		setBackground(myBackGroundColor);
+		setBackground(backGroundColor);
 		URL url = this.getClass().getResource("/images/ocean.png");
 		
 		Image image = null;
@@ -275,9 +275,9 @@ public class BoardPanel extends JPanel {
 		}
 	}
 
-	public void enableBuildingLocButtons() {
+	public void enableBuildingLocButtons(boolean state) {
 		for (BuildingLocationButton b : buildingLocButtonArray) {
-
+			b.setState(state);
 			b.setEnabled(true);
 		}
 	}

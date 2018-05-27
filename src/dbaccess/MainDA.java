@@ -24,6 +24,7 @@ import model.ResourceType;
 import model.Street;
 import model.StreetLocation;
 import model.Tile;
+import model.TradeRequest;
 import model.Village;
 
 public class MainDA {
@@ -849,6 +850,14 @@ public class MainDA {
 		return retList;
 	}
 	
+	public void removeResource(String idResource, int idGame) {
+		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = null WHERE idgrondstofkaart = '" + idResource + "' AND idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("Removing resource in DB failed");
+		}
+	}
+	
 	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
@@ -901,4 +910,38 @@ public class MainDA {
 		return shouldRefresh;
 	}
 
+	public void createTradeRequest(TradeRequest tR) {
+
+		String query =  "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)" + 
+		" VALUES " + "(" + tR.getIdPlayer() + ", "+ tR.getG_brick() + ", " + tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", "+ tR.getG_wood() + ", " 
+				+ tR.getW_brick() + ", " + tR.getW_wool() + ", " + tR.getW_iron()+ ", "+ tR.getG_wheat() + ", " + tR.getW_wood() + ");";
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to add tradeRequest");
+		}
+
+	}
+	
+	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {
+
+		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT * FROM ruilaanbod WHERE idspel = " + idGame + " AND idspeler IS NULL;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				String developmentCardID = myRs.getString(1);
+				boolean played = myRs.getBoolean(2);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return retList;
+	}
 }
