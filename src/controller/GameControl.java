@@ -526,6 +526,7 @@ public class GameControl {
 		int ratio;
 		switch (resourceTypeToGive) {
 
+
 		case BAKSTEEN:
 			ratio = resourceRatios[0];
 
@@ -573,7 +574,12 @@ public class GameControl {
 
 		addMessage(" ik heb " + ratio + " " + resourceTypeToGive + " kaarten geruild voor een " + resourceTypeToReceive
 				+ " kaart met de bank");
-	}
+
+// 	public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
+// 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
+// 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive, ironGive,
+// 				wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
+// 	}
 
 	public int[] getResourceRatios() {
 
@@ -589,6 +595,7 @@ public class GameControl {
 				}
 			}
 		}
+
 		for (int i = 0; i < cityLocations.size(); i++) {
 			if (cityLocations.get(i).getBuildingLocation() != null) {
 				if (cityLocations.get(i).getBuildingLocation().getHarbour() != null) {
