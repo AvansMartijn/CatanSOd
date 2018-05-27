@@ -950,4 +950,30 @@ public class MainDA {
 		}
 		return retList;
 	}
+	
+	
+	public void acceptInvite(int playerId) {
+		String query = "UPDATE speler SET speelstatus = 'geaccepteerd' WHERE idspeler = " + playerId + ";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to change playstatus");
+		}
+	}
+	
+	public void declineInvite(int playerId) {
+		String query = "UPDATE speler SET speelstatus = 'geweigerd' WHERE idspeler = " + playerId + ";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to change playstatus");
+		}
+	}
+	
+	public void switchPlayer(String originalUsername, String newUsername, int gameId) {
+		String query = "UPDATE speler SET username = '"+newUsername+"', speelstatus = 'uitgedaagde'  WHERE username = '" + originalUsername + "' AND idspel = "+gameId+";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to switch player");
+		}
+	}
+	
 }
