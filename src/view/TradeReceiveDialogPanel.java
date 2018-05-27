@@ -7,15 +7,15 @@ import java.awt.Font;
 import java.text.NumberFormat;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
 import model.TradeRequest;
 
 @SuppressWarnings("serial")
-public class TradeReceiveDialogPanel extends JDialog {
+public class TradeReceiveDialogPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
