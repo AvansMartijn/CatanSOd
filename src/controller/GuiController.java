@@ -66,6 +66,7 @@ import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
 import view.TradeRespondDialog;
 import view.CurrentTradeRequestPanel;
+import view.DevelopmentCardsPanel;
 import view.WaitingRoom;
 
 public class GuiController {
@@ -93,6 +94,7 @@ public class GuiController {
 	private TradePlayerPanel tradePlayerPanel;
 	private TradeBankPanel tradeBankPanel;
 	private CurrentTradeRequestPanel tradeRequestListPanel;
+	private DevelopmentCardsPanel developmentCardsPanel;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -350,6 +352,7 @@ public class GuiController {
 
 	public void setIngameGuiPanel() {
 		playerStatsPanels = new PlayerStatsPanel[4];
+		developmentCardsPanel = new DevelopmentCardsPanel(gameControl.getCatanGame().getSelfPlayer());
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
 		if (gameControl.hasRolledDice()) {
@@ -403,8 +406,7 @@ public class GuiController {
 			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
 			playerStatsPanels[i] = (playerstatspanel);
 		}
-		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels,
-				gameControl.getCatanGame().getSelfPlayer());
+		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels, developmentCardsPanel);
 
 		JTextField chatPanelTextField = chatPanel.getTextField();
 		chatPanelTextField.addActionListener(new ActionListener() {
@@ -536,10 +538,31 @@ public class GuiController {
 			}
 		});
 	}
+	
+	private void addDevelopmentCardsPanelButtonListeners() {
+		ArrayList<JButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
+		for(JButton b: developmentCards) {
+			b.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO make a panel with the developmentCard text and a "spelen" or "annuleer" buttons
+					JDialog dialog = new JDialog();
+					dialog.setTitle("Ontwikkelingskaart");
+					dialog.setContentPane(gameGUIPanel);
+					dialog.pack();
+					dialog.setLocationRelativeTo(null);
+					dialog.toFront();
+					dialog.requestFocus();
+					dialog.setAlwaysOnTop(true);
+					dialog.setVisible(true);
+				}
+			});
+		}
+	}
 
 	private void addPlayerActionBuyButtonListener() { // TODO IF STATEMENT IS BROKEN?, FOR TESTING PURPOSES CODE IS
 														// ABOVE IT
-
 		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
 
 			@Override
@@ -558,7 +581,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-
 			}
 		});
 	}
@@ -570,7 +592,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-
 			}
 		});
 
@@ -589,7 +610,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradePlayerPanel();
-
 			}
 		});
 
@@ -598,7 +618,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-
 			}
 		});
 
@@ -675,16 +694,16 @@ public class GuiController {
 	}
 
 	private void addPlayerActionSendTradeRequestButtonListener() {
-		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() { 
-		
+		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() {
+
 			// TODO
 			// maybe
 			// in
 			// GameControl
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// give
 				int stoneGive = playerActionPanel.getPlayerTradePanel().getStoneGive();
 				int woolGive = playerActionPanel.getPlayerTradePanel().getWoolGive();
@@ -912,6 +931,9 @@ public class GuiController {
 		addStreetLocListeners();
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
+		
+		// developmentCardPanelButton listeners
+		addDevelopmentCardsPanelButtonListeners();
 
 		// buy listeners
 		addPlayerActionBuyButtonListener();

@@ -13,7 +13,7 @@ import model.DevelopmentCardType;
 import model.Player;
 
 @SuppressWarnings("serial")
-public class MyDevelopmentCardsPanel extends JPanel {
+public class DevelopmentCardsPanel extends JPanel {
 	
 	private final int PANEL_WIDTH = 650;
 	private final int PANEL_HEIGHT = 240;
@@ -26,15 +26,15 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	private JPanel panel = new JPanel();
 	private Player selfPlayer;
 
-	public MyDevelopmentCardsPanel(Player selfPlayer) {
+	public DevelopmentCardsPanel(Player selfPlayer) {
 		this.selfPlayer = selfPlayer;
 		create();
-		// TEST
+		
+		// TODO own function?
 		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
 			DevelopmentCardType developmentCardType = selfPlayer.getHand().getDevelopmentCards().get(i).getDevelopmentCardType();
 			addDevelopmentCard(developmentCardType);
 		}
-		// END TEST
 	}
 
 	public void create() {
@@ -52,7 +52,7 @@ public class MyDevelopmentCardsPanel extends JPanel {
 		add(js);
 	}
 
-	// Add development cards
+	// Add development card
 	public void addDevelopmentCard(DevelopmentCardType developmentCardType) {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCardType);
 		developmentCards.add(developmentCardButton);
@@ -67,5 +67,9 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	private void setPanelSize() {
 		int size = (developmentCards.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));
 		panel.setPreferredSize(new Dimension(size, PANEL_HEIGHT));
+	}
+
+	public ArrayList<JButton> getDevelopmentCards() {
+		return developmentCards;
 	}
 }
