@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.DevelopmentCardType;
 import model.Player;
 
 @SuppressWarnings("serial")
@@ -30,7 +31,8 @@ public class MyDevelopmentCardsPanel extends JPanel {
 		create();
 		// TEST
 		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
-			addDevelopmentCard();
+			DevelopmentCardType developmentCardType = selfPlayer.getHand().getDevelopmentCards().get(i).getDevelopmentCardType();
+			addDevelopmentCard(developmentCardType);
 		}
 		// END TEST
 	}
@@ -51,15 +53,15 @@ public class MyDevelopmentCardsPanel extends JPanel {
 	}
 
 	// Add development cards
-	public void addDevelopmentCard() {
-		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton();
+	public void addDevelopmentCard(DevelopmentCardType developmentCardType) {
+		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCardType);
 		developmentCards.add(developmentCardButton);
 		setPanelSize();
 		panel.add(developmentCardButton);
 	}
 	
 	public void removeDevelopmentCard() {
-		
+		// TODO
 	}
 	
 	private void setPanelSize() {
