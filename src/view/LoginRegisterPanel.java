@@ -8,7 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -65,7 +64,7 @@ public class LoginRegisterPanel extends JPanel {
 		g.drawImage(image, 0, 0, this);
 	}
 
-	private void playBackgroundMusic(String fileName) {
+	private void playBackgroundMusic(String fileName) { // TODO make music class which handles this 
 		Clip clip = null;
 		try {
 		URL sound = getClass().getResource("/Music/" + fileName);
