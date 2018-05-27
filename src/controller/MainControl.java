@@ -175,10 +175,10 @@ public class MainControl {
 			ArrayList<Player> players = getPlayers(i.intValue());
 			
 			Player selfPlayer = getSelfPlayer(players);
-			if(selfPlayer.getPlayStatus().equals("uitgedaagde")) {
+			if(selfPlayer.getPlayStatus().toString().toLowerCase().equals("uitgedaagde")) {
 				invitedGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
-			} else if (selfPlayer.getPlayStatus().equals("uitdager")) {
-				 boolean containsDeclinedPlayer = players.stream().anyMatch(t -> t.getPlayStatus().equals("geweigerd"));
+			} else if (selfPlayer.getPlayStatus().toString().toLowerCase().equals("uitdager")) {
+				 boolean containsDeclinedPlayer = players.stream().anyMatch(t -> t.getPlayStatus().toString().toLowerCase().equals("geweigerd"));
 				 if(containsDeclinedPlayer || players.size() < 4) {
 					 ableToInviteGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
 				 }
