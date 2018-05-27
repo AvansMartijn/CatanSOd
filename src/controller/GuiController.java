@@ -347,7 +347,7 @@ public class GuiController {
 								}
 							}
 							for (Player s : frame.panel.getInvitedPlayers()) {
-								if (catan.getPlayers().stream()
+								if (!catan.getPlayers().stream()
 										.anyMatch(t -> t.getUsername().equals(s.getUsername()))) {
 									// Add S
 									playersToAdd.add(s);
