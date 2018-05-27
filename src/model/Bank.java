@@ -18,12 +18,16 @@ public class Bank {
 	private ArrayList<DevelopmentCard> developmentCards;
 
 	// Constructor
-	
+
 	/**
-	 * This constructor should be used to add a {@code Bank} from with all the information from the Database. 
+	 * This constructor should be used to add a {@code Bank} from with all the
+	 * information from the Database.
 	 * 
-	 * @param resourceIDs all the ID's of the resources that should be added to the bank. 
-	 * @param developmentCardIDs all the ID's of the development cards that should be added to the bank. 
+	 * @param resourceIDs
+	 *            all the ID's of the resources that should be added to the bank.
+	 * @param developmentCardIDs
+	 *            all the ID's of the development cards that should be added to the
+	 *            bank.
 	 * @since 21 May 2018
 	 * @author Jasper Mooren
 	 */
@@ -32,15 +36,15 @@ public class Bank {
 		developmentCards = new ArrayList<>();
 		addResourcesFromDatabase(resourceIDs);
 		try {
-			addDevelopmentCardsFromDatabase(developmentCardIDs, played);			
+			addDevelopmentCardsFromDatabase(developmentCardIDs, played);
 		} catch (Exception e) {
 			System.out.println("developmentCardIDs and played don't have the same size!");
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * This constructor should be used to create a {@code Bank} in a new game. 
+	 * This constructor should be used to create a {@code Bank} in a new game.
 	 * 
 	 * @since 21 May 2018
 	 * @author Jasper Mooren
@@ -53,7 +57,9 @@ public class Bank {
 	}
 
 	/**
-	 * @param resourceIDs An {@code ArrayList<String>} of all the {@code resourceID}'s as found in the database. 
+	 * @param resourceIDs
+	 *            An {@code ArrayList<String>} of all the {@code resourceID}'s as
+	 *            found in the database.
 	 * 
 	 * @since 21 May 2018
 	 * @author Jasper Mooren
@@ -63,38 +69,54 @@ public class Bank {
 			resources.add(new Resource(resourceIDs.get(i)));
 		}
 	}
-	
-	private void addDevelopmentCardsFromDatabase(ArrayList<String> developmentCardIDs, ArrayList<Boolean> played) 
+
+	private void addDevelopmentCardsFromDatabase(ArrayList<String> developmentCardIDs, ArrayList<Boolean> played)
 			throws InvalidParameterException {
-		if(developmentCardIDs.size() == played.size()) {
+		if (developmentCardIDs.size() == played.size()) {
 			for (int i = 0; i < developmentCardIDs.size(); i++) {
-				developmentCards.add(new DevelopmentCard(developmentCardIDs.get(i), played.get(i)));			
-			}			
-		}
-		else {
+				developmentCards.add(new DevelopmentCard(developmentCardIDs.get(i), played.get(i)));
+			}
+		} else {
 			throw new InvalidParameterException();
 		}
 	}
 
 	// Add Resources to resources ArrayList
 	private void createResourceCards() {
-		String[] resourceType = {"B", "E", "G", "H", "W"};
+		String[] resourceType = { "b", "e", "g", "h", "w" };
 		String resourceID = "";
 		for (int i = 0; i < AMOUNT_OF_DIFFERENT_RESOURCES; i++) {
 			for (int j = 0; j < AMOUNT_OF_EACH_RESOURCE; j++) {
-				if(j < 9) {
-					resourceID = resourceType[i] + "0" + (j + 1);					
-				}
-				else {
-					resourceID = resourceType[i] + (j + 1);										
+				if (j < 9) {
+					resourceID = resourceType[i] + "0" + (j + 1);
+				} else {
+					resourceID = resourceType[i] + (j + 1);
 				}
 				resources.add(new Resource(resourceID));
-			}			
+			}
 		}
 	}
 
 	// Add DevelopmentCards to developmentCards ArrayList
 	private void createDevelopmentCards() {
-		
+
+	}
+
+	public Resource takeResource(ResourceType rsType) {
+		Resource rsToReturn;
+		for (int i = 0; i < resources.size(); i++) {
+			if (resources.get(i).getRsType() == rsType) {
+				rsToReturn = resources.get(i);
+				resources.remove(i);
+				return rsToReturn;
+			}
+		}
+		return null;
+	}
+
+	public void addMultipleResources(ArrayList<Resource> resourcesToAdd) {
+		for (Resource rs : resourcesToAdd) {
+			resources.add(rs);
+		}
 	}
 }

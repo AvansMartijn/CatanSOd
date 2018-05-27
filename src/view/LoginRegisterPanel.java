@@ -2,13 +2,11 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -24,6 +22,7 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class LoginRegisterPanel extends JPanel {
+	
 	private JButton loginButton;
 	private JButton registerButton;
 	private JButton exitButton;
@@ -41,13 +40,13 @@ public class LoginRegisterPanel extends JPanel {
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.CENTER;
-
+		
 		CenterPanel center = new CenterPanel();
 
 		grid.setConstraints(center, constraints);
 		add(center, constraints);
 
-		URL url = this.getClass().getResource("/images/CatanInlogBackground.jpg");
+		URL url = this.getClass().getResource("/images/CatanLoginBackground.png");
 
 		try {
 			image = ImageIO.read(url);
@@ -61,11 +60,10 @@ public class LoginRegisterPanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		g.drawImage(image, 0, 0, this);
 	}
 
-	private void playBackgroundMusic(String fileName) {
+	private void playBackgroundMusic(String fileName) { // TODO make music class which handles this 
 		Clip clip = null;
 		try {
 		URL sound = getClass().getResource("/Music/" + fileName);
@@ -75,9 +73,7 @@ public class LoginRegisterPanel extends JPanel {
 		clip.open(audioInputStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 		} catch (Exception ex) {
-			
 		}
-
 	}
 
 	public JButton getInlogButton() {
@@ -112,13 +108,7 @@ public class LoginRegisterPanel extends JPanel {
 			setOpaque(true);
 			setBackground(new Color(0, 0, 0, 0));
 
-			setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-
 			Dimension preferredSize = new Dimension(100, 20);
-
-			JLabel welcome = new JLabel("Kolonisten van Catan");
-			welcome.setFont(new Font("Arial", Font.PLAIN, 30));
-			add(welcome);
 
 			messageLabel = new JLabel("Vul hieronder je gegevens in");
 			add(messageLabel);
@@ -148,7 +138,7 @@ public class LoginRegisterPanel extends JPanel {
 
 			registerButton = new JButton("Registreren");
 			registerButton.setPreferredSize(new Dimension(280, 40));
-			registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			registerButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
 			registerButton.setBackground(new Color(40, 40, 40));
 			registerButton.setForeground(Color.WHITE);
 			add(registerButton);

@@ -858,6 +858,14 @@ public class MainDA {
 		}
 	}
 	
+	public void addResourceToPlayer(String idResource, int idGame, int idPlayer) {
+		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = '" + idPlayer + "' WHERE idgrondstofkaart = '" + idResource + "' AND idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("adding resource to player in DB failed");
+		}
+	}
+	
 	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
@@ -906,7 +914,6 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get has Thrown");
 		}
-
 		return shouldRefresh;
 	}
 
@@ -918,7 +925,6 @@ public class MainDA {
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tradeRequest");
 		}
-
 	}
 	
 	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {

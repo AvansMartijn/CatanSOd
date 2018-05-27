@@ -68,6 +68,9 @@ import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
 import view.TradeRespondDialog;
 import view.CurrentTradeRequestPanel;
+import view.DevelopmentCardButton;
+import view.DevelopmentCardDialogPanel;
+import view.DevelopmentCardsPanel;
 import view.WaitingRoom;
 
 public class GuiController {
@@ -96,6 +99,7 @@ public class GuiController {
 	private TradePlayerPanel tradePlayerPanel;
 	private TradeBankPanel tradeBankPanel;
 	private CurrentTradeRequestPanel tradeRequestListPanel;
+	private DevelopmentCardsPanel developmentCardsPanel;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -161,7 +165,6 @@ public class GuiController {
 					usernameTextField.setText("");
 					passwordTextField.setText("");
 					loginregisterPanel.setMessagelabel("Ongeldige gegevens ingevoerd");
-					// frame.pack(); // TODO discuss with martijn
 				} else {
 					mainControl.loadProfile();
 				}
@@ -431,6 +434,7 @@ public class GuiController {
 
 	public void setIngameGuiPanel() {
 		playerStatsPanels = new PlayerStatsPanel[4];
+		developmentCardsPanel = new DevelopmentCardsPanel(gameControl.getCatanGame().getSelfPlayer());
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
 		if (gameControl.hasRolledDice()) {
@@ -438,21 +442,26 @@ public class GuiController {
 		}
 
 		GameTopPanel gameTopPanel = new GameTopPanel(gameControl.getCatanGame().getIdGame());
+
 		gameTopPanel.getGoToMainMenuButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Object[] options = { "Ja", "Nee" };
+				Object[] options = { "Spel verlaten", "Afsluiten", "Annuleren" };
 
 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt verlaten?",
-						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+						"Waarschuwing", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
 						options[0]);
 				if (result == JOptionPane.YES_OPTION) {
 					gameControl.unloadCatan();
 					mainControl.stopIngameTimer();
 					mainControl.loadProfile();
 				}
+				if (result == JOptionPane.NO_OPTION) {
+					System.exit(0);
+				}
+
 			}
 
 		});
@@ -462,7 +471,7 @@ public class GuiController {
 		this.returnToBuildPanel = new ReturnToBuildPanel();
 		this.tradeOptionsPanel = new TradeOptionsPanel();
 		this.tradePlayerPanel = new TradePlayerPanel(gameControl.getCatanGame().getSelfPlayer());
-		this.tradeBankPanel = new TradeBankPanel(gameControl.getCatanGame().getSelfPlayer());
+		this.tradeBankPanel = new TradeBankPanel();
 		this.tradeRequestListPanel = new CurrentTradeRequestPanel();
 		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePlayerPanel,
 				tradeBankPanel, returnToBuildPanel, tradeOptionsPanel, tradeRequestListPanel);
@@ -479,8 +488,7 @@ public class GuiController {
 			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
 			playerStatsPanels[i] = (playerstatspanel);
 		}
-		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels,
-				gameControl.getCatanGame().getSelfPlayer());
+		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels, developmentCardsPanel);
 
 		JTextField chatPanelTextField = chatPanel.getTextField();
 		chatPanelTextField.addActionListener(new ActionListener() {
@@ -533,28 +541,30 @@ public class GuiController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					if(blb.getState()) {
+					if (blb.getState()) {
 						if (!gameControl.buildCity(blb.getBuildingLocation())) {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen stad bouwen");
-							
+
 						} else {
-							gameControl.addMessage("Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: " + blb.getBuildingLocation().getYLoc());
+							gameControl.addMessage("Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc()
+									+ " Y: " + blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
 						}
-					}else {
+					} else {
 						if (!gameControl.buildVillage(blb.getBuildingLocation())) {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
-							
+
 						} else {
-							gameControl.addMessage("Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: " + blb.getBuildingLocation().getYLoc());
+							gameControl.addMessage("Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc()
+									+ " Y: " + blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
 						}
 					}
-		
+
 				}
 			});
 		}
@@ -569,8 +579,11 @@ public class GuiController {
 					if (!gameControl.buildStreet(slb.getStreetLocation())) {
 						addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 					} else {
-						gameControl.addMessage("Heeft een straat gebouwd tussen X: " + slb.getStreetLocation().getBlStart().getXLoc() + " Y: " + slb.getStreetLocation().getBlStart().getYLoc()
-								 + " en X: " + slb.getStreetLocation().getBlEnd().getXLoc() + " Y: " + slb.getStreetLocation().getBlEnd().getYLoc());
+						gameControl.addMessage(
+								"Heeft een straat gebouwd tussen X: " + slb.getStreetLocation().getBlStart().getXLoc()
+										+ " Y: " + slb.getStreetLocation().getBlStart().getYLoc() + " en X: "
+										+ slb.getStreetLocation().getBlEnd().getXLoc() + " Y: "
+										+ slb.getStreetLocation().getBlEnd().getYLoc());
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
 						addPlayerColorToStreetLocs();
@@ -607,10 +620,30 @@ public class GuiController {
 			}
 		});
 	}
+	
+	private void addDevelopmentCardsPanelButtonListeners() {
+		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
+		for(DevelopmentCardButton b: developmentCards) {
+			b.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					DevelopmentCardDialogPanel developmentCardDialogPanel = new DevelopmentCardDialogPanel(b);
+					JDialog dialog = new JDialog();
+					dialog.setTitle("Ontwikkelingskaart");
+					dialog.setContentPane(developmentCardDialogPanel); // TODO add actionlisteners for playbutton
+					dialog.pack();
+					dialog.setLocationRelativeTo(null);
+					dialog.toFront();
+					dialog.requestFocus();
+					dialog.setAlwaysOnTop(true);
+					dialog.setVisible(true);
+				}
+			});
+		}
+	}
 
 	private void addPlayerActionBuyButtonListener() { // TODO IF STATEMENT IS BROKEN?, FOR TESTING PURPOSES CODE IS
 														// ABOVE IT
-
 		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
 
 			@Override
@@ -629,7 +662,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-
 			}
 		});
 	}
@@ -641,7 +673,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-
 			}
 		});
 
@@ -649,7 +680,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int[] resources = gameControl.getHarbourLocations();
+				int[] resources = gameControl.getResourceRatios();
 				playerActionPanel.getTradeBankPanel().updateRatio(resources);
 				playerActionPanel.setTradeBankPanel();
 			}
@@ -660,7 +691,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradePlayerPanel();
-
 			}
 		});
 
@@ -669,7 +699,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-
 			}
 		});
 
@@ -712,7 +741,26 @@ public class GuiController {
 				}
 			}
 		});
-		
+
+		playerActionPanel.getTradeBankPanel().getSendRequestButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				int[] resourceRatios = gameControl.getResourceRatios();
+				ResourceType resourceTypeToGive = playerActionPanel.getTradeBankPanel()
+						.getSelectedResourceType(playerActionPanel.getTradeBankPanel().getGiveButtonGroup());
+				ResourceType resourceTypeToReceive = playerActionPanel.getTradeBankPanel()
+						.getSelectedResourceType(playerActionPanel.getTradeBankPanel().getReceiveButtonGroup());
+
+				gameControl.getBankTradeRequest(resourceRatios, resourceTypeToGive, resourceTypeToReceive);
+
+				gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+
+				updatePlayerStats();
+
+			}
+		});
 
 		playerActionPanel.getTradeRequestListPanel().getReturnButton().addActionListener(new ActionListener() {
 
@@ -722,16 +770,21 @@ public class GuiController {
 				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				}
 			}
+
 		});
 	}
 
-	private void addPlayerActionTradeSendRequestButtonListener() {
-		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() { // TODO
-																												// maybe
+	private void addPlayerActionSendTradeRequestButtonListener() {
+		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() {
+
+			// TODO
+			// maybe
 			// in
 			// GameControl
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				// give
 				int stoneGive = playerActionPanel.getPlayerTradePanel().getStoneGive();
 				int woolGive = playerActionPanel.getPlayerTradePanel().getWoolGive();
@@ -746,7 +799,7 @@ public class GuiController {
 				int wheatReceive = playerActionPanel.getPlayerTradePanel().getIronReceive();
 				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoolReceive();
 
-				gameControl.createTradeRequest(stoneGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
+				gameControl.createPlayerTradeRequest(stoneGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
 						woolReceive, ironReceive, wheatReceive, woodReceive);
 
 			}
@@ -797,8 +850,8 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				villageBoolean = true;
-				
+				// villageBoolean = true;
+
 				boardPanel.enableBuildingLocButtons(false);
 				playerActionPanel.setReturnToBuildPanel();
 			}
@@ -809,7 +862,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-//				cityBoolean = true;
+				// cityBoolean = true;
 				boardPanel.enableBuildingLocButtons(true);
 
 				playerActionPanel.setReturnToBuildPanel();
@@ -886,7 +939,6 @@ public class GuiController {
 				color = convertPlayerColorToAWT(city.getPlayer().getColor());
 			}
 			blb.setBackground(color);
-
 		}
 	}
 
@@ -899,7 +951,6 @@ public class GuiController {
 				color = convertPlayerColorToAWT(street.getPlayer().getColor());
 			}
 			slb.setBackground(color);
-
 		}
 	}
 
@@ -961,6 +1012,9 @@ public class GuiController {
 		addStreetLocListeners();
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
+		
+		// developmentCardPanelButton listeners
+		addDevelopmentCardsPanelButtonListeners();
 
 		// buy listeners
 		addPlayerActionBuyButtonListener();
@@ -969,7 +1023,7 @@ public class GuiController {
 		// Trade listeners
 		addTradeButtonsListeners();
 		addTradeRespondDialogActionListeners();
-		addPlayerActionTradeSendRequestButtonListener();
+		addPlayerActionSendTradeRequestButtonListener();
 
 		// build listeners
 		addPlayerActionBuildButtonsListener();
@@ -983,5 +1037,10 @@ public class GuiController {
 	// public void setGameBoard(Gameboard gameBoard) {
 	// this.gameBoard = gameBoard;
 	// }
+	private void updatePlayerStats() {
 
+		for (int i = 0; i < playerStatsPanels.length; i++) {
+			playerStatsPanels[i].updateStats();
+		}
+	}
 }

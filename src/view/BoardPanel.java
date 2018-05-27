@@ -34,7 +34,7 @@ public class BoardPanel extends JPanel {
 	private final int tileImgHeight = 152;
 	private final int buildingLocWidthHeight = 30;
 
-	HashMap<Point, Point> cordMap;
+	private HashMap<Point, Point> cordMap;
 
 	private ArrayList<TileButton> tileButtonArrayList = new ArrayList<TileButton>();
 	private ArrayList<BuildingLocationButton> buildingLocButtonArray = new ArrayList<BuildingLocationButton>();
@@ -317,13 +317,13 @@ public class BoardPanel extends JPanel {
 		URL url = null;
 		switch (rsType) {
 		case "WOL":
-			url = this.getClass().getResource("/images/Sheep_Tile.png");
+			url = this.getClass().getResource("/images/Wool_Tile.png");
 			return createImageIcon(url);
 		case "GRAAN":
 			url = this.getClass().getResource("/images/Wheat_Tile.png");
 			return createImageIcon(url);
 		case "BAKSTEEN":
-			url = this.getClass().getResource("/images/Stone_Tile.png");
+			url = this.getClass().getResource("/images/Brick_Tile.png");
 			return createImageIcon(url);
 		case "HOUT":
 			url = this.getClass().getResource("/images/Wood_Tile.png");

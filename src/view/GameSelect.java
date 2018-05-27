@@ -18,6 +18,9 @@ import javax.swing.text.JTextComponent;
 
 @SuppressWarnings("serial")
 public class GameSelect extends JPanel {
+	
+	private final int PANEL_WIDTH = 390;
+	private final int PANEL_HEIGHT = 230;
 
 	private JButton standardGameButton;
 	private JButton randomGameButton;
@@ -49,7 +52,7 @@ public class GameSelect extends JPanel {
 
 		public CenterPanel() {
 
-			setPreferredSize(new Dimension(390, 230));
+			setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
 		
 
