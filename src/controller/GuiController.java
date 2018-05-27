@@ -305,6 +305,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 
 				mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+				mainControl.loadInvites();
 			}
 		});
 		invitePanel.getDeclineButton().addActionListener(new ActionListener() {
@@ -312,6 +313,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+				mainControl.loadInvites();
 			}
 		});
 		invitePanel.getRefreshButton().addActionListener(new ActionListener() {
@@ -326,8 +328,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Catan catan = invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex());
-				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAcccountUsername(),
-						mainControl.getAllAccounts(), catan);
+				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
 				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
 
 					@Override
@@ -352,12 +353,14 @@ public class GuiController {
 									// Add S
 									playersToAdd.add(s);
 								}
-								if (playersToRemove.size() == playersToAdd.size()) {
-									mainControl.switchInvites(playersToAdd, playersToRemove, catan.getIdGame());
-								}
-
 							}
-
+							if (playersToRemove.size() == playersToAdd.size()) {
+								mainControl.switchInvites(playersToAdd, playersToRemove, catan.getIdGame());
+								JOptionPane.showConfirmDialog(null, "Gelukt!",
+										"De nieuwe mensen zijn uitgenodigd!", JOptionPane.OK_OPTION);
+							}
+							frame.dispose();//Invited. Frame can close now.
+							mainControl.loadInvites();
 						}
 
 					}

@@ -10,8 +10,8 @@ public class ManageInvitesFrame extends JFrame{
 	
 	public ManageInvitesPanel panel;
 	
-	public ManageInvitesFrame(String selfUsername, ArrayList<String> availablePlayers, Catan game) {
-		panel = new ManageInvitesPanel(selfUsername, availablePlayers, game);
+	public ManageInvitesFrame(ArrayList<String> availablePlayers, Catan game) {
+		panel = new ManageInvitesPanel(availablePlayers, game);
 		this.setContentPane(panel);
 		this.pack();
 		this.setVisible(true);
