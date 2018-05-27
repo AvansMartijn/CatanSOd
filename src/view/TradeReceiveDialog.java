@@ -12,13 +12,13 @@ public class TradeReceiveDialog extends JDialog {
 	public TradeReceiveDialog(TradeRequest tr) {
 
 		tradeReceiveDialogPanel = new TradeReceiveDialogPanel(tr);
-
+		
+		setUndecorated(true);
+		
 		setContentPane(tradeReceiveDialogPanel);
 		pack();
 		setLocationRelativeTo(null);
-		setUndecorated(true);
 		setAlwaysOnTop(true);
-
 		setVisible(true);
 
 	}
@@ -26,5 +26,4 @@ public class TradeReceiveDialog extends JDialog {
 	public TradeReceiveDialogPanel getTradeReceiveDialogPanel() {
 		return tradeReceiveDialogPanel;
 	}
-
 }

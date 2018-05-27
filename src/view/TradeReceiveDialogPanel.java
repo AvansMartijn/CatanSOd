@@ -20,7 +20,7 @@ public class TradeReceiveDialogPanel extends JPanel {
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
 
-	private final int BUTTON_WIDTH = 150;
+	private final int BUTTON_WIDTH = 100;
 	private final int BUTTON_HEIGHT = 35;
 
 	private final int TEXTFIELD_INPUT_WIDTH = 35;
@@ -40,12 +40,12 @@ public class TradeReceiveDialogPanel extends JPanel {
 	private JLabel titleLabel, subTitleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3;
 	private JLabel woodLabel, wheatLabel, brickLabel, ironLabel, woolLabel;
 
-	private JButton sendRequestButton, returnButton;
+	private JButton counterOfferButton, acceptButton, returnButton;
 
 	private JFormattedTextField woodGive, wheatGive, brickGive, ironGive, woolGive;
 
 	private JFormattedTextField woodReceive, wheatReceive, brickReceive, ironReceive, woolReceive;
-	
+
 	public TradeReceiveDialogPanel(TradeRequest tr) {
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -67,15 +67,22 @@ public class TradeReceiveDialogPanel extends JPanel {
 
 		createResourceInput(tr);
 
-		sendRequestButton = new JButton("Tegenbod versturen");
-		sendRequestButton.setBounds(10, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
-		sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-		sendRequestButton.setBackground(textBackgroundColor);
-		sendRequestButton.setForeground(TextColor);
-		add(sendRequestButton);
+		counterOfferButton = new JButton("Tegenbod");
+		counterOfferButton.setBounds(10, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
+		counterOfferButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+		counterOfferButton.setBackground(textBackgroundColor);
+		counterOfferButton.setForeground(TextColor);
+		add(counterOfferButton);
 
-		returnButton = new JButton("Tegenbod afwijzen");
-		returnButton.setBounds(170, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
+		acceptButton = new JButton("Accepteren");
+		acceptButton.setBounds(120, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
+		acceptButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+		acceptButton.setBackground(textBackgroundColor);
+		acceptButton.setForeground(TextColor);
+		add(acceptButton);
+
+		returnButton = new JButton("Afwijzen");
+		returnButton.setBounds(230, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
 		returnButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);
@@ -199,8 +206,12 @@ public class TradeReceiveDialogPanel extends JPanel {
 
 	}
 
-	public JButton getSendRequestButton() {
-		return sendRequestButton;
+	public JButton getCounterOfferButton() {
+		return counterOfferButton;
+	}	
+	
+	public JButton getAcceptButton() {
+		return acceptButton;
 	}
 
 	public JButton getReturnButton() {
@@ -245,5 +256,5 @@ public class TradeReceiveDialogPanel extends JPanel {
 
 	public int getWoolReceive() {
 		return Integer.parseInt(woolReceive.getText());
-	}	
+	}
 }

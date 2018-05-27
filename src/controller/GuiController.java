@@ -573,7 +573,6 @@ public class GuiController {
 		tradeReceive.setLocationRelativeTo(null);
 		tradeReceive.toFront();
 		tradeReceive.requestFocus();
-	
 		tradeReceive.setVisible(true);
 		
 	}
