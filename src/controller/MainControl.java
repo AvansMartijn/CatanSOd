@@ -94,6 +94,7 @@ public class MainControl {
 						updateRefreshRobber();
 						updateRefreshPlayers();	
 						updateRefreshTradeRequest();
+            updateRefreshTurn();
 						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 					}
 					System.out.println("Refreshed");
@@ -299,9 +300,17 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshRobber();
 	}
+	
+	public void updateRefreshTurn() {
+		int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
+		gameControl.getCatanGame().setTurn(turn);
+		if(turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+			gameControl.doTurn();
+//			guiController.refreshDice();
+		}
+	}
 
 	public void updateRefreshMessages() {
-		System.out.println("maincontrol updaterefresh chat");
 		ArrayList<String> messageList = new ArrayList<String>();
 		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setMessages(messageList);
@@ -323,6 +332,7 @@ public class MainControl {
 	
 	private void updateRefreshDice() {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
+		gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshDice();
 	}
 	

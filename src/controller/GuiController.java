@@ -1,38 +1,25 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.DisplayMode;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Resources;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.Catan;
 import model.City;
-import model.Gameboard;
 import model.Player;
 import model.PlayerColor;
-import model.Resource;
 import model.ResourceType;
 import model.Street;
 import model.Tile;
@@ -73,7 +60,6 @@ import view.CurrentTradeRequestPanel;
 import view.DevelopmentCardButton;
 import view.DevelopmentCardDialogPanel;
 import view.DevelopmentCardsPanel;
-import view.WaitingRoom;
 
 public class GuiController {
 
@@ -437,9 +423,6 @@ public class GuiController {
 		developmentCardsPanel = new DevelopmentCardsPanel(gameControl.getCatanGame().getSelfPlayer());
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
-		if (gameControl.hasRolledDice()) {
-			diceDotPanel.getButton().setVisible(false);
-		}
 
 		GameTopPanel gameTopPanel = new GameTopPanel(gameControl.getCatanGame().getIdGame());
 
@@ -475,6 +458,9 @@ public class GuiController {
 		this.tradeRequestListPanel = new CurrentTradeRequestPanel();
 		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePlayerPanel,
 				tradeBankPanel, returnToBuildPanel, tradeOptionsPanel, tradeRequestListPanel);
+		if(gameControl.getCatanGame().getTurn() == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+			enablePlayerActionPanel();
+		}
 
 		// this.tradePanel = new TradePanel();
 		// this.returnToBuildPanel = new ReturnToBuildPanel();
@@ -552,6 +538,8 @@ public class GuiController {
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
+							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+							refreshPlayers();
 						}
 					} else {
 						if (!gameControl.buildVillage(blb.getBuildingLocation())) {
@@ -563,6 +551,9 @@ public class GuiController {
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
+							
+							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+							refreshPlayers();
 						}
 					}
 
@@ -588,6 +579,8 @@ public class GuiController {
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
 						addPlayerColorToStreetLocs();
+						gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+						updatePlayerStats();
 					}
 				}
 			});
@@ -600,28 +593,19 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// Catan catanGame = gameControl.getCatanGame();
-				// Only if it is the players' turn can the player roll the dice.
-				// Only if the player has not rolled the dice yet, can the player roll dice.
-				// This is separate for testing purposes, so just make it if(true) to disable
-				// the restriction.
-				// boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() ==
-				// catanGame.getTurn() && !catanGame.hasRolledDice();
-				// if(shouldRoll) {
-				// int[] die = gameControl.rollDice();
-				// gameControl.getCatanGame().getDice().setDie(die);
-				// gameControl.editDiceLastThrown(die);
-				// gameControl.getCatanGame().setRolledDice(false);
+				
 				gameControl.rollDice();
 				diceDotPanel.getButton().setVisible(false);
-				// gameControl.getCatanGame().setRolledDice(true);
 				refreshDice();
-				// When the player rolls the dice, he starts his turn
-				// }
 			}
 		});
 	}
-
+	
+	public void enableDice() {
+		diceDotPanel.getButton().setVisible(true);
+		System.out.println("enabled button");
+	}
+	
 	private void addDevelopmentCardsPanelButtonListeners() {
 		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
 		for (DevelopmentCardButton b : developmentCards) {
@@ -643,16 +627,12 @@ public class GuiController {
 		}
 	}
 
-	private void addPlayerActionBuyButtonListener() { // TODO IF STATEMENT IS BROKEN?, FOR TESTING PURPOSES CODE IS
-														// ABOVE IT
+	private void addPlayerActionBuyButtonListener() {
 		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setBuyPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-
-				}
 			}
 		});
 	}
@@ -705,7 +685,7 @@ public class GuiController {
 
 					tradeReceive.setAlwaysOnTop(false);
 
-					Object[] options = { "Oké" };
+					Object[] options = { "OkÃ©" };
 
 					int result = JOptionPane.showOptionDialog(null, "Je hebt niet genoeg grondstoffen", "Waarschuwing",
 							JOptionPane.CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
@@ -790,8 +770,6 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("trade3");
 				playerActionPanel.setTradeRequestListPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 		});
 
@@ -800,8 +778,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 		});
 
@@ -810,8 +786,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 		});
 
@@ -820,8 +794,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 		});
 
@@ -850,8 +822,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 
 		});
@@ -1017,6 +987,7 @@ public class GuiController {
 				boardPanel.enableBuildingLocButtons(true);
 
 				playerActionPanel.setReturnToBuildPanel();
+				System.out.println("test");
 			}
 		});
 
@@ -1048,6 +1019,7 @@ public class GuiController {
 				}
 				 if (gameControl.getCatanGame().isSelfPlayerTurn()) {
 				 }
+
 			}
 		});
 	}
@@ -1058,12 +1030,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				playerActionPanel.setVisible(false); // TODO DONT FORGET TO SET THIS VISIBLE WHEN SELFPLAYER TURN IS
-														// BACK -- JIM
-				Catan catanGame = gameControl.getCatanGame();
-				catanGame.endTurn();
-				if (catanGame.isSelfPlayerTurn()) {
-				}
+				playerActionPanel.setVisible(false);
+				gameControl.endTurn();
 			}
 		});
 	}
@@ -1113,7 +1081,6 @@ public class GuiController {
 		case ORANJE:
 			color = Color.ORANGE;
 			break;
-
 		}
 		return color;
 	}
@@ -1124,6 +1091,10 @@ public class GuiController {
 	// addPlayerColorToBuildingLocs();
 	// addPlayerColorToStreetLocs();
 	// }
+	
+	public void enablePlayerActionPanel() {
+		playerActionPanel.setVisible(true);
+	}
 
 	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
@@ -1131,7 +1102,6 @@ public class GuiController {
 	}
 
 	public void refreshChat() {
-		System.out.println("refreshchat");
 		chatPanel.setMessages(gameControl.getCatanGame().getMessages());
 		chatPanel.repaint();
 	}
@@ -1186,32 +1156,12 @@ public class GuiController {
 		return boardPanel;
 	}
 
-	/**
-	 * This opens a dialog that will allow the player to chose who he will steal
-	 * from. (because of replacing the robber).
-	 * 
-	 * @param playersAtRobberTile
-	 *            the Players that can be chosen from
-	 * @since 24 May 2018
-	 * @author Jasper Mooren
-	 */
 	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
 
 	}
 
-	/**
-	 * player has to take away half of his resources. This dialog chooses which
-	 * resources.
-	 * 
-	 * @param amountOfResourcesToTake
-	 *            the amount of resources that the player should take away.
-	 * @param amountOfResourcesAvailable
-	 *            the resources and amounts that the player has.
-	 * @since 54 May 2018
-	 * @author Jasper Mooren
-	 */
-	public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake,
-			HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
+	public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake, HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
+
 		// TODO Auto-generated method stub
 
 	}
