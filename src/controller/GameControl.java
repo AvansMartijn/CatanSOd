@@ -826,4 +826,10 @@ public class GameControl {
 			}
 		}
 	}
+
+	public void doTurn() {
+		guiController.enableDice();
+		guiController.enablePlayerActionPanel();
+		
+	}
 }

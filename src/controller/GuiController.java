@@ -601,26 +601,16 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// Catan catanGame = gameControl.getCatanGame();
-				// Only if it is the players' turn can the player roll the dice.
-				// Only if the player has not rolled the dice yet, can the player roll dice.
-				// This is separate for testing purposes, so just make it if(true) to disable
-				// the restriction.
-				// boolean shouldRoll = catanGame.getSelfPlayer().getFollownr() ==
-				// catanGame.getTurn() && !catanGame.hasRolledDice();
-				// if(shouldRoll) {
-				// int[] die = gameControl.rollDice();
-				// gameControl.getCatanGame().getDice().setDie(die);
-				// gameControl.editDiceLastThrown(die);
-				// gameControl.getCatanGame().setRolledDice(false);
+				
 				gameControl.rollDice();
 				diceDotPanel.getButton().setVisible(false);
-				// gameControl.getCatanGame().setRolledDice(true);
 				refreshDice();
-				// When the player rolls the dice, he starts his turn
-				// }
 			}
 		});
+	}
+	
+	public void enableDice() {
+		diceDotPanel.getButton().setVisible(true);
 	}
 	
 	private void addDevelopmentCardsPanelButtonListeners() {
@@ -651,9 +641,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setBuyPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-
-				}
 			}
 		});
 	}
@@ -709,8 +696,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeRequestListPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 		});
 
@@ -719,8 +704,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 		});
 
@@ -729,8 +712,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 		});
 
@@ -739,8 +720,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 		});
 
@@ -916,10 +895,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				playerActionPanel.setVisible(false); // TODO DONT FORGET TO SET THIS VISIBLE WHEN SELFPLAYER TURN IS
-														// BACK -- JIM
+				playerActionPanel.setVisible(false);
 				gameControl.endTurn();
-				
 			}
 		});
 	}
@@ -980,6 +957,10 @@ public class GuiController {
 	// addPlayerColorToBuildingLocs();
 	// addPlayerColorToStreetLocs();
 	// }
+	
+	public void enablePlayerActionPanel() {
+		playerActionPanel.setVisible(true);
+	}
 
 	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
@@ -1042,26 +1023,10 @@ public class GuiController {
 		return boardPanel;
 	}
 
-	/**
-	 * This opens a dialog that will allow the player to chose who he will steal from. 
-	 * (because of replacing the robber).
-	 * 
-	 * @param playersAtRobberTile the Players that can be chosen from
-	 * @since 24 May 2018
-	 * @author Jasper Mooren
-	 */
 	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
 		
 	}
 
-	/**
-	 * player has to take away half of his resources. This dialog chooses which resources. 
-	 * 
-	 * @param amountOfResourcesToTake the amount of resources that the player should take away. 
-	 * @param amountOfResourcesAvailable the resources and amounts that the player has. 
-	 * @since 54 May 2018
-	 * @author Jasper Mooren
-	 */
 	public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake, HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
 		// TODO Auto-generated method stub
 		
