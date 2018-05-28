@@ -70,8 +70,7 @@ public class WaitingRoom extends JPanel {
 	public void backgroundImage() {
 		Image image = null;
 		try {
-			URL url = new URL(
-					"https://www.spellenrijk.nl/resize/999-kol01b-2_12557510737781.png/0/1100/True/de-kolonisten-van-catan-basisspel-3.png");
+			URL url = this.getClass().getResource("/images/waitingRoomBackground.png");
 			image = ImageIO.read(url);
 		} catch (IOException e) {
 			e.printStackTrace();
