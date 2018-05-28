@@ -9,6 +9,8 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.Tile;
+import model.TradeRequest;
 
 public class MainControl {
 
@@ -85,16 +87,17 @@ public class MainControl {
 			@Override
 			public void run() {
 				while(ingame) {
-					updateRefreshDice();
 					updateRefreshMessages();
+					updateRefreshDice();
 					if(mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
 						updateRefreshBoard();
 						updateRefreshRobber();
-						updateRefreshPlayers();
-						updateRefreshTurn();
-						
+						updateRefreshPlayers();	
+						updateRefreshTradeRequest();
+            updateRefreshTurn();
+						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 					}
-					//System.out.println("Refreshed");
+					System.out.println("Refreshed");
 					try {
 						Thread.sleep(8000);
 					} catch (InterruptedException e) {
@@ -319,6 +322,14 @@ public class MainControl {
 		guiController.refreshBoard();
 	}
 
+	private void updateRefreshTradeRequest() {
+		TradeRequest tr = gameControl.updateTradeRequests();
+		if(tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+			gameControl.getCatanGame().addTradeRequest(tr);
+			guiController.showTradeReceiveDialog(tr);
+		}
+	}
+	
 	private void updateRefreshDice() {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));

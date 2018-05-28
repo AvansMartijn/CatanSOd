@@ -22,6 +22,8 @@ import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
 import model.Street;
+import model.Tile;
+import model.TradeRequest;
 import model.Village;
 import view.BoardPanel;
 import view.BottomOptionsPanel;
@@ -52,6 +54,7 @@ import view.TileButton;
 import view.TradeBankPanel;
 import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
+import view.TradeReceiveDialog;
 import view.TradeRespondDialog;
 import view.CurrentTradeRequestPanel;
 import view.DevelopmentCardButton;
@@ -79,7 +82,6 @@ public class GuiController {
 	private BuildPanel buildPanel;
 	private InvitePanel invitePanel;
 	private ReturnToBuildPanel returnToBuildPanel;
-	private TradeRespondDialog tradeRespondDialog;
 	private TradeOptionsPanel tradeOptionsPanel;
 	private TradePlayerPanel tradePlayerPanel;
 	private TradeBankPanel tradeBankPanel;
@@ -345,10 +347,10 @@ public class GuiController {
 							}
 							if (playersToRemove.size() == playersToAdd.size()) {
 								mainControl.switchInvites(playersToAdd, playersToRemove, catan.getIdGame());
-								JOptionPane.showConfirmDialog(null, "Gelukt!",
-										"De nieuwe mensen zijn uitgenodigd!", JOptionPane.OK_OPTION);
+								JOptionPane.showConfirmDialog(null, "Gelukt!", "De nieuwe mensen zijn uitgenodigd!",
+										JOptionPane.OK_OPTION);
 							}
-							frame.dispose();//Invited. Frame can close now.
+							frame.dispose();// Invited. Frame can close now.
 							mainControl.loadInvites();
 						}
 
@@ -360,9 +362,7 @@ public class GuiController {
 		frame.setContentPane(this.invitePanel);
 		frame.pack();
 	}
-	
-	
-	
+
 	public void setWaitingRoom(ArrayList<Player> players) {
 		// WaitingRoom waitingRoom = new WaitingRoom(players);
 		// frame.setContentPane(waitingRoom);
@@ -608,7 +608,7 @@ public class GuiController {
 	
 	private void addDevelopmentCardsPanelButtonListeners() {
 		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
-		for(DevelopmentCardButton b: developmentCards) {
+		for (DevelopmentCardButton b : developmentCards) {
 			b.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -647,9 +647,87 @@ public class GuiController {
 		});
 	}
 
+	public void showTradeReceiveDialog(TradeRequest tr) {
+
+		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(gameControl.getCatanGame().getSelfPlayer(), tr);
+
+		tradeReceive.pack();
+		tradeReceive.setLocationRelativeTo(null);
+		tradeReceive.setVisible(true);
+
+		tradeReceive.getTradeReceiveDialogPanel().getCounterOfferButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
+
+				int brickGive = tradeReceive.getTradeReceiveDialogPanel().getBrickGive();
+				int woolGive = tradeReceive.getTradeReceiveDialogPanel().getWoolGive();
+				int ironGive = tradeReceive.getTradeReceiveDialogPanel().getIronGive();
+				int wheatGive = tradeReceive.getTradeReceiveDialogPanel().getWheatGive();
+				int woodGive = tradeReceive.getTradeReceiveDialogPanel().getWoodGive();
+
+				int brickReceive = tradeReceive.getTradeReceiveDialogPanel().getBrickReceive();
+				int woolReceive = tradeReceive.getTradeReceiveDialogPanel().getWoolReceive();
+				int ironReceive = tradeReceive.getTradeReceiveDialogPanel().getIronReceive();
+				int wheatReceive = tradeReceive.getTradeReceiveDialogPanel().getWheatReceive();
+				int woodReceive = tradeReceive.getTradeReceiveDialogPanel().getWoodReceive();
+
+				HashMap<ResourceType, Integer> currentHand = gameControl.getCatanGame().getSelfPlayer().getHand()
+						.getAmountOfResources();
+
+				if (currentHand.get(ResourceType.BAKSTEEN).intValue() < brickGive
+						|| currentHand.get(ResourceType.WOL).intValue() < woolReceive
+						|| currentHand.get(ResourceType.ERTS).intValue() < ironReceive
+						|| currentHand.get(ResourceType.GRAAN).intValue() < wheatReceive
+						|| currentHand.get(ResourceType.HOUT).intValue() < woodReceive) {
+
+					tradeReceive.setAlwaysOnTop(false);
+
+					Object[] options = { "Oké" };
+
+					int result = JOptionPane.showOptionDialog(null, "Je hebt niet genoeg grondstoffen", "Waarschuwing",
+							JOptionPane.CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
+
+					if (result == JOptionPane.CANCEL_OPTION) {
+						tradeReceive.setAlwaysOnTop(true);
+					}
+
+				} else {
+
+					TradeRequest newTradeRequest = new TradeRequest(
+							gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), brickGive, woolGive, ironGive,
+							wheatGive, woodGive, brickReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 1);
+
+					gameControl.acceptTradeRequest(newTradeRequest);
+					gameControl.addMessage("heeft het handelsaanbod van "
+							+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername()
+							+ " geaccepteerd");
+					tradeReceive.dispose();
+					gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+				}
+			}
+		});
+
+		tradeReceive.getTradeReceiveDialogPanel().getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				TradeRequest declineRequest = new TradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
+						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+				gameControl.declineTradeRequest(declineRequest);
+				gameControl.addMessage("heeft het handelsaanbod van"
+						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " afgewezen");
+				tradeReceive.dispose();
+			}
+		});
+	}
+
 	private void addTradeButtonsListeners() {
 
-		playerActionPanel.getPlayerOptionMenuPanel().getPlayerTradeButton().addActionListener(new ActionListener() {
+		playerActionPanel.getPlayerOptionMenuPanel().getTradeButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -672,6 +750,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradePlayerPanel();
+				System.out.println("trade1");
+
 			}
 		});
 
@@ -680,6 +760,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
+				System.out.println("trade2");
 			}
 		});
 
@@ -687,6 +768,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("trade3");
 				playerActionPanel.setTradeRequestListPanel();
 			}
 		});
@@ -751,29 +833,102 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				// give
-				int stoneGive = playerActionPanel.getPlayerTradePanel().getStoneGive();
+				int stoneGive = playerActionPanel.getPlayerTradePanel().getBrickGive();
 				int woolGive = playerActionPanel.getPlayerTradePanel().getWoolGive();
 				int ironGive = playerActionPanel.getPlayerTradePanel().getIronGive();
 				int wheatGive = playerActionPanel.getPlayerTradePanel().getWheatGive();
 				int woodGive = playerActionPanel.getPlayerTradePanel().getWoodGive();
 
-				// receive
-				int stoneReceive = playerActionPanel.getPlayerTradePanel().getWoodReceive();
-				int woolReceive = playerActionPanel.getPlayerTradePanel().getWheatReceive();
-				int ironReceive = playerActionPanel.getPlayerTradePanel().getStoneReceive();
-				int wheatReceive = playerActionPanel.getPlayerTradePanel().getIronReceive();
-				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoolReceive();
+				int stoneReceive = playerActionPanel.getPlayerTradePanel().getBrickReceive();
+				int woolReceive = playerActionPanel.getPlayerTradePanel().getWoolReceive();
+				int ironReceive = playerActionPanel.getPlayerTradePanel().getIronReceive();
+				int wheatReceive = playerActionPanel.getPlayerTradePanel().getWheatReceive();
+				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoodReceive();
 
+				System.out.println(stoneGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
+						+ ironReceive + wheatReceive + woodReceive);
 				gameControl.createPlayerTradeRequest(stoneGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
 						woolReceive, ironReceive, wheatReceive, woodReceive);
 
+				gameControl.countTradeOffers();
+				playerActionPanel.setPlayerOptionMenuPanel();
 			}
 		});
 	}
 
-	private void addTradeRespondDialogActionListeners() {
+	public void fillTradeRequest() {
+		ArrayList<TradeRequest> tradeRequestArr = gameControl.getCatanGame().getTradeRequestArr();
+		TradeRespondDialog tradeRespond = new TradeRespondDialog(tradeRequestArr.get(0), tradeRequestArr.get(1),
+				tradeRequestArr.get(2));
 
+		gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
+		disablePanelButtons();
+
+		tradeRespond.pack();
+		tradeRespond.setLocationRelativeTo(null);
+		addTradeRespondDialogActionListeners(tradeRespond);
+		tradeRespond.setVisible(true);
+	}
+
+	private void addTradeRespondDialogActionListeners(TradeRespondDialog tradeRespond) {
+
+		tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1().getSendRequestButton()
+				.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						gameControl.commenceTrade(0);
+						refreshPlayers();
+						tradeRespond.dispose();
+
+						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+						enablePanelButtons();
+					}
+				});
+
+		tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2().getSendRequestButton()
+				.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						gameControl.commenceTrade(1);
+						refreshPlayers();
+
+						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+						enablePanelButtons();
+
+						tradeRespond.dispose();
+					}
+				});
+
+		tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3().getSendRequestButton()
+				.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						gameControl.commenceTrade(2);
+						refreshPlayers();
+
+						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+						enablePanelButtons();
+
+						tradeRespond.dispose();
+					}
+				});
+
+		tradeRespond.getTradeRespondPanels().getCancelButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				gameControl.deleteTradeRequest();
+
+				gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+				enablePanelButtons();
+
+				tradeRespond.dispose();
+			}
+		});
 	}
 
 	// actionlisteners for build menu
@@ -852,12 +1007,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				// recognize which building type is selected
-
-				// give error message in chat of wrong type is selected
-
-				// of building built, remove resources from hand.
-
 				Object[] options = { "Ja", "Nee" };
 
 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt stoppen met bouwen?",
@@ -867,8 +1016,10 @@ public class GuiController {
 					boardPanel.disableStreetLocButtons();
 					boardPanel.disableBuildingLocButtons();
 					playerActionPanel.setBuildPanel();
-
 				}
+				 if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				 }
+
 			}
 		});
 	}
@@ -975,7 +1126,7 @@ public class GuiController {
 		addStreetLocListeners();
 		addRollButtonListener();
 		addPlayerColorToBuildingLocs();
-		
+
 		// developmentCardPanelButton listeners
 		addDevelopmentCardsPanelButtonListeners();
 
@@ -985,7 +1136,7 @@ public class GuiController {
 
 		// Trade listeners
 		addTradeButtonsListeners();
-		addTradeRespondDialogActionListeners();
+
 		addPlayerActionSendTradeRequestButtonListener();
 
 		// build listeners
@@ -1000,23 +1151,40 @@ public class GuiController {
 	// public void setGameBoard(Gameboard gameBoard) {
 	// this.gameBoard = gameBoard;
 	// }
-	
+
 	public BoardPanel getBoardPanel() {
 		return boardPanel;
 	}
 
 	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
-		
+
 	}
 
 	public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake, HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
+
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	private void updatePlayerStats() {
 
 		for (int i = 0; i < playerStatsPanels.length; i++) {
 			playerStatsPanels[i].updateStats();
 		}
 	}
+
+	private void enablePanelButtons() {
+		playerOptionMenuPanel.getBuildButton().setEnabled(true);
+		playerOptionMenuPanel.getBuyButton().setEnabled(true);
+		playerOptionMenuPanel.getTradeButton().setEnabled(true);
+		playerOptionMenuPanel.getEndTurnButton().setEnabled(true);
+	}
+
+	private void disablePanelButtons() {
+		playerOptionMenuPanel.getBuildButton().setEnabled(false);
+		playerOptionMenuPanel.getBuyButton().setEnabled(false);
+		playerOptionMenuPanel.getTradeButton().setEnabled(false);
+		playerOptionMenuPanel.getEndTurnButton().setEnabled(false);
+	}
+
 }

@@ -67,7 +67,7 @@ public class PlayerOptionMenuPanel extends JPanel {
 		return playerActionButtons.get(0);
 	}
 
-	public JButton getPlayerTradeButton() {
+	public JButton getTradeButton() {
 		return playerActionButtons.get(1);
 	}
 
