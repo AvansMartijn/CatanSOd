@@ -79,7 +79,7 @@ public class TradeRespondPanel extends JPanel {
 		sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		sendRequestButton.setBackground(textBackgroundColor);
 		sendRequestButton.setForeground(TextColor);
-		if(tR.getAccepted() != 0) {
+		if(tR.getAccepted() == 1) {
 			add(sendRequestButton);
 		}else {
 			declinedLabel = new JLabel("Speler heeft verzoek afgewezen");

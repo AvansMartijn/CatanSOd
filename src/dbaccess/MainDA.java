@@ -1037,8 +1037,9 @@ public class MainDA {
 				int woolreceive = myRs.getInt(8);
 				int ironreceive = myRs.getInt(9);
 				int wheatreceive = myRs.getInt(10);
-				int woodreceive = myRs.getInt(11);				
-				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive);
+				int woodreceive = myRs.getInt(11);
+				int accepted = myRs.getInt(12);	
+				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive, accepted);
 			}
 			myRs.close();
 			stmt.close();
