@@ -716,6 +716,25 @@ public class GameControl {
 		mainDA.createTradeRequest(tR);
 
 	}
+	
+	public void declineTradeRequest(TradeRequest oldtR) {
+
+		TradeRequest tR = new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), 
+				oldtR.getW_brick(),
+				oldtR.getW_wool(),
+				oldtR.getW_iron(), 
+				oldtR.getW_wheat(), 
+				oldtR.getW_wood(), 
+				oldtR.getG_brick(),
+				oldtR.getG_wool(), 
+				oldtR.getG_iron(), 
+				oldtR.getG_wheat(), 
+				oldtR.getG_wood()
+				, 0);
+
+		mainDA.createTradeRequest(tR);
+
+	}
 
 	public void deleteTradeRequest() {
 		mainDA.deleteTradeRequests(catanGame.getIdGame());

@@ -593,6 +593,18 @@ public class GuiController {
 				int ironReceive = playerActionPanel.getPlayerTradePanel().getIronReceive();
 				int wheatReceive = playerActionPanel.getPlayerTradePanel().getWheatReceive();
 				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoodReceive();
+				
+				System.out.println(brickGive);
+				System.out.println(woolGive);
+				System.out.println(ironGive);
+				System.out.println(wheatGive);
+				System.out.println(woodGive);
+				
+				System.out.println(brickReceive);
+				System.out.println(woolReceive);
+				System.out.println(ironReceive);
+				System.out.println(wheatReceive);
+				System.out.println(woodReceive);
 
 				TradeRequest newTradeRequest = new TradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), brickGive, woolGive, ironGive, wheatGive, woodGive,
 						brickReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 1);
@@ -611,7 +623,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				
 				TradeRequest declineRequest = new TradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-				gameControl.acceptTradeRequest(declineRequest);
+				gameControl.declineTradeRequest(declineRequest);
 				gameControl.addMessage("heeft het handelsaanbod van"+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " afgewezen");
 				tradeReceive.dispose();
 
