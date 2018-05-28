@@ -91,6 +91,7 @@ public class MainControl {
 					updateRefreshMessages();
 					updateRefreshBoard();
 					updateRefreshPlayers();
+					updateRefreshTurn();
 					System.out.println("Refreshed");
 					try {
 						Thread.sleep(8000);
@@ -296,8 +297,12 @@ public class MainControl {
 	}
 	
 	public void updateRefreshTurn() {
-		gameControl.getCatanGame().setTurn(mainDA.getTurn(gameControl.getCatanGame().getIdGame()));
-		guiController.refreshRobber();
+		int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
+		gameControl.getCatanGame().setTurn(turn);
+		if(turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+			gameControl.doTurn();
+			guiController.refreshDice();
+		}
 	}
 
 	public void updateRefreshMessages() {
