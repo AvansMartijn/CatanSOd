@@ -538,6 +538,8 @@ public class GuiController {
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
+							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+							refreshPlayers();
 						}
 					} else {
 						if (!gameControl.buildVillage(blb.getBuildingLocation())) {
@@ -549,7 +551,9 @@ public class GuiController {
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
-							updatePlayerStats(); // TODO test
+							
+							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+							refreshPlayers();
 						}
 					}
 
@@ -575,7 +579,8 @@ public class GuiController {
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
 						addPlayerColorToStreetLocs();
-						updatePlayerStats(); // TODO test
+						gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+						updatePlayerStats();
 					}
 				}
 			});
@@ -946,7 +951,6 @@ public class GuiController {
 	}
 
 	public void refreshChat() {
-		System.out.println("refreshchat");
 		chatPanel.setMessages(gameControl.getCatanGame().getMessages());
 		chatPanel.repaint();
 	}
