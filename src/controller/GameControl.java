@@ -747,6 +747,18 @@ public class GameControl {
 		int gWood = tr.getW_wood();
 		int idPlayer = tr.getIdPlayer();
 		// Swapped resources to match trade request.
+		
+		System.out.println(wBrick);//0
+		System.out.println(wWool);//1
+		System.out.println(wIron);//0
+		System.out.println(wWheat);//2
+		System.out.println(wWood);//0
+		
+		System.out.println(gBrick);//0
+		System.out.println(gWool);//0
+		System.out.println(gIron);//1
+		System.out.println(gWheat);//0
+		System.out.println(gWood);//0
 
 		ArrayList<Resource> giveArray = new ArrayList<Resource>();
 		if (gBrick > 0) {
@@ -780,12 +792,12 @@ public class GameControl {
 
 		ArrayList<Resource> receiveArray = new ArrayList<Resource>();
 		if (wBrick > 0) {
-			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.WOL, wBrick)) {
+			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.BAKSTEEN, wBrick)) {
 				receiveArray.add(r);
 			}
 		}
 		if (wWool > 0) {
-			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.BAKSTEEN, wWool)) {
+			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.WOL, wWool)) {
 				receiveArray.add(r);
 			}
 		}

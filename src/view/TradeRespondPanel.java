@@ -38,7 +38,7 @@ public class TradeRespondPanel extends JPanel {
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
 
-	private JLabel titleLabel, subTitleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3;
+	private JLabel titleLabel, subTitleLabel, subTitleLabel1, subTitleLabel2, subTitleLabel3, declinedLabel;
 	private JLabel woodLabel, wheatLabel, brickLabel, ironLabel, woolLabel;
 
 	private JFormattedTextField woodGive, wheatGive, brickGive, ironGive, woolGive;
@@ -79,7 +79,17 @@ public class TradeRespondPanel extends JPanel {
 		sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		sendRequestButton.setBackground(textBackgroundColor);
 		sendRequestButton.setForeground(TextColor);
-		add(sendRequestButton);
+		if(tR.getAccepted() != 0) {
+			add(sendRequestButton);
+		}else {
+			declinedLabel = new JLabel("Speler heeft verzoek afgewezen");
+			declinedLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+			declinedLabel.setForeground(TextColor);
+			declinedLabel.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
+			declinedLabel.setHorizontalAlignment(JLabel.CENTER);
+			add(declinedLabel);
+		}
+		
 
 	}
 

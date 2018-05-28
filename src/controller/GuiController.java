@@ -796,6 +796,7 @@ public class GuiController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						gameControl.commenceTrade(0);
+						gameGUIPanel.getResourcesPanel().repaint();
 						tradeRespond.dispose();
 					}
 				});
@@ -806,6 +807,7 @@ public class GuiController {
 					@Override
 					public void actionPerformed(ActionEvent e) {	
 						gameControl.commenceTrade(1);
+						gameGUIPanel.getResourcesPanel().repaint();
 						tradeRespond.dispose();
 					}
 				});
@@ -817,7 +819,9 @@ public class GuiController {
 					public void actionPerformed(ActionEvent e) {
 						//tradeRequestArr.get(2);
 						gameControl.commenceTrade(2);
+						gameGUIPanel.getResourcesPanel().repaint();
 						tradeRespond.dispose();
+						
 					}
 				});
 
