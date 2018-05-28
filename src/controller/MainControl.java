@@ -294,6 +294,11 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshRobber();
 	}
+	
+	public void updateRefreshTurn() {
+		gameControl.getCatanGame().setTurn(mainDA.getTurn(gameControl.getCatanGame().getIdGame()));
+		guiController.refreshRobber();
+	}
 
 	public void updateRefreshMessages() {
 		System.out.println("maincontrol updaterefresh chat");

@@ -776,6 +776,32 @@ public class GameControl {
 
 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
 				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
+	}
+	
+	public void playFirstRound() {
+		catanGame.setRolledDice(true);
+		guiController.getBoardPanel().enableBuildingLocButtons(true);
+		
+		// uitdager plaatst eerst een dorp en een aanliggende straat (met afstandsregel?)
+		// de rest doet dit ook
+		
+		// 2de ronde: plaats nog een dorp en een aanliggende straat met afstandsregel
+		// Direct na het bouwen krijg je van het 2de dorp resources
+	}
+	
+	public void playRound() {
+		// normale rondes
+	}
 
+	public void endTurn() {
+		catanGame.endTurn();
+		for(Player p: catanGame.getPlayers()) {
+			if(p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
+				mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
+				catanGame.setTurn(p.getIdPlayer());
+				addMessage(p.getUsername() + " is nu aan de Beurt.");
+				break;
+			}
+		}
 	}
 }

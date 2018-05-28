@@ -918,10 +918,8 @@ public class GuiController {
 
 				playerActionPanel.setVisible(false); // TODO DONT FORGET TO SET THIS VISIBLE WHEN SELFPLAYER TURN IS
 														// BACK -- JIM
-				Catan catanGame = gameControl.getCatanGame();
-				catanGame.endTurn();
-				if (catanGame.isSelfPlayerTurn()) {
-				}
+				gameControl.endTurn();
+				
 			}
 		});
 	}
