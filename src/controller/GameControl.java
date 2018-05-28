@@ -20,6 +20,10 @@ import model.Tile;
 import model.TradeRequest;
 import model.Village;
 
+import view.ChatPanel;
+import view.PlayerStatsPanel;
+
+
 public class GameControl {
 
 	private static final int HALF_RESOURCES_TAKEN = 2;
@@ -28,6 +32,7 @@ public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private GuiController guiController;
 	private MainDA mainDA;
+	private ChatPanel chatPanel;
 	// private String username;
 	private Catan catanGame;
 	private Thread tradeRequestThread;
@@ -62,19 +67,45 @@ public class GameControl {
 
 	}
 
-	public boolean addMessage(String message) {
+	public boolean addMessage(String message, boolean speler) {
 		catanGame.getMessages().add(message);
-		return addMessageToDB(message);
+		if (speler == true) {
+			System.out.println("speler");
+			return playerMessage(message);
+			
+		} else {
+			System.out.println("systeem");
+			return systemMessage(message);
+			// return addMessageToDB(message);
+		}
 	}
 
-	public boolean addMessageToDB(String message) {
+	public boolean playerMessage(String message) {
 		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
-		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message)) {
+		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message, true)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+	public boolean systemMessage(String message) {
+		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
+		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message, false)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+/*	public boolean playerMessage(String message) {
+		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
+		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message, true)) {
+			return true;
+		} else {
+			return false;
+		}
+	}*/
 
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
@@ -675,12 +706,12 @@ public class GameControl {
 
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
 		if (resourceCardsToGive == null) {
-			addMessage("Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
+			addMessage("Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten", false);
 			return;
 		}
 
 		if (catanGame.getBank().takeResource(resourceTypeToReceive) == null) {
-			addMessage("De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
+			addMessage("De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten", false);
 			return;
 		} else {
 			resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
@@ -695,7 +726,7 @@ public class GameControl {
 				catanGame.getSelfPlayer().getIdPlayer());
 
 		addMessage(" ik heb " + ratio + " " + resourceTypeToGive + " kaarten geruild voor een " + resourceTypeToReceive
-				+ " kaart met de bank");
+				+ " kaart met de bank", false);
 	}
 
 	// public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int

@@ -18,20 +18,20 @@ public class ChatPanel extends JPanel {
 	private final int SCROLLPANE_WIDTH = 400;
 	private final int SCROLLPANE_HEIGHT = 650;
 
-//	private ArrayList<String> messages;
+	// private ArrayList<String> messages;
 
 	private ChatTextPane textPane;
 	private JTextField userInputField;
 
 	public ChatPanel(ArrayList<String> messages) {
-//		this.messages = messages;		
+		// this.messages = messages;
 		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-		
+
 		textPane = new ChatTextPane();
 		textPane.setPreferredSize(new Dimension(SCROLLPANE_WIDTH, SCROLLPANE_HEIGHT));
 		userInputField = new JTextField(20);
-//		add(textPane);
+		// add(textPane);
 		JScrollPane scrollPane = new JScrollPane(textPane);
 		scrollPane.setPreferredSize(new Dimension(SCROLLPANE_WIDTH, SCROLLPANE_HEIGHT));
 		textPane.setEditable(false);
@@ -44,8 +44,8 @@ public class ChatPanel extends JPanel {
 	}
 
 	public void setMessages(ArrayList<String> messages) {
-		for(String s: messages) {
-			if(this.textPane.getText().contains(s)) {
+		for (String s : messages) {
+			if (this.textPane.getText().contains(s)) {
 			} else {
 				textPane.append(Color.BLACK, s + "\n");
 				textPane.setCaretPosition(textPane.getDocument().getLength());
@@ -55,13 +55,14 @@ public class ChatPanel extends JPanel {
 		}
 	}
 	
-	public void addSystemMessageToChat(Color c, String s){
+	
+
+	public void addSystemMessageToChat(Color c, String s) {
 		textPane.append(c, s + "\n");
 		textPane.setCaretPosition(textPane.getDocument().getLength());
-		repaint();		
-		
+		repaint();
 	}
-	
+
 	public JTextField getTextField() {
 		return userInputField;
 	}
