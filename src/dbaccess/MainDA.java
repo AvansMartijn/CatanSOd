@@ -2,7 +2,6 @@ package dbaccess;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,17 +11,14 @@ import java.util.ArrayList;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import model.BuildingLocation;
-import model.Catan;
 import model.City;
 import model.DevelopmentCard;
-import model.DevelopmentCardType;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Resource;
 import model.ResourceType;
 import model.Street;
-import model.StreetLocation;
 import model.Tile;
 import model.TradeRequest;
 import model.Village;

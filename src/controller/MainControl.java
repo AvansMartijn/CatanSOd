@@ -9,7 +9,6 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
-import model.Tile;
 
 public class MainControl {
 

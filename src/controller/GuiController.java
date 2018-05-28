@@ -549,6 +549,7 @@ public class GuiController {
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
+							updatePlayerStats(); // TODO test
 						}
 					}
 
@@ -574,6 +575,7 @@ public class GuiController {
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
 						addPlayerColorToStreetLocs();
+						updatePlayerStats(); // TODO test
 					}
 				}
 			});
@@ -620,8 +622,7 @@ public class GuiController {
 		}
 	}
 
-	private void addPlayerActionBuyButtonListener() { // TODO IF STATEMENT IS BROKEN?, FOR TESTING PURPOSES CODE IS
-														// ABOVE IT
+	private void addPlayerActionBuyButtonListener() {
 		playerActionPanel.getPlayerOptionMenuPanel().getBuyButton().addActionListener(new ActionListener() {
 
 			@Override
@@ -734,8 +735,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
 			}
 
 		});
@@ -743,11 +742,6 @@ public class GuiController {
 
 	private void addPlayerActionSendTradeRequestButtonListener() {
 		playerActionPanel.getPlayerTradePanel().getSendRequestButton().addActionListener(new ActionListener() {
-
-			// TODO
-			// maybe
-			// in
-			// GameControl
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -833,6 +827,7 @@ public class GuiController {
 				boardPanel.enableBuildingLocButtons(true);
 
 				playerActionPanel.setReturnToBuildPanel();
+				System.out.println("test");
 			}
 		});
 
@@ -869,8 +864,6 @@ public class GuiController {
 					playerActionPanel.setBuildPanel();
 
 				}
-				// if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				// }
 			}
 		});
 	}
@@ -932,7 +925,6 @@ public class GuiController {
 		case ORANJE:
 			color = Color.ORANGE;
 			break;
-
 		}
 		return color;
 	}

@@ -4,19 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.PrimitiveIterator.OfDouble;
 
 import dbaccess.MainDA;
-import model.Bank;
 import model.BuildingLocation;
 import model.Catan;
 import model.City;
-import model.Dice;
 import model.Gameboard;
 import model.Hand;
-import model.PlayStatus;
 import model.Player;
-import model.PlayerColor;
 import model.Resource;
 import model.ResourceType;
 import model.Street;
@@ -24,7 +19,6 @@ import model.StreetLocation;
 import model.Tile;
 import model.TradeRequest;
 import model.Village;
-import view.PlayerStatsPanel;
 
 public class GameControl {
 
@@ -242,9 +236,9 @@ public class GameControl {
 		catanGame.getDice().setDie(die);
 	}
 
-//	public boolean hasRolledDice() {
-//		return mainDA.hasThrown(catanGame.getIdGame());
-//	}
+	// public boolean hasRolledDice() {
+	// return mainDA.hasThrown(catanGame.getIdGame());
+	// }
 
 	public boolean buildVillage(BuildingLocation buildingLocation) {
 		Village village = catanGame.getSelfPlayer().getAvailableVillage();
@@ -260,8 +254,6 @@ public class GameControl {
 		}
 
 		// TODO Check if enough resources
-		// TODO Move resources from player to bank
-		// TODO Check if there is not a building neighbouring this location
 		// TODO check if there are streets connected to this location
 		int thisX = buildingLocation.getXLoc();
 		int thisY = buildingLocation.getYLoc();
@@ -301,8 +293,8 @@ public class GameControl {
 		// x+1 y+1
 		// y-1
 
-		// TODO Check if there is not a building neighboring this location
 		// TODO check if there are streets connected to this location
+		payResources(Village.cost);
 
 		buildingLocation.setVillage(catanGame.getSelfPlayer().getAvailableVillage());
 		village.setBuildingLocation(buildingLocation);
@@ -323,7 +315,7 @@ public class GameControl {
 		}
 
 		// TODO Check if enough resources
-		// TODO Move resources from player to bank
+		payResources(City.cost);
 
 		// check if player has a village on this buildinglocation to upgrade
 		if (buildingLocation.getVillage() != null) {
@@ -363,28 +355,25 @@ public class GameControl {
 			return false;
 		}
 
-		removeResources(Street.cost);
+		// TODO check if enough resources
+		payResources(Street.cost);
 
 		streetLocation.setStreet(street);
 		street.setStreetLocation(streetLocation);
 		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(),
 				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
-		System.out.println("street built");
 		return true;
 	}
 
-	private void removeResources(ResourceType[] cost) {
-		for (ResourceType r : cost) {
-			for (Resource rs : catanGame.getSelfPlayer().getHand().getResources()) {
-				if (rs.getRsType().equals(r)) {
-					catanGame.getSelfPlayer().getHand().getResources().remove(rs);
-					mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
-				}
-
-			}
-
-		}
+	private void payResources(ResourceType[] cost) {
+		ArrayList<Resource> toPay = new ArrayList<>();
+		for(ResourceType rsType : cost) {
+			Resource rs = catanGame.getSelfPlayer().getHand().takeResource(rsType);
+			toPay.add(rs);
+			mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
+		}		
+		catanGame.getBank().addMultipleResources(toPay);
 	}
 
 	public void setVillageArrays() {
@@ -831,10 +820,10 @@ public class GameControl {
 	}
 
 	public void doTurn() {
-		if(!catanGame.hasRolledDice()) {
+		if (!catanGame.hasRolledDice()) {
 			guiController.enableDice();
 		}
 		guiController.enablePlayerActionPanel();
-		
+
 	}
 }
