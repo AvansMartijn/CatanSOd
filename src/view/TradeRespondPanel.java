@@ -48,9 +48,7 @@ public class TradeRespondPanel extends JPanel {
 	
 	private TradeRequest tR;
 	
-	private Player selfPlayer;
-
-	public TradeRespondPanel(String playerName, TradeRequest tR) {
+	public TradeRespondPanel(TradeRequest tR) {
 
 		this.tR = tR;
 		
@@ -87,23 +85,7 @@ public class TradeRespondPanel extends JPanel {
 
 	private void createResourceInput() {
 
-		int[] resourceTypes = new int[5];
-		resourceTypes = getResourceAmount();
 		
-		NumberFormat format = NumberFormat.getInstance();
-		NumberFormatter[] formatters = new NumberFormatter[5];
-
-		for (int i = 0; i < resourceTypes.length; i++) {
-
-			formatters[i] = new NumberFormatter(format);
-			formatters[i].setValueClass(Integer.class);
-			formatters[i].setMinimum(0);
-			formatters[i].setMaximum(resourceTypes[i]);
-			formatters[i].setAllowsInvalid(true);
-			formatters[i].setCommitsOnValidEdit(true);
-			formatters[i].setOverwriteMode(true);
-
-		}
 
 		subTitleLabel1 = new JLabel("grondstoffen");
 		subTitleLabel1.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -184,29 +166,39 @@ public class TradeRespondPanel extends JPanel {
 		subTitleLabel3.setBounds(200, 50, 250, 60);
 		add(subTitleLabel3);
 
-		brickReceive = new JFormattedTextField(formatters[0]);
+		brickReceive = new JFormattedTextField();
 		brickReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
+		brickReceive.setText(tR.getW_brick() + "");
+		brickReceive.setEditable(false);
 		add(brickReceive);
 
-		woolReceive = new JFormattedTextField(formatters[1]);
+		woolReceive = new JFormattedTextField();
 		woolReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
+		woolReceive.setText(tR.getW_wool() + "");
+		woolReceive.setEditable(false);
 		add(woolReceive);
 
-		ironReceive = new JFormattedTextField(formatters[2]);
+		ironReceive = new JFormattedTextField();
 		ironReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
+		ironReceive.setText(tR.getW_iron() + "");
+		ironReceive.setEditable(false);
 		add(ironReceive);
 
-		wheatReceive = new JFormattedTextField(formatters[3]);
+		wheatReceive = new JFormattedTextField();
 		wheatReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
+		wheatReceive.setText(tR.getW_wheat() + "");
+		wheatReceive.setEditable(false);
 		add(wheatReceive);
 
-		woodReceive = new JFormattedTextField(formatters[4]);
+		woodReceive = new JFormattedTextField();
 		woodReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
+		woodReceive.setText(tR.getW_wood() + "");
+		woodReceive.setEditable(false);
 		add(woodReceive);
 	}
 
@@ -254,33 +246,5 @@ public class TradeRespondPanel extends JPanel {
 		return Integer.parseInt(woolReceive.getText());
 	}
 	
-	private int[] getResourceAmount() {
-		int[] resources = new int[] { 0, 0, 0, 0, 0 };
-
-		for (int i = 0; i < selfPlayer.getHand().getResources().size(); i++) {
-			ResourceType resourceType = selfPlayer.getHand().getResources().get(i).getRsType();
-
-			switch (resourceType) {
-			case BAKSTEEN:
-				resources[0]++;
-				break;
-			case WOL:
-				resources[1]++;
-				break;
-			case ERTS:
-				resources[2]++;
-				break;
-			case GRAAN:
-				resources[3]++;
-				break;
-			case HOUT:
-				resources[4]++;
-				break;
-			default:
-				// TODO maybe?
-			}
-		}
-		return resources;
-	}
 	
 }
