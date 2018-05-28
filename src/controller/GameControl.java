@@ -665,7 +665,9 @@ public class GameControl {
 				while(!hasAll) {
 					System.out.println("check Amount of open request");
 					amountOfOpenRequests = mainDA.getAmountOfOpenRequests(catanGame.getIdGame());
+					System.out.println("!hasall");
 					if(amountOfOpenRequests == 4) {
+						System.out.println("hasall");
 						hasAll = true;
 						gatherCounterOffers();
 						guiController.fillTradeRequest();
@@ -679,6 +681,7 @@ public class GameControl {
 				}			
 			}
 		});
+		tradeRequestThread.start();
 	}
 	
 	private void gatherCounterOffers() {

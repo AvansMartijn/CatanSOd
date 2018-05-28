@@ -1022,7 +1022,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT * FROM ruilaanbod WHERE idspeler = " + idPlayer + " AND idspel = " + idGame + ";";
+		String query = "SELECT * FROM ruilaanbod WHERE idspeler = " + idPlayer + ";";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -1055,7 +1055,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT count(*) FROM ruilaanbod WHERE idspel = " + idGame + " ;";
+		String query = "SELECT count(*) FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") ;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);

@@ -600,6 +600,7 @@ public class GuiController {
 				gameControl.acceptTradeRequest(newTradeRequest);
 				gameControl.addMessage("heeft het handelsaanbod van "
 						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " geaccepteerd");
+				tradeReceive.dispose();
 
 			}
 		});
