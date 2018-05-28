@@ -121,6 +121,7 @@ public class GameControl {
 		// Edit database with rolled values
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
+		catanGame.setRolledDice(true);
 		// return catanGame.getDice().getDie();
 	}
 
@@ -241,9 +242,9 @@ public class GameControl {
 		catanGame.getDice().setDie(die);
 	}
 
-	public boolean hasRolledDice() {
-		return mainDA.hasThrown(catanGame.getIdGame());
-	}
+//	public boolean hasRolledDice() {
+//		return mainDA.hasThrown(catanGame.getIdGame());
+//	}
 
 	public boolean buildVillage(BuildingLocation buildingLocation) {
 		Village village = catanGame.getSelfPlayer().getAvailableVillage();

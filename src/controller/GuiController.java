@@ -1,41 +1,27 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.DisplayMode;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Resources;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.Catan;
 import model.City;
-import model.Gameboard;
 import model.Player;
 import model.PlayerColor;
-import model.Resource;
 import model.ResourceType;
 import model.Street;
-import model.Tile;
 import model.Village;
 import view.BoardPanel;
 import view.BottomOptionsPanel;
@@ -71,7 +57,6 @@ import view.CurrentTradeRequestPanel;
 import view.DevelopmentCardButton;
 import view.DevelopmentCardDialogPanel;
 import view.DevelopmentCardsPanel;
-import view.WaitingRoom;
 
 public class GuiController {
 
@@ -438,7 +423,7 @@ public class GuiController {
 		developmentCardsPanel = new DevelopmentCardsPanel(gameControl.getCatanGame().getSelfPlayer());
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
-		if (gameControl.hasRolledDice()) {
+		if (gameControl.getCatanGame().hasRolledDice()) {
 			diceDotPanel.getButton().setVisible(false);
 		}
 

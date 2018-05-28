@@ -320,6 +320,7 @@ public class MainControl {
 
 	private void updateRefreshDice() {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
+		gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshDice();
 	}
 	
