@@ -48,10 +48,6 @@ public class GameControl {
 		guiController = null;
 	}
 
-	public void setGuiController(GuiController guiController) {
-		this.guiController = guiController;
-	}
-
 	public int createGameInDB(boolean randomBoard) {
 		/**
 		 * Create a game record in the DB AND sets idGame
@@ -1011,4 +1007,5 @@ public class GameControl {
 			guiController.enableDice();
 		}
 		guiController.enablePlayerActionPanel();
+	}
 }
