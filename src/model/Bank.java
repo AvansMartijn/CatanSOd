@@ -132,4 +132,34 @@ public class Bank {
 		}
 		return null;
 	}
+	
+	public ArrayList<Resource> takeMultipleResources(ResourceType rsType, int amount) {
+		ArrayList<Resource> rsToReturn = new ArrayList<>();
+		int counter = 0;
+		for(int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getRsType() == rsType) {
+				rsToReturn.add(resources.get(i));
+				System.out.println("add:" + resources.get(i));
+				counter++;
+				if(counter == amount) {
+					break;
+				}
+			}
+		}
+		
+		if(rsToReturn.size() == amount) {
+			for(int x = 0; x < resources.size(); x++) {
+				if(resources.get(x).getRsType() == rsType) {
+					resources.remove(x);			
+				}
+			}
+			System.out.println("tmr return: "+ rsToReturn);
+			return rsToReturn;
+		}
+		return null;
+	}
+	
+	public void addResource(Resource resourceToAdd) {		
+			resources.add(resourceToAdd);		
+	}
 }

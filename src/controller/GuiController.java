@@ -540,7 +540,7 @@ public class GuiController {
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
-							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+							refreshPlayerResources();
 							refreshPlayers();
 						}
 					} else {
@@ -555,7 +555,7 @@ public class GuiController {
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
 							
-							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+							refreshPlayerResources();
 							refreshPlayers();
 						}
 					}
@@ -563,6 +563,10 @@ public class GuiController {
 				}
 			});
 		}
+	}
+	
+	public void refreshPlayerResources() {
+		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
 	}
 
 	private void addStreetLocListeners() {
@@ -883,7 +887,7 @@ public class GuiController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						gameControl.commenceTrade(0);
-						refreshPlayers();
+						refreshPlayerResources();
 						tradeRespond.dispose();
 
 						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
@@ -897,7 +901,7 @@ public class GuiController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						gameControl.commenceTrade(1);
-						refreshPlayers();
+						refreshPlayerResources();
 
 						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 						enablePanelButtons();
@@ -912,7 +916,7 @@ public class GuiController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						gameControl.commenceTrade(2);
-						refreshPlayers();
+						refreshPlayerResources();
 
 						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 						enablePanelButtons();
@@ -1162,12 +1166,6 @@ public class GuiController {
 	}
 
 	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
-
-	}
-
-	public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake, HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
-
-		// TODO Auto-generated method stub
 
 	}
 

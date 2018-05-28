@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Random;
 
 import dbaccess.MainDA;
 import model.BuildingLocation;
@@ -32,6 +33,7 @@ public class GameControl {
 	// private String username;
 	private Catan catanGame;
 	private Thread tradeRequestThread;
+	private boolean isInTurn;
 
 	// private Gameboard gameboard;
 	// private ArrayList<Player> gamePlayers;
@@ -122,13 +124,15 @@ public class GameControl {
 			setRobber();
 			takeAwayHalfResources();
 		} else {
-			giveResources(rolledValue);
+			// giveResources(rolledValue);
+			giveTurnResources(rolledValue);
 		}
 
 		// Edit database with rolled values
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 		catanGame.setRolledDice(true);
+		enableOpponentsShouldRefresh();
 		// return catanGame.getDice().getDie();
 	}
 
@@ -164,86 +168,72 @@ public class GameControl {
 		return playersAtRobberTile;
 	}
 
-	/**
-	 * Anytime anyone rolls a 7 this method should be called.
-	 * 
-	 * @since 26 May 2018
-	 * @author Jasper Mooren
-	 */
+	
 	public void takeAwayHalfResources() {
-		Hand selfPlayerHand = catanGame.getSelfPlayer().getHand();
-		if (selfPlayerHand.getResources().size() > SEVEN_CARD_RULE) {
-			// Resources taken is always rounded down, so this method works.
-			int amountOfResourcesToTake = selfPlayerHand.getResources().size() / HALF_RESOURCES_TAKEN;
-			HashMap<ResourceType, Integer> amountOfResourcesAvailable = selfPlayerHand.getAmountOfResources();
-			guiController.OpenTakeAwayResoucesDialog(amountOfResourcesToTake, amountOfResourcesAvailable);
-		}
-	}
-
-	/**
-	 * The actionListener in the dialog that the guiController makes should call
-	 * this.
-	 * 
-	 * @param amountOfResources
-	 *            the Resources that are taken away.
-	 * @since 25 May 2018
-	 * @author Jasper Mooren
-	 */
-	public void takeAwayResourcesReturn(HashMap<ResourceType, Integer> amountOfResources) {
-		for (ResourceType resourceType : ResourceType.values()) {
-			if (amountOfResources.get(resourceType) != null) {
-				int takeAwayOfResource = amountOfResources.get(resourceType);
-				for (int i = 0; i < takeAwayOfResource; i++) {
-					Resource resource = catanGame.getSelfPlayer().getHand().takeResource(resourceType);
-					catanGame.getBank().getResources().add(resource);
+		for (Player p : catanGame.getPlayers()) {
+			if (p.getHand().getResources().size() > SEVEN_CARD_RULE) {
+				int amountOfResourcesToTake = p.getHand().getResources().size() / HALF_RESOURCES_TAKEN;
+				for(int i = 0; i < amountOfResourcesToTake; i++) {
+					Resource rs = p.getHand().takeRandomResource();
+					catanGame.getBank().addResource(rs);
+					mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());					
 				}
 			}
+
 		}
+		guiController.refreshPlayerResources();
+
 	}
 
-	private void giveResources(int rolledValue) {
-		// Get past all tiles in game
-		for (Tile tile : catanGame.getGameboard().getTileArr()) {
-			// Only tiles with the rolledValue and which don't have a robber give resources.
-			if (tile.getChipNumber() == rolledValue && !tile.hasRobber()) {
-				// Get all the building locations on that tile
-				for (BuildingLocation buildingLocation : tile.getBuildingLocArr()) {
+	// public void takeAwayResourcesReturn(HashMap<ResourceType, Integer>
+	// amountOfResources) {
+	// for (ResourceType resourceType : ResourceType.values()) {
+	// if (amountOfResources.get(resourceType) != null) {
+	// int takeAwayOfResource = amountOfResources.get(resourceType);
+	// for (int i = 0; i < takeAwayOfResource; i++) {
+	// Resource resource =
+	// catanGame.getSelfPlayer().getHand().takeResource(resourceType);
+	// catanGame.getBank().getResources().add(resource);
+	// }
+	// }
+	// }
+	// }
 
-					// Check for villages on that tile.
-					Village village = buildingLocation.getVillage();
-					if (village != null) {
-						givePlayerResourceFromBank(village.getPlayer(), tile.getRsType());
-					} else {
-						// Check for cities on that tile.
-						City city = buildingLocation.getCity();
-						if (city != null) {
-							// Each city gives 2 resources.
-							for (int i = 0; i < 2; i++) {
-								givePlayerResourceFromBank(city.getPlayer(), tile.getRsType());
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	// private void giveResources(int rolledValue) {
+	// // Get past all tiles in game
+	// for (Tile tile : catanGame.getGameboard().getTileArr()) {
+	// // Only tiles with the rolledValue and which don't have a robber give
+	// resources.
+	// if (tile.getChipNumber() == rolledValue && !tile.hasRobber()) {
+	// // Get all the building locations on that tile
+	// for (BuildingLocation buildingLocation : tile.getBuildingLocArr()) {
+	//
+	// // Check for villages on that tile.
+	// Village village = buildingLocation.getVillage();
+	// if (village != null) {
+	// givePlayerResourceFromBank(village.getPlayer(), tile.getRsType());
+	// } else {
+	// // Check for cities on that tile.
+	// City city = buildingLocation.getCity();
+	// if (city != null) {
+	// // Each city gives 2 resources.
+	// for (int i = 0; i < 2; i++) {
+	// givePlayerResourceFromBank(city.getPlayer(), tile.getRsType());
+	// }
+	// }
+	// }
+	// }
+	// }
+	// }
+	// }
 
-	/**
-	 * Takes a resource from the bank and gives it to the player.
-	 * 
-	 * @param player
-	 *            the player that gets the resource
-	 * @param resourceType
-	 *            the resourceType of the resource that the player gets
-	 * @since 25 May 2018
-	 * @author Jasper Mooren
-	 */
-	private void givePlayerResourceFromBank(Player player, ResourceType resourceType) {
-		Resource resourceToAdd = catanGame.getBank().takeResource(resourceType);
-		if (resourceToAdd != null) {
-			player.getHand().addResource(resourceToAdd);
-		}
-	}
+	// private void givePlayerResourceFromBank(Player player, ResourceType
+	// resourceType) {
+	// Resource resourceToAdd = catanGame.getBank().takeResource(resourceType);
+	// if (resourceToAdd != null) {
+	// player.getHand().addResource(resourceToAdd);
+	// }
+	// }
 
 	public void setDiceLastThrown(int[] die) {
 		catanGame.getDice().setDie(die);
@@ -728,9 +718,9 @@ public class GameControl {
 	// wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive,
 	// woodReceive));
 	// }
-	
+
 	public void enableOpponentsShouldRefresh() {
-		for(Player p: catanGame.getPlayers()) {
+		for (Player p : catanGame.getPlayers()) {
 			mainDA.setShouldRefresh(p.getIdPlayer(), true);
 		}
 	}
@@ -793,7 +783,6 @@ public class GameControl {
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
 		System.out.println(stoneGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
 				+ ironReceive + wheatReceive + woodReceive);
-		
 
 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
 				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 3));
@@ -1048,6 +1037,7 @@ public class GameControl {
 					mainDA.setThrownDice(0, catanGame.getIdGame());
 					catanGame.setRolledDice(false);
 					mainDA.setShouldRefresh(p.getIdPlayer(), true);
+					isInTurn = false;
 					break;
 				}
 			}
@@ -1060,6 +1050,7 @@ public class GameControl {
 					mainDA.setThrownDice(0, catanGame.getIdGame());
 					catanGame.setRolledDice(false);
 					mainDA.setShouldRefresh(p.getIdPlayer(), true);
+					isInTurn = false;
 					break;
 				}
 			}
@@ -1067,15 +1058,48 @@ public class GameControl {
 	}
 
 	public void doTurn() {
-		
-		if (!catanGame.hasRolledDice()) {
-			guiController.enableDice();
+		if (!isInTurn) {
+			isInTurn = true;
+			if (!catanGame.hasRolledDice()) {
+				guiController.enableDice();
+			}
+			guiController.enablePlayerActionPanel();
+
 		}
-		guiController.enablePlayerActionPanel();
+
+	}
+
+	public void giveTurnResources(int number) {
+		for (Tile t : catanGame.getGameboard().getTileArr()) {
+			if (t.getChipNumber() == number) {
+				for (BuildingLocation bl : t.getBuildingLocArr()) {
+					if (bl.getBuilding() != null) {
+						if (bl.getBuilding() instanceof City) {
+							// give two
+							ArrayList<Resource> rsArr = catanGame.getBank().takeMultipleResources(t.getRsType(), 2);
+							for (Resource rs : rsArr) {
+								bl.getBuilding().getPlayer().getHand().addResource(rs);
+								mainDA.addResourceToPlayer(rs.getResourceID(), catanGame.getIdGame(),
+										bl.getBuilding().getPlayer().getIdPlayer());
+							}
+
+						} else if (bl.getBuilding() instanceof Village) {
+							// give one
+							Resource rs = catanGame.getBank().takeResource(t.getRsType());
+							bl.getBuilding().getPlayer().getHand().addResource(rs);
+							mainDA.addResourceToPlayer(rs.getResourceID(), catanGame.getIdGame(),
+									bl.getBuilding().getPlayer().getIdPlayer());
+						}
+					}
+				}
+			}
+		}
+		
+		guiController.refreshPlayerResources();
 	}
 
 	public void setShouldRefreshEnabled(int idPlayer) {
 		mainDA.setShouldRefresh(idPlayer, true);
-		
+
 	}
 }
