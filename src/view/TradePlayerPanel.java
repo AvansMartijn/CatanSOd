@@ -252,42 +252,52 @@ public class TradePlayerPanel extends JPanel {
 	}
 
 	public int getWoodGive() {
-		return Integer.parseInt(woodGive.getText());
+		int parsed = Integer.parseInt(woodGive.getText());
+		return parsed;
 	}
 
 	public int getWheatGive() {
-		return Integer.parseInt(wheatGive.getText());
-	}
+		int parsed = Integer.parseInt(wheatGive.getText());
+		return parsed;                
+	}  
 
 	public int getBrickGive() {
-		return Integer.parseInt(brickGive.getText());
+		int parsed = Integer.parseInt(brickGive.getText());
+		return parsed;                
 	}
 
 	public int getIronGive() {
-		return Integer.parseInt(ironGive.getText());
-	}
+		int parsed = Integer.parseInt(ironGive.getText());
+		return parsed;                
+	} 
 
 	public int getWoolGive() {
-		return Integer.parseInt(woolGive.getText());
+		int parsed = Integer.parseInt(woolGive.getText());
+		return parsed;                
 	}
 
 	public int getWoodReceive() {
-		return Integer.parseInt(woodReceive.getText());
+		int parsed = Integer.parseInt(woodReceive.getText());
+		return parsed;                
 	}
 
 	public int getWheatReceive() {
-		return Integer.parseInt(wheatReceive.getText());
+		int parsed = Integer.parseInt(wheatReceive.getText());
+		return parsed;                
 	}
 
 	public int getBrickReceive() {
-		return Integer.parseInt(brickReceive.getText());
+		int parsed = Integer.parseInt(brickReceive.getText());
+		return parsed;                
 	}
 
 	public int getIronReceive() {
-		return Integer.parseInt(ironReceive.getText());
+		int parsed = Integer.parseInt(ironReceive.getText());
+		return parsed;                
 	}
 
 	public int getWoolReceive() {
-		return Integer.parseInt(woolReceive.getText());
+		int parsed = Integer.parseInt(woolReceive.getText());
+		return parsed;                
 	}
 }
