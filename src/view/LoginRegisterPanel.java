@@ -105,8 +105,7 @@ public class LoginRegisterPanel extends JPanel {
 		public CenterPanel() {
 
 			setPreferredSize(new Dimension(290, 300));
-			setOpaque(true);
-			setBackground(new Color(0, 0, 0, 0));
+			setOpaque(false);
 
 			Dimension preferredSize = new Dimension(100, 20);
 
