@@ -70,15 +70,15 @@ public class GameControl {
 
 	public void addLogMessage(String message) {
 		mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message);
-		catanGame.getMessages().add(message);
-		guiController.refreshChat();
+//		catanGame.getMessages().add(message);
+//		guiController.refreshChat();
 	}
 
 	public boolean addPlayerMessage(String message) {
 		message = catanGame.getSelfPlayer().getUsername() + ": " + message;
 		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
-			catanGame.getMessages().add(message);
-			guiController.refreshChat();
+//			catanGame.getMessages().add(message);
+//			guiController.refreshChat();
 			return true;
 		} else {
 			return false;

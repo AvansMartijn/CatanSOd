@@ -222,8 +222,7 @@ public class MainDA {
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
 				Timestamp tijdstip = myRs.getTimestamp(1);
-				String username = myRs.getString(2);
-				String bericht = myRs.getString(3);
+				String bericht = myRs.getString(2);
 				String timestamp = tijdstip.toString().substring(11, tijdstip.toString().length() - 2);
 				retList.add(timestamp + " " + bericht);
 			}
