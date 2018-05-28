@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -972,6 +973,39 @@ public class GameControl {
 		// remove traderequests in db
 		// remove traderequests in catanGame
 	}
+	
+	public void doDevCardRoadBuilding() {
+		// build 2 streets without the cost 
+		
+	}
+	
+	public void doDevCardMonopoly(ResourceType rsType) {
+		// get all cards from all player of a certain rsType		
+		for(Player p : catanGame.getPlayers()) {
+			for(Resource r : p.getHand().takeAllResourcesFromRsType(rsType)) {
+				catanGame.getSelfPlayer().getHand().addResource(r);
+				mainDA.addResourceToPlayer(r.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+			}
+		}
+	}
+	
+	public void doDevCardYearOfPlenty(ResourceType rsType1, ResourceType rsType2) {
+		Resource rs1 = catanGame.getBank().takeResource(rsType1);
+		Resource rs2 = catanGame.getBank().takeResource(rsType2);
+		
+		if(rs1 != null) {
+			mainDA.addResourceToPlayer(rs1.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+			catanGame.getSelfPlayer().getHand().addResource(rs1);
+		}else {
+			guiController.addSystemMessageToChat(Color.RED, "de bank heeft niet genoeg " + rsType1 + " kaarten");
+		}
+		
+		if(rs2 != null) {
+			mainDA.addResourceToPlayer(rs2.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+			catanGame.getSelfPlayer().getHand().addResource(rs2);
+		}else {
+			guiController.addSystemMessageToChat(Color.RED, "de bank heeft niet genoeg " + rsType2 + " kaarten");
+		}
 
 	public void playFirstRound() {
 		catanGame.setRolledDice(true);

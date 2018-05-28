@@ -164,6 +164,24 @@ public class Hand {
 		}
 		return null;
 	}
+	
+	public ArrayList<Resource> takeAllResourcesFromRsType(ResourceType rsType){
+		ArrayList<Resource> rsToReturn = new ArrayList<>();
+		
+		for(int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getRsType() == rsType) {
+				rsToReturn.add(resources.get(i));				
+			}
+		}		
+		for(int x = 0; x < resources.size(); x++) {
+				if(resources.get(x).getRsType() == rsType) {
+					resources.remove(x);			
+				}
+			}			
+		return rsToReturn;
+		
+		
+	}
 
 	public ArrayList<DevelopmentCard> getDevelopmentCards() {
 		return developmentCards;
