@@ -162,4 +162,8 @@ public class Bank {
 	public void addResource(Resource resourceToAdd) {		
 			resources.add(resourceToAdd);		
 	}
+
+	public void setResources(ArrayList<Resource> resources) {
+		this.resources = resources;
+	}
 }

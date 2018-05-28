@@ -476,6 +476,7 @@ public class GameControl {
 		gameBoardControl = new GameBoardControl(mainDA, catanGame.getIdGame());
 		Gameboard gameboard = gameBoardControl.loadBoard();
 		game.fillCatan(gameboard);
+		catanGame.getBank().setResources(mainDA.updateResources(catanGame.getIdGame(), 0));
 		// setVillageArrays();
 		// setCityArrays();
 		// setStreetArrays();
@@ -1069,6 +1070,7 @@ public class GameControl {
 	}
 
 	public void giveTurnResources(int number) {
+		number = 9;
 		System.out.println("giveTurnResource");
 		for (Tile t : catanGame.getGameboard().getTileArr()) {
 			if (!t.hasRobber()) {

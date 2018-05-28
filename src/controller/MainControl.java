@@ -345,6 +345,7 @@ public class MainControl {
 			p.getHand().setDevelopmentCards(
 					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 		}
+		gameControl.getCatanGame().getBank().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
 		guiController.refreshPlayerResources();
 		guiController.refreshPlayers();
 	}
