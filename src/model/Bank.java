@@ -102,17 +102,17 @@ public class Bank {
 
 	}
 
-	public Resource takeResource(ResourceType rsType) {
-		Resource rsToReturn;
-		for (int i = 0; i < resources.size(); i++) {
-			if (resources.get(i).getRsType() == rsType) {
-				rsToReturn = resources.get(i);
-				resources.remove(i);
-				return rsToReturn;
-			}
-		}
-		return null;
-	}
+//	public Resource takeResource(ResourceType rsType) {
+//		Resource rsToReturn;
+//		for (int i = 0; i < resources.size(); i++) {
+//			if (resources.get(i).getRsType() == rsType) {
+//				rsToReturn = resources.get(i);
+//				resources.remove(i);
+//				return rsToReturn;
+//			}
+//		}
+//		return null;
+//	}
 
 	public void addMultipleResources(ArrayList<Resource> resourcesToAdd) {
 		for (Resource rs : resourcesToAdd) {

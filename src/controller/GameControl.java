@@ -184,7 +184,7 @@ public class GameControl {
 			if(amountOfResources.get(resourceType) != null) {
 				int takeAwayOfResource = amountOfResources.get(resourceType);
 				for (int i = 0; i < takeAwayOfResource; i++) {
-					Resource resource = catanGame.getSelfPlayer().getHand().takeresource(resourceType);
+					Resource resource = catanGame.getSelfPlayer().getHand().takeResource(resourceType);
 					catanGame.getBank().getResources().add(resource);
 				}
 			}
