@@ -498,7 +498,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				String message = chatPanelTextField.getText();
 				if (message != null) {
-					if (gameControl.addMessage(message)) {
+					if (gameControl.addMessage(message, true)) {
 						chatPanelTextField.setText("");
 					} else {
 						addSystemMessageToChat(Color.RED, "Je mag maar 1 bericht per seconde versturen!");
@@ -528,7 +528,7 @@ public class GuiController {
 					gameControl.changeRobber(b.getTile().getIdTile());
 					boardPanel.disableTileButtons();
 					boardPanel.repaint();
-					gameControl.addMessage("Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+					gameControl.addMessage("Heeft de struikrover verzet naar " + b.getTile().getIdTile(), false);
 					gameControl.stealCardCauseRobber();
 				}
 			});
@@ -549,7 +549,7 @@ public class GuiController {
 
 						} else {
 							gameControl.addMessage("Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc()
-									+ " Y: " + blb.getBuildingLocation().getYLoc());
+									+ " Y: " + blb.getBuildingLocation().getYLoc(), false);
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
@@ -560,7 +560,7 @@ public class GuiController {
 
 						} else {
 							gameControl.addMessage("Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc()
-									+ " Y: " + blb.getBuildingLocation().getYLoc());
+									+ " Y: " + blb.getBuildingLocation().getYLoc(), false);
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
@@ -585,7 +585,7 @@ public class GuiController {
 								"Heeft een straat gebouwd tussen X: " + slb.getStreetLocation().getBlStart().getXLoc()
 										+ " Y: " + slb.getStreetLocation().getBlStart().getYLoc() + " en X: "
 										+ slb.getStreetLocation().getBlEnd().getXLoc() + " Y: "
-										+ slb.getStreetLocation().getBlEnd().getYLoc());
+										+ slb.getStreetLocation().getBlEnd().getYLoc(), false);
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
 						addPlayerColorToStreetLocs();
