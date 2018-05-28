@@ -1069,12 +1069,15 @@ public class GameControl {
 	}
 
 	public void giveTurnResources(int number) {
+		System.out.println("giveTurnResource");
 		for (Tile t : catanGame.getGameboard().getTileArr()) {
 			if (!t.hasRobber()) {
 				if (t.getChipNumber() == number) {
 					for (BuildingLocation bl : t.getBuildingLocArr()) {
+						System.out.println("loc: " + bl.getXLoc() + "," + bl.getYLoc());
 						if (bl.getBuilding() != null) {
-							if (bl.getBuilding() instanceof City) {
+							System.out.println("building: " + bl.getBuilding().getIdBuilding());
+							if (bl.getCity()!= null) {
 								// give two
 								ArrayList<Resource> rsArr = catanGame.getBank().takeMultipleResources(t.getRsType(), 2);
 								for (Resource rs : rsArr) {
@@ -1084,7 +1087,7 @@ public class GameControl {
 											bl.getBuilding().getPlayer().getIdPlayer());
 								}
 
-							} else if (bl.getBuilding() instanceof Village) {
+							} else if (bl.getVillage()!= null) {
 								// give one
 								Resource rs = catanGame.getBank().takeResource(t.getRsType());
 								bl.getBuilding().getPlayer().getHand().addResource(rs);
