@@ -55,7 +55,6 @@ public class GameControl {
 		gameBoardControl = new GameBoardControl(mainDA, gameID);
 
 		// TODO add gameboard to db
-		// gameboard = gameBoardControl.createBoard();
 		return gameID;
 
 	}
