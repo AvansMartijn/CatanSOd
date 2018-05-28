@@ -483,7 +483,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				String message = chatPanelTextField.getText();
 				if (message != null) {
-					if (gameControl.addMessage(message, true)) {
+					if (gameControl.addPlayerMessage(message)) {
 						chatPanelTextField.setText("");
 					} else {
 						addSystemMessageToChat(Color.RED, "Je mag maar 1 bericht per seconde versturen!");
@@ -513,7 +513,8 @@ public class GuiController {
 					gameControl.changeRobber(b.getTile().getIdTile());
 					boardPanel.disableTileButtons();
 					boardPanel.repaint();
-					gameControl.addMessage("Heeft de struikrover verzet naar " + b.getTile().getIdTile(), false);
+					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + 
+							" Heeft de struikrover verzet naar " + b.getTile().getIdTile());
 					gameControl.stealCardCauseRobber();
 				}
 			});
@@ -533,8 +534,9 @@ public class GuiController {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen stad bouwen");
 
 						} else {
-							gameControl.addMessage("Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc()
-									+ " Y: " + blb.getBuildingLocation().getYLoc(), false);
+							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + 
+									" Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc()
+									+ " Y: " + blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
@@ -546,8 +548,9 @@ public class GuiController {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
 
 						} else {
-							gameControl.addMessage("Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc()
-									+ " Y: " + blb.getBuildingLocation().getYLoc(), false);
+							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + 
+									" Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc()
+									+ " Y: " + blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
 							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
@@ -571,11 +574,11 @@ public class GuiController {
 					if (!gameControl.buildStreet(slb.getStreetLocation())) {
 						addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 					} else {
-						gameControl.addMessage(
-								"Heeft een straat gebouwd tussen X: " + slb.getStreetLocation().getBlStart().getXLoc()
+						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + 
+								" Heeft een straat gebouwd tussen X: " + slb.getStreetLocation().getBlStart().getXLoc()
 										+ " Y: " + slb.getStreetLocation().getBlStart().getYLoc() + " en X: "
 										+ slb.getStreetLocation().getBlEnd().getXLoc() + " Y: "
-										+ slb.getStreetLocation().getBlEnd().getYLoc(), false);
+										+ slb.getStreetLocation().getBlEnd().getYLoc());
 						boardPanel.disableStreetLocButtons();
 						playerActionPanel.setBuildPanel();
 						addPlayerColorToStreetLocs();
@@ -701,7 +704,7 @@ public class GuiController {
 							wheatGive, woodGive, brickReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 1);
 
 					gameControl.acceptTradeRequest(newTradeRequest);
-					gameControl.addMessage("heeft het handelsaanbod van "
+					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + " heeft het handelsaanbod van "
 							+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername()
 							+ " geaccepteerd");
 					tradeReceive.dispose();
@@ -718,7 +721,7 @@ public class GuiController {
 				TradeRequest declineRequest = new TradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
 						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 				gameControl.declineTradeRequest(declineRequest);
-				gameControl.addMessage("heeft het handelsaanbod van"
+				gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + " heeft het handelsaanbod van"
 						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " afgewezen");
 				tradeReceive.dispose();
 			}

@@ -30,7 +30,6 @@ public class MainDA {
 	private static final String password = "Ab12345";
 	private ChatPanel chatPanel;
 	protected Connection myConn;
-	private String username = null;
 
 	public MainDA() {
 		myConn = null;
@@ -195,17 +194,11 @@ public class MainDA {
 	/**
 	 * Add a message to the Database
 	 */
-	public boolean addMessage(int idPlayer, int idGame, String bericht, boolean speler) {
-		String query = null;
-		if (speler == true) {
-			query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", " + "'" + username + ": "
-					+ bericht + "'" + ");";
-		} else {
-			query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", " + "'" + username + " "
-					+ bericht + "'" + ");";
-		}
+	public boolean addMessage(int idPlayer, String bericht) {
+		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", '" + bericht + "');";
 
 		if (!insertUpdateQuery(query)) {
+			
 			System.out.println("Adding message to DB failed");
 			return false;
 		}
@@ -221,7 +214,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT tijdstip, speler.username, bericht FROM chatregel "
+		String query = "SELECT tijdstip, bericht FROM chatregel "
 				+ "JOIN speler ON chatregel.idspeler = speler.idspeler "
 				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ");";
 		try {
@@ -229,10 +222,10 @@ public class MainDA {
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
 				Timestamp tijdstip = myRs.getTimestamp(1);
-				username = myRs.getString(2);
+				String username = myRs.getString(2);
 				String bericht = myRs.getString(3);
 				String timestamp = tijdstip.toString().substring(11, tijdstip.toString().length() - 2);
-				retList.add(timestamp + " - " + " " + bericht);
+				retList.add(timestamp + " " + bericht);
 			}
 			myRs.close();
 			stmt.close();

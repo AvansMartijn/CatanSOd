@@ -20,9 +20,6 @@ import model.Tile;
 import model.TradeRequest;
 import model.Village;
 
-import view.ChatPanel;
-import view.PlayerStatsPanel;
-
 
 public class GameControl {
 
@@ -32,7 +29,6 @@ public class GameControl {
 	private GameBoardControl gameBoardControl;
 	private GuiController guiController;
 	private MainDA mainDA;
-	private ChatPanel chatPanel;
 	// private String username;
 	private Catan catanGame;
 	private Thread tradeRequestThread;
@@ -67,45 +63,34 @@ public class GameControl {
 
 	}
 
-	public boolean addMessage(String message, boolean speler) {
+	// public boolean addMessage(String message) {
+	// catanGame.getMessages().add(message);
+	// return playerMessage(message);
+	// }
+
+	public void addLogMessage(String message) {
+		mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message);
 		catanGame.getMessages().add(message);
-		if (speler == true) {
-			System.out.println("speler");
-			return playerMessage(message);
-			
-		} else {
-			System.out.println("systeem");
-			return systemMessage(message);
-			// return addMessageToDB(message);
-		}
+		guiController.refreshChat();
 	}
 
-	public boolean playerMessage(String message) {
-		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
-		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message, true)) {
+	public boolean addPlayerMessage(String message) {
+		message = catanGame.getSelfPlayer().getUsername() + ": " + message;
+		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
+			catanGame.getMessages().add(message);
+			guiController.refreshChat();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public boolean systemMessage(String message) {
-		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
-		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message, false)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-/*	public boolean playerMessage(String message) {
-		int idPlayer = catanGame.getSelfPlayer().getIdPlayer();
-		if (mainDA.addMessage(idPlayer, catanGame.getIdGame(), message, true)) {
-			return true;
-		} else {
-			return false;
-		}
-	}*/
+	/*
+	 * public boolean playerMessage(String message) { int idPlayer =
+	 * catanGame.getSelfPlayer().getIdPlayer(); if (mainDA.addMessage(idPlayer,
+	 * catanGame.getIdGame(), message, true)) { return true; } else { return false;
+	 * } }
+	 */
 
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
@@ -395,11 +380,11 @@ public class GameControl {
 
 	private void payResources(ResourceType[] cost) {
 		ArrayList<Resource> toPay = new ArrayList<>();
-		for(ResourceType rsType : cost) {
+		for (ResourceType rsType : cost) {
 			Resource rs = catanGame.getSelfPlayer().getHand().takeResource(rsType);
 			toPay.add(rs);
 			mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
-		}		
+		}
 		catanGame.getBank().addMultipleResources(toPay);
 	}
 
@@ -706,12 +691,12 @@ public class GameControl {
 
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
 		if (resourceCardsToGive == null) {
-			addMessage("Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten", false);
+			addLogMessage("Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
 			return;
 		}
 
 		if (catanGame.getBank().takeResource(resourceTypeToReceive) == null) {
-			addMessage("De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten", false);
+			addLogMessage("De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
 			return;
 		} else {
 			resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
@@ -725,8 +710,8 @@ public class GameControl {
 		mainDA.addResourceToPlayer(resourceCardToReceive.getResourceID(), catanGame.getIdGame(),
 				catanGame.getSelfPlayer().getIdPlayer());
 
-		addMessage(" ik heb " + ratio + " " + resourceTypeToGive + " kaarten geruild voor een " + resourceTypeToReceive
-				+ " kaart met de bank", false);
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + ratio + " " + resourceTypeToGive + " geruild voor een " + resourceTypeToReceive
+				+ " kaart met de bank");
 	}
 
 	// public void createTradeRequest(int stoneGive, int woolGive, int ironGive, int
@@ -899,18 +884,18 @@ public class GameControl {
 		int gWood = tr.getW_wood();
 		int idPlayer = tr.getIdPlayer();
 		// Swapped resources to match trade request.
-		
-		System.out.println(wBrick);//0
-		System.out.println(wWool);//1
-		System.out.println(wIron);//0
-		System.out.println(wWheat);//2
-		System.out.println(wWood);//0
-		
-		System.out.println(gBrick);//0
-		System.out.println(gWool);//0
-		System.out.println(gIron);//1
-		System.out.println(gWheat);//0
-		System.out.println(gWood);//0
+
+		System.out.println(wBrick);// 0
+		System.out.println(wWool);// 1
+		System.out.println(wIron);// 0
+		System.out.println(wWheat);// 2
+		System.out.println(wWood);// 0
+
+		System.out.println(gBrick);// 0
+		System.out.println(gWool);// 0
+		System.out.println(gIron);// 1
+		System.out.println(gWheat);// 0
+		System.out.println(gWood);// 0
 
 		ArrayList<Resource> giveArray = new ArrayList<Resource>();
 		if (gBrick > 0) {
@@ -1011,7 +996,7 @@ public class GameControl {
 				if (p.getFollownr() == 1) {
 					mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 					catanGame.setTurn(p.getIdPlayer());
-					addMessage(p.getUsername() + " is nu aan de Beurt.");
+					addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 					mainDA.setThrownDice(0, catanGame.getIdGame());
 					catanGame.setRolledDice(false);
 					mainDA.setShouldRefresh(p.getIdPlayer(), true);
@@ -1023,7 +1008,7 @@ public class GameControl {
 				if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
 					mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 					catanGame.setTurn(p.getIdPlayer());
-					addMessage(p.getUsername() + " is nu aan de Beurt.");
+					addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 					mainDA.setThrownDice(0, catanGame.getIdGame());
 					catanGame.setRolledDice(false);
 					mainDA.setShouldRefresh(p.getIdPlayer(), true);
