@@ -95,6 +95,7 @@ public class GameControl {
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
 		changeRobberInDB(idTile);
+		enableOpponentsShouldRefresh();
 	}
 
 	public void changeRobberInDB(int idTile) {
@@ -312,6 +313,7 @@ public class GameControl {
 		village.setBuildingLocation(buildingLocation);
 		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
 				buildingLocation.getYLoc());
+		enableOpponentsShouldRefresh();
 		return true;
 	}
 
@@ -341,6 +343,7 @@ public class GameControl {
 				mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), 0, 0);
 				mainDA.updateBuilding(city.getIdBuilding(), city.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
 						buildingLocation.getYLoc());
+				enableOpponentsShouldRefresh();
 				System.out.println("upgraded to city");
 				return true;
 			} else {
@@ -375,6 +378,7 @@ public class GameControl {
 		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(),
 				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
+		enableOpponentsShouldRefresh();
 		return true;
 	}
 
@@ -789,14 +793,11 @@ public class GameControl {
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
 		System.out.println(stoneGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
 				+ ironReceive + wheatReceive + woodReceive);
-		for (Player p : catanGame.getPlayers()) {
-			if (p.getIdPlayer() != catanGame.getSelfPlayer().getIdPlayer()) {
-				mainDA.setShouldRefresh(p.getIdPlayer(), true);
-			}
-		}
+		
 
 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
 				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 3));
+		enableOpponentsShouldRefresh();
 	}
 
 	public void countTradeOffers() {
@@ -848,6 +849,7 @@ public class GameControl {
 				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 1);
 
 		mainDA.createTradeRequest(tR);
+		setShouldRefreshEnabled(oldtR.getIdPlayer());
 
 	}
 
@@ -858,7 +860,7 @@ public class GameControl {
 				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 0);
 
 		mainDA.createTradeRequest(tR);
-
+		setShouldRefreshEnabled(oldtR.getIdPlayer());
 	}
 
 	public void deleteTradeRequest() {
@@ -977,11 +979,12 @@ public class GameControl {
 		// swap resources in code
 		// remove traderequests in db
 		// remove traderequests in catanGame
+		enableOpponentsShouldRefresh();
 	}
 
 	public void doDevCardRoadBuilding() {
 		// build 2 streets without the cost
-
+		enableOpponentsShouldRefresh();
 	}
 
 	public void doDevCardMonopoly(ResourceType rsType) {
@@ -993,6 +996,7 @@ public class GameControl {
 						catanGame.getSelfPlayer().getIdPlayer());
 			}
 		}
+		enableOpponentsShouldRefresh();
 	}
 
 	public void doDevCardYearOfPlenty(ResourceType rsType1, ResourceType rsType2) {
@@ -1014,6 +1018,7 @@ public class GameControl {
 		} else {
 			guiController.addSystemMessageToChat(Color.RED, "de bank heeft niet genoeg " + rsType2 + " kaarten");
 		}
+		enableOpponentsShouldRefresh();
 	}
 
 	public void playFirstRound() {
