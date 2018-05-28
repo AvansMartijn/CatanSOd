@@ -26,8 +26,8 @@ public class TradeRespondPanel extends JPanel {
 
 	private final int TEXTFIELD_INPUT_WIDTH = 35;
 	private final int TEXTFIELD_INPUT_HEIGHT = 20;
-	private final int TEXTFIELD_OFFSET_X1 = 20;
-	private final int TEXTFIELD_OFFSET_X2 = 215;
+	private final int TEXTFIELD_OFFSET_X1 = 215;
+	private final int TEXTFIELD_OFFSET_X2 = 20;
 	private final int TEXTFIELD_OFFSET_Y = 30;
 
 	// requests for sending the trade offer
