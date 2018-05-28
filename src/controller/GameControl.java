@@ -42,7 +42,7 @@ public class GameControl {
 
 	public GameControl(MainDA mainDA) {
 		this.mainDA = mainDA;
-		
+
 	}
 
 	public int createGameInDB(boolean randomBoard) {
@@ -655,18 +655,18 @@ public class GameControl {
 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
 				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 3));
 	}
-	
+
 	public void countTradeOffers() {
 		tradeRequestThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				boolean hasAll = false;
 				int amountOfOpenRequests = 0;
-				while(!hasAll) {
+				while (!hasAll) {
 					System.out.println("check Amount of open request");
 					amountOfOpenRequests = mainDA.getAmountOfOpenRequests(catanGame.getIdGame());
 					System.out.println("!hasall");
-					if(amountOfOpenRequests == 4) {
+					if (amountOfOpenRequests == 4) {
 						System.out.println("hasall");
 						hasAll = true;
 						gatherCounterOffers();
@@ -678,19 +678,19 @@ public class GameControl {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}			
+				}
 			}
 		});
 		tradeRequestThread.start();
 	}
-	
+
 	private void gatherCounterOffers() {
-				
+
 		ArrayList<TradeRequest> tradeRequestArr = new ArrayList<>();
 		for (Player p : catanGame.getPlayers()) {
 			if (p.getIdPlayer() != catanGame.getSelfPlayer().getIdPlayer()) {
 				TradeRequest tr = mainDA.getSingleTradeRequest(catanGame.getIdGame(), p.getIdPlayer());
-				if(tr != null) {
+				if (tr != null) {
 					tradeRequestArr.add(tr);
 				}
 			}
@@ -700,37 +700,19 @@ public class GameControl {
 
 	public void acceptTradeRequest(TradeRequest oldtR) {
 
-		TradeRequest tR = new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), 
-				oldtR.getW_brick(),
-				oldtR.getW_wool(),
-				oldtR.getW_iron(), 
-				oldtR.getW_wheat(), 
-				oldtR.getW_wood(), 
-				oldtR.getG_brick(),
-				oldtR.getG_wool(), 
-				oldtR.getG_iron(), 
-				oldtR.getG_wheat(), 
-				oldtR.getG_wood()
-				, 1);
+		TradeRequest tR = new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), oldtR.getW_brick(),
+				oldtR.getW_wool(), oldtR.getW_iron(), oldtR.getW_wheat(), oldtR.getW_wood(), oldtR.getG_brick(),
+				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 1);
 
 		mainDA.createTradeRequest(tR);
 
 	}
-	
+
 	public void declineTradeRequest(TradeRequest oldtR) {
 
-		TradeRequest tR = new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), 
-				oldtR.getW_brick(),
-				oldtR.getW_wool(),
-				oldtR.getW_iron(), 
-				oldtR.getW_wheat(), 
-				oldtR.getW_wood(), 
-				oldtR.getG_brick(),
-				oldtR.getG_wool(), 
-				oldtR.getG_iron(), 
-				oldtR.getG_wheat(), 
-				oldtR.getG_wood()
-				, 0);
+		TradeRequest tR = new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), oldtR.getW_brick(),
+				oldtR.getW_wool(), oldtR.getW_iron(), oldtR.getW_wheat(), oldtR.getW_wood(), oldtR.getG_brick(),
+				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 0);
 
 		mainDA.createTradeRequest(tR);
 
@@ -745,10 +727,9 @@ public class GameControl {
 		return mainDA.getInitialTradeRequest(catanGame.getIdGame());
 	}
 
-	
 	public void setGuiController(GuiController guiController) {
 		this.guiController = guiController;
-		
+
 	}
 
 	public void commenceTrade(int tradeNumber) {
@@ -765,62 +746,81 @@ public class GameControl {
 		int gWheat = tr.getW_wheat();
 		int gWood = tr.getW_wood();
 		int idPlayer = tr.getIdPlayer();
-		//Swapped resources to match trade request.
-		
+		// Swapped resources to match trade request.
+
 		ArrayList<Resource> giveArray = new ArrayList<Resource>();
-		for(Resource r: catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.BAKSTEEN, gBrick)) {
-			giveArray.add(r);
+		if (gBrick > 0) {
+			for (Resource r : catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.BAKSTEEN,
+					gBrick)) {
+				giveArray.add(r);
+			}
 		}
-		for(Resource r: catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.WOL, gWool)) {
-			giveArray.add(r);
+		if (gWool > 0) {
+			for (Resource r : catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.WOL, gWool)) {
+				giveArray.add(r);
+			}
 		}
-		for(Resource r: catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.ERTS, gIron)) {
-			giveArray.add(r);
+		if (gIron > 0) {
+			for (Resource r : catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.ERTS, gIron)) {
+				giveArray.add(r);
+			}
 		}
-		for(Resource r: catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.GRAAN, gWheat)) {
-			giveArray.add(r);
+		if (gWheat > 0) {
+			for (Resource r : catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.GRAAN, gWheat)) {
+				giveArray.add(r);
+			}
 		}
-		for(Resource r: catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.HOUT, gWood)) {
-			giveArray.add(r);
+		if (gWood > 0) {
+			for (Resource r : catanGame.getSelfPlayer().getHand().takeMultipleResources(ResourceType.HOUT, gWood)) {
+				giveArray.add(r);
+			}
 		}
-		
+
 		Player tradePlayer = catanGame.getPlayerByID(idPlayer);
-		
+
 		ArrayList<Resource> receiveArray = new ArrayList<Resource>();
-		
-		for(Resource r: tradePlayer.getHand().takeMultipleResources(ResourceType.WOL, wBrick)) {
-			receiveArray.add(r);
+		if (wBrick > 0) {
+			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.WOL, wBrick)) {
+				receiveArray.add(r);
+			}
 		}
-		for(Resource r: tradePlayer.getHand().takeMultipleResources(ResourceType.BAKSTEEN, wWool)) {
-			receiveArray.add(r);
+		if (wWool > 0) {
+			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.BAKSTEEN, wWool)) {
+				receiveArray.add(r);
+			}
 		}
-		for(Resource r: tradePlayer.getHand().takeMultipleResources(ResourceType.ERTS, wIron)) {
-			receiveArray.add(r);
+		if (wIron > 0) {
+			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.ERTS, wIron)) {
+				receiveArray.add(r);
+			}
 		}
-		for(Resource r: tradePlayer.getHand().takeMultipleResources(ResourceType.GRAAN, wWheat)) {
-			receiveArray.add(r);
+		if (wWheat > 0) {
+			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.GRAAN, wWheat)) {
+				receiveArray.add(r);
+			}
 		}
-		for(Resource r: tradePlayer.getHand().takeMultipleResources(ResourceType.HOUT, wWood)) {
-			receiveArray.add(r);
+		if (wWood > 0) {
+			for (Resource r : tradePlayer.getHand().takeMultipleResources(ResourceType.HOUT, wWood)) {
+				receiveArray.add(r);
+			}
 		}
-		
-		for(Resource r : giveArray) {
+
+		for (Resource r : giveArray) {
 			tradePlayer.getHand().addResource(r);
 			mainDA.addResourceToPlayer(r.getResourceID(), catanGame.getIdGame(), tradePlayer.getIdPlayer());
 		}
-		
-		for(Resource r : receiveArray) {
+
+		for (Resource r : receiveArray) {
 			catanGame.getSelfPlayer().getHand().addResource(r);
-			mainDA.addResourceToPlayer(r.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+			mainDA.addResourceToPlayer(r.getResourceID(), catanGame.getIdGame(),
+					catanGame.getSelfPlayer().getIdPlayer());
 		}
-		
+
 		mainDA.deleteTradeRequests(catanGame.getIdGame());
 		catanGame.setTradeRequests(null);
 
 		// swap resources in code
 		// remove traderequests in db
-		//remove traderequests in catanGame
+		// remove traderequests in catanGame
 	}
 }
-
-
