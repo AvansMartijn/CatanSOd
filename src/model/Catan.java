@@ -23,6 +23,7 @@ public class Catan {
 	 */
 	private boolean rolledDice;
 	private ArrayList<String> messages;
+	private ArrayList<TradeRequest> tradeRequestArr;
 	
 	/**
 	 * This creates a catanGame with all its players. 
@@ -39,6 +40,7 @@ public class Catan {
 		this.selfPlayer = selfPlayer;
 		this.idGame = players.get(0).getidGame();
 		this.turn = turn;
+		tradeRequestArr = new ArrayList<TradeRequest>();
 		//First player (Players[0]) is the UITDAGER. The Rest is UIGEDAAGDE. 
 		//players[0] has already been made, so start at 1. 
 		
@@ -54,6 +56,18 @@ public class Catan {
 		bank = new Bank();
 	}
 	
+	public void addTradeRequest(TradeRequest tradeRequest) {
+		tradeRequestArr.add(tradeRequest);
+	}
+	
+	public Player getPlayerByID(int id) {
+		for(Player p : players) {
+			if(p.getIdPlayer() == id) {
+				return p;
+			}
+		}
+		return null;
+	}
 	
 	//TODO These should be GameControl methods
 	/*
@@ -218,6 +232,14 @@ public class Catan {
 
 	public void setMessages(ArrayList<String> messages) {
 		this.messages = messages;
+	}
+	
+	public void setTradeRequests(ArrayList<TradeRequest> tradeRequestArr) {
+		this.tradeRequestArr = tradeRequestArr;
+	}
+
+	public ArrayList<TradeRequest> getTradeRequestArr() {
+		return tradeRequestArr;
 	}
 	
 	

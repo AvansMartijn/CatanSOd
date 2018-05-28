@@ -53,49 +53,48 @@ public class MainDA {
 	}
 
 	public static class C3P0DataSource {
-		   private static C3P0DataSource dataSource;
-		   private ComboPooledDataSource comboPooledDataSource;
+		private static C3P0DataSource dataSource;
+		private ComboPooledDataSource comboPooledDataSource;
 
-		   private C3P0DataSource() {
-		      try {
-		         comboPooledDataSource = new ComboPooledDataSource();
-		         comboPooledDataSource.setDriverClass("com.mysql.jdbc.Driver");
-		         comboPooledDataSource.setJdbcUrl(url);
-		         comboPooledDataSource.setUser(user);
-		         comboPooledDataSource.setPassword(password);}
-		      catch (PropertyVetoException ex1) {
-		         ex1.printStackTrace();
-		      }
-		   }
+		private C3P0DataSource() {
+			try {
+				comboPooledDataSource = new ComboPooledDataSource();
+				comboPooledDataSource.setDriverClass("com.mysql.jdbc.Driver");
+				comboPooledDataSource.setJdbcUrl(url);
+				comboPooledDataSource.setUser(user);
+				comboPooledDataSource.setPassword(password);
+			} catch (PropertyVetoException ex1) {
+				ex1.printStackTrace();
+			}
+		}
 
-		   public static C3P0DataSource getInstance() {
-		      if (dataSource == null)
-		         dataSource = new C3P0DataSource();
-		      return dataSource;
-		   }
+		public static C3P0DataSource getInstance() {
+			if (dataSource == null)
+				dataSource = new C3P0DataSource();
+			return dataSource;
+		}
 
-		   public Connection getConnection() {
-		      Connection con = null;
-		      try {
-		         con = comboPooledDataSource.getConnection();
-		      } catch (SQLException e) {
-		         e.printStackTrace();
-		      }
-		      return con;
-		   }
+		public Connection getConnection() {
+			Connection con = null;
+			try {
+				con = comboPooledDataSource.getConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return con;
+		}
 	}
-
 
 	/**
 	 * Initializes a connection
 	 */
 	public void makeConnection() {
 		myConn = C3P0DataSource.getInstance().getConnection();
-//		try {
-//			myConn = DriverManager.getConnection(url, user, password);
-//		} catch (SQLException ex) {
-//			System.out.println("Connection failed");
-//		}
+		// try {
+		// myConn = DriverManager.getConnection(url, user, password);
+		// } catch (SQLException ex) {
+		// System.out.println("Connection failed");
+		// }
 	}
 
 	/**
@@ -276,21 +275,22 @@ public class MainDA {
 		;
 
 	}
-	
+
 	public void addResourceCard(String idResourceCard, int idGame) {
 
-		String query = "INSERT INTO spelergrondstofkaart (idspel, idgrondstofkaart, idspeler)" + " VALUES " + "(" + idGame + ", '"+ idResourceCard + "' , null);";
+		String query = "INSERT INTO spelergrondstofkaart (idspel, idgrondstofkaart, idspeler)" + " VALUES " + "("
+				+ idGame + ", '" + idResourceCard + "' , null);";
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add resourceCard");
 		}
 		;
 
 	}
-	
+
 	public void addDevelopmentCard(String idDevelopmentCard, int idGame) {
 
-		String query = "INSERT INTO spelerontwikkelingskaart (idspel, idontwikkelingskaart, idspeler, gespeeld)" + " VALUES " 
-		+ "(" + idGame + ", '"+ idDevelopmentCard + "' , null, 0);";
+		String query = "INSERT INTO spelerontwikkelingskaart (idspel, idontwikkelingskaart, idspeler, gespeeld)"
+				+ " VALUES " + "(" + idGame + ", '" + idDevelopmentCard + "' , null, 0);";
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add Building");
 		}
@@ -374,7 +374,8 @@ public class MainDA {
 	/**
 	 * Add a player to the Database
 	 */
-	public void createPlayer(int idPlayer, int idGame, String username, String playerColor, int followNR, String playStatus) {
+	public void createPlayer(int idPlayer, int idGame, String username, String playerColor, int followNR,
+			String playStatus) {
 
 		String insertquery = "INSERT INTO speler (idspeler, idspel, username, kleur, speelstatus, shouldrefresh, volgnr)"
 				+ " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor + "', '"
@@ -384,7 +385,7 @@ public class MainDA {
 			System.out.println("Adding player to DB failed");
 		}
 	}
-	
+
 	public void setTurn(int idPlayer, int idGame) {
 		String insertquery = "UPDATE spel SET beurt_idspeler = '" + idPlayer + "' WHERE idspel = " + idGame + ";";
 
@@ -392,7 +393,7 @@ public class MainDA {
 			System.out.println("Changing turn to DB failed");
 		}
 	}
-	
+
 	public int getTurn(int idGame) {
 		int idPlayer = 0;
 		makeConnection();
@@ -413,7 +414,7 @@ public class MainDA {
 		}
 		return idPlayer;
 	}
-	
+
 	public void setThrownDice(int thrown, int idGame) {
 		String insertquery = "UPDATE spel SET gedobbeld = '" + thrown + "' WHERE idspel = " + idGame + ";";
 
@@ -421,7 +422,7 @@ public class MainDA {
 			System.out.println("Changing thrownDice to DB failed");
 		}
 	}
-	
+
 	public void setFirstRound(int firstRound, int idGame) {
 		String insertquery = "UPDATE spel SET eersteronde = '" + firstRound + "' WHERE idspel = " + idGame + ";";
 
@@ -664,12 +665,13 @@ public class MainDA {
 
 	public void updateBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
 		String query;
-		if(x_From == 0 && y_From == 0) {
-			 query = "UPDATE spelerstuk SET x_van = null, y_van = null WHERE idspeler = '" + idPlayer + "' AND idstuk = '" + idPiece + "';";
-		}else {
-			 query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From
-					+ " WHERE idspeler = '" + idPlayer + "' AND idstuk = '" + idPiece + "';";
-		}		
+		if (x_From == 0 && y_From == 0) {
+			query = "UPDATE spelerstuk SET x_van = null, y_van = null WHERE idspeler = '" + idPlayer
+					+ "' AND idstuk = '" + idPiece + "';";
+		} else {
+			query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From + " WHERE idspeler = '" + idPlayer
+					+ "' AND idstuk = '" + idPiece + "';";
+		}
 		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to update Building");
@@ -828,10 +830,12 @@ public class MainDA {
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = null;
-		if(idPlayer == 0) {
-			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler IS NULL;";
+		if (idPlayer == 0) {
+			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame
+					+ " AND idspeler IS NULL;";
 		} else {
-			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler = '" + idPlayer + "';";
+			query = "SELECT idgrondstofkaart FROM spelergrondstofkaart WHERE idspel = " + idGame + " AND idspeler = '"
+					+ idPlayer + "';";
 		}
 		try {
 			stmt = myConn.createStatement();
@@ -849,23 +853,25 @@ public class MainDA {
 		}
 		return retList;
 	}
-	
+
 	public void removeResource(String idResource, int idGame) {
-		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = null WHERE idgrondstofkaart = '" + idResource + "' AND idspel = " + idGame + ";";
+		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = null WHERE idgrondstofkaart = '" + idResource
+				+ "' AND idspel = " + idGame + ";";
 
 		if (!insertUpdateQuery(insertquery)) {
 			System.out.println("Removing resource in DB failed");
 		}
 	}
-	
+
 	public void addResourceToPlayer(String idResource, int idGame, int idPlayer) {
-		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = '" + idPlayer + "' WHERE idgrondstofkaart = '" + idResource + "' AND idspel = " + idGame + ";";
+		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = '" + idPlayer + "' WHERE idgrondstofkaart = '"
+				+ idResource + "' AND idspel = " + idGame + ";";
 
 		if (!insertUpdateQuery(insertquery)) {
 			System.out.println("adding resource to player in DB failed");
 		}
 	}
-	
+
 	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
@@ -873,10 +879,12 @@ public class MainDA {
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = null;
-		if(idPlayer == 0) {
-			query = "SELECT idontwikkelingskaart, gespeeld FROM spelerontwikkelingskaart WHERE idspel = " + idGame + " AND idspeler IS NULL;";
+		if (idPlayer == 0) {
+			query = "SELECT idontwikkelingskaart, gespeeld FROM spelerontwikkelingskaart WHERE idspel = " + idGame
+					+ " AND idspeler IS NULL;";
 		} else {
-			query = "SELECT idontwikkelingskaart, gespeeld FROM spelerontwikkelingskaart WHERE idspel = " + idGame + " AND idspeler = " + idPlayer + ";";
+			query = "SELECT idontwikkelingskaart, gespeeld FROM spelerontwikkelingskaart WHERE idspel = " + idGame
+					+ " AND idspeler = " + idPlayer + ";";
 		}
 		try {
 			stmt = myConn.createStatement();
@@ -918,15 +926,38 @@ public class MainDA {
 	}
 
 	public void createTradeRequest(TradeRequest tR) {
-
-		String query =  "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)" + 
-		" VALUES " + "(" + tR.getIdPlayer() + ", "+ tR.getG_brick() + ", " + tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", "+ tR.getG_wood() + ", " 
-				+ tR.getW_brick() + ", " + tR.getW_wool() + ", " + tR.getW_iron()+ ", "+ tR.getG_wheat() + ", " + tR.getW_wood() + ");";
+		String query;
+		if(tR.getAccepted() == 1) {
+			query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
+					+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getW_brick() + ", " + tR.getW_wool() + ", "
+					+ tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", " + tR.getG_brick() + ", "
+					+ tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", 1);";
+		}else if(tR.getAccepted() == 0){
+		 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
+				+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getW_brick() + ", " + tR.getW_wool() + ", "
+				+ tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", " + tR.getG_brick() + ", "
+				+ tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", 0);";
+		}else {
+			 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
+						+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
+						+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
+						+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ");";
+		}
+		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tradeRequest");
 		}
 	}
-	
+
+	public void deleteTradeRequests(int idGame) {
+
+		String query = "DELETE FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ");"; 
+		System.out.println(query);
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to delete tradeRequest");
+		}
+	}
+
 	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
@@ -950,7 +981,6 @@ public class MainDA {
 		}
 		return retList;
 	}
-	
 	
 	public void acceptInvite(int playerId) {
 		String query = "UPDATE speler SET speelstatus = 'geaccepteerd' WHERE idspeler = " + playerId + ";";
@@ -976,4 +1006,95 @@ public class MainDA {
 		}
 	}
 	
+	public TradeRequest getInitialTradeRequest(int idGame) {
+
+		TradeRequest tr = null;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT * FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") AND geaccepteerd IS NULL;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				int playerID = myRs.getInt(1);
+				int brickgive = myRs.getInt(2);
+				int woolgive = myRs.getInt(3);
+				int irongive = myRs.getInt(4);
+				int wheatgive = myRs.getInt(5);
+				int woodgive = myRs.getInt(6);
+				int brickreceive = myRs.getInt(7);
+				int woolreceive = myRs.getInt(8);
+				int ironreceive = myRs.getInt(9);
+				int wheatreceive = myRs.getInt(10);
+				int woodreceive = myRs.getInt(11);				
+				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return tr;
+	}
+	
+	public TradeRequest getSingleTradeRequest(int idGame, int idPlayer) {
+
+		TradeRequest tr = null;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT * FROM ruilaanbod WHERE idspeler = " + idPlayer + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				int playerID = myRs.getInt(1);
+				int brickgive = myRs.getInt(2);
+				int woolgive = myRs.getInt(3);
+				int irongive = myRs.getInt(4);
+				int wheatgive = myRs.getInt(5);
+				int woodgive = myRs.getInt(6);
+				int brickreceive = myRs.getInt(7);
+				int woolreceive = myRs.getInt(8);
+				int ironreceive = myRs.getInt(9);
+				int wheatreceive = myRs.getInt(10);
+				int woodreceive = myRs.getInt(11);
+				int accepted = myRs.getInt(12);	
+				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive, accepted);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return tr;
+	}
+	
+	public int getAmountOfOpenRequests(int idGame) {
+		int amount = 0;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT count(*) FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") ;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				 amount = myRs.getInt(1);				
+			}
+			System.out.println("amount retrieved from DB: " + amount);
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return amount;
+	}
 }
