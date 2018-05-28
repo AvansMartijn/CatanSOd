@@ -810,6 +810,7 @@ public class GameControl {
 					addMessage(p.getUsername() + " is nu aan de Beurt.");
 					mainDA.setThrownDice(0, catanGame.getIdGame());
 					catanGame.setRolledDice(false);
+					mainDA.setShouldRefresh(p.getIdPlayer(), true);
 					break;
 				}
 			}
@@ -821,6 +822,7 @@ public class GameControl {
 					addMessage(p.getUsername() + " is nu aan de Beurt.");
 					mainDA.setThrownDice(0, catanGame.getIdGame());
 					catanGame.setRolledDice(false);
+					mainDA.setShouldRefresh(p.getIdPlayer(), true);
 					break;
 				}
 			}
