@@ -423,9 +423,6 @@ public class GuiController {
 		developmentCardsPanel = new DevelopmentCardsPanel(gameControl.getCatanGame().getSelfPlayer());
 		this.chatPanel = new ChatPanel(gameControl.getCatanGame().getMessages());
 		this.diceDotPanel = new DiceDotPanel(gameControl.getCatanGame().getDice());
-		if (gameControl.getCatanGame().hasRolledDice()) {
-			diceDotPanel.getButton().setVisible(false);
-		}
 
 		GameTopPanel gameTopPanel = new GameTopPanel(gameControl.getCatanGame().getIdGame());
 
@@ -461,6 +458,9 @@ public class GuiController {
 		this.tradeRequestListPanel = new CurrentTradeRequestPanel();
 		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePlayerPanel,
 				tradeBankPanel, returnToBuildPanel, tradeOptionsPanel, tradeRequestListPanel);
+		if(gameControl.getCatanGame().getTurn() == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+			enablePlayerActionPanel();
+		}
 
 		// this.tradePanel = new TradePanel();
 		// this.returnToBuildPanel = new ReturnToBuildPanel();
@@ -596,6 +596,7 @@ public class GuiController {
 	
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
+		System.out.println("enabled button");
 	}
 	
 	private void addDevelopmentCardsPanelButtonListeners() {

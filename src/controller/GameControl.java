@@ -831,7 +831,9 @@ public class GameControl {
 	}
 
 	public void doTurn() {
-		guiController.enableDice();
+		if(!catanGame.hasRolledDice()) {
+			guiController.enableDice();
+		}
 		guiController.enablePlayerActionPanel();
 		
 	}

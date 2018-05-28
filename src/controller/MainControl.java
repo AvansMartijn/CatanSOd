@@ -87,12 +87,15 @@ public class MainControl {
 			public void run() {
 				while(ingame) {
 					updateRefreshDice();
-					updateRefreshRobber();
 					updateRefreshMessages();
-					updateRefreshBoard();
-					updateRefreshPlayers();
-					updateRefreshTurn();
-					System.out.println("Refreshed");
+					if(mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
+						updateRefreshBoard();
+						updateRefreshRobber();
+						updateRefreshPlayers();
+						updateRefreshTurn();
+						
+					}
+					//System.out.println("Refreshed");
 					try {
 						Thread.sleep(8000);
 					} catch (InterruptedException e) {
@@ -301,12 +304,11 @@ public class MainControl {
 		gameControl.getCatanGame().setTurn(turn);
 		if(turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
 			gameControl.doTurn();
-			guiController.refreshDice();
+//			guiController.refreshDice();
 		}
 	}
 
 	public void updateRefreshMessages() {
-		System.out.println("maincontrol updaterefresh chat");
 		ArrayList<String> messageList = new ArrayList<String>();
 		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setMessages(messageList);

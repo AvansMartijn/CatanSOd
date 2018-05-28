@@ -55,7 +55,7 @@ public class LoginRegisterPanel extends JPanel {
 		} catch (IOException e) {
 		}
 
-		playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
+//		playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
 	}
 
 	public void paintComponent(Graphics g) {
