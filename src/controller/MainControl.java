@@ -73,17 +73,19 @@ public class MainControl {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
 		gameControl.updateBoard();
-		gameControl.getCatanGame().getGameboard().setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		for(Player p: gameControl.getCatanGame().getPlayers()) {
+		gameControl.getCatanGame().getGameboard()
+				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+		for (Player p : gameControl.getCatanGame().getPlayers()) {
 			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
-			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+			p.getHand().setDevelopmentCards(
+					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 		}
 
 		guiController.setIngameGuiPanel();
 
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				while(ingame) {
@@ -94,6 +96,7 @@ public class MainControl {
 						updateRefreshRobber();
 						updateRefreshPlayers();	
 						updateRefreshTradeRequest();
+            updateRefreshTurn();
 						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 					}
 					System.out.println("Refreshed");
@@ -118,14 +121,14 @@ public class MainControl {
 			players.add(player);
 			addPlayerToDB(gameID, player);
 		}
-		
+
 		guiController.setWaitingRoom(players);
 		Gameboard gameBoard = gameControl.createBoardAndAddToDB(players, randomBoard);
 		mainDA.changeRobberLocation(gameID, 10);
 		createDevelopmentCardsInDB(gameID);
 		createResourceCardsInDB(gameID);
 		createPlayerPiecesInDB(players);
-		
+
 		catanGame = new Catan(players, getSelfPlayer(players), players.get(0).getIdPlayer());
 		mainDA.setThrownDice(0, gameID);
 		mainDA.setTurn(players.get(0).getIdPlayer(), gameID);
@@ -133,7 +136,7 @@ public class MainControl {
 		gameControl.setCatan(catanGame);
 
 	}
-	
+
 	public Player createNewPlayer(int gameID, String username) {
 		int lastPlayerNumber = mainDA.getLastPlayerFollowNumber(gameID);
 		String playerColor = null;
@@ -167,8 +170,8 @@ public class MainControl {
 			}
 		}
 
-		Player player = new Player(mainDA.getLastUsedPlayerID() + 1, gameID, username,
-				PlayerColor.valueOf(playerColor), followNR, PlayStatus.valueOf(playStatus));
+		Player player = new Player(mainDA.getLastUsedPlayerID() + 1, gameID, username, PlayerColor.valueOf(playerColor),
+				followNR, PlayStatus.valueOf(playStatus));
 		return player;
 	}
 
@@ -176,74 +179,75 @@ public class MainControl {
 		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
 		ArrayList<Catan> invitedGames = new ArrayList<Catan>();
 		ArrayList<Catan> ableToInviteGames = new ArrayList<Catan>();
-		for(Integer i: gameIDsOfUser) {
+		for (Integer i : gameIDsOfUser) {
 			ArrayList<Player> players = getPlayers(i.intValue());
-			
+
 			Player selfPlayer = getSelfPlayer(players);
-			if(selfPlayer.getPlayStatus().toString().toLowerCase().equals("uitgedaagde")) {
+			if (selfPlayer.getPlayStatus().toString().toLowerCase().equals("uitgedaagde")) {
 				invitedGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
 			} else if (selfPlayer.getPlayStatus().toString().toLowerCase().equals("uitdager")) {
-				 boolean containsDeclinedPlayer = players.stream().anyMatch(t -> t.getPlayStatus().toString().toLowerCase().equals("geweigerd"));
-				 if(containsDeclinedPlayer || players.size() < 4) {
-					 ableToInviteGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
-				 }
+				boolean containsDeclinedPlayer = players.stream()
+						.anyMatch(t -> t.getPlayStatus().toString().toLowerCase().equals("geweigerd"));
+				if (containsDeclinedPlayer || players.size() < 4) {
+					ableToInviteGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
+				}
 			}
 		}
-		
+
 		guiController.setInvitePanel(invitedGames, ableToInviteGames);
 	}
-	
+
 	public void acceptInvite(Catan gameToAccept) {
 		ArrayList<Player> players = getPlayers(gameToAccept.getIdGame());
 		int playerId = getSelfPlayer(players).getIdPlayer();
 		mainDA.acceptInvite(playerId);
 		loadInvites();
 	}
-	
+
 	public void declineInvite(Catan gameToDecline) {
 		ArrayList<Player> players = getPlayers(gameToDecline.getIdGame());
 		int playerId = getSelfPlayer(players).getIdPlayer();
 		mainDA.declineInvite(playerId);
 		loadInvites();
 	}
-	
+
 	public void switchInvites(ArrayList<Player> playersToAdd, ArrayList<Player> playersToRemove, int gameId) {
-		for(int i = 0; i < playersToAdd.size(); i++) {
+		for (int i = 0; i < playersToAdd.size(); i++) {
 			mainDA.switchPlayer(playersToRemove.get(i).getUsername(), playersToAdd.get(i).getUsername(), gameId);
 		}
 	}
-	
+
 	public void addPlayerToDB(int idGame, Player player) {
-		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(), player.getFollownr(),
-				player.getPlayStatus().toString());
+		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(),
+				player.getFollownr(), player.getPlayStatus().toString());
 	}
 
 	private void createDevelopmentCardsInDB(int gameID) {
 		String idCard = "o";
-		for(int i = 1; i <= 25; i++) {
-			if(i <= 5) {
+		for (int i = 1; i <= 25; i++) {
+			if (i <= 5) {
 				mainDA.addDevelopmentCard(idCard + "0" + i + "g", gameID);
 			}
-			if(i >5 && i <= 7) {
+			if (i > 5 && i <= 7) {
 				mainDA.addDevelopmentCard(idCard + "0" + i + "s", gameID);
 			}
-			if(i >7 && i <= 9) {
+			if (i > 7 && i <= 9) {
 				mainDA.addDevelopmentCard(idCard + "0" + i + "m", gameID);
 			}
-			if(i >9 && i <= 11) {
+			if (i > 9 && i <= 11) {
 				mainDA.addDevelopmentCard(idCard + i + "u", gameID);
 			}
-			if(i >12 && i <= 25) {
+			if (i > 12 && i <= 25) {
 				mainDA.addDevelopmentCard(idCard + i + "r", gameID);
 			}
 		}
-		
+
 	}
 
 	private void createResourceCardsInDB(int gameID) {
 		String prefix = "0";
-		for(int i = 1; i<=19; i++) {
-			if(i >9) {
+		for (int i = 1; i <= 19; i++) {
+			if (i > 9) {
 				prefix = "";
 			}
 			mainDA.addResourceCard("b" + prefix + i, gameID);
@@ -267,9 +271,9 @@ public class MainControl {
 				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
 			}
 			for (int i = 1; i <= 15; i++) {
-				if(i < 10) {
+				if (i < 10) {
 					idPiece = "r0" + i;
-				}else {
+				} else {
 					idPiece = "r" + i;
 				}
 				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
@@ -299,9 +303,17 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshRobber();
 	}
+	
+	public void updateRefreshTurn() {
+		int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
+		gameControl.getCatanGame().setTurn(turn);
+		if(turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+			gameControl.doTurn();
+//			guiController.refreshDice();
+		}
+	}
 
 	public void updateRefreshMessages() {
-		System.out.println("maincontrol updaterefresh chat");
 		ArrayList<String> messageList = new ArrayList<String>();
 		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setMessages(messageList);
@@ -323,13 +335,15 @@ public class MainControl {
 	
 	private void updateRefreshDice() {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
+		gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshDice();
 	}
-	
+
 	private void updateRefreshPlayers() {
-		for(Player p: gameControl.getCatanGame().getPlayers()) {
+		for (Player p : gameControl.getCatanGame().getPlayers()) {
 			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
-			p.getHand().setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+			p.getHand().setDevelopmentCards(
+					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 		}
 		guiController.refreshPlayers();
 	}
@@ -337,7 +351,7 @@ public class MainControl {
 	public void logOut() {
 		this.account = null;
 	}
-	
+
 	public boolean shouldRefresh() {
 		return mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 	}

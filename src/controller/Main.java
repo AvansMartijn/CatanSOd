@@ -13,8 +13,8 @@ package controller;
  * @author Jesse Dentener
  * @author Jim Halewijn
  * @author Martijn Hanegraaf
- * @author Jasper Mooren
  * @author Ruben van Rijen
+ * @author Jasper Mooren
  * @author Bauke Roefs
  */
 

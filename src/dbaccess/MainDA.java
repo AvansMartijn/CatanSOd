@@ -2,7 +2,6 @@ package dbaccess;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,26 +11,24 @@ import java.util.ArrayList;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import model.BuildingLocation;
-import model.Catan;
 import model.City;
 import model.DevelopmentCard;
-import model.DevelopmentCardType;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Resource;
 import model.ResourceType;
 import model.Street;
-import model.StreetLocation;
 import model.Tile;
 import model.TradeRequest;
 import model.Village;
+import view.ChatPanel;
 
 public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
 	private static final String user = "mfghaneg";
 	private static final String password = "Ab12345";
-
+	private ChatPanel chatPanel;
 	protected Connection myConn;
 
 	public MainDA() {
@@ -197,11 +194,11 @@ public class MainDA {
 	/**
 	 * Add a message to the Database
 	 */
-	public boolean addMessage(int idPlayer, int idGame, String bericht) {
+	public boolean addMessage(int idPlayer, String bericht) {
+		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", '" + bericht + "');";
 
-		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", " + "'" + bericht + "'"
-				+ ");";
 		if (!insertUpdateQuery(query)) {
+			
 			System.out.println("Adding message to DB failed");
 			return false;
 		}
@@ -217,7 +214,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT tijdstip, speler.username, bericht FROM chatregel "
+		String query = "SELECT tijdstip, bericht FROM chatregel "
 				+ "JOIN speler ON chatregel.idspeler = speler.idspeler "
 				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ");";
 		try {
@@ -225,10 +222,9 @@ public class MainDA {
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
 				Timestamp tijdstip = myRs.getTimestamp(1);
-				String username = myRs.getString(2);
-				String bericht = myRs.getString(3);
+				String bericht = myRs.getString(2);
 				String timestamp = tijdstip.toString().substring(11, tijdstip.toString().length() - 2);
-				retList.add(timestamp + " - " + username + ": " + bericht);
+				retList.add(timestamp + " " + bericht);
 			}
 			myRs.close();
 			stmt.close();
@@ -949,6 +945,7 @@ public class MainDA {
 		}
 	}
 
+
 	public void deleteTradeRequests(int idGame) {
 
 		String query = "DELETE FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ");"; 
@@ -981,7 +978,7 @@ public class MainDA {
 		}
 		return retList;
 	}
-	
+
 	public void acceptInvite(int playerId) {
 		String query = "UPDATE speler SET speelstatus = 'geaccepteerd' WHERE idspeler = " + playerId + ";";
 
@@ -989,7 +986,7 @@ public class MainDA {
 			System.out.println("Unable to change playstatus");
 		}
 	}
-	
+
 	public void declineInvite(int playerId) {
 		String query = "UPDATE speler SET speelstatus = 'geweigerd' WHERE idspeler = " + playerId + ";";
 
@@ -997,9 +994,11 @@ public class MainDA {
 			System.out.println("Unable to change playstatus");
 		}
 	}
-	
+
 	public void switchPlayer(String originalUsername, String newUsername, int gameId) {
-		String query = "UPDATE speler SET username = '"+newUsername+"', speelstatus = 'uitgedaagde'  WHERE username = '" + originalUsername + "' AND idspel = "+gameId+";";
+		String query = "UPDATE speler SET username = '" + newUsername
+				+ "', speelstatus = 'uitgedaagde'  WHERE username = '" + originalUsername + "' AND idspel = " + gameId
+				+ ";";
 
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to switch player");
@@ -1097,4 +1096,5 @@ public class MainDA {
 		}
 		return amount;
 	}
+
 }
