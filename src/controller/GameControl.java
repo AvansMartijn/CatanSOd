@@ -724,6 +724,12 @@ public class GameControl {
 	// wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive,
 	// woodReceive));
 	// }
+	
+	public void enableOpponentsShouldRefresh() {
+		for(Player p: catanGame.getPlayers()) {
+			mainDA.setShouldRefresh(p.getIdPlayer(), true);
+		}
+	}
 
 	public int[] getResourceRatios() {
 
@@ -1056,9 +1062,15 @@ public class GameControl {
 	}
 
 	public void doTurn() {
+		
 		if (!catanGame.hasRolledDice()) {
 			guiController.enableDice();
 		}
 		guiController.enablePlayerActionPanel();
+	}
+
+	public void setShouldRefreshEnabled(int idPlayer) {
+		mainDA.setShouldRefresh(idPlayer, true);
+		
 	}
 }

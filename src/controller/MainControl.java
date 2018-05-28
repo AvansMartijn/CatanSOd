@@ -96,7 +96,7 @@ public class MainControl {
 						updateRefreshRobber();
 						updateRefreshPlayers();	
 						updateRefreshTradeRequest();
-            updateRefreshTurn();
+						updateRefreshTurn();
 						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 					}
 					System.out.println("Refreshed");

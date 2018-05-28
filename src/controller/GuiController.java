@@ -707,6 +707,7 @@ public class GuiController {
 					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + " heeft het handelsaanbod van "
 							+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername()
 							+ " geaccepteerd");
+					gameControl.setShouldRefreshEnabled(tr.getIdPlayer());
 					tradeReceive.dispose();
 					gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 				}
@@ -723,6 +724,7 @@ public class GuiController {
 				gameControl.declineTradeRequest(declineRequest);
 				gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + " heeft het handelsaanbod van"
 						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " afgewezen");
+				gameControl.setShouldRefreshEnabled(tr.getIdPlayer());
 				tradeReceive.dispose();
 			}
 		});
