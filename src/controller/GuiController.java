@@ -581,30 +581,30 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 
 				// gameControl.getCatanGame().getPlayers().get(0).getUsername();
-				int brickGive = playerActionPanel.getPlayerTradePanel().getBrickGive();
-				int woolGive = playerActionPanel.getPlayerTradePanel().getWoolGive();
-				int ironGive = playerActionPanel.getPlayerTradePanel().getIronGive();
-				int wheatGive = playerActionPanel.getPlayerTradePanel().getWheatGive();
-				int woodGive = playerActionPanel.getPlayerTradePanel().getWoodGive();
+				int brickGive = tradeReceive.getTradeReceiveDialogPanel().getBrickGive();
+				int woolGive =  tradeReceive.getTradeReceiveDialogPanel().getWoolGive();
+				int ironGive =  tradeReceive.getTradeReceiveDialogPanel().getIronGive();
+				int wheatGive =  tradeReceive.getTradeReceiveDialogPanel().getWheatGive();
+				int woodGive =  tradeReceive.getTradeReceiveDialogPanel().getWoodGive();
 
 				// receive
-				int brickReceive = playerActionPanel.getPlayerTradePanel().getBrickReceive();
-				int woolReceive = playerActionPanel.getPlayerTradePanel().getWoolReceive();
-				int ironReceive = playerActionPanel.getPlayerTradePanel().getIronReceive();
-				int wheatReceive = playerActionPanel.getPlayerTradePanel().getWheatReceive();
-				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoodReceive();
+				int brickReceive =  tradeReceive.getTradeReceiveDialogPanel().getBrickReceive();
+				int woolReceive =  tradeReceive.getTradeReceiveDialogPanel().getWoolReceive();
+				int ironReceive =  tradeReceive.getTradeReceiveDialogPanel().getIronReceive();
+				int wheatReceive =  tradeReceive.getTradeReceiveDialogPanel().getWheatReceive();
+				int woodReceive =  tradeReceive.getTradeReceiveDialogPanel().getWoodReceive();
 				
-				System.out.println(brickGive);
-				System.out.println(woolGive);
-				System.out.println(ironGive);
-				System.out.println(wheatGive);
-				System.out.println(woodGive);
-				
-				System.out.println(brickReceive);
-				System.out.println(woolReceive);
-				System.out.println(ironReceive);
-				System.out.println(wheatReceive);
-				System.out.println(woodReceive);
+//				System.out.println(brickGive);
+//				System.out.println(woolGive);
+//				System.out.println(ironGive);
+//				System.out.println(wheatGive);
+//				System.out.println(woodGive);
+//				
+//				System.out.println(brickReceive);
+//				System.out.println(woolReceive);
+//				System.out.println(ironReceive);
+//				System.out.println(wheatReceive);
+//				System.out.println(woodReceive);
 
 				TradeRequest newTradeRequest = new TradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), brickGive, woolGive, ironGive, wheatGive, woodGive,
 						brickReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 1);

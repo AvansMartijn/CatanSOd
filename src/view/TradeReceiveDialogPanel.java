@@ -224,7 +224,7 @@ public class TradeReceiveDialogPanel extends JPanel {
 		return returnButton;
 	}
 
-	public int getWoodGive() {
+	public int getWoodGive() {		
 		int parsed = Integer.parseInt(woodGive.getText());
 		return parsed;
 	}
