@@ -60,6 +60,17 @@ public class Gameboard {
 		return 0;
 	}
 	
+	public Tile getRobberTile() {
+		for(Tile tile: tileArr) {
+			if(tile.hasRobber()) {
+				return tile;
+			}
+		}
+		//The robber always is somewhere, this is dead code 
+		//just to fix the compilation error. 
+		return null;
+	}
+	
 	public void setRobber(int idTile) {
 		for(Tile t: tileArr) {
 			if(t.hasRobber()) {

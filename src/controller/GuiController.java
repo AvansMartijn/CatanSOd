@@ -115,6 +115,7 @@ public class GuiController {
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
+		gameControl.setGuiController(this);
 		frame = new Frame();
 
 		setInlogPanel();
@@ -528,6 +529,7 @@ public class GuiController {
 					boardPanel.disableTileButtons();
 					boardPanel.repaint();
 					gameControl.addMessage("Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+					gameControl.stealCardCauseRobber();
 				}
 			});
 		}
@@ -1037,6 +1039,35 @@ public class GuiController {
 	// public void setGameBoard(Gameboard gameBoard) {
 	// this.gameBoard = gameBoard;
 	// }
+	
+	public BoardPanel getBoardPanel() {
+		return boardPanel;
+	}
+
+	/**
+	 * This opens a dialog that will allow the player to chose who he will steal from. 
+	 * (because of replacing the robber).
+	 * 
+	 * @param playersAtRobberTile the Players that can be chosen from
+	 * @since 24 May 2018
+	 * @author Jasper Mooren
+	 */
+	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
+		
+	}
+
+	/**
+	 * player has to take away half of his resources. This dialog chooses which resources. 
+	 * 
+	 * @param amountOfResourcesToTake the amount of resources that the player should take away. 
+	 * @param amountOfResourcesAvailable the resources and amounts that the player has. 
+	 * @since 54 May 2018
+	 * @author Jasper Mooren
+	 */
+	public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake, HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
+		// TODO Auto-generated method stub
+		
+	}
 	private void updatePlayerStats() {
 
 		for (int i = 0; i < playerStatsPanels.length; i++) {

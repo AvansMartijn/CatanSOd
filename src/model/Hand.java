@@ -71,6 +71,15 @@ public class Hand {
 		return resources;
 	}
 	
+	public Resource getResource(ResourceType resourceType) {
+		for (Resource resource : resources) {
+			if(resource.getRsType() == resourceType) {
+				return resource;
+			}
+		}
+		return null;
+	}
+	
 	public DevelopmentCard takeDevelopmentCard(DevelopmentCardType cardType) {
 		for (int i = 0; i < developmentCards.size(); i++) {
 			if (developmentCards.get(i).getDevelopmentCardType() == cardType) {
@@ -109,6 +118,15 @@ public class Hand {
 		this.resources = resources;
 	}
 
+// <<<<<<< PlayerTurn
+// 	public Resource takeresource(ResourceType resourceType) {
+// 		for (int i = 0; i < resources.size(); i++) {
+// 			if(resources.get(i).getRsType() == resourceType) {
+// 				return resources.remove(i);
+// 			}
+// 		}
+// 		return null;
+// =======
 	public Resource takeResource(ResourceType rsType) {
 		Resource rsToReturn;
 		for(int i = 0; i < resources.size(); i++) {
