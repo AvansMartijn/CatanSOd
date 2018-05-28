@@ -10,6 +10,7 @@ import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Tile;
+import model.TradeRequest;
 
 public class MainControl {
 
@@ -87,12 +88,17 @@ public class MainControl {
 
 			@Override
 			public void run() {
-				while (ingame) {
-					updateRefreshDice();
-					updateRefreshRobber();
+				while(ingame) {
 					updateRefreshMessages();
-					updateRefreshBoard();
-					updateRefreshPlayers();
+					updateRefreshDice();
+					if(mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
+						updateRefreshBoard();
+						updateRefreshRobber();
+						updateRefreshPlayers();	
+						updateRefreshTradeRequest();
+            updateRefreshTurn();
+						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
+					}
 					System.out.println("Refreshed");
 					try {
 						Thread.sleep(8000);
@@ -297,9 +303,17 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshRobber();
 	}
+	
+	public void updateRefreshTurn() {
+		int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
+		gameControl.getCatanGame().setTurn(turn);
+		if(turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+			gameControl.doTurn();
+//			guiController.refreshDice();
+		}
+	}
 
 	public void updateRefreshMessages() {
-		System.out.println("maincontrol updaterefresh chat");
 		ArrayList<String> messageList = new ArrayList<String>();
 		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setMessages(messageList);
@@ -311,8 +325,17 @@ public class MainControl {
 		guiController.refreshBoard();
 	}
 
+	private void updateRefreshTradeRequest() {
+		TradeRequest tr = gameControl.updateTradeRequests();
+		if(tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+			gameControl.getCatanGame().addTradeRequest(tr);
+			guiController.showTradeReceiveDialog(tr);
+		}
+	}
+	
 	private void updateRefreshDice() {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
+		gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshDice();
 	}
 

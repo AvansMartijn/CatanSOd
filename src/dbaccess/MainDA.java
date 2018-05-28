@@ -2,7 +2,6 @@ package dbaccess;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,17 +11,14 @@ import java.util.ArrayList;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import model.BuildingLocation;
-import model.Catan;
 import model.City;
 import model.DevelopmentCard;
-import model.DevelopmentCardType;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
 import model.Resource;
 import model.ResourceType;
 import model.Street;
-import model.StreetLocation;
 import model.Tile;
 import model.TradeRequest;
 import model.Village;
@@ -934,13 +930,36 @@ public class MainDA {
 	}
 
 	public void createTradeRequest(TradeRequest tR) {
-
-		String query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
-				+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
-				+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
-				+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getG_wheat() + ", " + tR.getW_wood() + ");";
+		String query;
+		if(tR.getAccepted() == 1) {
+			query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
+					+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getW_brick() + ", " + tR.getW_wool() + ", "
+					+ tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", " + tR.getG_brick() + ", "
+					+ tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", 1);";
+		}else if(tR.getAccepted() == 0){
+		 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
+				+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getW_brick() + ", " + tR.getW_wool() + ", "
+				+ tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", " + tR.getG_brick() + ", "
+				+ tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", 0);";
+		}else {
+			 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
+						+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
+						+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
+						+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ");";
+		}
+		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to add tradeRequest");
+		}
+	}
+
+
+	public void deleteTradeRequests(int idGame) {
+
+		String query = "DELETE FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ");"; 
+		System.out.println(query);
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to delete tradeRequest");
 		}
 	}
 
@@ -992,6 +1011,98 @@ public class MainDA {
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to switch player");
 		}
+	}
+	
+	public TradeRequest getInitialTradeRequest(int idGame) {
+
+		TradeRequest tr = null;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT * FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") AND geaccepteerd IS NULL;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				int playerID = myRs.getInt(1);
+				int brickgive = myRs.getInt(2);
+				int woolgive = myRs.getInt(3);
+				int irongive = myRs.getInt(4);
+				int wheatgive = myRs.getInt(5);
+				int woodgive = myRs.getInt(6);
+				int brickreceive = myRs.getInt(7);
+				int woolreceive = myRs.getInt(8);
+				int ironreceive = myRs.getInt(9);
+				int wheatreceive = myRs.getInt(10);
+				int woodreceive = myRs.getInt(11);				
+				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return tr;
+	}
+	
+	public TradeRequest getSingleTradeRequest(int idGame, int idPlayer) {
+
+		TradeRequest tr = null;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT * FROM ruilaanbod WHERE idspeler = " + idPlayer + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				int playerID = myRs.getInt(1);
+				int brickgive = myRs.getInt(2);
+				int woolgive = myRs.getInt(3);
+				int irongive = myRs.getInt(4);
+				int wheatgive = myRs.getInt(5);
+				int woodgive = myRs.getInt(6);
+				int brickreceive = myRs.getInt(7);
+				int woolreceive = myRs.getInt(8);
+				int ironreceive = myRs.getInt(9);
+				int wheatreceive = myRs.getInt(10);
+				int woodreceive = myRs.getInt(11);
+				int accepted = myRs.getInt(12);	
+				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive, accepted);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return tr;
+	}
+	
+	public int getAmountOfOpenRequests(int idGame) {
+		int amount = 0;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT count(*) FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") ;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				 amount = myRs.getInt(1);				
+			}
+			System.out.println("amount retrieved from DB: " + amount);
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		}
+		return amount;
 	}
 
 }

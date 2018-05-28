@@ -28,6 +28,7 @@ public class PlayerActionPanel extends JPanel {
 			TradeOptionsPanel tradeOptionsPanel, CurrentTradeRequestPanel tradeRequestListPanel) {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
+		setVisible(false);
 
 		setLayout(new CardLayout());
 

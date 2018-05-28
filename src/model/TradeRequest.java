@@ -1,6 +1,8 @@
 package model;
 
 public class TradeRequest {
+	
+
 	private int idPlayer;
 	private int g_brick = 0;
 	private int g_wool = 0;
@@ -12,18 +14,51 @@ public class TradeRequest {
 	private int w_iron = 0;
 	private int w_wheat = 0;
 	private int w_wood = 0;
-	private boolean accepted;
+	private int accepted;
 
 	public TradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick,
 			int w_wool, int w_iron, int w_wheat, int w_wood) {
+		this.idPlayer = idPlayer;
+		this.g_brick = g_brick;
+		this.g_wool = g_wool;
+		this.g_iron = g_iron;
+		this.g_wheat = g_wheat;
+		this.g_wood = g_wood;
+		this.w_brick = w_brick;
+		this.w_wool = w_wool;
+		this.w_iron = w_iron;
+		this.w_wheat = w_wheat;
+		this.w_wood = w_wood;
+		
 		
 	}
 
 	public TradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick,
-			int w_wool, int w_iron, int w_wheat, int w_wood, boolean accepted) {
+			int w_wool, int w_iron, int w_wheat, int w_wood, int accepted) {
+		this.idPlayer = idPlayer;
+		this.g_brick = g_brick;
+		this.g_wool = g_wool;
+		this.g_iron = g_iron;
+		this.g_wheat = g_wheat;
+		this.g_wood = g_wood;
+		this.w_brick = w_brick;
+		this.w_wool = w_wool;
+		this.w_iron = w_iron;
+		this.w_wheat = w_wheat;
+		this.w_wood = w_wood;
+		this.accepted = accepted;
 
 	}
+	
+	
+	public int getAccepted() {
+		return accepted;
+	}
 
+	public void setAccepted(int accepted) {
+		this.accepted = accepted;
+	}
+	
 	public int getIdPlayer() {
 		return idPlayer;
 	}
