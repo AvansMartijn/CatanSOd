@@ -800,6 +800,8 @@ public class GameControl {
 				mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 				catanGame.setTurn(p.getIdPlayer());
 				addMessage(p.getUsername() + " is nu aan de Beurt.");
+				mainDA.setThrownDice(0, catanGame.getIdGame());
+				catanGame.setRolledDice(false);
 				break;
 			}
 		}
