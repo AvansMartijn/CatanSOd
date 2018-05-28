@@ -803,7 +803,16 @@ public class GameControl {
 	public void endTurn() {
 		catanGame.endTurn();
 		if (catanGame.getSelfPlayer().getFollownr() == 4) {
-
+			for (Player p : catanGame.getPlayers()) {
+				if (p.getFollownr() == 1) {
+					mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
+					catanGame.setTurn(p.getIdPlayer());
+					addMessage(p.getUsername() + " is nu aan de Beurt.");
+					mainDA.setThrownDice(0, catanGame.getIdGame());
+					catanGame.setRolledDice(false);
+					break;
+				}
+			}
 		} else {
 			for (Player p : catanGame.getPlayers()) {
 				if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
@@ -814,7 +823,6 @@ public class GameControl {
 					catanGame.setRolledDice(false);
 					break;
 				}
-//washere
 			}
 		}
 	}
