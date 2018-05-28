@@ -19,6 +19,12 @@ import javax.swing.JScrollPane;
 @SuppressWarnings("serial")
 public class MainMenuGUI extends JPanel {
 	
+	private final int PANEL_WIDTH = 520;
+	private final int PANEL_HEIGHT = 800;
+	private final int SCROLLPANE_WIDTH = 520;
+	private final int SCROLLPANE_HEIGHT = 700;
+	private final int SCROLLPANE_INCREMENT = 20;
+	
 	private Color backgroundColor = new Color(240, 226, 223);
 	private Color innerColor = new Color(189, 133, 100);
 
@@ -35,7 +41,7 @@ public class MainMenuGUI extends JPanel {
 		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		setBackground(backgroundColor);
 		mainPanel = new JPanel();
-		mainPanel.setPreferredSize(new Dimension(520, 800));
+		mainPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.topOptionsPanel = topOptionsPanel;
 		this.bottomOptionsPanel = bottomOptionsPanel;
 		this.currentGames = currentGames;
@@ -48,8 +54,8 @@ public class MainMenuGUI extends JPanel {
 
 		scrollPane = new JScrollPane(currentGames, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-		scrollPane.setPreferredSize(new Dimension(520, 700));
+		scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLLPANE_INCREMENT);
+		scrollPane.setPreferredSize(new Dimension(SCROLLPANE_WIDTH, SCROLLPANE_HEIGHT));
 		mainPanel.add(scrollPane);
 		
 		mainPanel.add(this.bottomOptionsPanel);
@@ -82,10 +88,14 @@ public class MainMenuGUI extends JPanel {
 	}
 
 	public class Title extends JPanel {
+		
+		private final int PANEL_WIDTH = 400;
+		private final int PANEL_HEIGHT = 20;
+		
 		public Title() {
 			setBackground(innerColor);
 			this.add(new JLabel("Welkom terug, " + username + "!")); // Must be logged in user.
-			this.setPreferredSize(new Dimension(400, 20));
+			this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		}
 	}
 

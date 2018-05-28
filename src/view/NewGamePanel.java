@@ -21,6 +21,12 @@ import javax.swing.SwingConstants;
  
 @SuppressWarnings("serial")
 public class NewGamePanel extends JPanel {
+	
+	private final int LIST_WIDTH = 350;
+	private final int LIST_HEIGHT = 150;
+	private final int INVITE_BUTTON_WIDTH = 350;
+	private final int INVITE_BUTTON_HEIGHT = 30;
+	
     private JButton inviteButton;
     private JList<String> inviteInput;
     private ArrayList<String> availablePlayers;
@@ -40,7 +46,7 @@ public class NewGamePanel extends JPanel {
         invitedPlayers.add(selfUsername);
         invitedPlayersPanel = new InvitedPlayersPanel();
         inviteInput = new JList<String>();
-        inviteInput.setMaximumSize(new Dimension(350, 150));
+        inviteInput.setMaximumSize(new Dimension(LIST_WIDTH, LIST_HEIGHT));
         inviteInput.setFont(inviteInput.getFont().deriveFont(Font.PLAIN, 17));
         inviteButton = new JButton("Uitnodigen");
         inviteButton.addActionListener((new ActionListener() {
@@ -50,7 +56,7 @@ public class NewGamePanel extends JPanel {
 				 UpdateInvitedPlayers();
 			}
 		}));
-        inviteButton.setMaximumSize(new Dimension(350, 30));
+        inviteButton.setMaximumSize(new Dimension(INVITE_BUTTON_WIDTH, INVITE_BUTTON_HEIGHT));
  
         JLabel header = new JLabel("Nieuwe Game Aanmaken");
         header.setFont(new Font(header.getFont().getFontName(), Font.PLAIN, 20));
@@ -60,11 +66,6 @@ public class NewGamePanel extends JPanel {
         this.add(invitedPlayersPanel);
         this.setVisible(true);
  
-//        invitedPlayers.add("naam1");
-//        invitedPlayers.add("naam2");
-//        invitedPlayers.add("naam3");
-//        invitedPlayers.add("naam4");
-// 
         UpdateInvitedPlayers();
     }
  
@@ -76,14 +77,18 @@ public class NewGamePanel extends JPanel {
     }
  
 	public class InvitePlayerPanel extends JPanel {
-		JScrollPane scrollPane;
+		
+		private final int SCROLLPANE_WIDTH = 100;
+		private final int SCROLLPANE_HEIGHT = 200;
+		private final int SCROLLPANE_INCREMENT = 20;
+		
+		private JScrollPane scrollPane;
+		
         public InvitePlayerPanel() {
-//        	int height = currentGames.getGamePanels().size() * 110;
-//    		currentGames.setPreferredSize(new Dimension(400, height));
     		scrollPane = new JScrollPane(inviteInput, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
     				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    		scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
-    		scrollPane.setPreferredSize(new Dimension(100, 200));
+    		scrollPane.getHorizontalScrollBar().setUnitIncrement(SCROLLPANE_INCREMENT);
+    		scrollPane.setPreferredSize(new Dimension(SCROLLPANE_WIDTH, SCROLLPANE_HEIGHT));
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             DefaultListModel<String> listModel = new DefaultListModel<String>();
             DefaultListCellRenderer renderer = (DefaultListCellRenderer) inviteInput.getCellRenderer();
@@ -96,7 +101,6 @@ public class NewGamePanel extends JPanel {
             label.setAlignmentX(Component.CENTER_ALIGNMENT);
             this.add(label);
             inviteInput.setAlignmentX(Component.CENTER_ALIGNMENT);
-//            this.add(inviteInput);
             this.add(scrollPane);
             inviteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
             this.add(Box.createVerticalGlue());
@@ -106,7 +110,6 @@ public class NewGamePanel extends JPanel {
  
     public class InvitedPlayersPanel extends JPanel {
         public InvitedPlayersPanel() {
-//        	this.setPreferredSize(new Dimension(100, 300));
             this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
             for (String username : invitedPlayers) {
                 JPanel panel = new JPanel();

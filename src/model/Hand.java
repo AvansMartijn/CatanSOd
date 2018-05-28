@@ -11,15 +11,13 @@ public class Hand {
 	private ArrayList<Resource> resources;
 	// private ArrayList<DevelopmentCard> playedDevelopmentCards;
 
-	// Constructor
+
 	public Hand() {
 		developmentCards = new ArrayList<DevelopmentCard>();
 		resources = new ArrayList<Resource>();
 	}
 
-	// Add Resources
 	public void addResource(Resource resource, int amount) {
-		// For the amount of resources
 		for (int i = 0; i < amount; i++) {
 			addResource(resource);
 		}
@@ -64,12 +62,11 @@ public class Hand {
 		return retMap;
 	}
 
-	// Add Resource
+
 	public void addResource(Resource resource) {
 		resources.add(resource);
 	}
 
-	// Get ArrayList resources
 	public ArrayList<Resource> getResources() {
 		return resources;
 	}
@@ -89,7 +86,6 @@ public class Hand {
 				return developmentCards.remove(i);
 			}
 		}
-		// Player has no developmentCards of this type.
 		return null;
 	}
 
@@ -108,7 +104,6 @@ public class Hand {
 	// playedDevelopmentCards.add(developmentCard);
 	// }
 
-	// Add DevelopmentCard
 	public void addDevelopmentCard(DevelopmentCard developmentCard) {
 		developmentCards.add(developmentCard);
 	}
@@ -123,11 +118,49 @@ public class Hand {
 		this.resources = resources;
 	}
 
-	public Resource takeresource(ResourceType resourceType) {
-		for (int i = 0; i < resources.size(); i++) {
-			if(resources.get(i).getRsType() == resourceType) {
-				return resources.remove(i);
+// <<<<<<< PlayerTurn
+// 	public Resource takeresource(ResourceType resourceType) {
+// 		for (int i = 0; i < resources.size(); i++) {
+// 			if(resources.get(i).getRsType() == resourceType) {
+// 				return resources.remove(i);
+// 			}
+// 		}
+// 		return null;
+// =======
+	public Resource takeResource(ResourceType rsType) {
+		Resource rsToReturn;
+		for(int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getRsType() == rsType) {
+				rsToReturn = resources.get(i);
+				resources.remove(i);
+				return rsToReturn;
 			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Resource> takeMultipleResources(ResourceType rsType, int amount) {
+		ArrayList<Resource> rsToReturn = new ArrayList<>();
+		int counter = 0;
+		for(int i = 0; i < resources.size(); i++) {
+			if(resources.get(i).getRsType() == rsType) {
+				rsToReturn.add(resources.get(i));
+				System.out.println("add:" + resources.get(i));
+				counter++;
+				if(counter == amount) {
+					break;
+				}
+			}
+		}
+		
+		if(rsToReturn.size() == amount) {
+			for(int x = 0; x < resources.size(); x++) {
+				if(resources.get(x).getRsType() == rsType) {
+					resources.remove(x);			
+				}
+			}
+			System.out.println("tmr return: "+ rsToReturn);
+			return rsToReturn;
 		}
 		return null;
 	}

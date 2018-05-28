@@ -10,6 +10,10 @@ import model.Catan;
 
 @SuppressWarnings("serial")
 public class RecentGamesPanel extends JPanel {
+	
+	private final int PANEL_WIDTH = 500;
+	private final int GAMEPANEL_HEIGHT = 110;
+	
 	private ArrayList<RecentGamePanel> gamePanels;
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	
@@ -25,8 +29,8 @@ public class RecentGamesPanel extends JPanel {
 		}
 		revalidate();
 		
-		int height = getGamePanels().size() * 110;
-		setPreferredSize(new Dimension(500, height));
+		int height = getGamePanels().size() * GAMEPANEL_HEIGHT;
+		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		
 	}
 	
