@@ -22,7 +22,6 @@ public class TradeReceiveDialogPanel extends JPanel {
 	private final int PANEL_WIDTH = 340;
 	private final int PANEL_HEIGHT = 350;
 
-	private final int BUTTON_WIDTH = 100;
 	private final int BUTTON_HEIGHT = 35;
 
 	private final int TEXTFIELD_INPUT_WIDTH = 35;
@@ -30,10 +29,6 @@ public class TradeReceiveDialogPanel extends JPanel {
 	private final int TEXTFIELD_OFFSET_X1 = 60;
 	private final int TEXTFIELD_OFFSET_X2 = 255;
 	private final int TEXTFIELD_OFFSET_Y = 35;
-
-	// requests for sending the trade offer
-	// private int[] resourceOffer;
-	// private int[] resourceRequest;
 
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
@@ -48,13 +43,11 @@ public class TradeReceiveDialogPanel extends JPanel {
 
 	private JFormattedTextField woodReceive, wheatReceive, brickReceive, ironReceive, woolReceive;
 
-	private TradeRequest tR;
 	private Player player;
 	
 	public TradeReceiveDialogPanel(Player player, TradeRequest tR) {
 		
 		this.player = player;
-		this.tR = tR;
 		
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
@@ -76,19 +69,18 @@ public class TradeReceiveDialogPanel extends JPanel {
 		createResourceInput(tR);
 
 		counterOfferButton = new JButton("Accepteren/Tegenaabod");
-		counterOfferButton.setBounds(10, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
+		counterOfferButton.setBounds(10, 300, 200, BUTTON_HEIGHT);
 		counterOfferButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		counterOfferButton.setBackground(textBackgroundColor);
 		counterOfferButton.setForeground(TextColor);
 		add(counterOfferButton);
 
 		returnButton = new JButton("Afwijzen");
-		returnButton.setBounds(230, 300, BUTTON_WIDTH, BUTTON_HEIGHT);
+		returnButton.setBounds(230, 300, 100, BUTTON_HEIGHT);
 		returnButton.setFont(new Font("SansSerif", Font.BOLD, 12));
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);
 		add(returnButton);
-
 	}
 
 	private void createResourceInput(TradeRequest tr) {
@@ -108,7 +100,6 @@ public class TradeReceiveDialogPanel extends JPanel {
 			formatters[i].setAllowsInvalid(true);
 			formatters[i].setCommitsOnValidEdit(true);
 			formatters[i].setOverwriteMode(true);
-
 		}
 
 		subTitleLabel1 = new JLabel("grondstoffen");
@@ -302,5 +293,4 @@ public class TradeReceiveDialogPanel extends JPanel {
 		}
 		return resources;
 	}
-	
 }
