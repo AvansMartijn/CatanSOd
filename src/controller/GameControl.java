@@ -653,7 +653,7 @@ public class GameControl {
 		}
 
 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
-				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive));
+				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 3));
 	}
 	
 	public void countTradeOffers() {
@@ -708,7 +708,7 @@ public class GameControl {
 				oldtR.getG_iron(), 
 				oldtR.getG_wheat(), 
 				oldtR.getG_wood()
-				, true);
+				, 1);
 
 		mainDA.createTradeRequest(tR);
 

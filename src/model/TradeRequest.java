@@ -14,7 +14,7 @@ public class TradeRequest {
 	private int w_iron = 0;
 	private int w_wheat = 0;
 	private int w_wood = 0;
-	private boolean accepted;
+	private int accepted;
 
 	public TradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick,
 			int w_wool, int w_iron, int w_wheat, int w_wood) {
@@ -34,7 +34,7 @@ public class TradeRequest {
 	}
 
 	public TradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick,
-			int w_wool, int w_iron, int w_wheat, int w_wood, boolean accepted) {
+			int w_wool, int w_iron, int w_wheat, int w_wood, int accepted) {
 		this.idPlayer = idPlayer;
 		this.g_brick = g_brick;
 		this.g_wool = g_wool;
@@ -51,11 +51,11 @@ public class TradeRequest {
 	}
 	
 	
-	public boolean isAccepted() {
+	public int getAccepted() {
 		return accepted;
 	}
 
-	public void setAccepted(boolean accepted) {
+	public void setAccepted(int accepted) {
 		this.accepted = accepted;
 	}
 	

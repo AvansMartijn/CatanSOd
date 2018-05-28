@@ -927,16 +927,21 @@ public class MainDA {
 
 	public void createTradeRequest(TradeRequest tR) {
 		String query;
-		if(tR.isAccepted()) {
+		if(tR.getAccepted() == 1) {
 			query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
 					+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
 					+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
 					+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", 1);";
-		}else {
+		}else if(tR.getAccepted() == 0){
 		 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
 				+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
 				+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
-				+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ");";
+				+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", 0);";
+		}else {
+			 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
+						+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
+						+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
+						+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ");";
 		}
 		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
