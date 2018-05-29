@@ -27,6 +27,7 @@ public class WaitingRoom extends JPanel {
 	private Image image;
 	private Color bottomPanelBarColor = new Color(0, 0, 0, 50);
 	private final int BOTTOMPANELBAR_HEIGHT = 80;
+	private final int AMOUNT_OF_TAUNTBUTTONS = 8;
 	private JButton exitButton;
 	private JPanel bottomBarPanel;
 
@@ -70,7 +71,7 @@ public class WaitingRoom extends JPanel {
 		Font Bold = new Font("Arial", Font.BOLD, 20);
 
 		JButton[] tauntButtons;
-		tauntButtons = new JButton[8];
+		tauntButtons = new JButton[AMOUNT_OF_TAUNTBUTTONS];
 		String text[] = { "Bruh", "Laugh", "Hallelujah", "Mlg", "NoGod", "Wrong", "Sparta", "Metalgear" };
 		String info = "press if you want to have a funny sound";
 
@@ -88,22 +89,10 @@ public class WaitingRoom extends JPanel {
 			bottomBarPanel.add(tauntButtons[count]);
 		}
 
-		String[] soundPaths = new String[] { "BRUH - Original - Vine Version.wav",
-				"/Music/Funny Laugh Sound- No No No No.wav" };
-
-//		for (int i = 0; i < tauntButtons.length; i++) {
-//			tauntButtons[i].addActionListener(new ActionListener() {
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					playSound("/Music/" + soundPaths[i]);
-//				}
-//			});
-//		}
-
 		tauntButtons[0].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("/Music/BRUH - Original - Vine Version.wav");
+				playSound("BRUH - Original - Vine Version.wav");
 			}
 		});
 
@@ -111,42 +100,42 @@ public class WaitingRoom extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("/Music/Funny Laugh Sound- No No No No.wav");
+				playSound("Funny Laugh Sound- No No No No.wav");
 			}
 		});
 		tauntButtons[2].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("/Music/hallelujahshort.swf.wav");
+				playSound("hallelujahshort.swf.wav");
 			}
 		});
 		tauntButtons[3].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("/Music/mlg-airhorn.wav");
+				playSound("mlg-airhorn.wav");
 			}
 		});
 		tauntButtons[4].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("/Music/no-god-please-no-noooooooooo.wav");
+				playSound("no-god-please-no-noooooooooo.wav");
 			}
 		});
 		tauntButtons[5].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("/Music/wrong.wav");
+				playSound("wrong.wav");
 			}
 		});
 		tauntButtons[6].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("/Music/thisissparta.wav");
+				playSound("thisissparta.wav");
 			}
 		});
 
@@ -154,7 +143,7 @@ public class WaitingRoom extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("/Music/metalgearsolid.wav");
+				playSound("metalgearsolid.wav");
 			}
 		});
 	}
