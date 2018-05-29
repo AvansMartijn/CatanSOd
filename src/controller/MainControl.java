@@ -88,7 +88,9 @@ public class MainControl {
 
 			@Override
 			public void run() {
+				
 				while (ingame) {
+					System.out.println("ingame: "+ ingame);
 					try {
 					if (mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
 						updateRefreshMessages();
@@ -108,7 +110,7 @@ public class MainControl {
 						e.printStackTrace();
 					}
 					}catch (Exception e) {
-						
+						System.out.println(e);
 					}
 				}
 			}
