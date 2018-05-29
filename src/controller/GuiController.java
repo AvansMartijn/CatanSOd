@@ -340,7 +340,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Catan catan = invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex());
+				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex());
 				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
 				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
 

@@ -39,9 +39,9 @@ public class ManageInvitesPanel extends JPanel {
 		saveInvitesButton = new JButton("Opslaan");
 		removeButtonsList = new ArrayList<>();
 		invitedPlayers = new ArrayList<Player>();
-		for(Player p : game.getPlayers()) {
-				addPlayer(p);
-		}
+		JLabel header = new JLabel("Invites Aanpassen");
+		header.setFont(new Font(header.getFont().getFontName(), Font.PLAIN, 20));
+		header.setAlignmentX(Component.CENTER_ALIGNMENT);
 		invitedPlayersPanel = new InvitedPlayersPanel();
 		inviteInput = new JList<String>();
 		inviteInput.setMaximumSize(new Dimension(350, 150));
@@ -58,15 +58,13 @@ public class ManageInvitesPanel extends JPanel {
 			}
 		}));
 		inviteButton.setMaximumSize(new Dimension(350, 30));
-
-		JLabel header = new JLabel("Invites Aanpassen");
-		header.setFont(new Font(header.getFont().getFontName(), Font.PLAIN, 20));
-		header.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.add(invitedPlayersPanel);
 		this.add(header);
 		this.add(new InvitePlayerPanel());
-		this.add(invitedPlayersPanel);
 		this.setVisible(true);
-
+		for(Player p : game.getPlayers()) {
+			addPlayer(p);
+		}
 		// invitedPlayers.add("naam1");
 		// invitedPlayers.add("naam2");
 		// invitedPlayers.add("naam3");
@@ -122,7 +120,7 @@ public class ManageInvitesPanel extends JPanel {
 				JLabel name = new JLabel(player.getUsername());
 				name.setFont(name.getFont().deriveFont(Font.BOLD, 16));
 				JButton remove = new JButton("X");
-				if(!player.getPlayStatus().toString().toLowerCase().equals("geweigerd") && !(player.getPlayStatus() == null)){
+				if(!(player.getPlayStatus() == null) && !player.getPlayStatus().toString().toLowerCase().equals("geweigerd")){
 					remove.setEnabled(false);
 				}
 				removeButtonsList.add(remove);
@@ -135,6 +133,7 @@ public class ManageInvitesPanel extends JPanel {
 						if (invitedPlayers.size() < 4) {
 							inviteButton.setEnabled(true);
 						}
+						UpdateInvitedPlayers();
 					}
 				});
 				panel.add(name);
