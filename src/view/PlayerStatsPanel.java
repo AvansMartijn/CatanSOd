@@ -24,9 +24,10 @@ public class PlayerStatsPanel extends JPanel {
 
 	private final int PANEL_WIDTH = 210;
 	private final int PANEL_HEIGHT = 240;
-	private final int STATS_AMOUNT = 4;
+	private final int STATS_AMOUNT = 5;
 	private final int LARGEST_ARMY_IMAGE_SIZE = 80;
 	private final int LONGEST_ROAD_IMAGE_SIZE = 60;
+	private final int STAT_LABEL_DIMENSION = 35;
 
 	// Instance variables
 	private Color backgroundColor = new Color(223, 190, 172);
@@ -48,7 +49,6 @@ public class PlayerStatsPanel extends JPanel {
 		this.playerNameLabel = new JLabel(player.getUsername());
 		this.playerPointsLabel = new JLabel("Punten: " + player.getPoints());
 		this.longestRoadLabel = new JLabel();
-
 		this.largestArmyLabel = new JLabel();
 
 		setBackground(backgroundColor);
@@ -91,18 +91,21 @@ public class PlayerStatsPanel extends JPanel {
 	// add building images
 	private void addSatsImages() {
 		// Add images of buildings
-		gridBagConstraints.insets = new Insets(2, 5, 2, 2);
+		gridBagConstraints.insets = new Insets(0, 5, 0, 2);
 		gridBagConstraints.gridx = 0;
 		String[] urls = new String[] { "/images/Village-Icon.png", "/images/City-Icon.png", "/images/Road_Icon.png",
-				"/images/Cards-Icon.png" };
+				"/images/ResourceCards_Icon.png", "/images/DevelopmentCards_Icon.png" };
 
 		// Add amount icons
 		for (int i = 0; i < urls.length; i++) {
+			if(i == (urls.length - 1)) {
+				gridBagConstraints.insets = new Insets(0, 5, 10, 2);
+			}
 			Image image = null;
 			try {
 				URL url = this.getClass().getResource(urls[i]);
 				image = ImageIO.read(url);
-				image = image.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+				image = image.getScaledInstance(STAT_LABEL_DIMENSION, STAT_LABEL_DIMENSION, Image.SCALE_DEFAULT);
 			} catch (IOException e) {
 			}
 			gridBagConstraints.gridy++;
@@ -117,6 +120,7 @@ public class PlayerStatsPanel extends JPanel {
 		gridBagConstraints.gridy = 2;
 		gridBagConstraints.weightx = 0.24;
 		gridBagConstraints.weighty = 0.24;
+		gridBagConstraints.insets = new Insets(0, 5, 0, 2);
 		gridBagConstraints.anchor = GridBagConstraints.WEST;
 
 		for (int i = 0; i < statLabels.length; i++) {
@@ -132,10 +136,11 @@ public class PlayerStatsPanel extends JPanel {
 	public void updateStats() {
 		playerPointsLabel.setText("Punten: " + player.getPoints());
 		String[] playerStats = new String[] { "" + player.getAmountBuildVillages(), "" + player.getAmountBuildCities(),
-				"" + player.getAmountBuildStreets(), "" + player.getHand().getResources().size() };
+				"" + player.getAmountBuildStreets(), "" + player.getHand().getResources().size(),
+				"" + player.getHand().getDevelopmentCards().size() };
 
 		for (int i = 0; i < statLabels.length; i++) {
-			statLabels[i].setText(playerStats[i]); // TODO how to position these more to the left?
+			statLabels[i].setText(playerStats[i]);
 		}
 
 		// Check if player haslongestroad or largestarmy

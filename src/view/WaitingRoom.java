@@ -29,27 +29,17 @@ public class WaitingRoom extends JPanel {
 	private Color lightblue3 = new Color(173, 216, 250);
 	private JPanel buttons = new JPanel();
 	private JPanel playersPanel;
-	// private String subject[] = { "Name: " + getName() + " / IdGame: " + " /
-	// Status: " };
 	private DefaultListModel dlm = new DefaultListModel();
-	private JButton deletePlayerButton;
 	private JList<String> playerList = new JList<String>(dlm);
-	// private JPanel videos = new JPanel();
-	// private ArrayList<Player> players;
 	private JLabel playersInRoom = new JLabel();
 
 	public WaitingRoom() {
-
-		// this.players = players;
 		this.setLayout(new BorderLayout());
 		playersPanel = new JPanel();
 		buttons.setBackground(lightblue3);
 		makebuttons();
 		this.add(buttons, BorderLayout.NORTH);
-		backgroundImage();
-		// this.add(videos, BorderLayout.SOUTH);
-		// videos.setBackground(lightblue3);
-		// trailer();
+		createBackgroundImage();
 		this.setBackground(lightblue3);
 		makePlayerLabels();
 		playersPanel.setBackground(lightblue3);
@@ -57,7 +47,7 @@ public class WaitingRoom extends JPanel {
 		this.setVisible(true);
 	}
 
-	public void backgroundImage() {
+	public void createBackgroundImage() {
 		Image image = null;
 		try {
 			URL url = this.getClass().getResource("/images/waitingRoomBackground.png");
@@ -78,19 +68,13 @@ public class WaitingRoom extends JPanel {
 		waiting.setFont(Bold);
 		playersInRoom.setHorizontalAlignment(JLabel.CENTER);
 		buttons.add(playersInRoom);
-		// buttons.add(waiting, BorderLayout.NORTH);
 	}
 
 	public void update(String ding) {
 		String playerString = new String();
 		ding = playerString;
-/*		for (Player p : players) {
-			playerString = playerString + p.getUsername() + ": " + p.getPlayerStatus() + " ";
-		}*/
-
 		dlm.addElement(playerString);
 		playerList.updateUI();
-
 	}
 
 	public void makePlayerLabels() {
@@ -149,7 +133,7 @@ public class WaitingRoom extends JPanel {
 			button[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\BRUH - Original - Vine Version.wav");
+					playAudioFile("/Music/BRUH - Original - Vine Version.wav");
 				}
 			});
 		}
@@ -158,42 +142,42 @@ public class WaitingRoom extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\Funny Laugh Sound- No No No No.wav");
+				playAudioFile("/Music/Funny Laugh Sound- No No No No.wav");
 			}
 		});
 		button[2].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\hallelujahshort.swf.wav");
+				playAudioFile("/Music/hallelujahshort.swf.wav");
 			}
 		});
 		button[3].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\mlg-airhorn.wav");
+				playAudioFile("/Music/mlg-airhorn.wav");
 			}
 		});
 		button[4].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\no-god-please-no-noooooooooo.wav");
+				playAudioFile("/Music/no-god-please-no-noooooooooo.wav");
 			}
 		});
 		button[5].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\wrong.wav");
+				playAudioFile("/Music/wrong.wav");
 			}
 		});
 		button[6].addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\thisissparta.wav");
+				playAudioFile("/Music/thisissparta.wav");
 			}
 		});
 
@@ -201,21 +185,12 @@ public class WaitingRoom extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\metalgearsolid.wav");
+				playAudioFile("/Music/metalgearsolid.wav");
 			}
 		});
 	}
 
-	/*
-	 * public static void play(String file) { File Clap = new File(file); try { Clip
-	 * clip = AudioSystem.getClip();
-	 * clip.open(AudioSystem.getAudioInputStream(Clap)); clip.start();
-	 * Thread.sleep(clip.getMicrosecondLength() / 1000); } catch (Exception e) {
-	 * e.printStackTrace(); }
-	 * 
-	 * }
-	 */
-	public static void play2(String filename) {
+	public static void playAudioFile(String filename) {
 		try {
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(new File(filename)));
