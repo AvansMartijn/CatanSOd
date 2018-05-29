@@ -101,7 +101,7 @@ public class MainControl {
 					}
 					System.out.println("Refreshed");
 					try {
-						Thread.sleep(8000);
+						Thread.sleep(2000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

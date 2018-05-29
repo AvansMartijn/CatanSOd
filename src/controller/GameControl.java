@@ -1183,9 +1183,15 @@ public class GameControl {
 				mainDA.setTurn(catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
 				catanGame.setTurn(catanGame.getSelfPlayer().getIdPlayer());
 				addLogMessage(catanGame.getSelfPlayer().getUsername() + " is nu aan de Beurt.");
+				
 				mainDA.setThrownDice(0, catanGame.getIdGame());
+				
 				catanGame.setRolledDice(false);
 				mainDA.setShouldRefresh(catanGame.getSelfPlayer().getIdPlayer(), true);
+				
+				catanGame.setFirstRound(false);
+				mainDA.setFirstRound(0, catanGame.getIdGame());
+				
 				isInTurn = false;
 			} else {
 				for (Player p : catanGame.getPlayers()) {
@@ -1222,6 +1228,13 @@ public class GameControl {
 				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
 		enableOpponentsShouldRefresh();
+		guiController.refreshPlayers();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 }
