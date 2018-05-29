@@ -56,6 +56,7 @@ import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
 import view.TradeReceiveDialog;
 import view.TradeRespondDialog;
+import view.WaitingRoom;
 import view.CurrentTradeRequestPanel;
 import view.DevelopmentCardButton;
 import view.DevelopmentCardDialogPanel;
@@ -87,6 +88,7 @@ public class GuiController {
 	private TradeBankPanel tradeBankPanel;
 	private CurrentTradeRequestPanel tradeRequestListPanel;
 	private DevelopmentCardsPanel developmentCardsPanel;
+	private WaitingRoom waitingRoom;
 
 	private ArrayList<Catan> gameList;
 	// private Gameboard gameBoard;
@@ -229,7 +231,9 @@ public class GuiController {
 			}
 		});
 
+		waitingRoom = new WaitingRoom();
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -239,7 +243,9 @@ public class GuiController {
 				} else {
 					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
 				}
-
+				// TODO create waitingroom
+				frame.setContentPane(waitingRoom);
+				frame.pack();
 			}
 		});
 

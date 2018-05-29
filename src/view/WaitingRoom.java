@@ -96,7 +96,6 @@ public class WaitingRoom extends JPanel {
 	public void makePlayerLabels() {
 
 		// aantal gejoinde mensen opschrijven
-
 		playerList.setPreferredSize(new Dimension(400, 400));
 		JScrollPane s = new JScrollPane(playerList);
 		s.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -152,7 +151,6 @@ public class WaitingRoom extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\BRUH - Original - Vine Version.wav");
 				}
-	
 			});
 		}
 		
@@ -161,7 +159,6 @@ public class WaitingRoom extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\Funny Laugh Sound- No No No No.wav");
-
 			}
 		});
 		button[2].addActionListener(new ActionListener() {
@@ -169,7 +166,6 @@ public class WaitingRoom extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\hallelujahshort.swf.wav");
-
 			}
 		});
 		button[3].addActionListener(new ActionListener() {
@@ -177,7 +173,6 @@ public class WaitingRoom extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\mlg-airhorn.wav");
-
 			}
 		});
 		button[4].addActionListener(new ActionListener() {
@@ -185,7 +180,6 @@ public class WaitingRoom extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\no-god-please-no-noooooooooo.wav");
-
 			}
 		});
 		button[5].addActionListener(new ActionListener() {
@@ -193,7 +187,6 @@ public class WaitingRoom extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\wrong.wav");
-
 			}
 		});
 		button[6].addActionListener(new ActionListener() {
@@ -201,7 +194,6 @@ public class WaitingRoom extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\thisissparta.wav");
-
 			}
 		});
 
@@ -210,7 +202,6 @@ public class WaitingRoom extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\metalgearsolid.wav");
-
 			}
 		});
 	}
