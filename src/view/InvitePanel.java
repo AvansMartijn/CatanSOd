@@ -112,12 +112,12 @@ public class InvitePanel extends JPanel {
 					// Je kan namelijk kijken dmv de index
 					Player challenger = null;
 					for (Player p : game.getPlayers()) {
-						if (p.getPlayStatus().equals("uitdager")) {
+						if (p.getPlayStatus().toString().toLowerCase().equals("uitdager")) {
 							challenger = p;
 						}
 					}
 					String line = String.format("Game ID: %d Uitdager: %s Status: %s ", game.getIdGame(),
-							challenger.getUsername(), game.getSelfPlayer().getPlayStatus());
+					challenger.getUsername(), game.getSelfPlayer().getPlayStatus());
 					model.addElement(line);
 				}
 
