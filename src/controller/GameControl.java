@@ -1159,6 +1159,7 @@ public class GameControl {
 				amountOfVillages++;
 			}
 		}
+		System.out.println("amount of villages: " + amountOfVillages);
 		if (amountOfVillages < 2) {
 			// Turn forward
 			if (catanGame.getSelfPlayer().getFollownr() == 4) {
@@ -1166,7 +1167,7 @@ public class GameControl {
 					if (p.getFollownr() == 4) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						System.out.println("");
+						System.out.println("1 fw set next turn for " +p.getIdPlayer());
 						mainDA.setShouldRefresh(p.getIdPlayer(), true);
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						isInTurn = false;
@@ -1178,7 +1179,7 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						System.out.println();
+						System.out.println("2 fw set next turn for " +p.getIdPlayer());
 						mainDA.setShouldRefresh(p.getIdPlayer(), true);
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						isInTurn = false;
@@ -1211,7 +1212,7 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() - 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						
+						System.out.println("3 bw set next turn for " +p.getIdPlayer());
 						
 						mainDA.setShouldRefresh(p.getIdPlayer(), true);
 						isInTurn = false;
