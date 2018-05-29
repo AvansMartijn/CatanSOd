@@ -680,7 +680,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				gameControl.getCatanGame().getPlayerByID(playersToRob.get(0).getHand().ta
+				//gameControl.getCatanGame().getPlayerByID(playersToRob.get(0).getHand();
 				
 			}
 		});
