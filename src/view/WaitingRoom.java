@@ -1,6 +1,5 @@
 package view;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,18 +26,21 @@ public class WaitingRoom extends JPanel {
 	private Font Bold = new Font("Arial", Font.BOLD, 30);
 	private Color lightBlue2 = new Color(230, 253, 255);
 	private Color lightblue3 = new Color(173, 216, 250);
-	private JPanel buttons = new JPanel();
+	private JPanel buttonsPanel = new JPanel();
 	private JPanel playersPanel;
 	private DefaultListModel dlm = new DefaultListModel();
 	private JList<String> playerList = new JList<String>(dlm);
 	private JLabel playersInRoom = new JLabel();
+	private JButton exitButton;
 
 	public WaitingRoom() {
 		this.setLayout(new BorderLayout());
 		playersPanel = new JPanel();
-		buttons.setBackground(lightblue3);
+		exitButton = new JButton("Terug");
+		buttonsPanel.setBackground(lightblue3);
+		buttonsPanel.add(exitButton);
 		makebuttons();
-		this.add(buttons, BorderLayout.NORTH);
+		this.add(buttonsPanel, BorderLayout.NORTH);
 		createBackgroundImage();
 		this.setBackground(lightblue3);
 		makePlayerLabels();
@@ -63,11 +65,11 @@ public class WaitingRoom extends JPanel {
 	public void makeJLabels() {
 		JLabel waiting = new JLabel();
 		// text voor het wachten
-		waiting.setText("wait a few minutes, the match will start soon");
+		waiting.setText("Even geduld, het spel zal zometeen starten");
 		waiting.setForeground(Color.white);
 		waiting.setFont(Bold);
 		playersInRoom.setHorizontalAlignment(JLabel.CENTER);
-		buttons.add(playersInRoom);
+		buttonsPanel.add(playersInRoom);
 	}
 
 	public void update(String ding) {
@@ -126,7 +128,7 @@ public class WaitingRoom extends JPanel {
 			button[count].setToolTipText(info);
 			button[count].setVisible(true);
 			button[count].setBorderPainted(true);
-			buttons.add(button[count]);
+			buttonsPanel.add(button[count]);
 		}
 		
 		for(int i = 0; i < button.length; i++) {
@@ -198,6 +200,10 @@ public class WaitingRoom extends JPanel {
 		} catch (Exception exc) {
 			exc.printStackTrace(System.out);
 		}
+	}
+
+	public JButton getExitButton() {
+		return exitButton;
 	}
 }
 

@@ -91,13 +91,6 @@ public class GuiController {
 	private WaitingRoom waitingRoom;
 
 	private ArrayList<Catan> gameList;
-	// private Gameboard gameBoard;
-
-	// TODO uncomment these when PlayerActionPanelExpended is merged (these classes
-	// are added in that branch)
-	// private BuyDialog buyDialog;
-	// private TradeDialog tradeDialog;
-	// private BuildDialog buildDialog;
 
 	private int pageNr;
 
@@ -106,29 +99,8 @@ public class GuiController {
 		this.gameControl = gameControl;
 		gameControl.setGuiController(this);
 		frame = new Frame();
-
+		waitingRoom = new WaitingRoom();
 		setInlogPanel();
-
-		// GraphicsEnvironment graphicsEnvironment =
-		// GraphicsEnvironment.getLocalGraphicsEnvironment();
-		// GraphicsDevice graphicsDevice= graphicsEnvironment.getDefaultScreenDevice();
-		//
-		// boolean canChangeDisplay = graphicsDevice.isDisplayChangeSupported();
-		// if (canChangeDisplay) {
-		// DisplayMode displayMode = graphicsDevice.getDisplayMode();
-		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// int width = (int) screenSize.getWidth();
-		// int height = (int) screenSize.getHeight();
-		// int bitDepth = 16;
-		// displayMode = new DisplayMode(width, height, bitDepth,
-		// displayMode.getRefreshRate());
-		// try {
-		// graphicsDevice.setDisplayMode(displayMode);
-		// } catch(Throwable e) {
-		// graphicsDevice.setFullScreenWindow(null);
-		// }
-		//
-		// }
 
 		frame.dispose();
 		frame.setUndecorated(true);
@@ -227,11 +199,9 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
-
 			}
 		});
 
-		waitingRoom = new WaitingRoom();
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
 
 			@Override
@@ -243,8 +213,16 @@ public class GuiController {
 				} else {
 					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
 				}
-				// TODO create waitingroom
 				frame.setContentPane(waitingRoom);
+				frame.pack();
+			}
+		});
+
+		waitingRoom.getExitButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setContentPane(mainMenuGui);
 				frame.pack();
 			}
 		});
@@ -257,7 +235,6 @@ public class GuiController {
 				public void mouseClicked(MouseEvent e) {
 					mainControl.joinGame(p.getGame());
 				}
-
 			});
 		}
 		bottomOptionsPanel = new BottomOptionsPanel();
@@ -275,7 +252,6 @@ public class GuiController {
 					mainControl.stopIngameTimer();
 					mainControl.logOut();
 					setInlogPanel();
-					// TODO Auto-generated method stub
 				}
 			}
 		});
@@ -1088,9 +1064,6 @@ public class GuiController {
 					boardPanel.disableBuildingLocButtons();
 					playerActionPanel.setBuildPanel();
 				}
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
-
 			}
 		});
 	}
@@ -1100,7 +1073,6 @@ public class GuiController {
 		playerActionPanel.getPlayerOptionMenuPanel().getEndTurnButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				playerActionPanel.setVisible(false);
 				gameControl.endTurn();
 			}
@@ -1166,6 +1138,7 @@ public class GuiController {
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
 	}
+
 	public void disablePlayerActionPanel() {
 		playerActionPanel.setVisible(false);
 	}
@@ -1221,10 +1194,6 @@ public class GuiController {
 		addPlayerActionEndTurnButtonListener();
 
 	}
-
-	// public void setGameBoard(Gameboard gameBoard) {
-	// this.gameBoard = gameBoard;
-	// }
 
 	public BoardPanel getBoardPanel() {
 		return boardPanel;
