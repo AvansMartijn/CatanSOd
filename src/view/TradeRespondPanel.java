@@ -30,12 +30,6 @@ public class TradeRespondPanel extends JPanel {
 	private final int TEXTFIELD_OFFSET_X2 = 20;
 	private final int TEXTFIELD_OFFSET_Y = 30;
 
-	private String playerName;
-	private Boolean counterOffer, tradeAccept;
-	// requests for sending the trade offer
-	// private int[] resourceOffer;
-	// private int[] resourceRequest;
-
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	private Color TextColor = new Color(50, 50, 50);
@@ -50,7 +44,7 @@ public class TradeRespondPanel extends JPanel {
 	
 	private TradeRequest tR;
 	
-	public TradeRespondPanel(TradeRequest tR) {
+	public TradeRespondPanel(Player playerName, TradeRequest tR) {
 
 		this.tR = tR;
 		
@@ -59,7 +53,7 @@ public class TradeRespondPanel extends JPanel {
 
 		setLayout(null);
 
-		titleLabel = new JLabel("Bod van speler " + tR.getIdPlayer());
+		titleLabel = new JLabel("Bod van speler " + playerName.getUsername());
 		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
 		titleLabel.setForeground(TextColor);
 		titleLabel.setBounds(0, 5, 280, 40);
