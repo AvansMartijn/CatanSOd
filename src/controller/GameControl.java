@@ -1143,6 +1143,12 @@ public class GameControl {
 	}
 
 	public void endFirstRoundTurn() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		catanGame.endTurn();
 		int amountOfVillages = 0;
 
@@ -1229,12 +1235,7 @@ public class GameControl {
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
 		enableOpponentsShouldRefresh();
 		guiController.refreshPlayers();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		return true;
 	}
 }
