@@ -69,10 +69,10 @@ public class WaitingRoom extends JPanel {
 		Font Bold = new Font("Arial", Font.BOLD, 20);
 
 		JButton tauntButtons[];
+		tauntButtons = new JButton[8];
 		String text[] = { "Bruh", "Laugh", "Hallelujah", "Mlg", "NoGod", "Wrong", "Sparta", "Metalgear" };
 		String info = "press if you want to have a funny sound";
-		tauntButtons = new JButton[8];
-		
+
 		for (int count = 0; count < tauntButtons.length; count++) {
 			tauntButtons[count] = new JButton(text[count]);
 			tauntButtons[count].setForeground(Color.WHITE);
@@ -85,16 +85,15 @@ public class WaitingRoom extends JPanel {
 			tauntButtons[count].setVisible(true);
 			tauntButtons[count].setBorderPainted(true);
 			bottomBarPanel.add(tauntButtons[count]);
+			System.out.println(count);
 		}
 
-//		for (int i = 0; i < tauntButtons.length; i++) {
-			tauntButtons[0].addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					playSound("/Music/BRUH - Original - Vine Version.wav");
-				}
-			});
-//		}
+		tauntButtons[0].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playSound("/Music/BRUH - Original - Vine Version.wav");
+			}
+		});
 
 		tauntButtons[1].addActionListener(new ActionListener() {
 
