@@ -548,6 +548,12 @@ public class GuiController {
 
 							boardPanel.disableBuildingLocButtons();
 							addPlayerColorToBuildingLocs();
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							boardPanel.enableStreetLocButtons();
 
 							// refreshPlayerResources();

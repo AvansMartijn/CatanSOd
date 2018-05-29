@@ -98,8 +98,7 @@ public class MainControl {
 						updateRefreshTradeRequest();
 						updateRefreshTurn();
 						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
-					}
-					System.out.println("Refreshed");
+					}					
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {

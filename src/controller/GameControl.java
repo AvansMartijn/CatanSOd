@@ -71,7 +71,7 @@ public class GameControl {
 	// }
 
 	public void addLogMessage(String message) {
-		mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message);
+
 		// catanGame.getMessages().add(message);
 		// guiController.refreshChat();
 	}
