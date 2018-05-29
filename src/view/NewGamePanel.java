@@ -124,6 +124,7 @@ public class NewGamePanel extends JPanel {
 	public class InvitedPlayersPanel extends JPanel {
 		public InvitedPlayersPanel() {
 			this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			removeButtonsList.clear();
 			for (String username : invitedPlayers) {
 				JPanel panel = new JPanel();
 				JLabel name = new JLabel(username);
