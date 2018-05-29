@@ -103,6 +103,7 @@ public class MainControl {
 								updateRefreshPlayers();
 								updateRefreshTradeRequest();
 								updateRefreshTurn();
+								repaintAndValidate();
 								mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
 										false);
 							}
@@ -119,6 +120,10 @@ public class MainControl {
 		});
 		ingameTimerThread.start();
 
+	}
+	
+	private void repaintAndValidate() {
+		guiController.repaintAndValidate();
 	}
 
 	public void createNewGame(ArrayList<String> playerUsernames, boolean randomBoard) {
