@@ -88,13 +88,13 @@ public class MainControl {
 
 			@Override
 			public void run() {
-				while(ingame) {
+				while (ingame) {
 					updateRefreshMessages();
 					updateRefreshDice();
-					if(mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
+					if (mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
 						updateRefreshBoard();
 						updateRefreshRobber();
-						updateRefreshPlayers();	
+						updateRefreshPlayers();
 						updateRefreshTradeRequest();
 						updateRefreshTurn();
 						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
@@ -303,13 +303,19 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshRobber();
 	}
-	
+
 	public void updateRefreshTurn() {
 		int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setTurn(turn);
-		if(turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-			gameControl.doTurn();
-//			guiController.refreshDice();
+		if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
+			gameControl.getCatanGame().setFirstRound(true);
+			gameControl.playFirstRound();
+
+		} else {
+			if (turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				gameControl.doTurn();
+				// guiController.refreshDice();
+			}
 		}
 	}
 
@@ -327,12 +333,12 @@ public class MainControl {
 
 	private void updateRefreshTradeRequest() {
 		TradeRequest tr = gameControl.updateTradeRequests();
-		if(tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+		if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
 			gameControl.getCatanGame().addTradeRequest(tr);
 			guiController.showTradeReceiveDialog(tr);
 		}
 	}
-	
+
 	private void updateRefreshDice() {
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
 		gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
@@ -345,7 +351,8 @@ public class MainControl {
 			p.getHand().setDevelopmentCards(
 					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 		}
-		gameControl.getCatanGame().getBank().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
+		gameControl.getCatanGame().getBank()
+				.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
 		guiController.refreshPlayerResources();
 		guiController.refreshPlayers();
 	}

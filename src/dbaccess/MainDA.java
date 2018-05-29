@@ -426,6 +426,29 @@ public class MainDA {
 			System.out.println("Changing firstround to DB failed");
 		}
 	}
+	
+	public int getFirstRound(int idGame) {
+		
+		int firstround = 0;
+		makeConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT eersteronde FROM spel WHERE idspel = "+ idGame + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				firstround = myRs.getInt(1);
+			}
+			myRs.close();
+			stmt.close();
+			myConn.close();
+		} catch (SQLException e) {
+			System.out.println("Unable to get first round");
+		}
+		return firstround;
+	}
+
 
 	public int getLastUsedPlayerID() {
 		int idPlayer = 0;

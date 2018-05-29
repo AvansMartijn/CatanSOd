@@ -458,7 +458,7 @@ public class GuiController {
 		this.tradeRequestListPanel = new CurrentTradeRequestPanel();
 		this.playerActionPanel = new PlayerActionPanel(playerOptionMenuPanel, buildPanel, buyPanel, tradePlayerPanel,
 				tradeBankPanel, returnToBuildPanel, tradeOptionsPanel, tradeRequestListPanel);
-		if(gameControl.getCatanGame().getTurn() == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+		if (gameControl.getCatanGame().getTurn() == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
 			enablePlayerActionPanel();
 		}
 
@@ -513,8 +513,8 @@ public class GuiController {
 					gameControl.changeRobber(b.getTile().getIdTile());
 					boardPanel.disableTileButtons();
 					boardPanel.repaint();
-					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + 
-							" Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+							+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
 					gameControl.stealCardCauseRobber();
 				}
 			});
@@ -529,34 +529,52 @@ public class GuiController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					if (blb.getState()) {
-						if (!gameControl.buildCity(blb.getBuildingLocation())) {
-							addSystemMessageToChat(Color.RED, "Je kan hier geen stad bouwen");
-
-						} else {
-							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + 
-									" Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc()
-									+ " Y: " + blb.getBuildingLocation().getYLoc());
-							boardPanel.disableBuildingLocButtons();
-							playerActionPanel.setBuildPanel();
-							addPlayerColorToBuildingLocs();
-							refreshPlayerResources();
-							refreshPlayers();
-						}
-					} else {
-						if (!gameControl.buildVillage(blb.getBuildingLocation())) {
+					if (gameControl.getCatanGame().isFirstRound()) {
+						if (!gameControl.buildInitialVillage(blb.getBuildingLocation())) {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
 
 						} else {
-							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + 
-									" Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc()
-									+ " Y: " + blb.getBuildingLocation().getYLoc());
+							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+									+ " Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: "
+									+ blb.getBuildingLocation().getYLoc());
+
 							boardPanel.disableBuildingLocButtons();
-							playerActionPanel.setBuildPanel();
 							addPlayerColorToBuildingLocs();
-							
-							refreshPlayerResources();
-							refreshPlayers();
+							boardPanel.enableStreetLocButtons();
+
+							// refreshPlayerResources();
+							// refreshPlayers();
+						}
+					} else {
+						if (blb.getState()) {
+							if (!gameControl.buildCity(blb.getBuildingLocation())) {
+								addSystemMessageToChat(Color.RED, "Je kan hier geen stad bouwen");
+
+							} else {
+								gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+										+ " Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc()
+										+ " Y: " + blb.getBuildingLocation().getYLoc());
+								boardPanel.disableBuildingLocButtons();
+								playerActionPanel.setBuildPanel();
+								addPlayerColorToBuildingLocs();
+								refreshPlayerResources();
+								refreshPlayers();
+							}
+						} else {
+							if (!gameControl.buildVillage(blb.getBuildingLocation())) {
+								addSystemMessageToChat(Color.RED, "Je kan hier geen nederzetting bouwen");
+
+							} else {
+								gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+										+ " Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc()
+										+ " Y: " + blb.getBuildingLocation().getYLoc());
+								boardPanel.disableBuildingLocButtons();
+								playerActionPanel.setBuildPanel();
+								addPlayerColorToBuildingLocs();
+
+								refreshPlayerResources();
+								refreshPlayers();
+							}
 						}
 					}
 
@@ -564,7 +582,7 @@ public class GuiController {
 			});
 		}
 	}
-	
+
 	public void refreshPlayerResources() {
 		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
 	}
@@ -575,19 +593,39 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (!gameControl.buildStreet(slb.getStreetLocation())) {
-						addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
-					} else {
-						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + 
-								" Heeft een straat gebouwd tussen X: " + slb.getStreetLocation().getBlStart().getXLoc()
-										+ " Y: " + slb.getStreetLocation().getBlStart().getYLoc() + " en X: "
-										+ slb.getStreetLocation().getBlEnd().getXLoc() + " Y: "
-										+ slb.getStreetLocation().getBlEnd().getYLoc());
-						boardPanel.disableStreetLocButtons();
-						playerActionPanel.setBuildPanel();
-						addPlayerColorToStreetLocs();
-						gameGUIPanel.getResourcesPanel().updateResourcesAmount();
-						updatePlayerStats();
+					if (gameControl.getCatanGame().isFirstRound()) {
+						if (!gameControl.buildInitialStreet(slb.getStreetLocation())) {
+							addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
+						} else {
+							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+									+ " Heeft een straat gebouwd tussen X: "
+									+ slb.getStreetLocation().getBlStart().getXLoc() + " Y: "
+									+ slb.getStreetLocation().getBlStart().getYLoc() + " en X: "
+									+ slb.getStreetLocation().getBlEnd().getXLoc() + " Y: "
+									+ slb.getStreetLocation().getBlEnd().getYLoc());
+							boardPanel.disableStreetLocButtons();
+//							playerActionPanel.setBuildPanel();
+							addPlayerColorToStreetLocs();
+							gameControl.endFirstRoundTurn();
+//							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+//							updatePlayerStats();
+						}
+					}else {
+						if (!gameControl.buildStreet(slb.getStreetLocation())) {
+							addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
+						} else {
+							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+									+ " Heeft een straat gebouwd tussen X: "
+									+ slb.getStreetLocation().getBlStart().getXLoc() + " Y: "
+									+ slb.getStreetLocation().getBlStart().getYLoc() + " en X: "
+									+ slb.getStreetLocation().getBlEnd().getXLoc() + " Y: "
+									+ slb.getStreetLocation().getBlEnd().getYLoc());
+							boardPanel.disableStreetLocButtons();
+							playerActionPanel.setBuildPanel();
+							addPlayerColorToStreetLocs();
+							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+							updatePlayerStats();
+						}
 					}
 				}
 			});
@@ -600,19 +638,19 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				gameControl.rollDice();
 				diceDotPanel.getButton().setVisible(false);
 				refreshDice();
 			}
 		});
 	}
-	
+
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
 		System.out.println("enabled button");
 	}
-	
+
 	private void addDevelopmentCardsPanelButtonListeners() {
 		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
 		for (DevelopmentCardButton b : developmentCards) {
@@ -708,10 +746,11 @@ public class GuiController {
 							wheatGive, woodGive, brickReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 1);
 
 					gameControl.acceptTradeRequest(newTradeRequest);
-					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + " heeft het handelsaanbod van "
-							+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername()
-							+ " geaccepteerd");
-//					gameControl.setShouldRefreshEnabled(tr.getIdPlayer());
+					gameControl.addLogMessage(
+							gameControl.getCatanGame().getSelfPlayer().getUsername() + " heeft het handelsaanbod van "
+									+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername()
+									+ " geaccepteerd");
+					// gameControl.setShouldRefreshEnabled(tr.getIdPlayer());
 					tradeReceive.dispose();
 					gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 				}
@@ -726,9 +765,10 @@ public class GuiController {
 				TradeRequest declineRequest = new TradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
 						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 				gameControl.declineTradeRequest(declineRequest);
-				gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + " heeft het handelsaanbod van"
+				gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+						+ " heeft het handelsaanbod van"
 						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " afgewezen");
-//				gameControl.setShouldRefreshEnabled(tr.getIdPlayer());
+				// gameControl.setShouldRefreshEnabled(tr.getIdPlayer());
 				tradeReceive.dispose();
 			}
 		});
@@ -1026,8 +1066,8 @@ public class GuiController {
 					boardPanel.disableBuildingLocButtons();
 					playerActionPanel.setBuildPanel();
 				}
-				 if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				 }
+				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
+				}
 
 			}
 		});
@@ -1100,7 +1140,7 @@ public class GuiController {
 	// addPlayerColorToBuildingLocs();
 	// addPlayerColorToStreetLocs();
 	// }
-	
+
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
 	}

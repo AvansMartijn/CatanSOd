@@ -255,6 +255,16 @@ public class GameControl {
 			return false;
 		}
 
+		for (StreetLocation sl : buildingLocation.getAdjacentStreetLocations()) {
+			if (sl.getBlEnd().getBuilding() != null) {
+				return false;
+			} else if (sl.getBlStart().getBuilding() != null) {
+				return false;
+			}
+		}
+
+		// if(buildingLocation.getAdjacentStreetLocations())
+
 		// TODO Check if enough resources
 		// TODO check if there are streets connected to this location
 		int thisX = buildingLocation.getXLoc();
@@ -1012,7 +1022,7 @@ public class GameControl {
 
 	public void playFirstRound() {
 		catanGame.setRolledDice(true);
-		guiController.getBoardPanel().enableBuildingLocButtons(true);
+		guiController.getBoardPanel().enableBuildingLocButtons(false);
 
 		// uitdager plaatst eerst een dorp en een aanliggende straat (met
 		// afstandsregel?)
@@ -1070,30 +1080,24 @@ public class GameControl {
 	}
 
 	public void giveTurnResources(int number) {
-		number = 9;
-		System.out.println("giveTurnResource");
 		for (Tile t : catanGame.getGameboard().getTileArr()) {
 			if (!t.hasRobber()) {
 				if (t.getChipNumber() == number) {
 					for (BuildingLocation bl : t.getBuildingLocArr()) {
-						System.out.println("loc: " + bl.getXLoc() + "," + bl.getYLoc());
 						if (bl.getBuilding() != null) {
-							System.out.println("building: " + bl.getBuilding().getIdBuilding());
-							if (bl.getCity()!= null) {
+							if (bl.getCity() != null) {
 								// give two
 								ArrayList<Resource> rsArr = catanGame.getBank().takeMultipleResources(t.getRsType(), 2);
 								for (Resource rs : rsArr) {
 									bl.getBuilding().getPlayer().getHand().addResource(rs);
-									System.out.println(rs.getResourceID());
 									mainDA.addResourceToPlayer(rs.getResourceID(), catanGame.getIdGame(),
 											bl.getBuilding().getPlayer().getIdPlayer());
 								}
 
-							} else if (bl.getVillage()!= null) {
+							} else if (bl.getVillage() != null) {
 								// give one
 								Resource rs = catanGame.getBank().takeResource(t.getRsType());
 								bl.getBuilding().getPlayer().getHand().addResource(rs);
-								System.out.println(rs.getResourceID());
 								mainDA.addResourceToPlayer(rs.getResourceID(), catanGame.getIdGame(),
 										bl.getBuilding().getPlayer().getIdPlayer());
 							}
@@ -1109,5 +1113,113 @@ public class GameControl {
 	public void setShouldRefreshEnabled(int idPlayer) {
 		mainDA.setShouldRefresh(idPlayer, true);
 
+	}
+
+	public boolean buildInitialVillage(BuildingLocation buildingLocation) {
+		Village village = catanGame.getSelfPlayer().getAvailableVillage();
+		// check if player has a village to build
+
+		// check if nothing is build already on that location
+		if (buildingLocation.getVillage() != null || buildingLocation.getCity() != null) {
+			return false;
+		}
+
+		for (StreetLocation sl : buildingLocation.getAdjacentStreetLocations()) {
+			if (sl.getBlEnd().getBuilding() != null) {
+				return false;
+			} else if (sl.getBlStart().getBuilding() != null) {
+				return false;
+			}
+		}
+
+		buildingLocation.setVillage(catanGame.getSelfPlayer().getAvailableVillage());
+		village.setBuildingLocation(buildingLocation);
+		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
+				buildingLocation.getYLoc());
+		enableOpponentsShouldRefresh();
+		return true;
+	}
+
+	public void endFirstRoundTurn() {
+		catanGame.endTurn();
+		int amountOfVillages = 0;
+
+		for (Village v : catanGame.getSelfPlayer().getVillageArr()) {
+			if (v.getBuildingLocation() != null) {
+				amountOfVillages++;
+			}
+		}
+		if (amountOfVillages < 2) {
+			// Turn forward
+			if (catanGame.getSelfPlayer().getFollownr() == 4) {
+				for (Player p : catanGame.getPlayers()) {
+					if (p.getFollownr() == 1) {
+						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
+						catanGame.setTurn(p.getIdPlayer());
+						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						isInTurn = false;
+						break;
+					}
+				}
+			} else {
+				for (Player p : catanGame.getPlayers()) {
+					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
+						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
+						catanGame.setTurn(p.getIdPlayer());
+						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						isInTurn = false;
+						break;
+					}
+				}
+			}
+		} else {
+			// Turn backwards
+			if (catanGame.getSelfPlayer().getFollownr() == 1) {
+				//end first round and start normal round
+				mainDA.setTurn(catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
+				catanGame.setTurn(catanGame.getSelfPlayer().getIdPlayer());
+				addLogMessage(catanGame.getSelfPlayer().getUsername() + " is nu aan de Beurt.");
+				mainDA.setThrownDice(0, catanGame.getIdGame());
+				catanGame.setRolledDice(false);
+				mainDA.setShouldRefresh(catanGame.getSelfPlayer().getIdPlayer(), true);
+				isInTurn = false;
+			} else {
+				for (Player p : catanGame.getPlayers()) {
+					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() - 1) {
+						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
+						catanGame.setTurn(p.getIdPlayer());
+						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						isInTurn = false;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	public boolean buildInitialStreet(StreetLocation streetLocation) {
+		Street street = catanGame.getSelfPlayer().getAvailableStreet();
+
+		if (streetLocation.getStreet() != null) {
+			System.out.println("already a street here");
+			return false;
+		}
+
+		if (!streetLocation.hasAdjacentFriendlySettlement(catanGame.getSelfPlayer())
+				&& !streetLocation.hasAdjecentFriendlyStreet(catanGame.getSelfPlayer())) {
+			System.out.println("no adjecent friendly street or settlements");
+			return false;
+		}
+
+		streetLocation.setStreet(street);
+		street.setStreetLocation(streetLocation);
+		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(),
+				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
+				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
+		enableOpponentsShouldRefresh();
+		return true;
 	}
 }

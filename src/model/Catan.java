@@ -13,6 +13,9 @@ public class Catan {
 	private Dice dice;
 	private Gameboard gameboard;
 	private Bank bank;
+	private boolean firstRound;
+	
+
 	//TODO Make sure that a conversion from playerID is made to the turn 
 	//get the followNr of the player of which it is it's turn. 
 	/** Player's turn in order: 1-4 */
@@ -48,6 +51,14 @@ public class Catan {
 		//Game starts at turn -1, after the setup of the game is complete, 
 		//nextTurn() will set it to turn 0, 
 		//which is the 1st real turn of the game. 
+	}
+	
+	public boolean isFirstRound() {
+		return firstRound;
+	}
+
+	public void setFirstRound(boolean firstRound) {
+		this.firstRound = firstRound;
 	}
 	
 	public void fillCatan(Gameboard gameBoard) {
