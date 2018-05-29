@@ -831,7 +831,7 @@ public class GameControl {
 		ArrayList<TradeRequest> tradeRequestArr = new ArrayList<>();
 		for (Player p : catanGame.getPlayers()) {
 			if (p.getIdPlayer() != catanGame.getSelfPlayer().getIdPlayer()) {
-				TradeRequest tr = mainDA.getSingleTradeRequest(catanGame.getIdGame(), p.getIdPlayer());
+				TradeRequest tr = mainDA.getSingleTradeRequest(p.getIdPlayer());
 				if (tr != null) {
 					tradeRequestArr.add(tr);
 				}
@@ -847,7 +847,7 @@ public class GameControl {
 				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 1);
 
 		mainDA.createTradeRequest(tR);
-		setShouldRefreshEnabled(oldtR.getIdPlayer());
+		enableOpponentsShouldRefresh();
 
 	}
 
@@ -858,7 +858,7 @@ public class GameControl {
 				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 0);
 
 		mainDA.createTradeRequest(tR);
-		setShouldRefreshEnabled(oldtR.getIdPlayer());
+		enableOpponentsShouldRefresh();
 	}
 
 	public void deleteTradeRequest() {
@@ -1110,10 +1110,10 @@ public class GameControl {
 		guiController.refreshPlayerResources();
 	}
 
-	public void setShouldRefreshEnabled(int idPlayer) {
-		mainDA.setShouldRefresh(idPlayer, true);
-
-	}
+//	public void setShouldRefreshEnabled(int idPlayer) {
+//		mainDA.setShouldRefresh(idPlayer, true);
+//
+//	}
 
 	public boolean buildInitialVillage(BuildingLocation buildingLocation) {
 		Village village = catanGame.getSelfPlayer().getAvailableVillage();
@@ -1166,10 +1166,10 @@ public class GameControl {
 					if (p.getFollownr() == 4) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						
-						isInTurn = false;
+						System.out.println("");
 						mainDA.setShouldRefresh(p.getIdPlayer(), true);
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						isInTurn = false;
 						break;
 					}
 				}
@@ -1178,10 +1178,10 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						
-						isInTurn = false;
+						System.out.println();
 						mainDA.setShouldRefresh(p.getIdPlayer(), true);
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						isInTurn = false;
 						break;
 					}
 				}

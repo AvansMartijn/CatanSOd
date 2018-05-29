@@ -341,7 +341,7 @@ public class MainControl {
 	private void updateRefreshTradeRequest() {
 		TradeRequest tr = gameControl.updateTradeRequests();
 		if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-			if(mainDA.getTradeRequests(gameControl.getCatanGame().getIdGame(), gameControl.getCatanGame().getSelfPlayer().getIdPlayer()).size() >= 1) {
+			if(mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) != null) {
 				gameControl.getCatanGame().addTradeRequest(tr);
 				guiController.showTradeReceiveDialog(tr);
 			}

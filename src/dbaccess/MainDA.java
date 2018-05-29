@@ -976,6 +976,8 @@ public class MainDA {
 			System.out.println("Unable to delete tradeRequest");
 		}
 	}
+	
+
 
 	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {
 
@@ -1061,7 +1063,7 @@ public class MainDA {
 		return tr;
 	}
 	
-	public TradeRequest getSingleTradeRequest(int idGame, int idPlayer) {
+	public TradeRequest getSingleTradeRequest(int idPlayer) {
 
 		TradeRequest tr = null;
 		makeConnection();
