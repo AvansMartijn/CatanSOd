@@ -1165,7 +1165,7 @@ public class GameControl {
 			// Turn forward
 			if (catanGame.getSelfPlayer().getFollownr() == 4) {
 				for (Player p : catanGame.getPlayers()) {
-					if (p.getFollownr() == 1) {
+					if (p.getFollownr() == 4) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
 						try {
