@@ -1141,7 +1141,15 @@ public class GameControl {
 		enableOpponentsShouldRefresh();
 		return true;
 	}
+	
+	private boolean firstRoundActive = false;
+	public boolean isFirstRoundActive() {
+		return firstRoundActive;
+	}
 
+	public void setFirstRoundActive(boolean firstRoundActive) {
+		this.firstRoundActive = firstRoundActive;
+	}
 	public void endFirstRoundTurn() {
 //		catanGame.endTurn();
 		
@@ -1232,6 +1240,8 @@ public class GameControl {
 				}
 			}
 		}
+		firstRoundActive = false;
+		
 	}
 
 	public boolean buildInitialStreet(StreetLocation streetLocation) {
