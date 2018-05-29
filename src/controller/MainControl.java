@@ -89,33 +89,26 @@ public class MainControl {
 			@Override
 			public void run() {
 				while (ingame) {
-					boolean done = false;
-					while (!done) {
-//						System.out.println("getting should refresh not done");
-						boolean[] shouldRefresh = mainDA
-								.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
-						// check if the query acutually ran succesfully
-						if (shouldRefresh[1] = true) {
-							done = true;
-							if (shouldRefresh[0]) {
-								updateRefreshMessages();
-								updateRefreshDice();
-								updateRefreshBoard();
-								updateRefreshRobber();
-								updateRefreshPlayers();
-								updateRefreshTradeRequest();
-								updateRefreshTurn();
-								// repaintAndValidate();
-								mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
-										false);
-							}
-							try {
-								Thread.sleep(3000);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
+					try {
+					if (mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
+						updateRefreshMessages();
+						updateRefreshDice();
+						updateRefreshBoard();
+						updateRefreshRobber();
+						updateRefreshPlayers();
+						updateRefreshTradeRequest();
+						updateRefreshTurn();
+						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
+						System.out.println("refresh");
+					}
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					}catch (Exception e) {
+						
 					}
 				}
 			}
@@ -342,7 +335,7 @@ public class MainControl {
 					gameControl.getCatanGame().setFirstRound(false);
 					gameControl.doTurn();
 					System.out.println("doTurn");
-					
+
 					// guiController.refreshDice();
 				}
 			}
@@ -417,9 +410,7 @@ public class MainControl {
 	}
 
 	public boolean shouldRefresh() {
-		boolean[] shouldRefresh = new boolean[] {};
-		shouldRefresh = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
-		return shouldRefresh[0];
+		return mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 	}
 
 	public String getAcccountUsername() {

@@ -651,10 +651,8 @@ public class MainDA {
 		return lastThrows;
 	}
 
-	public boolean[] getShouldRefresh(int idPlayer) {
-		boolean[] shouldRefresh = new boolean[2];
-		shouldRefresh[0] = false;
-		shouldRefresh[1] = true;
+	public boolean getShouldRefresh(int idPlayer) {
+		boolean shouldRefresh = false;
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -663,14 +661,13 @@ public class MainDA {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				shouldRefresh[0] = myRs.getBoolean(1);
+				shouldRefresh = myRs.getBoolean(1);
 			}
 			myRs.close();
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to get shouldRefresh");	
-			shouldRefresh[1] = false;
+			System.out.println("Unable to get shouldRefresh");
 		}
 
 		return shouldRefresh;
