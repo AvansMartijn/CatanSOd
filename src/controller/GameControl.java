@@ -1042,6 +1042,7 @@ public class GameControl {
 
 	public void endTurn() {
 //		catanGame.endTurn();
+		try {
 		if (catanGame.getSelfPlayer().getFollownr() == 4) {
 			for (Player p : catanGame.getPlayers()) {
 				if (p.getFollownr() == 1) {
@@ -1071,12 +1072,16 @@ public class GameControl {
 				}
 			}
 		}
+		}catch (Exception e){
+			System.out.println("endTurn failed");
+		}
 	}
 
 	public void doTurn() {
 		if (!isInTurn) {
 			isInTurn = true;
 			if (!catanGame.hasRolledDice()) {
+				
 				guiController.enableDice();
 //				rollDice();
 			}

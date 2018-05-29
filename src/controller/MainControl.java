@@ -91,7 +91,7 @@ public class MainControl {
 				while (ingame) {
 					boolean done = false;
 					while (!done) {
-						System.out.println("getting should refresh not done");
+//						System.out.println("getting should refresh not done");
 						boolean[] shouldRefresh = mainDA
 								.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 						// check if the query acutually ran succesfully
@@ -342,6 +342,7 @@ public class MainControl {
 					gameControl.getCatanGame().setFirstRound(false);
 					gameControl.doTurn();
 					System.out.println("doTurn");
+					
 					// guiController.refreshDice();
 				}
 			}
