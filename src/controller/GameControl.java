@@ -1077,7 +1077,8 @@ public class GameControl {
 		if (!isInTurn) {
 			isInTurn = true;
 			if (!catanGame.hasRolledDice()) {
-				guiController.enableDice();
+//				guiController.enableDice();
+				rollDice();
 			}
 			
 
