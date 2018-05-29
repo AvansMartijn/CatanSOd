@@ -487,6 +487,7 @@ public class GameControl {
 		Gameboard gameboard = gameBoardControl.loadBoard();
 		game.fillCatan(gameboard);
 		catanGame.getBank().setResources(mainDA.updateResources(catanGame.getIdGame(), 0));
+		
 		// setVillageArrays();
 		// setCityArrays();
 		// setStreetArrays();
@@ -1023,7 +1024,7 @@ public class GameControl {
 	public void playFirstRound() {
 		catanGame.setRolledDice(true);
 		guiController.getBoardPanel().enableBuildingLocButtons(false);
-
+		
 		// uitdager plaatst eerst een dorp en een aanliggende straat (met
 		// afstandsregel?)
 		// de rest doet dit ook

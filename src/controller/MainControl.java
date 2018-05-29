@@ -81,6 +81,7 @@ public class MainControl {
 					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 		}
 
+		updateRefreshTurn();
 		guiController.setIngameGuiPanel();
 
 		ingame = true;
