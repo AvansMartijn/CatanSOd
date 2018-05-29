@@ -1023,6 +1023,7 @@ public class GameControl {
 
 	public void playFirstRound() {
 		catanGame.setRolledDice(true);
+		guiController.disablePlayerActionPanel();
 		guiController.getBoardPanel().enableBuildingLocButtons(false);
 		
 		// uitdager plaatst eerst een dorp en een aanliggende straat (met
