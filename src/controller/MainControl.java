@@ -304,17 +304,20 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		guiController.refreshRobber();
 	}
-
+//	private boolean firstRoundActive = false;
 	public void updateRefreshTurn() {
 		int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
 		gameControl.getCatanGame().setTurn(turn);
-		if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
-			gameControl.getCatanGame().setFirstRound(true);
-			gameControl.playFirstRound();
 
-		} else {
 			if (turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-				gameControl.doTurn();
+				if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
+					System.out.println("playFirstsRound");
+					gameControl.getCatanGame().setFirstRound(true);
+					gameControl.playFirstRound();
+				} else {
+					
+					gameControl.doTurn();
+					System.out.println("doTurn");
 				// guiController.refreshDice();
 			}
 		}

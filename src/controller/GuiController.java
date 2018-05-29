@@ -1152,6 +1152,9 @@ public class GuiController {
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
 	}
+	public void disablePlayerActionPanel() {
+		playerActionPanel.setVisible(false);
+	}
 
 	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
