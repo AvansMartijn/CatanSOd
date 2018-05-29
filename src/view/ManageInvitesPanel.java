@@ -132,7 +132,7 @@ public class ManageInvitesPanel extends JPanel {
 						int indexOf = removeButtonsList.indexOf(remove);
 						removeButtonsList.remove(indexOf);
 						invitedPlayers.remove(indexOf);
-						if (invitedPlayers.size() < 3) {
+						if (invitedPlayers.size() < 4) {
 							inviteButton.setEnabled(true);
 						}
 					}
