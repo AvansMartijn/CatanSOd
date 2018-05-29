@@ -220,6 +220,15 @@ public class GuiController {
 				dialog.setVisible(true);
 			}
 		});
+		
+		topOptionsPanel.getInviteButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadInvites();
+				
+			}
+		});
 
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
