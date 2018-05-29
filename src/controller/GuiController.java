@@ -533,11 +533,11 @@ public class GuiController {
 			});
 		}
 	}
-	
-	public void repaintAndValidate() {
-		gameGUIPanel.repaint();
-		gameGUIPanel.revalidate();
-	}
+//	
+//	public void repaintAndValidate() {
+//		gameGUIPanel.repaint();
+//		gameGUIPanel.revalidate();
+//	}
 
 	private void addBuildLocListeners() {
 

@@ -91,8 +91,10 @@ public class MainControl {
 				while (ingame) {
 					boolean done = false;
 					while (!done) {
-						boolean[] shouldRefresh = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
-						//check if the query acutually ran succesfully
+						System.out.println("getting should refresh not done");
+						boolean[] shouldRefresh = mainDA
+								.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+						// check if the query acutually ran succesfully
 						if (shouldRefresh[1] = true) {
 							done = true;
 							if (shouldRefresh[0]) {
@@ -103,7 +105,7 @@ public class MainControl {
 								updateRefreshPlayers();
 								updateRefreshTradeRequest();
 								updateRefreshTurn();
-								repaintAndValidate();
+								// repaintAndValidate();
 								mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
 										false);
 							}
@@ -121,10 +123,10 @@ public class MainControl {
 		ingameTimerThread.start();
 
 	}
-	
-	private void repaintAndValidate() {
-		guiController.repaintAndValidate();
-	}
+
+	// private void repaintAndValidate() {
+	// guiController.repaintAndValidate();
+	// }
 
 	public void createNewGame(ArrayList<String> playerUsernames, boolean randomBoard) {
 		Catan catanGame;
@@ -313,71 +315,100 @@ public class MainControl {
 	}
 
 	public void updateRefreshRobber() {
-		gameControl.getCatanGame().getGameboard()
-				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		guiController.refreshRobber();
+		try {
+			gameControl.getCatanGame().getGameboard()
+					.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+			guiController.refreshRobber();
+		} catch (Exception e) {
+			System.out.println("updaterefreshRobber failed");
+		}
 	}
 
 	public void updateRefreshTurn() {
-		int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
-		gameControl.getCatanGame().setTurn(turn);
+		try {
+			int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
+			gameControl.getCatanGame().setTurn(turn);
 
-		if (turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-			if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
-				if (gameControl.isFirstRoundActive() == false) {
-					gameControl.setFirstRoundActive(true);
-					System.out.println("playFirstsRound");
-					gameControl.getCatanGame().setFirstRound(true);
+			if (turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
+					if (gameControl.isFirstRoundActive() == false) {
+						gameControl.setFirstRoundActive(true);
+						System.out.println("playFirstsRound");
+						gameControl.getCatanGame().setFirstRound(true);
 
-					gameControl.playFirstRound();
+						gameControl.playFirstRound();
+					}
+				} else {
+					gameControl.getCatanGame().setFirstRound(false);
+					gameControl.doTurn();
+					System.out.println("doTurn");
+					// guiController.refreshDice();
 				}
-			} else {
-				gameControl.getCatanGame().setFirstRound(false);
-				gameControl.doTurn();
-				System.out.println("doTurn");
-				// guiController.refreshDice();
 			}
+		} catch (Exception e) {
+			System.out.println("updateRefreshTurn failed");
 		}
 	}
 
 	public void updateRefreshMessages() {
-		ArrayList<String> messageList = new ArrayList<String>();
-		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
-		gameControl.getCatanGame().setMessages(messageList);
-		guiController.refreshChat();
+		try {
+			ArrayList<String> messageList = new ArrayList<String>();
+			messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
+			gameControl.getCatanGame().setMessages(messageList);
+			guiController.refreshChat();
+		} catch (Exception e) {
+			System.out.println("updateRefreshmessages failed");
+		}
 	}
 
 	private void updateRefreshBoard() {
-		gameControl.updateBoard();
-		guiController.refreshBoard();
+		try {
+			gameControl.updateBoard();
+			guiController.refreshBoard();
+		} catch (Exception e) {
+			System.out.println("updateRefreshBoard failed");
+		}
 	}
 
 	private void updateRefreshTradeRequest() {
-		TradeRequest tr = gameControl.updateTradeRequests();
-		if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-			if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) != null) {
-				gameControl.getCatanGame().addTradeRequest(tr);
-				guiController.showTradeReceiveDialog(tr);
+		try {
+			TradeRequest tr = gameControl.updateTradeRequests();
+			if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) != null) {
+					gameControl.getCatanGame().addTradeRequest(tr);
+					guiController.showTradeReceiveDialog(tr);
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("updateRefreshTradeRequest failed");
 		}
 	}
 
 	private void updateRefreshDice() {
-		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
-		gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
-		guiController.refreshDice();
+		try {
+			gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
+			gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
+			guiController.refreshDice();
+		} catch (Exception e) {
+			System.out.println("updaterefresh dice failed");
+		}
 	}
 
 	private void updateRefreshPlayers() {
-		for (Player p : gameControl.getCatanGame().getPlayers()) {
-			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
-			p.getHand().setDevelopmentCards(
-					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+		try {
+			for (Player p : gameControl.getCatanGame().getPlayers()) {
+				p.getHand()
+						.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+				p.getHand().setDevelopmentCards(
+						mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+			}
+			gameControl.getCatanGame().getBank()
+					.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
+			guiController.refreshPlayerResources();
+			// guiController.refreshPlayers();
+		} catch (Exception e) {
+			System.out.println("updateRefreshPlayers failed");
 		}
-		gameControl.getCatanGame().getBank()
-				.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
-		guiController.refreshPlayerResources();
-		// guiController.refreshPlayers();
 	}
 
 	public void logOut() {
