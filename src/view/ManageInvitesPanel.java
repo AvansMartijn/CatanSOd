@@ -161,9 +161,10 @@ public class ManageInvitesPanel extends JPanel {
 	}
 
 	private void addPlayer(Player player) {
-
-		invitedPlayers.add(player);
-		UpdateInvitedPlayers();
+		if(!invitedPlayers.stream().anyMatch(t -> t.getUsername().equals(player.getUsername()))){
+			invitedPlayers.add(player);
+			UpdateInvitedPlayers();	
+		}
 	}
 
 }
