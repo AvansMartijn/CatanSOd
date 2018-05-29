@@ -100,7 +100,6 @@ public class MainControl {
 						updateRefreshPlayers();
 						updateRefreshTradeRequest();
 						updateRefreshTurn();
-						guiController.packFrame();
 						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 						System.out.println("refresh");
 					}

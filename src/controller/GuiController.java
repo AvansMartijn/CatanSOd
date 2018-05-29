@@ -1260,9 +1260,6 @@ public class GuiController {
 		playerOptionMenuPanel.getEndTurnButton().setEnabled(false);
 	}
 
-	public void packFrame() {
-		frame.pack();
-		
-	}
+	
 
 }
