@@ -128,6 +128,7 @@ public class GameControl {
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 		catanGame.setRolledDice(true);
+		guiController.enablePlayerActionPanel();
 		enableOpponentsShouldRefresh();
 		// return catanGame.getDice().getDie();
 	}
@@ -1071,7 +1072,7 @@ public class GameControl {
 			if (!catanGame.hasRolledDice()) {
 				guiController.enableDice();
 			}
-			guiController.enablePlayerActionPanel();
+			
 
 		}
 
