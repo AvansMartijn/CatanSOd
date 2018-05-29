@@ -347,8 +347,10 @@ public class MainControl {
 	private void updateRefreshTradeRequest() {
 		TradeRequest tr = gameControl.updateTradeRequests();
 		if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-			gameControl.getCatanGame().addTradeRequest(tr);
-			guiController.showTradeReceiveDialog(tr);
+			if(mainDA.getTradeRequests(gameControl.getCatanGame().getIdGame(), gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) != null) {
+				gameControl.getCatanGame().addTradeRequest(tr);
+				guiController.showTradeReceiveDialog(tr);
+			}
 		}
 	}
 
@@ -367,7 +369,7 @@ public class MainControl {
 		gameControl.getCatanGame().getBank()
 				.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
 		guiController.refreshPlayerResources();
-		guiController.refreshPlayers();
+//		guiController.refreshPlayers();
 	}
 
 	public void logOut() {

@@ -1243,7 +1243,8 @@ public class GameControl {
 				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
 		enableOpponentsShouldRefresh();
-		guiController.refreshPlayers();
+		
+		guiController.refreshPlayerResources();
 		
 		return true;
 	}

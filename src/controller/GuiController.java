@@ -572,7 +572,7 @@ public class GuiController {
 								playerActionPanel.setBuildPanel();
 								addPlayerColorToBuildingLocs();
 								refreshPlayerResources();
-								refreshPlayers();
+//								refreshPlayers();
 							}
 						} else {
 							if (!gameControl.buildVillage(blb.getBuildingLocation())) {
@@ -587,7 +587,7 @@ public class GuiController {
 								addPlayerColorToBuildingLocs();
 
 								refreshPlayerResources();
-								refreshPlayers();
+//								refreshPlayers();
 							}
 						}
 					}
@@ -599,6 +599,7 @@ public class GuiController {
 
 	public void refreshPlayerResources() {
 		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+		updatePlayerStats();
 	}
 
 	private void addStreetLocListeners() {
@@ -1182,9 +1183,9 @@ public class GuiController {
 		diceDotPanel.repaint();
 	}
 
-	public void refreshPlayers() {
-		gameSouthContainerPanel.repaint();
-	}
+//	public void refreshPlayers() {
+//		
+//	}
 
 	private void addListeners() {
 
