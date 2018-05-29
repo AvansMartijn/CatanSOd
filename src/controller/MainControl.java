@@ -81,9 +81,8 @@ public class MainControl {
 					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 		}
 
-		updateRefreshTurn();
 		guiController.setIngameGuiPanel();
-
+		updateRefreshTurn();
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 
@@ -111,6 +110,7 @@ public class MainControl {
 			}
 		});
 		ingameTimerThread.start();
+		
 	}
 
 	public void createNewGame(ArrayList<String> playerUsernames, boolean randomBoard) {
