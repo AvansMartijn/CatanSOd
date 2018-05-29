@@ -3,27 +3,17 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
@@ -155,14 +145,17 @@ public class WaitingRoom extends JPanel {
 			button[count].setBorderPainted(true);
 			buttons.add(button[count]);
 		}
-		button[0].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\BRUH - Original - Vine Version.wav");
-
-			}
-
-		});
+		
+		for(int i = 0; i < button.length; i++) {
+			button[i].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					play2("\\java codering voor programmeren\\CatanSOd\\src\\Music\\BRUH - Original - Vine Version.wav");
+				}
+	
+			});
+		}
+		
 		button[1].addActionListener(new ActionListener() {
 
 			@Override
@@ -240,41 +233,5 @@ public class WaitingRoom extends JPanel {
 			exc.printStackTrace(System.out);
 		}
 	}
-
-	public void playerList() {
-
-	}
-
-	// public void trailer() {
-	// Font Bold = new Font("Arial", Font.BOLD, 40);
-	//
-	// JButton video = new JButton("Trailer");
-	// video.setForeground(Color.BLACK);
-	// video.setBackground(lightBlue2);
-	// video.setFont(Bold);
-	// video.setSize(50, 20);
-	// video.setMargin(new Insets(20, 20, 20, 20));
-	// video.setEnabled(true);
-	// video.setToolTipText("bekijk de trailer");
-	// video.setVisible(true);
-	// video.setBorderPainted(true);
-	// video.addActionListener(new ActionListener() {
-	//
-	// @Override
-	// public void actionPerformed(ActionEvent e) {
-	// try {
-	// Desktop.getDesktop()
-	// .open(new File("D:\\java codering voor programmeren\\CatanSOd\\Music\\Catan
-	// Trailer.mpg"));
-	// } catch (IOException e1) {
-	// // TODO Auto-generated catch block
-	// System.out.println("sorry you don't have the required programs");
-	// }
-	//
-	// }
-	// });
-	// videos.add(video, BorderLayout.CENTER);
-	// }
-
 }
 
