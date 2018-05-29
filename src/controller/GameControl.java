@@ -1039,7 +1039,7 @@ public class GameControl {
 	}
 
 	public void endTurn() {
-		catanGame.endTurn();
+//		catanGame.endTurn();
 		if (catanGame.getSelfPlayer().getFollownr() == 4) {
 			for (Player p : catanGame.getPlayers()) {
 				if (p.getFollownr() == 1) {
@@ -1143,13 +1143,9 @@ public class GameControl {
 	}
 
 	public void endFirstRoundTurn() {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catanGame.endTurn();
+//		catanGame.endTurn();
+		
+		
 		int amountOfVillages = 0;
 
 		for (Village v : catanGame.getSelfPlayer().getVillageArr()) {
@@ -1164,6 +1160,12 @@ public class GameControl {
 					if (p.getFollownr() == 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						mainDA.setShouldRefresh(p.getIdPlayer(), true);
 						isInTurn = false;
@@ -1175,6 +1177,12 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						mainDA.setShouldRefresh(p.getIdPlayer(), true);
 						isInTurn = false;
@@ -1188,6 +1196,12 @@ public class GameControl {
 				//end first round and start normal round
 				mainDA.setTurn(catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
 				catanGame.setTurn(catanGame.getSelfPlayer().getIdPlayer());
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				addLogMessage(catanGame.getSelfPlayer().getUsername() + " is nu aan de Beurt.");
 				
 				mainDA.setThrownDice(0, catanGame.getIdGame());
@@ -1204,6 +1218,12 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() - 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						mainDA.setShouldRefresh(p.getIdPlayer(), true);
 						isInTurn = false;

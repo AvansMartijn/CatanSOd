@@ -212,16 +212,16 @@ public class Catan {
 		this.rolledDice = rolledDice;
 	}
 
-	public void endTurn() {
-		rolledDice = false;
-		/*
-		 * Turn 1-4 % 4 -> Turn 0-3
-		 * turn++ -> turn 1-4 (turn 4 -> 1)
-		 */
-		turn = turn % 4;
-		turn++;
-	}
-	
+//	public void endTurn() {
+//		rolledDice = false;
+//		/*
+//		 * Turn 1-4 % 4 -> Turn 0-3
+//		 * turn++ -> turn 1-4 (turn 4 -> 1)
+//		 */
+//		turn = turn % 4;
+//		turn++;
+//	}
+//	
 	/**
 	 * Set this method to return true for testing, so you can test everything all the time. 
 	 * 
