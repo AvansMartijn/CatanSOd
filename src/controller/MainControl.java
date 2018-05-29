@@ -324,7 +324,7 @@ public class MainControl {
 					gameControl.playFirstRound();
 				}
 			} else {
-
+				gameControl.getCatanGame().setFirstRound(false);
 				gameControl.doTurn();
 				System.out.println("doTurn");
 				// guiController.refreshDice();
