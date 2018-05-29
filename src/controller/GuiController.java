@@ -220,6 +220,14 @@ public class GuiController {
 				dialog.setVisible(true);
 			}
 		});
+		topOptionsPanel.getInviteButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadInvites();
+
+			}
+		});
 
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
@@ -604,13 +612,13 @@ public class GuiController {
 									+ slb.getStreetLocation().getBlEnd().getXLoc() + " Y: "
 									+ slb.getStreetLocation().getBlEnd().getYLoc());
 							boardPanel.disableStreetLocButtons();
-//							playerActionPanel.setBuildPanel();
+							// playerActionPanel.setBuildPanel();
 							addPlayerColorToStreetLocs();
 							gameControl.endFirstRoundTurn();
-//							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
-//							updatePlayerStats();
+							// gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+							// updatePlayerStats();
 						}
-					}else {
+					} else {
 						if (!gameControl.buildStreet(slb.getStreetLocation())) {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 						} else {
