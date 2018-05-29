@@ -88,15 +88,9 @@ public class MainControl {
 
 			@Override
 			public void run() {
-				boolean halfTime = false;
 				while (ingame) {
-					if (halfTime) {
-						updateRefreshMessages();
-						halfTime = false;
-					} else {
-						halfTime = true;
-					}
 					if (mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
+						updateRefreshMessages();
 						updateRefreshDice();
 						updateRefreshBoard();
 						updateRefreshRobber();

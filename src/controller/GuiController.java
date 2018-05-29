@@ -518,12 +518,17 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					if(!b.getTile().hasRobber()) {
 					gameControl.changeRobber(b.getTile().getIdTile());
 					boardPanel.disableTileButtons();
 					boardPanel.repaint();
 					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
 							+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+					enablePlayerActionPanel();
 					gameControl.stealCardCauseRobber();
+					} else {
+						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
+					}
 				}
 			});
 		}

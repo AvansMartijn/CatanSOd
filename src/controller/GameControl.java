@@ -122,13 +122,14 @@ public class GameControl {
 		} else {
 			// giveResources(rolledValue);
 			giveTurnResources(rolledValue);
+			guiController.enablePlayerActionPanel();
 		}
 
 		// Edit database with rolled values
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 		catanGame.setRolledDice(true);
-		guiController.enablePlayerActionPanel();
+		
 		enableOpponentsShouldRefresh();
 		// return catanGame.getDice().getDie();
 	}
