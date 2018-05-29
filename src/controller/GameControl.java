@@ -71,16 +71,12 @@ public class GameControl {
 	// }
 
 	public void addLogMessage(String message) {
-
-		// catanGame.getMessages().add(message);
-		// guiController.refreshChat();
+		mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message);
 	}
 
 	public boolean addPlayerMessage(String message) {
 		message = catanGame.getSelfPlayer().getUsername() + ": " + message;
 		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
-			// catanGame.getMessages().add(message);
-			// guiController.refreshChat();
 			return true;
 		} else {
 			return false;
@@ -1201,6 +1197,7 @@ public class GameControl {
 				catanGame.setRolledDice(false);
 				
 				catanGame.setFirstRound(false);
+				System.out.println("firstround:  " + catanGame.isFirstRound());
 				mainDA.setFirstRound(0, catanGame.getIdGame());
 				
 				

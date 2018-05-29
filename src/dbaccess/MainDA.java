@@ -196,7 +196,6 @@ public class MainDA {
 	 */
 	public boolean addMessage(int idPlayer, String bericht) {
 		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", '" + bericht + "');";
-
 		if (!insertUpdateQuery(query)) {
 			
 			System.out.println("Adding message to DB failed");

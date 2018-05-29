@@ -608,6 +608,7 @@ public class GuiController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (gameControl.getCatanGame().isFirstRound()) {
+						System.out.println("buildstreet first round");
 						if (!gameControl.buildInitialStreet(slb.getStreetLocation())) {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 						} else {
@@ -625,6 +626,7 @@ public class GuiController {
 							// updatePlayerStats();
 						}
 					} else {
+						System.out.println("buildstreet normal");
 						if (!gameControl.buildStreet(slb.getStreetLocation())) {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 						} else {
