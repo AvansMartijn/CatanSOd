@@ -89,21 +89,30 @@ public class MainControl {
 			@Override
 			public void run() {
 				while (ingame) {
-					if (mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
-						updateRefreshMessages();
-						updateRefreshDice();
-						updateRefreshBoard();
-						updateRefreshRobber();
-						updateRefreshPlayers();
-						updateRefreshTradeRequest();
-						updateRefreshTurn();
-						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
-					}
-					try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					boolean done = false;
+					while (!done) {
+						boolean[] shouldRefresh = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+						//check if the query acutually ran succesfully
+						if (shouldRefresh[1] = true) {
+							done = true;
+							if (shouldRefresh[0]) {
+								updateRefreshMessages();
+								updateRefreshDice();
+								updateRefreshBoard();
+								updateRefreshRobber();
+								updateRefreshPlayers();
+								updateRefreshTradeRequest();
+								updateRefreshTurn();
+								mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
+										false);
+							}
+							try {
+								Thread.sleep(3000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
 					}
 				}
 			}
@@ -341,7 +350,7 @@ public class MainControl {
 	private void updateRefreshTradeRequest() {
 		TradeRequest tr = gameControl.updateTradeRequests();
 		if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-			if(mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) != null) {
+			if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) != null) {
 				gameControl.getCatanGame().addTradeRequest(tr);
 				guiController.showTradeReceiveDialog(tr);
 			}
@@ -363,7 +372,7 @@ public class MainControl {
 		gameControl.getCatanGame().getBank()
 				.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
 		guiController.refreshPlayerResources();
-//		guiController.refreshPlayers();
+		// guiController.refreshPlayers();
 	}
 
 	public void logOut() {
@@ -371,7 +380,9 @@ public class MainControl {
 	}
 
 	public boolean shouldRefresh() {
-		return mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+		boolean[] shouldRefresh = new boolean[] {};
+		shouldRefresh = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+		return shouldRefresh[0];
 	}
 
 	public String getAcccountUsername() {

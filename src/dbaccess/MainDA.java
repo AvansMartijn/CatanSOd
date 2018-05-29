@@ -651,8 +651,10 @@ public class MainDA {
 		return lastThrows;
 	}
 
-	public boolean getShouldRefresh(int idPlayer) {
-		boolean shouldRefresh = false;
+	public boolean[] getShouldRefresh(int idPlayer) {
+		boolean[] shouldRefresh = new boolean[2];
+		shouldRefresh[0] = false;
+		shouldRefresh[1] = true;
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -661,24 +663,27 @@ public class MainDA {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				shouldRefresh = myRs.getBoolean(1);
+				shouldRefresh[0] = myRs.getBoolean(1);
 			}
 			myRs.close();
 			stmt.close();
 			myConn.close();
 		} catch (SQLException e) {
-			System.out.println("Unable to get shouldRefresh");
+			System.out.println("Unable to get shouldRefresh");	
+			shouldRefresh[1] = false;
 		}
 
 		return shouldRefresh;
 	}
 
-	public void setShouldRefresh(int playerID, boolean shouldRefresh) {
+	public boolean setShouldRefresh(int playerID, boolean shouldRefresh) {
 		String query = "UPDATE speler SET shouldrefresh = " + shouldRefresh + " WHERE idspeler = " + playerID + ";";
 
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to change shouldRefresh");
+			return false;
 		}
+		return true;
 	}
 
 	public void updateBuilding(String idPiece, int idPlayer, int x_From, int y_From) {
