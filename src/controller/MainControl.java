@@ -310,7 +310,7 @@ public class MainControl {
 
 		if (turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
 			if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
-				if (gameControl.isFirstRoundActive()) {
+				if (gameControl.isFirstRoundActive() == false) {
 					gameControl.setFirstRoundActive(true);
 					System.out.println("playFirstsRound");
 					gameControl.getCatanGame().setFirstRound(true);
