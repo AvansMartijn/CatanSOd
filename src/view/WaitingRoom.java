@@ -34,6 +34,7 @@ public class WaitingRoom extends JPanel {
 		this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		this.setLayout(new BorderLayout());
 		exitButton = new JButton("Terug");
+		exitButton.setSize(20, 20);
 
 		this.setImage();
 		this.createBottomPanel();
@@ -45,8 +46,8 @@ public class WaitingRoom extends JPanel {
 	}
 
 	private void createBottomPanel() {
-		makeTauntbuttons();
 		bottomBarPanel = new JPanel();
+		makeTauntbuttons();
 		bottomBarPanel.setPreferredSize(new Dimension(this.getWidth(), BOTTOMPANELBAR_HEIGHT));
 		bottomBarPanel.setBackground(bottomPanelBarColor);
 		bottomBarPanel.add(exitButton);
@@ -68,7 +69,7 @@ public class WaitingRoom extends JPanel {
 
 		Font Bold = new Font("Arial", Font.BOLD, 20);
 
-		JButton tauntButtons[];
+		JButton[] tauntButtons;
 		tauntButtons = new JButton[8];
 		String text[] = { "Bruh", "Laugh", "Hallelujah", "Mlg", "NoGod", "Wrong", "Sparta", "Metalgear" };
 		String info = "press if you want to have a funny sound";
@@ -85,8 +86,19 @@ public class WaitingRoom extends JPanel {
 			tauntButtons[count].setVisible(true);
 			tauntButtons[count].setBorderPainted(true);
 			bottomBarPanel.add(tauntButtons[count]);
-			System.out.println(count);
 		}
+
+		String[] soundPaths = new String[] { "BRUH - Original - Vine Version.wav",
+				"/Music/Funny Laugh Sound- No No No No.wav" };
+
+//		for (int i = 0; i < tauntButtons.length; i++) {
+//			tauntButtons[i].addActionListener(new ActionListener() {
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					playSound("/Music/" + soundPaths[i]);
+//				}
+//			});
+//		}
 
 		tauntButtons[0].addActionListener(new ActionListener() {
 			@Override
