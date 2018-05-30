@@ -217,9 +217,8 @@ public class GuiController {
 				frame.setContentPane(waitingRoom);
 				frame.pack();
 				newGamedialog.dispose();
-				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex()); // TODO
-				manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
-				manageInvitesFrame.setVisible(true);
+				manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(), gameControl.getCatanGame());
+				manageInvitesFrame.setLocationRelativeTo(null);
 			}
 		});
 
@@ -228,6 +227,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setContentPane(mainMenuGui);
+				manageInvitesFrame.dispose();
 				frame.pack();
 			}
 		});
