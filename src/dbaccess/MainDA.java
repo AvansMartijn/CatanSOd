@@ -507,7 +507,7 @@ public class MainDA {
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idspel FROM speler WHERE username = '" + username + "';";
+		String query = "SELECT idspel FROM speler WHERE username = '" + username + "' ORDER BY idspel DESC;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
