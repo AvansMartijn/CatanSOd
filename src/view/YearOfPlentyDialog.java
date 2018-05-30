@@ -3,20 +3,18 @@ package view;
 import javax.swing.JDialog;
 
 import model.Player;
-import model.TradeRequest;
 
 @SuppressWarnings("serial")
 public class YearOfPlentyDialog extends JDialog {
 
-	private RobberDialogPanel robberDialogPanel;
+	private YearOfPlentyDialogPanel yearOfPlentyDialogPanel;
 
-	public YearOfPlentyDialog(Player player1,Player player2, Player player3) {
+	public YearOfPlentyDialog() {
 
-		robberDialogPanel = new RobberDialogPanel(player1,player2,player3);
+	yearOfPlentyDialogPanel = new YearOfPlentyDialogPanel();
 		
-		setUndecorated(true);
-		
-		setContentPane(robberDialogPanel);
+		setUndecorated(true);		
+		setContentPane(yearOfPlentyDialogPanel);
 		pack();
 		setLocationRelativeTo(null);
 		setAlwaysOnTop(true);
@@ -24,7 +22,7 @@ public class YearOfPlentyDialog extends JDialog {
 
 	}
 
-	public RobberDialogPanel getRobberDialogPanel() {
-		return robberDialogPanel;
+	public YearOfPlentyDialogPanel getYearOfPlentyDialogPanel() {
+		return yearOfPlentyDialogPanel;
 	}
 }

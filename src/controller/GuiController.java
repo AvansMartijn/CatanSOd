@@ -57,6 +57,7 @@ import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
 import view.TradeReceiveDialog;
 import view.TradeRespondDialog;
+import view.YearOfPlentyDialog;
 import view.CurrentTradeRequestPanel;
 import view.DevelopmentCardButton;
 import view.DevelopmentCardDialogPanel;
@@ -680,8 +681,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//gameControl.getCatanGame().getPlayerByID(playersToRob.get(0).getHand();
-				
+				// gameControl.getCatanGame().getPlayerByID(playersToRob.get(0).getHand();
+
 			}
 		});
 
@@ -690,8 +691,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				
-				
 			}
 		});
 
@@ -700,8 +699,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				
-				
 			}
 		});
 
@@ -1146,6 +1143,49 @@ public class GuiController {
 	// addPlayerColorToBuildingLocs();
 	// addPlayerColorToStreetLocs();
 	// }
+
+	public void drawYearOfPlentyDialog() {
+
+		YearOfPlentyDialog yearOfPlentyDialog = new YearOfPlentyDialog();
+
+		yearOfPlentyDialog.getYearOfPlentyDialogPanel().getSendRequestButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				ResourceType resourceType1 = null;
+
+				String resourceName1 = yearOfPlentyDialog.getYearOfPlentyDialogPanel().getGetResourceButtons1()
+						.getSelection().toString();
+
+				switch (resourceName1) {
+				case "brick":
+					resourceType1 = ResourceType.BAKSTEEN;
+					break;
+
+				case "wol":
+
+					break;
+				case "iron":
+
+					break;
+				case "wheat":
+
+					break;
+				case "wood":
+
+					break;
+
+				default:
+					break;
+				}
+
+				gameControl.getCatanGame().getBank().takeResource(resourceType1);
+
+			}
+		});
+
+	}
 
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
