@@ -6,7 +6,8 @@ import javax.swing.JFrame;
 
 import model.Catan;
 
-public class ManageInvitesFrame extends JFrame{
+@SuppressWarnings("serial")
+public class ManageInvitesFrame extends JFrame {
 	
 	public ManageInvitesPanel panel;
 	

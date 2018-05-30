@@ -22,7 +22,6 @@ import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
 import model.Street;
-import model.Tile;
 import model.TradeRequest;
 import model.Village;
 import view.BoardPanel;
@@ -90,6 +89,7 @@ public class GuiController {
 	private DevelopmentCardsPanel developmentCardsPanel;
 	private WaitingRoom waitingRoom;
 	private JDialog newGamedialog;
+	ManageInvitesFrame manageInvitesFrame;
 
 	private ArrayList<Catan> gameList;
 
@@ -200,7 +200,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
-				
 			}
 		});
 
@@ -217,6 +216,9 @@ public class GuiController {
 				}
 				frame.setContentPane(waitingRoom);
 				frame.pack();
+				newGamedialog.dispose();
+				manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(), gameControl.getCatanGame());
+				manageInvitesFrame.setLocationRelativeTo(null);
 			}
 		});
 
@@ -225,8 +227,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setContentPane(mainMenuGui);
+				manageInvitesFrame.dispose();
 				frame.pack();
-				newGamedialog.dispose();
 			}
 		});
 
@@ -311,7 +313,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex());
+				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex()); // TODO
 				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
 				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
 

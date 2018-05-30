@@ -25,7 +25,7 @@ import javax.swing.*;
 public class WaitingRoom extends JPanel {
 
 	private Image image;
-	private Color bottomPanelBarColor = new Color(0, 0, 0, 50);
+	private Color bottomPanelBarColor = new Color(0, 0, 0, 65);
 	private final int BOTTOMPANELBAR_HEIGHT = 80;
 	private final int AMOUNT_OF_TAUNTBUTTONS = 8;
 	private JButton exitButton;
