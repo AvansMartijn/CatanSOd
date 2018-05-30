@@ -340,5 +340,41 @@ public class Player {
 		
 	}
 	
+	public int getVictoryPoints() {
+		int victoryPoints = 0;
+		
+		//1 point for every village a player has built. 
+		for(Village village : villageArr) {
+			if(village.isBuild()) {
+				victoryPoints++;
+			}
+		}
+		
+		//2 points for every city a player has built. 
+		for(City city : cityArr) {
+			if (city.isBuild()) {
+				victoryPoints += 2;
+			}
+		}
+		
+		//1 point for every Victory Point card the player has played. 
+		for(DevelopmentCard developmentCard : hand.getDevelopmentCards()) {
+			if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() 
+					== DevelopmentCardType.VICTORY_POINT) {
+				victoryPoints++;
+			}
+		}
+		
+		if(hasLargestArmy) {
+			victoryPoints += 2;
+		}
+		
+		if(hasLongestRoad) {
+			victoryPoints +=2;
+		}
+		
+		return victoryPoints;
+	}
+	
 	
 }
