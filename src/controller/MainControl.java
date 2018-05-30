@@ -90,16 +90,16 @@ public class MainControl {
 			public void run() {
 				
 				while (ingame) {
-					System.out.println("ingame: "+ ingame);
+//					System.out.println("ingame: "+ ingame);
 					try {
 					if (mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
-						updateRefreshMessages();
+						updateRefreshTurn();
 						updateRefreshDice();
 						updateRefreshBoard();
 						updateRefreshRobber();
 						updateRefreshPlayers();
 						updateRefreshTradeRequest();
-						updateRefreshTurn();
+						updateRefreshMessages();
 						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 						System.out.println("refresh");
 					}
