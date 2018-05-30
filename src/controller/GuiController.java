@@ -229,9 +229,17 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.setContentPane(mainMenuGui);
-				manageInvitesFrame.dispose();
-				frame.pack();
+				Object[] options = { "Ja", "Nee" };
+			
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afbreken?", "Waarschuwing",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+				if (result == JOptionPane.YES_OPTION) {
+					frame.setContentPane(mainMenuGui);
+					manageInvitesFrame.dispose();
+					mainControl.abortGame();
+					frame.pack();
+				}
+	
 			}
 		});
 
@@ -356,7 +364,7 @@ public class GuiController {
 				});
 			}
 		});
-		
+
 		invitePanel.getReturnButton().addActionListener(new ActionListener() {
 
 			@Override

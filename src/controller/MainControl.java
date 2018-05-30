@@ -385,4 +385,8 @@ public class MainControl {
 	public void stopIngameTimer() {
 		ingame = false;
 	}
+
+	public void abortGame() {
+		
+	}
 }
