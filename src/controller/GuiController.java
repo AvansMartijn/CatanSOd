@@ -667,15 +667,21 @@ public class GuiController {
 			public void actionPerformed(ActionEvent arg0) {
 
 				gameControl.rollDice();
-				diceDotPanel.getButton().setVisible(false);
+				disableDice();
 				refreshDice();
 			}
 		});
 	}
 
+	public void disableDice() {
+		diceDotPanel.getButton().setVisible(false);
+		diceDotPanel.revalidate();
+		System.out.println("disabled dice button");
+	}
+	
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
-		playerActionPanel.revalidate();
+		diceDotPanel.revalidate();
 		System.out.println("enabled dice button");
 	}
 
@@ -1107,7 +1113,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				playerActionPanel.setVisible(false);
+				disablePlayerActionPanel();
 				gameControl.endTurn();
 			}
 		});
@@ -1171,16 +1177,19 @@ public class GuiController {
 
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
+		System.out.println("Enabled Panel");
 		playerActionPanel.revalidate();
 	}
 	public void disablePlayerActionPanel() {
 		playerActionPanel.setVisible(false);
+		System.out.println("Disabled Panel");
 		playerActionPanel.revalidate();
 	}
 
 	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
+		boardPanel.revalidate();
 	}
 
 	public void refreshChat() {
