@@ -59,6 +59,7 @@ public class MainDA {
 				comboPooledDataSource.setDriverClass("com.mysql.jdbc.Driver");
 				comboPooledDataSource.setJdbcUrl(url);
 				comboPooledDataSource.setUser(user);
+				comboPooledDataSource.setMaxPoolSize(3);
 				comboPooledDataSource.setPassword(password);
 			} catch (PropertyVetoException ex1) {
 				ex1.printStackTrace();
