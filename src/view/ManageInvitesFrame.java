@@ -14,7 +14,10 @@ public class ManageInvitesFrame extends JFrame {
 	public ManageInvitesFrame(ArrayList<String> availablePlayers, Catan game) {
 		panel = new ManageInvitesPanel(availablePlayers, game);
 		this.setContentPane(panel);
+		this.setUndecorated(true);
 		this.pack();
 		this.setVisible(true);
+		this.setLocationRelativeTo(null);
+		this.isAlwaysOnTop();
 	}
 }
