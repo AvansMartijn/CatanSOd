@@ -11,6 +11,7 @@ import model.Player;
 import model.PlayerColor;
 import model.Tile;
 import model.TradeRequest;
+import view.Frame;
 
 public class MainControl {
 
@@ -33,6 +34,8 @@ public class MainControl {
 	public boolean loginAccount(String username, String password) {
 		if (mainDA.login(username, password)) {
 			account = new Account(username);
+			Frame frame = guiController.getFrame();
+			frame.setTitle(username + " - " + frame.getTitle());
 			return true;
 		} else {
 			return false;

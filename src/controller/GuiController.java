@@ -1206,6 +1206,10 @@ public class GuiController {
 
 	}
 
+	public Frame getFrame() {
+		return frame;
+	}
+	
 	public BoardPanel getBoardPanel() {
 		return boardPanel;
 	}
