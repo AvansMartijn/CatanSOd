@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Hand {
 
@@ -127,6 +128,18 @@ public class Hand {
 // 		}
 // 		return null;
 // =======
+	
+	public Resource takeRandomResource() {
+		Resource rsToReturn;
+		Random random = new Random();
+		int randomInt = random.nextInt(resources.size());
+		rsToReturn = resources.get(randomInt);
+		resources.remove(randomInt);
+		return rsToReturn;
+	}
+	
+
+	
 	public Resource takeResource(ResourceType rsType) {
 		Resource rsToReturn;
 		for(int i = 0; i < resources.size(); i++) {

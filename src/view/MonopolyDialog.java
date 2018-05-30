@@ -8,15 +8,15 @@ import model.TradeRequest;
 @SuppressWarnings("serial")
 public class MonopolyDialog extends JDialog {
 
-	private RobberDialogPanel robberDialogPanel;
+	private MonopolyDialogPanel monopolyDialogPanel;
 
-	public MonopolyDialog(Player player1,Player player2, Player player3) {
+	public MonopolyDialog() {
 
-		robberDialogPanel = new RobberDialogPanel(player1,player2,player3);
+		monopolyDialogPanel = new MonopolyDialogPanel();
 		
 		setUndecorated(true);
 		
-		setContentPane(robberDialogPanel);
+		setContentPane(monopolyDialogPanel);
 		pack();
 		setLocationRelativeTo(null);
 		setAlwaysOnTop(true);
@@ -24,7 +24,7 @@ public class MonopolyDialog extends JDialog {
 
 	}
 
-	public RobberDialogPanel getRobberDialogPanel() {
-		return robberDialogPanel;
+	public MonopolyDialogPanel getMonopolyDialogPanel() {
+		return monopolyDialogPanel;
 	}
 }

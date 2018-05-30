@@ -1,5 +1,7 @@
 package view;
 
+import java.util.ArrayList;
+
 import javax.swing.JDialog;
 
 import model.Player;
@@ -10,9 +12,9 @@ public class RobberDialog extends JDialog {
 
 	private RobberDialogPanel robberDialogPanel;
 
-	public RobberDialog(Player player1,Player player2, Player player3) {
+	public RobberDialog(ArrayList<Player> playersToRob) {
 
-		robberDialogPanel = new RobberDialogPanel(player1,player2,player3);
+		robberDialogPanel = new RobberDialogPanel(playersToRob);
 		
 		setUndecorated(true);
 		

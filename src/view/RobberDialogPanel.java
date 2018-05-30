@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,15 +29,13 @@ public class RobberDialogPanel extends JPanel {
 
 	private JLabel titleLabel, subTitleLabel;
 
-	private JButton player1Button, player2Button, player3Button;
+	private ArrayList<JButton> playerButtons;
 
-	private Player player1, player2, player3;
-
-	public RobberDialogPanel(Player player1, Player player2, Player player3) {
-
-		this.player1 = player1;
-		this.player2 = player2;
-		this.player3 = player3;
+	public RobberDialogPanel(ArrayList<Player> playersToRob) {
+		
+		ArrayList<Player> players = playersToRob;
+		
+		System.out.println(players);
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
@@ -56,69 +55,25 @@ public class RobberDialogPanel extends JPanel {
 		subTitleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		add(subTitleLabel);
 
-		player1Button = new JButton(player1.getUsername());
-		player1Button.setFont(new Font("SansSerif", Font.BOLD, 20));
-		player1Button.setBackground(textBackgroundColor);
-		player1Button.setForeground(TextColor);
-		player1Button.setHorizontalAlignment(JLabel.CENTER);
-		player1Button.setBorder(buttonBorder);
-		player1Button.setSize(buttonDimension);
-		add(player1Button);
+		playerButtons = new ArrayList<>();
 
-		player2Button = new JButton(player2.getUsername());
-		player2Button.setFont(new Font("SansSerif", Font.BOLD, 20));
-		player2Button.setBackground(textBackgroundColor);
-		player2Button.setForeground(TextColor);
-		player2Button.setHorizontalAlignment(JLabel.CENTER);
-		player2Button.setBorder(buttonBorder);
-		player2Button.setSize(buttonDimension);
-		add(player2Button);
-
-		player3Button = new JButton(player3.getUsername());
-		player3Button.setFont(new Font("SansSerif", Font.BOLD, 20));
-		player3Button.setBackground(textBackgroundColor);
-		player3Button.setForeground(TextColor);
-		player3Button.setHorizontalAlignment(JLabel.CENTER);
-		player3Button.setBorder(buttonBorder);
-		player3Button.setSize(buttonDimension);
-		add(player3Button);
-
+		for (int i = 1; i < players.size(); i++) {
+			
+			JButton playerButton = new JButton(players.get(i).getUsername());
+			playerButton.setFont(new Font("SansSerif", Font.BOLD, 20));
+			playerButton.setBackground(textBackgroundColor);
+			playerButton.setForeground(TextColor);
+			playerButton.setHorizontalAlignment(JLabel.CENTER);
+			playerButton.setBorder(buttonBorder);
+			playerButton.setSize(buttonDimension);
+			playerButton.setEnabled(false);
+			playerButtons.add(playerButton);
+		}
 	}
 
-	public JButton getPlayer1Button() {
-		return player1Button;
-	}
+	public JButton getPlayerButton(int amount) {
 
-	public JButton getPlayer2Button() {
-		return player2Button;
-	}
+		return playerButtons.get(amount);
 
-	public JButton getPlayer3Button() {
-		return player3Button;
 	}
-
-	public Player getPlayer1() {
-		return player1;
-	}
-
-	public void setPlayer1(Player player1) {
-		this.player1 = player1;
-	}
-
-	public Player getPlayer2() {
-		return player2;
-	}
-
-	public void setPlayer2(Player player2) {
-		this.player2 = player2;
-	}
-
-	public Player getPlayer3() {
-		return player3;
-	}
-
-	public void setPlayer3(Player player3) {
-		this.player3 = player3;
-	}
-
 }

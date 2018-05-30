@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,6 +28,8 @@ public class MonopolyDialogPanel extends JPanel {
 	private JLabel titleLabel, subTitleLabel;
 	
 	private String [] resourceNames;
+	
+	private ArrayList<JButton> resourceButtons;
 
 	public MonopolyDialogPanel() {
 
@@ -50,6 +53,8 @@ public class MonopolyDialogPanel extends JPanel {
 
 		resourceNames = new String[] {"BAKSTEEN","WOL", "ERTS","GRAAN", "HOUT",};
 		
+		resourceButtons = new ArrayList<>();
+		
 		for (int i = 0; i < resourceNames.length; i++) {
 			JButton resourceButton = new JButton(resourceNames[i]);
 			resourceButton.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -58,11 +63,15 @@ public class MonopolyDialogPanel extends JPanel {
 			resourceButton.setHorizontalAlignment(JLabel.CENTER);
 			resourceButton.setBorder(buttonBorder);
 			resourceButton.setPreferredSize(buttonDimension);
-			add(resourceButton);
+			resourceButtons.add(resourceButton);
 		}
 	}
 
 	public String[] getResourceNames() {
 		return resourceNames;
+	}
+
+	public ArrayList<JButton> getResourceButtons() {
+		return resourceButtons;
 	}
 }

@@ -84,7 +84,7 @@ public class YearOfPlentyDialogPanel extends JPanel {
 
 		getResourceButtons1 = new ButtonGroup();
 
-		resourceNames1 = new String[] { "brick", "wool", "iron", "wheat", "wood" };
+		resourceNames1 = new String[] { "BAKSTEEN", "WOL", "ERTS", "GRAAN", "HOUT" };
 
 		for (int i = 0; i < resourceNames1.length; i++) {
 			JRadioButton resourceRadioButton = new JRadioButton();
