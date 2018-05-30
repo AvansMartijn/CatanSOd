@@ -31,7 +31,7 @@ public class InvitePanel extends JPanel {
 	private ArrayList<Catan> invitedList; // De lijst met games waarvoor je uitgenodigd bent.
 	private ArrayList<Catan> ableToInviteList; // De lijst met games waar je mensen voor wilt uitnodigen
 	// Alle buttons waar buiten de view actionlisteners op gezet moeten worden
-	private JButton acceptButton, declineButton, inviteButton, refreshButton, terugButton;
+	private JButton acceptButton, declineButton, inviteButton, refreshButton, returnButton;
 	// Lists die je met data gaat vullen dmv de ArrayLists met Catan objecten
 	// hierboven.
 	private JList invitedJList, ableToInviteJList;
@@ -84,9 +84,9 @@ public class InvitePanel extends JPanel {
 			declineButton = new JButton("Decline");
 			inviteButton = new JButton("Invite");
 			refreshButton = new JButton("Refresh");
-			terugButton = new JButton("terug");
+			returnButton = new JButton("Terug");
 			
-			JButton[] buttonArray = { acceptButton, declineButton, inviteButton, refreshButton, terugButton };
+			JButton[] buttonArray = { acceptButton, declineButton, inviteButton, refreshButton, returnButton };
 			for (JButton btn : buttonArray) {
 				btn.setPreferredSize(new Dimension(200, 50));
 				btn.setBackground(Color.green);
@@ -182,5 +182,8 @@ public class InvitePanel extends JPanel {
 	public int getAbleToInviteListSelectedIndex() {
 		return ableToInviteListSelectedIndex;
 	}
-
+	
+	public JButton getReturnButton() {
+		return returnButton;
+	}
 }

@@ -380,6 +380,14 @@ public class GuiController {
 				});
 			}
 		});
+		
+		invitePanel.getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadProfile();
+			}
+		});
 		this.invitePanel = invitePanel;
 		frame.setContentPane(this.invitePanel);
 		frame.pack();
