@@ -89,7 +89,7 @@ public class GuiController {
 	private DevelopmentCardsPanel developmentCardsPanel;
 	private WaitingRoom waitingRoom;
 	private JDialog newGamedialog;
-	ManageInvitesFrame manageInvitesFrame;
+	private ManageInvitesFrame manageInvitesFrame;
 
 	private ArrayList<Catan> gameList;
 
@@ -208,17 +208,20 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+			if(newGamePanel.getInvitedPlayers().size() == 4) {
 				String boardChoice = (String) newGamePanel.getBoardChoice();
-				if (boardChoice == "Random") {
-					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
-				} else {
-					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+					if (boardChoice == "Random") {
+						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
+					} else {
+						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+					}
+					frame.setContentPane(waitingRoom);
+					frame.pack();
+					newGamedialog.dispose();
+					
+					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
+							gameControl.getCatanGame());
 				}
-				frame.setContentPane(waitingRoom);
-				frame.pack();
-				newGamedialog.dispose();
-				manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(), gameControl.getCatanGame());
-				manageInvitesFrame.setLocationRelativeTo(null);
 			}
 		});
 
@@ -226,9 +229,17 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.setContentPane(mainMenuGui);
-				manageInvitesFrame.dispose();
-				frame.pack();
+				Object[] options = { "Ja", "Nee" };
+			
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afbreken?", "Waarschuwing",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+				if (result == JOptionPane.YES_OPTION) {
+					frame.setContentPane(mainMenuGui);
+					manageInvitesFrame.dispose();
+					mainControl.abortGame();
+					frame.pack();
+				}
+	
 			}
 		});
 
@@ -313,7 +324,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex()); // TODO
+				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex());
 				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
 				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
 
@@ -353,7 +364,7 @@ public class GuiController {
 				});
 			}
 		});
-		
+
 		invitePanel.getReturnButton().addActionListener(new ActionListener() {
 
 			@Override
