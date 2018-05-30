@@ -675,7 +675,8 @@ public class GuiController {
 
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
-		System.out.println("enabled button");
+		playerActionPanel.revalidate();
+		System.out.println("enabled dice button");
 	}
 
 	private void addDevelopmentCardsPanelButtonListeners() {
@@ -1170,9 +1171,11 @@ public class GuiController {
 
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
+		playerActionPanel.revalidate();
 	}
 	public void disablePlayerActionPanel() {
 		playerActionPanel.setVisible(false);
+		playerActionPanel.revalidate();
 	}
 
 	public void refreshBoard() {
