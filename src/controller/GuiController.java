@@ -89,6 +89,7 @@ public class GuiController {
 	private CurrentTradeRequestPanel tradeRequestListPanel;
 	private DevelopmentCardsPanel developmentCardsPanel;
 	private WaitingRoom waitingRoom;
+	private JDialog newGamedialog;
 
 	private ArrayList<Catan> gameList;
 
@@ -184,14 +185,13 @@ public class GuiController {
 		topOptionsPanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog dialog = new JDialog();
-				dialog.setTitle("Nieuw Spel");
-				dialog.setContentPane(newGamePanel);
-				dialog.pack();
-				dialog.setLocationRelativeTo(null);
-				dialog.toFront();
-				dialog.requestFocus();
-				dialog.setVisible(true);
+				newGamedialog = new JDialog();
+				newGamedialog.setTitle("Nieuw Spel");
+				newGamedialog.setContentPane(newGamePanel);
+				newGamedialog.pack();
+				newGamedialog.setLocationRelativeTo(null);
+				newGamedialog.setAlwaysOnTop(true);
+				newGamedialog.setVisible(true);
 			}
 		});
 		
@@ -226,6 +226,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				frame.setContentPane(mainMenuGui);
 				frame.pack();
+				newGamedialog.dispose();
 			}
 		});
 
