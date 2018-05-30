@@ -34,6 +34,7 @@ public class GameControl {
 	private Catan catanGame;
 	private Thread tradeRequestThread;
 	private boolean isInTurn;
+	private boolean firstRoundActive;
 
 	// private Gameboard gameboard;
 	// private ArrayList<Player> gamePlayers;
@@ -1132,13 +1133,41 @@ public class GameControl {
 
 		buildingLocation.setVillage(catanGame.getSelfPlayer().getAvailableVillage());
 		village.setBuildingLocation(buildingLocation);
+		
+		
+		//Player gets from his/her second village the start resources
+		if(catanGame.getSelfPlayer().getAmountBuildVillages() == 2) {
+			giveStartResources(village);
+		}
 		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
 				buildingLocation.getYLoc());
 		enableOpponentsShouldRefresh();
 		return true;
 	}
 	
-	private boolean firstRoundActive = false;
+	/**
+	 * This method gives the player the 
+	 * 
+	 * @param village the village that the player gets resources from
+	 * @since 30 May 2018
+	 * @author Jasper Mooren
+	 */
+	private void giveStartResources(Village village) {
+		for (Tile tile : catanGame.getGameboard().getTileArr()) {
+			for (BuildingLocation buildingLocation : tile.getBuildingLocArr()) {
+				if (village.getBuildingLocation() == buildingLocation) {
+					Resource resource = catanGame.getBank().takeResource(tile.getRsType());
+					if (resource != null) {
+						//Add to model
+						catanGame.getSelfPlayer().getHand().addResource(resource);
+						//Add to database
+						mainDA.addResourceToPlayer(resource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+					}
+				}
+			}
+		}
+	}
+
 	public boolean isFirstRoundActive() {
 		return firstRoundActive;
 	}
@@ -1146,6 +1175,7 @@ public class GameControl {
 	public void setFirstRoundActive(boolean firstRoundActive) {
 		this.firstRoundActive = firstRoundActive;
 	}
+	
 	public void endFirstRoundTurn() {
 //		catanGame.endTurn();
 		
