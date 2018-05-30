@@ -98,19 +98,29 @@ public class MainDA {
 	 * Executes an insert or update query
 	 */
 	public boolean insertUpdateQuery(String query) {
-
+		boolean queryResult = false;
 		makeConnection();
 		Statement stmt = null;
 		try {
 			stmt = myConn.createStatement();
 			stmt.executeUpdate(query);
-			stmt.close();
-			myConn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			queryResult = false;
+		}finally {
+		    if (stmt != null) {
+		        try {
+		        	stmt.close();
+		        } catch (SQLException e) { /* ignored */}
+		    }
+		    if (myConn != null) {
+		        try {
+		        	myConn.close();
+		        } catch (SQLException e) { /* ignored */}
+		    }
 		}
-		return true;
+		queryResult = true;
+		return queryResult;
 	}
 
 	/**
@@ -574,9 +584,7 @@ public class MainDA {
 			while (myRs.next()) {
 				retusername = myRs.getString(1);
 			}
-			myRs.close();
-			stmt.close();
-			myConn.close();
+			
 			if (retusername == null) {
 				return false;
 			} else {
