@@ -745,7 +745,7 @@ public class GuiController {
 
 					tradeReceive.setAlwaysOnTop(false);
 
-					Object[] options = { "Oké" };
+					Object[] options = { "Oke" };
 
 					int result = JOptionPane.showOptionDialog(null, "Je hebt niet genoeg grondstoffen", "Waarschuwing",
 							JOptionPane.CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
