@@ -1119,4 +1119,14 @@ public class MainDA {
 		return amount;
 	}
 
+	public void abortGame(int[] playerids) {
+		for(int playerId: playerids) {
+			String query = "UPDATE speler SET speelstatus = 'afgebroken' WHERE idspeler = " + playerId + ";";
+			
+			if (!insertUpdateQuery(query)) {
+				System.out.println("Unable to change playstatus");
+			}	
+		}
+	}
+
 }
