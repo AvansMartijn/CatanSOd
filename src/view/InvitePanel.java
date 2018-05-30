@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class InvitePanel extends JPanel {
 	private ArrayList<Catan> invitedList; // De lijst met games waarvoor je uitgenodigd bent.
 	private ArrayList<Catan> ableToInviteList; // De lijst met games waar je mensen voor wilt uitnodigen
 	// Alle buttons waar buiten de view actionlisteners op gezet moeten worden
-	private JButton acceptButton, declineButton, inviteButton, refreshButton;
+	private JButton acceptButton, declineButton, inviteButton, refreshButton, terugButton;
 	// Lists die je met data gaat vullen dmv de ArrayLists met Catan objecten
 	// hierboven.
 	private JList invitedJList, ableToInviteJList;
@@ -42,6 +43,7 @@ public class InvitePanel extends JPanel {
 	private int ableToInviteListSelectedIndex = -1;
 
 	public InvitePanel(ArrayList<Catan> invitedList, ArrayList<Catan> ableToInviteList) {
+		this.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		// Ik moet nog een goed aantal dingen veranderen dus na t eten ben ik hier wss
@@ -82,7 +84,9 @@ public class InvitePanel extends JPanel {
 			declineButton = new JButton("Decline");
 			inviteButton = new JButton("Invite");
 			refreshButton = new JButton("Refresh");
-			JButton[] buttonArray = { acceptButton, declineButton, inviteButton, refreshButton };
+			terugButton = new JButton("terug");
+			
+			JButton[] buttonArray = { acceptButton, declineButton, inviteButton, refreshButton, terugButton };
 			for (JButton btn : buttonArray) {
 				btn.setPreferredSize(new Dimension(200, 50));
 				btn.setBackground(Color.green);
