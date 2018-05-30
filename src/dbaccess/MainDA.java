@@ -660,7 +660,7 @@ public class MainDA {
 	}
 
 	public boolean getShouldRefresh(int idPlayer) {
-		boolean shouldRefresh = false;
+		boolean shouldRefresh = true;
 		makeConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -671,11 +671,12 @@ public class MainDA {
 			while (myRs.next()) {
 				shouldRefresh = myRs.getBoolean(1);
 			}
-			myRs.close();
-			stmt.close();
-			myConn.close();
 		} catch (SQLException e) {
 			System.out.println("Unable to get shouldRefresh");
+		}  finally {
+		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
+		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
+		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
 		}
 
 		return shouldRefresh;
@@ -763,11 +764,12 @@ public class MainDA {
 				village.setBuildingLocation(new BuildingLocation(x_from, y_from));
 				retArr.add(village);
 			}
-			myRs.close();
-			stmt.close();
-			myConn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
+		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
+		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
 		}
 		return retArr;
 	}
@@ -790,11 +792,12 @@ public class MainDA {
 				city.setBuildingLocation(new BuildingLocation(x_from, y_from));
 				retArr.add(city);
 			}
-			myRs.close();
-			stmt.close();
-			myConn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
+		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
+		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
 		}
 		return retArr;
 	}
@@ -818,11 +821,12 @@ public class MainDA {
 
 				retArr.add(new Street(idpiece, x_from, y_from, x_to, y_to));
 			}
-			myRs.close();
-			stmt.close();
-			myConn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
+		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
+		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
 		}
 		return retArr;
 	}
