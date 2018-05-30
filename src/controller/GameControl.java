@@ -48,6 +48,7 @@ public class GameControl {
 		this.mainDA = mainDA;
 		// This will be added in the GuiController(). So it won't be null in the
 		// program.
+		isInTurn = false;
 		guiController = null;
 	}
 
@@ -1041,6 +1042,7 @@ public class GameControl {
 	}
 
 	public void endTurn() {
+		isInTurn = false;
 //		catanGame.endTurn();
 		try {
 		if (catanGame.getSelfPlayer().getFollownr() == 4) {
@@ -1053,7 +1055,6 @@ public class GameControl {
 					catanGame.setRolledDice(false);
 //					mainDA.setShouldRefresh(p.getIdPlayer(), true);
 					enableEveryoneShouldRefresh();
-					isInTurn = false;
 					break;
 				}
 			}
@@ -1067,7 +1068,6 @@ public class GameControl {
 					catanGame.setRolledDice(false);
 //					mainDA.setShouldRefresh(p.getIdPlayer(), true);
 					enableEveryoneShouldRefresh();
-					isInTurn = false;
 					break;
 				}
 			}
@@ -1078,16 +1078,15 @@ public class GameControl {
 	}
 
 	public void doTurn() {
-		if (!isInTurn) {
-			isInTurn = true;
+//		if (!isInTurn) {
 			if (!catanGame.hasRolledDice()) {
 				
+				isInTurn = true;
 				guiController.enableDice();
 //				rollDice();
-			}
-			
+			}			
 
-		}
+//		}
 
 	}
 
