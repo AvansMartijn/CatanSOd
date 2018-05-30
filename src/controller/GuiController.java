@@ -208,17 +208,20 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+			if(newGamePanel.getInvitedPlayers().size() == 4) {
 				String boardChoice = (String) newGamePanel.getBoardChoice();
-				if (boardChoice == "Random") {
-					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
-				} else {
-					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+					if (boardChoice == "Random") {
+						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
+					} else {
+						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+					}
+					frame.setContentPane(waitingRoom);
+					frame.pack();
+					newGamedialog.dispose();
+					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
+							gameControl.getCatanGame());
+					manageInvitesFrame.setLocationRelativeTo(null);
 				}
-				frame.setContentPane(waitingRoom);
-				frame.pack();
-				newGamedialog.dispose();
-				manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(), gameControl.getCatanGame());
-				manageInvitesFrame.setLocationRelativeTo(null);
 			}
 		});
 
