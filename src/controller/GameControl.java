@@ -1043,6 +1043,7 @@ public class GameControl {
 
 	public void endTurn() {
 		isInTurn = false;
+		catanGame.setRolledDice(false);
 //		catanGame.endTurn();
 		try {
 		if (catanGame.getSelfPlayer().getFollownr() == 4) {
@@ -1052,7 +1053,6 @@ public class GameControl {
 					catanGame.setTurn(p.getIdPlayer());
 					addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 					mainDA.setThrownDice(0, catanGame.getIdGame());
-					catanGame.setRolledDice(false);
 //					mainDA.setShouldRefresh(p.getIdPlayer(), true);
 					enableEveryoneShouldRefresh();
 					break;
@@ -1065,7 +1065,6 @@ public class GameControl {
 					catanGame.setTurn(p.getIdPlayer());
 					addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 					mainDA.setThrownDice(0, catanGame.getIdGame());
-					catanGame.setRolledDice(false);
 //					mainDA.setShouldRefresh(p.getIdPlayer(), true);
 					enableEveryoneShouldRefresh();
 					break;
@@ -1075,6 +1074,7 @@ public class GameControl {
 		}catch (Exception e){
 			System.out.println("endTurn failed");
 		}
+		
 	}
 
 	public void doTurn() {
