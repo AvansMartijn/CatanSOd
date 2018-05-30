@@ -387,6 +387,11 @@ public class MainControl {
 	}
 
 	public void abortGame() {
+		int[] playerids = new int[4];
 		
+		for(int i = 0; i < 4; i++) {
+			playerids[i] = gameControl.getCatanGame().getPlayers().get(i).getIdPlayer();
+		}
+		mainDA.abortGame(playerids);
 	}
 }
