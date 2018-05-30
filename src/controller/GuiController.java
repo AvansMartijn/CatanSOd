@@ -327,7 +327,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Catan catan = invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex());
+				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex());
 				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
 				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
 
@@ -365,6 +365,14 @@ public class GuiController {
 
 					}
 				});
+			}
+		});
+		
+		invitePanel.getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadProfile();
 			}
 		});
 		this.invitePanel = invitePanel;
