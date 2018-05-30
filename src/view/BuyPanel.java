@@ -34,7 +34,7 @@ public class BuyPanel extends JPanel {
 	private JButton yesButton;
 	private JButton returnButton;
 
-	public BuyPanel() { // TODO developmentcard costs visually
+	public BuyPanel() {
 
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
@@ -91,7 +91,6 @@ public class BuyPanel extends JPanel {
 			} catch (IOException e) {
 			}
 			resourceIconsLabel[i] = new JLabel(new ImageIcon(image));
-//			resourceIconsLabel[i].setHorizontalAlignment(JLabel.CENTER);
 			costsPanel.add(resourceIconsLabel[i]);
 		}
 	}
