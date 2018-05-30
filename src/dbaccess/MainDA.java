@@ -512,7 +512,7 @@ public class MainDA {
 		if(finished) {
 			query = "SELECT idspel FROM speler WHERE username = '" + username + "' AND speelstatus = 'uitgespeeld' ORDER BY idspel DESC;";
 		} else {
-			query = "SELECT idspel FROM speler WHERE username = '" + username + "' AND speelstatus = 'geaccepteerd' ORDER BY idspel DESC;";
+			query = "SELECT idspel FROM speler WHERE username = '" + username + "' AND (speelstatus = 'geaccepteerd' OR speelstatus = 'uitdager') ORDER BY idspel DESC;";
 		}
 		try {
 			stmt = myConn.createStatement();

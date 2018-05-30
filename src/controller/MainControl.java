@@ -60,16 +60,16 @@ public class MainControl {
 			Player selfPlayer = getSelfPlayer(players);
 
 			catanGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
-			setMainMenu(catanGames);
 
 		}
+		guiController.setGameList(catanGames);
 		// for (int i = 0; i < gameIDsOfUser.size(); i++) {
 		// }
 
 	}
 	
-	public void setMainMenu(ArrayList<Catan> catanGames) {
-		guiController.setMainMenu(catanGames, account.getUsername());
+	public void setMainMenu() {
+		guiController.setMainMenu(account.getUsername());
 		
 	}
 

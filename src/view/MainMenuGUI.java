@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -105,5 +106,10 @@ public class MainMenuGUI extends JPanel {
 
 	public void setPageNr(int pageNr) {
 		this.pageNr = pageNr;
+	}
+
+	public JScrollPane getScrollPanel() {
+		// TODO Auto-generated method stub
+		return scrollPane;
 	}
 }
