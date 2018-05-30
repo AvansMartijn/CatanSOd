@@ -134,7 +134,7 @@ public class PlayerStatsPanel extends JPanel {
 
 	// Update stats
 	public void updateStats() {
-		playerPointsLabel.setText("Punten: " + player.getPoints());
+		playerPointsLabel.setText("Punten: " + player.getVictoryPoints());
 		String[] playerStats = new String[] { "" + player.getAmountBuildVillages(), "" + player.getAmountBuildCities(),
 				"" + player.getAmountBuildStreets(), "" + player.getHand().getResources().size(),
 				"" + player.getHand().getDevelopmentCards().size() };

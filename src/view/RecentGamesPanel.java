@@ -17,7 +17,7 @@ public class RecentGamesPanel extends JPanel {
 	private ArrayList<RecentGamePanel> gamePanels;
 	private Color textBackgroundColor = new Color(223, 190, 172);
 	
-	public RecentGamesPanel(ArrayList<Catan> gameList, int page) {
+	public RecentGamesPanel(ArrayList<Catan> gameList) {
 		gamePanels = new ArrayList<>();
 		setBackground(textBackgroundColor);
 		for(Catan game: gameList) {
