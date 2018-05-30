@@ -92,7 +92,9 @@ public class MainControl {
 				while (ingame) {
 //					System.out.println("ingame: "+ ingame);
 					try {
-					if (mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
+						boolean result = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+					if (result) {
+						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 						updateRefreshTurn();
 						updateRefreshDice();
 						updateRefreshBoard();
@@ -100,7 +102,6 @@ public class MainControl {
 						updateRefreshPlayers();
 						updateRefreshTradeRequest();
 						updateRefreshMessages();
-						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 						System.out.println("refresh");
 					}
 					try {
@@ -323,7 +324,7 @@ public class MainControl {
 		try {
 			int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
 			gameControl.getCatanGame().setTurn(turn);
-
+			System.out.println("idturn"+ turn + " idplayer: " + gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 			if (turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
 				if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
 					if (gameControl.isFirstRoundActive() == false) {

@@ -1079,7 +1079,9 @@ public class GameControl {
 
 	public void doTurn() {
 //		if (!isInTurn) {
-			if (!catanGame.hasRolledDice()) {
+		System.out.println("DBrolled: " + mainDA.hasThrown(catanGame.getIdGame()));
+		System.out.println("hasrolled: " + catanGame.hasRolledDice());
+			if (!mainDA.hasThrown(catanGame.getIdGame())) {
 				
 				isInTurn = true;
 				guiController.enableDice();
