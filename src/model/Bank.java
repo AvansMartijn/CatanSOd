@@ -114,6 +114,7 @@ public class Bank {
 //		return null;
 //	}
 
+	
 	public void addMultipleResources(ArrayList<Resource> resourcesToAdd) {
 		for (Resource rs : resourcesToAdd) {
 			resources.add(rs);

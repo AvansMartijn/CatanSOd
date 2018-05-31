@@ -1034,6 +1034,7 @@ public class GameControl {
 		catanGame.setRolledDice(true);
 		guiController.disablePlayerActionPanel();
 		guiController.getBoardPanel().enableBuildingLocButtons(false);
+		guiController.addSystemMessageToChat(Color.BLUE, "Klik op een bouwlocatie om je dorp te bouwen");
 		
 		// uitdager plaatst eerst een dorp en een aanliggende straat (met
 		// afstandsregel?)

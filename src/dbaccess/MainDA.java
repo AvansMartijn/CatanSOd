@@ -241,7 +241,8 @@ public class MainDA {
 		ResultSet myRs = null;
 		String query = "SELECT tijdstip, bericht FROM chatregel "
 				+ "JOIN speler ON chatregel.idspeler = speler.idspeler "
-				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + " ORDER BY tijdstip DESC);";
+				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") ORDER BY tijdstip ASC;";
+		System.out.println(query);
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);

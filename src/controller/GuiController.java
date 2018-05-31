@@ -569,14 +569,9 @@ public class GuiController {
 									+ " Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: "
 									+ blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
-							addPlayerColorToBuildingLocs();
-							try {
-								Thread.sleep(1000);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+							addPlayerColorToBuildingLocs();							
 							boardPanel.enableStreetLocButtons();
+							addSystemMessageToChat(Color.BLUE, "Klik op een straatlocatie om je straat te bouwen");
 
 							// refreshPlayerResources();
 							// refreshPlayers();

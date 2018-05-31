@@ -74,7 +74,8 @@ public class MainControl {
 	public void joinGame(Catan game) {
 		gameControl.setCatan(game);
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
-		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
+//		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
+		updateRefreshMessages();
 		gameControl.updateBoard();
 		gameControl.getCatanGame().getGameboard()
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
@@ -356,6 +357,7 @@ public class MainControl {
 			ArrayList<String> messageList = new ArrayList<String>();
 			messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 			gameControl.getCatanGame().setMessages(messageList);
+
 			guiController.refreshChat();
 		} catch (Exception e) {
 			System.out.println("updateRefreshmessages failed");
