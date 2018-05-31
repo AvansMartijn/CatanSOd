@@ -195,7 +195,33 @@ public class MainDA {
 	 * Add a message to the Database
 	 */
 	public boolean addMessage(int idPlayer, String bericht) {
-		String query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", '" + bericht + "');";
+		boolean differentTimestamp = true;
+		String lastTimeStamp = null;
+		Connection myConn = connectionPool.getConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String searchquery = "SELECT (tijdstip < CURRENT_TIMESTAMP), tijdstip FROM chatregel WHERE idspeler = " + idPlayer + " ORDER BY tijdstip DESC LIMIT 1";
+		try {
+			stmt = myConn.createStatement();	
+			myRs = stmt.executeQuery(searchquery);
+			while (myRs.next()) {
+				differentTimestamp = myRs.getBoolean(1);
+				lastTimeStamp = myRs.getString(2);
+			}
+		} catch (SQLException e) {
+			System.out.println("Unable to get last player ID");
+		} finally {
+		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
+		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
+		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+		}
+		String query = null;
+		if(differentTimestamp) {
+			 query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", '" + bericht + "');";
+		} else {
+			query = "INSERT INTO chatregel (tijdstip, idspeler, bericht) VALUES (DATE_ADD(\""+lastTimeStamp+"\", INTERVAL 1 second), " + idPlayer + ", '" + bericht + "');";
+		}
+		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
 			
 			System.out.println("Adding message to DB failed");
@@ -215,7 +241,7 @@ public class MainDA {
 		ResultSet myRs = null;
 		String query = "SELECT tijdstip, bericht FROM chatregel "
 				+ "JOIN speler ON chatregel.idspeler = speler.idspeler "
-				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ");";
+				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + " ORDER BY tijdstip DESC);";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);

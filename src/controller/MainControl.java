@@ -93,6 +93,7 @@ public class MainControl {
 			public void run() {
 				
 				while (ingame) {
+					updateRefreshMessages();
 //					System.out.println("ingame: "+ ingame);
 					try {
 						boolean result = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
@@ -104,7 +105,7 @@ public class MainControl {
 						updateRefreshRobber();
 						updateRefreshPlayers();
 						updateRefreshTradeRequest();
-						updateRefreshMessages();
+						
 						System.out.println("refresh");
 					}
 					try {
