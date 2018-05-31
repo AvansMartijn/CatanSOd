@@ -623,8 +623,6 @@ public class GuiController {
 
 	public void refreshPlayerResources() {
 		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
-		developmentCardsPanel.addDevelopmentCard(developmentCardsPanel.getDevelopmentCards()
-				.get(developmentCardsPanel.getDevelopmentCards().size()).getDevelopmentCardType());
 		updatePlayerStats();
 	}
 
@@ -747,6 +745,8 @@ public class GuiController {
 					// though). Check for a more fancy way
 					// Not sure if the same happens with building stuff and its costs
 					gameControl.buyDevelopmentCard();
+					developmentCardsPanel.addDevelopmentCard(developmentCardsPanel.getDevelopmentCards()
+							.get(developmentCardsPanel.getDevelopmentCards().size()).getDevelopmentCardType());
 				}
 			}
 		});
