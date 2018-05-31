@@ -28,11 +28,11 @@ public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
 	private static final String user = "mfghaneg";
 	private static final String password = "Ab12345";
-	protected Connection myConn;
+//	protected Connection myConn;
 	protected C3P0DataSource connectionPool;
 
 	public MainDA() {
-		myConn = null;
+//		myConn = null;
 		connectionPool = C3P0DataSource.getInstance();
 	}
 
@@ -88,24 +88,13 @@ public class MainDA {
 		}
 	}
 
-	/**
-	 * Initializes a connection
-	 */
-	public void makeConnection() {
-		Connection myConn = connectionPool.getConnection();
-		// try {
-		// myConn = DriverManager.getConnection(url, user, password);
-		// } catch (SQLException ex) {
-		// System.out.println("Connection failed");
-		// }
-	}
 
 	/**
 	 * Executes an insert or update query
 	 */
 	public boolean insertUpdateQuery(String query) {
 		boolean queryResult = false;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		try {
 			stmt = myConn.createStatement();
@@ -126,7 +115,7 @@ public class MainDA {
 	 */
 	public void testQuery() {
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT * FROM account";
@@ -154,7 +143,7 @@ public class MainDA {
 
 		int idGame = 0;
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idspel FROM spel ORDER BY idspel DESC LIMIT 1";
@@ -181,7 +170,7 @@ public class MainDA {
 
 	public int getPlayerID(String username, int idGame) {
 		int idPlayer = 0;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String searchquery = "SELECT idspeler FROM speler WHERE username = '" + username + "' AND idspel = " + idGame
@@ -221,7 +210,7 @@ public class MainDA {
 	public ArrayList<String> getMessages(int idGame) {
 
 		ArrayList<String> retList = new ArrayList<String>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT tijdstip, bericht FROM chatregel "
@@ -312,7 +301,7 @@ public class MainDA {
 
 		ArrayList<Tile> returnTile = new ArrayList<Tile>();
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idtegel, x, y, grondstof, waarde " + "FROM tegels " + "WHERE idspel = " + idGame + " "
@@ -354,7 +343,7 @@ public class MainDA {
 	 */
 	public boolean login(String username, String password) {
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		String wachtwoord = null;
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -405,7 +394,7 @@ public class MainDA {
 
 	public int getTurn(int idGame) {
 		int idPlayer = 0;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String searchquery = "SELECT beurt_idspeler FROM spel WHERE idspel = " + idGame + ";";
@@ -444,7 +433,7 @@ public class MainDA {
 	public int getFirstRound(int idGame) {
 		
 		int firstround = 0;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT eersteronde FROM spel WHERE idspel = "+ idGame + ";";
@@ -468,7 +457,7 @@ public class MainDA {
 	public int getLastUsedPlayerID() {
 		int idPlayer = 0;
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idspeler FROM speler ORDER BY idspeler DESC LIMIT 1";
@@ -497,7 +486,7 @@ public class MainDA {
 		ResultSet myRs = null;
 		int lastNR = 0;
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		String followquery = "SELECT volgnr FROM speler WHERE idspel = '" + idGame + "' ORDER BY volgnr DESC LIMIT 1";
 		try {
 			stmt = myConn.createStatement();
@@ -522,7 +511,7 @@ public class MainDA {
 
 		ArrayList<Integer> retList = new ArrayList<Integer>();
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idspel FROM speler WHERE username = '" + username + "';";
@@ -549,7 +538,7 @@ public class MainDA {
 
 		ArrayList<Player> playerList = new ArrayList<Player>();
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idspeler, username, kleur, speelstatus, volgnr FROM speler WHERE idspel = '" + idGame
@@ -583,7 +572,7 @@ public class MainDA {
 	 */
 	public boolean accountNameExists(String username) {
 
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		String retusername = null;
 		Statement stmt = null;
 		ResultSet myRs = null;
@@ -621,7 +610,7 @@ public class MainDA {
 
 	public int getRobberLocation(int idGame) {
 		int streetRobberIdTile = 0;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT struikrover_idtegel FROM spel WHERE idspel = " + idGame + ";";
@@ -653,7 +642,7 @@ public class MainDA {
 
 	public int[] getLastThrows(int idGame) {
 		int[] lastThrows = new int[2];
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT laatste_worp_steen1, laatste_worp_steen2 FROM spel WHERE idspel = " + idGame + ";";
@@ -677,7 +666,7 @@ public class MainDA {
 
 	public boolean getShouldRefresh(int idPlayer) {
 		boolean shouldRefresh = true;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT shouldrefresh FROM speler WHERE idspeler = " + idPlayer + ";";
@@ -739,7 +728,7 @@ public class MainDA {
 
 	public ArrayList<City> getCitiesFromPlayer(int playerID) {
 		ArrayList<City> retArr = new ArrayList<City>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'c%' AND idspeler = " + playerID
@@ -768,7 +757,7 @@ public class MainDA {
 
 	public ArrayList<Village> getVillageFromPlayer(int playerID) {
 		ArrayList<Village> retArr = new ArrayList<Village>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'd%' AND idspeler = " + playerID
@@ -796,7 +785,7 @@ public class MainDA {
 
 	public ArrayList<City> getCityFromPlayer(int playerID) {
 		ArrayList<City> retArr = new ArrayList<City>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idstuk, x_van, y_van FROM spelerstuk WHERE idstuk LIKE 'c%' AND idspeler = " + playerID
@@ -824,7 +813,7 @@ public class MainDA {
 
 	public ArrayList<Street> getStreetsFromPlayer(int playerID) {
 		ArrayList<Street> retArr = new ArrayList<Street>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT idstuk, x_van, y_van, x_naar, y_naar FROM spelerstuk WHERE idstuk LIKE 'r%' AND idspeler = "
@@ -854,7 +843,7 @@ public class MainDA {
 	public ArrayList<String> getAllAccounts() {
 
 		ArrayList<String> retList = new ArrayList<String>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT username FROM account;";
@@ -879,7 +868,7 @@ public class MainDA {
 	public ArrayList<Resource> updateResources(int idGame, int idPlayer) {
 
 		ArrayList<Resource> retList = new ArrayList<Resource>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = null;
@@ -929,7 +918,7 @@ public class MainDA {
 	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = null;
@@ -961,7 +950,7 @@ public class MainDA {
 
 	public boolean hasThrown(int idGame) {
 		boolean shouldRefresh = false;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT gedobbeld FROM spel WHERE idspel = " + idGame + ";";
@@ -1020,7 +1009,7 @@ public class MainDA {
 	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {
 
 		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT * FROM ruilaanbod WHERE idspel = " + idGame + " AND idspeler IS NULL;";
@@ -1071,7 +1060,7 @@ public class MainDA {
 	public TradeRequest getInitialTradeRequest(int idGame) {
 
 		TradeRequest tr = null;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT * FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") AND geaccepteerd IS NULL;";
@@ -1106,7 +1095,7 @@ public class MainDA {
 	public TradeRequest getSingleTradeRequest(int idPlayer) {
 
 		TradeRequest tr = null;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT * FROM ruilaanbod WHERE idspeler = " + idPlayer + ";";
@@ -1141,7 +1130,7 @@ public class MainDA {
 	
 	public int getAmountOfOpenRequests(int idGame) {
 		int amount = 0;
-		makeConnection();
+		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
 		String query = "SELECT count(*) FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") ;";
