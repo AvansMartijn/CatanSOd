@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Random;
 
 import dbaccess.MainDA;
 import model.BuildingLocation;
 import model.Catan;
 import model.City;
+import model.DevelopmentCard;
 import model.Gameboard;
-import model.Hand;
 import model.Player;
 import model.Resource;
 import model.ResourceType;
@@ -1313,5 +1312,11 @@ public class GameControl {
 		guiController.refreshPlayerResources();
 		
 		return true;
+	}
+	
+	public void buyDevelopmentCard() { 	// TODO test
+		payResources(DevelopmentCard.CARD_COST);
+		DevelopmentCard developmentCard = catanGame.getBank().takeDevelopmentCard();
+		catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
 	}
 }

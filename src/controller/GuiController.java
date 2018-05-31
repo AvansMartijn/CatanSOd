@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import model.BuildingLocation;
 import model.Catan;
 import model.City;
+import model.DevelopmentCard;
+import model.DevelopmentCardType;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
@@ -539,6 +541,7 @@ public class GuiController {
 						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
 								+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
 						enablePlayerActionPanel();
+						gameControl.stealCardCauseRobber();
 					} else {
 						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
 					}
@@ -569,7 +572,12 @@ public class GuiController {
 									+ " Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: "
 									+ blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
-							addPlayerColorToBuildingLocs();							
+							addPlayerColorToBuildingLocs();
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e1) {
+								e1.printStackTrace();
+							}
 							boardPanel.enableStreetLocButtons();
 							addSystemMessageToChat(Color.BLUE, "Klik op een straatlocatie om je straat te bouwen");
 
@@ -718,8 +726,29 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) {
+					playerActionPanel.getBuyPanel().getYesButton().setEnabled(true);
+				} else {
+					playerActionPanel.getBuyPanel().getYesButton().setEnabled(false);
+				}
 				playerActionPanel.setBuyPanel();
+			}
+		});
+	}
 
+	private void addPlayerActionBuyConfirmButtonListener() {
+		playerActionPanel.getBuyPanel().getYesButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) {
+					// TODO if someone wants to buy 2 developmentcards but only is able to buy 1,
+					// "JA" button will still be enabled (this if-statement will prevent buy-abuse
+					// though). Check for a more fancy way
+					// Not sure if the same happens with building stuff and its costs
+					gameControl.buyDevelopmentCard();
+					developmentCardsPanel.addDevelopmentCard(developmentCardsPanel.getDevelopmentCards()
+							.get(developmentCardsPanel.getDevelopmentCards().size()).getDevelopmentCardType());
+				}
 			}
 		});
 	}
@@ -1411,6 +1440,7 @@ public class GuiController {
 
 		// buy listeners
 		addPlayerActionBuyButtonListener();
+		addPlayerActionBuyConfirmButtonListener();
 		addPlayerActionBuyQuitButtonListener();
 
 		// Trade listeners
