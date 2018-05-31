@@ -49,6 +49,7 @@ public class GameControl {
 		this.mainDA = mainDA;
 		// This will be added in the GuiController(). So it won't be null in the
 		// program.
+		isInTurn = false;
 		guiController = null;
 	}
 
@@ -94,7 +95,7 @@ public class GameControl {
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
 		changeRobberInDB(idTile);
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 	}
 
 	public void changeRobberInDB(int idTile) {
@@ -123,13 +124,15 @@ public class GameControl {
 		} else {
 			// giveResources(rolledValue);
 			giveTurnResources(rolledValue);
+			guiController.enablePlayerActionPanel();
 		}
 
 		// Edit database with rolled values
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 		catanGame.setRolledDice(true);
-		enableOpponentsShouldRefresh();
+		
+		enableEveryoneShouldRefresh();
 		// return catanGame.getDice().getDie();
 	}
 
@@ -309,7 +312,7 @@ public class GameControl {
 		village.setBuildingLocation(buildingLocation);
 		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
 				buildingLocation.getYLoc());
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 		return true;
 	}
 
@@ -339,7 +342,7 @@ public class GameControl {
 				mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), 0, 0);
 				mainDA.updateBuilding(city.getIdBuilding(), city.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
 						buildingLocation.getYLoc());
-				enableOpponentsShouldRefresh();
+				enableEveryoneShouldRefresh();
 				System.out.println("upgraded to city");
 				return true;
 			} else {
@@ -374,7 +377,7 @@ public class GameControl {
 		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(),
 				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 		return true;
 	}
 
@@ -727,9 +730,13 @@ public class GameControl {
 	// woodReceive));
 	// }
 
-	public void enableOpponentsShouldRefresh() {
+	public void enableEveryoneShouldRefresh() {
 		for (Player p : catanGame.getPlayers()) {
-			mainDA.setShouldRefresh(p.getIdPlayer(), true);
+			boolean done = false;
+			while(!done) {
+				done = mainDA.setShouldRefresh(p.getIdPlayer(), true);
+			}
+			
 		}
 	}
 
@@ -794,7 +801,7 @@ public class GameControl {
 
 		mainDA.createTradeRequest(new TradeRequest(getCatanGame().getSelfPlayer().getIdPlayer(), stoneGive, woolGive,
 				ironGive, wheatGive, woodGive, stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive, 3));
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 	}
 
 	public void countTradeOffers() {
@@ -830,7 +837,7 @@ public class GameControl {
 		ArrayList<TradeRequest> tradeRequestArr = new ArrayList<>();
 		for (Player p : catanGame.getPlayers()) {
 			if (p.getIdPlayer() != catanGame.getSelfPlayer().getIdPlayer()) {
-				TradeRequest tr = mainDA.getSingleTradeRequest(catanGame.getIdGame(), p.getIdPlayer());
+				TradeRequest tr = mainDA.getSingleTradeRequest(p.getIdPlayer());
 				if (tr != null) {
 					tradeRequestArr.add(tr);
 				}
@@ -846,7 +853,7 @@ public class GameControl {
 				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 1);
 
 		mainDA.createTradeRequest(tR);
-		setShouldRefreshEnabled(oldtR.getIdPlayer());
+		enableEveryoneShouldRefresh();
 
 	}
 
@@ -857,7 +864,7 @@ public class GameControl {
 				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 0);
 
 		mainDA.createTradeRequest(tR);
-		setShouldRefreshEnabled(oldtR.getIdPlayer());
+		enableEveryoneShouldRefresh();
 	}
 
 	public void deleteTradeRequest() {
@@ -976,12 +983,12 @@ public class GameControl {
 		// swap resources in code
 		// remove traderequests in db
 		// remove traderequests in catanGame
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 	}
 
 	public void doDevCardRoadBuilding() {
 		// build 2 streets without the cost
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 	}
 
 	public void doDevCardMonopoly(ResourceType rsType) {
@@ -993,7 +1000,7 @@ public class GameControl {
 						catanGame.getSelfPlayer().getIdPlayer());
 			}
 		}
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 	}
 
 	public void doDevCardYearOfPlenty(ResourceType rsType1, ResourceType rsType2) {
@@ -1015,7 +1022,7 @@ public class GameControl {
 		} else {
 			guiController.addSystemMessageToChat(Color.RED, "de bank heeft niet genoeg " + rsType2 + " kaarten");
 		}
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 	}
 
 	public void playFirstRound() {
@@ -1036,7 +1043,10 @@ public class GameControl {
 	}
 
 	public void endTurn() {
+		isInTurn = false;
+		catanGame.setRolledDice(false);
 //		catanGame.endTurn();
+		try {
 		if (catanGame.getSelfPlayer().getFollownr() == 4) {
 			for (Player p : catanGame.getPlayers()) {
 				if (p.getFollownr() == 1) {
@@ -1044,9 +1054,8 @@ public class GameControl {
 					catanGame.setTurn(p.getIdPlayer());
 					addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 					mainDA.setThrownDice(0, catanGame.getIdGame());
-					catanGame.setRolledDice(false);
-					mainDA.setShouldRefresh(p.getIdPlayer(), true);
-					isInTurn = false;
+//					mainDA.setShouldRefresh(p.getIdPlayer(), true);
+					enableEveryoneShouldRefresh();
 					break;
 				}
 			}
@@ -1057,24 +1066,30 @@ public class GameControl {
 					catanGame.setTurn(p.getIdPlayer());
 					addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 					mainDA.setThrownDice(0, catanGame.getIdGame());
-					catanGame.setRolledDice(false);
-					mainDA.setShouldRefresh(p.getIdPlayer(), true);
-					isInTurn = false;
+//					mainDA.setShouldRefresh(p.getIdPlayer(), true);
+					enableEveryoneShouldRefresh();
 					break;
 				}
 			}
 		}
+		}catch (Exception e){
+			System.out.println("endTurn failed");
+		}
+		
 	}
 
 	public void doTurn() {
-		if (!isInTurn) {
-			isInTurn = true;
-			if (!catanGame.hasRolledDice()) {
+//		if (!isInTurn) {
+		System.out.println("DBrolled: " + mainDA.hasThrown(catanGame.getIdGame()));
+		System.out.println("hasrolled: " + catanGame.hasRolledDice());
+			if (!mainDA.hasThrown(catanGame.getIdGame())) {
+				
+				isInTurn = true;
 				guiController.enableDice();
-			}
-			guiController.enablePlayerActionPanel();
+//				rollDice();
+			}			
 
-		}
+//		}
 
 	}
 
@@ -1105,14 +1120,14 @@ public class GameControl {
 				}
 			}
 		}
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 		guiController.refreshPlayerResources();
 	}
 
-	public void setShouldRefreshEnabled(int idPlayer) {
-		mainDA.setShouldRefresh(idPlayer, true);
-
-	}
+//	public void setShouldRefreshEnabled(int idPlayer) {
+//		mainDA.setShouldRefresh(idPlayer, true);
+//
+//	}
 
 	public boolean buildInitialVillage(BuildingLocation buildingLocation) {
 		Village village = catanGame.getSelfPlayer().getAvailableVillage();
@@ -1141,7 +1156,7 @@ public class GameControl {
 		}
 		mainDA.updateBuilding(village.getIdBuilding(), village.getPlayer().getIdPlayer(), buildingLocation.getXLoc(),
 				buildingLocation.getYLoc());
-		enableOpponentsShouldRefresh();
+		enableEveryoneShouldRefresh();
 		return true;
 	}
 	
@@ -1187,6 +1202,7 @@ public class GameControl {
 				amountOfVillages++;
 			}
 		}
+		System.out.println("amount of villages: " + amountOfVillages);
 		if (amountOfVillages < 2) {
 			// Turn forward
 			if (catanGame.getSelfPlayer().getFollownr() == 4) {
@@ -1194,10 +1210,10 @@ public class GameControl {
 					if (p.getFollownr() == 4) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						
-						isInTurn = false;
-						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						System.out.println("1 fw set next turn for " +p.getIdPlayer());
+						enableEveryoneShouldRefresh();
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						isInTurn = false;
 						break;
 					}
 				}
@@ -1206,10 +1222,10 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						
-						isInTurn = false;
-						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						System.out.println("2 fw set next turn for " +p.getIdPlayer());
+						enableEveryoneShouldRefresh();
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						isInTurn = false;
 						break;
 					}
 				}
@@ -1232,16 +1248,16 @@ public class GameControl {
 				
 				
 				isInTurn = false;
-				mainDA.setShouldRefresh(catanGame.getSelfPlayer().getIdPlayer(), true);
+				enableEveryoneShouldRefresh();
 				addLogMessage(catanGame.getSelfPlayer().getUsername() + " is nu aan de Beurt.");
 			} else {
 				for (Player p : catanGame.getPlayers()) {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() - 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
+						System.out.println("3 bw set next turn for " +p.getIdPlayer());
 						
-						
-						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						enableEveryoneShouldRefresh();
 						isInTurn = false;
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						break;
@@ -1272,8 +1288,9 @@ public class GameControl {
 		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(),
 				streetLocation.getBlStart().getXLoc(), streetLocation.getBlStart().getYLoc(),
 				streetLocation.getBlEnd().getXLoc(), streetLocation.getBlEnd().getYLoc());
-		enableOpponentsShouldRefresh();
-		guiController.refreshPlayers();
+		enableEveryoneShouldRefresh();
+		
+		guiController.refreshPlayerResources();
 		
 		return true;
 	}

@@ -524,16 +524,26 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					if(!b.getTile().hasRobber()) {
 					gameControl.changeRobber(b.getTile().getIdTile());
 					boardPanel.disableTileButtons();
 					boardPanel.repaint();
 					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
 							+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+					enablePlayerActionPanel();
 					gameControl.stealCardCauseRobber();
+					} else {
+						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
+					}
 				}
 			});
 		}
 	}
+//	
+//	public void repaintAndValidate() {
+//		gameGUIPanel.repaint();
+//		gameGUIPanel.revalidate();
+//	}
 
 	private void addBuildLocListeners() {
 
@@ -578,7 +588,7 @@ public class GuiController {
 								playerActionPanel.setBuildPanel();
 								addPlayerColorToBuildingLocs();
 								refreshPlayerResources();
-								refreshPlayers();
+//								refreshPlayers();
 							}
 						} else {
 							if (!gameControl.buildVillage(blb.getBuildingLocation())) {
@@ -593,7 +603,7 @@ public class GuiController {
 								addPlayerColorToBuildingLocs();
 
 								refreshPlayerResources();
-								refreshPlayers();
+//								refreshPlayers();
 							}
 						}
 					}
@@ -605,6 +615,7 @@ public class GuiController {
 
 	public void refreshPlayerResources() {
 		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+		updatePlayerStats();
 	}
 
 	private void addStreetLocListeners() {
@@ -662,15 +673,22 @@ public class GuiController {
 			public void actionPerformed(ActionEvent arg0) {
 
 				gameControl.rollDice();
-				diceDotPanel.getButton().setVisible(false);
+				disableDice();
 				refreshDice();
 			}
 		});
 	}
 
+	public void disableDice() {
+		diceDotPanel.getButton().setVisible(false);
+		diceDotPanel.revalidate();
+		System.out.println("disabled dice button");
+	}
+	
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
-		System.out.println("enabled button");
+		diceDotPanel.revalidate();
+		System.out.println("enabled dice button");
 	}
 
 	private void addDevelopmentCardsPanelButtonListeners() {
@@ -752,7 +770,7 @@ public class GuiController {
 
 					tradeReceive.setAlwaysOnTop(false);
 
-					Object[] options = { "Oké" };
+					Object[] options = { "Oke" };
 
 					int result = JOptionPane.showOptionDialog(null, "Je hebt niet genoeg grondstoffen", "Waarschuwing",
 							JOptionPane.CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
@@ -1097,7 +1115,8 @@ public class GuiController {
 		playerActionPanel.getPlayerOptionMenuPanel().getEndTurnButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setVisible(false);
+
+				disablePlayerActionPanel();
 				gameControl.endTurn();
 			}
 		});
@@ -1161,15 +1180,20 @@ public class GuiController {
 
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
+		System.out.println("Enabled Panel");
+		playerActionPanel.revalidate();
 	}
 
 	public void disablePlayerActionPanel() {
 		playerActionPanel.setVisible(false);
+		System.out.println("Disabled Panel");
+		playerActionPanel.revalidate();
 	}
 
 	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
+		boardPanel.revalidate();
 	}
 
 	public void refreshChat() {
@@ -1185,9 +1209,9 @@ public class GuiController {
 		diceDotPanel.repaint();
 	}
 
-	public void refreshPlayers() {
-		gameSouthContainerPanel.repaint();
-	}
+//	public void refreshPlayers() {
+//		
+//	}
 
 	private void addListeners() {
 
@@ -1251,5 +1275,7 @@ public class GuiController {
 		playerOptionMenuPanel.getTradeButton().setEnabled(false);
 		playerOptionMenuPanel.getEndTurnButton().setEnabled(false);
 	}
+
+	
 
 }
