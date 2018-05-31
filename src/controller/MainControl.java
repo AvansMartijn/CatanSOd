@@ -301,7 +301,7 @@ public class MainControl {
 	}
 
 	public boolean createAccount(String username, String password) {
-		if (mainDA.accountNameExists(username)) {
+		if (mainDA.accountNameExists(username) || username.length() < 3) {
 			return false;
 		} else {
 			mainDA.createAccount(username, password);
