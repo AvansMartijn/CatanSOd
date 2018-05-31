@@ -94,7 +94,6 @@ public class GameControl {
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
 		changeRobberInDB(idTile);
-
 		guiController.showRobberDialog();
 
 		enableEveryoneShouldRefresh();
@@ -120,9 +119,11 @@ public class GameControl {
 	public void rollDice() {
 		catanGame.rollDice();
 		int rolledValue = catanGame.getDice().getValue();
+//		 rolledValue = 7;
 
 		if (rolledValue == 7) {
-			setRobber();
+			guiController.addSystemMessageToChat(Color.BLUE, "Je hebt 7 gegooit, Verplaats de Rover");
+			enableRobber();
 			takeAwayHalfResources();
 		} else {
 			// giveResources(rolledValue);
@@ -135,20 +136,21 @@ public class GameControl {
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 		catanGame.setRolledDice(true);
 		
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + rolledValue + " gegooid.");
 		enableEveryoneShouldRefresh();
 		// return catanGame.getDice().getDie();
 	}
 
-	private void setRobber() {
+	private void enableRobber() {
 		guiController.getBoardPanel().enableTileButtons();
 	}
 
-	// Action Listener in the Tile calls this.
-	public void stealCardCauseRobber() {
-		Tile robberTile = gameBoardControl.getGameBoard().getRobberTile();
-		ArrayList<Player> playersAtRobberTile = getPlayersAroundTile(robberTile);
-		guiController.createStealDialog(playersAtRobberTile);
-	}
+	// Action Listener in the Tile DOES NOT call this.
+//	public void stealCardCauseRobber() {
+//		Tile robberTile = gameBoardControl.getGameBoard().getRobberTile();
+//		ArrayList<Player> playersAtRobberTile = getPlayersAroundTile(robberTile);
+//		guiController.createStealDialog(playersAtRobberTile);
+//	}
 
 	private ArrayList<Player> getPlayersAroundTile(Tile tile) {
 		ArrayList<BuildingLocation> buildingLocations = tile.getBuildingLocArr();
@@ -1032,6 +1034,7 @@ public class GameControl {
 		catanGame.setRolledDice(true);
 		guiController.disablePlayerActionPanel();
 		guiController.getBoardPanel().enableBuildingLocButtons(false);
+		guiController.addSystemMessageToChat(Color.BLUE, "Klik op een bouwlocatie om je dorp te bouwen");
 		
 		// uitdager plaatst eerst een dorp en een aanliggende straat (met
 		// afstandsregel?)
@@ -1086,6 +1089,11 @@ public class GameControl {
 		int robbedPlayerID = player.getIdPlayer();
 		Resource randomResource = getCatanGame().getPlayerByID(robbedPlayerID).getHand().takeRandomResource();
 		getCatanGame().getSelfPlayer().getHand().addResource(randomResource);
+		mainDA.addResourceToPlayer(randomResource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+		guiController.refreshPlayerResources();
+		//TODO check if you have to show the rstype or just tell that he stole a card
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een " + randomResource.getRsType().toString().toLowerCase() + " van " + player.getUsername() + " gestolen");
+		enableEveryoneShouldRefresh();
 
 	}
 

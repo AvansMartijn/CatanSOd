@@ -74,7 +74,8 @@ public class MainControl {
 	public void joinGame(Catan game) {
 		gameControl.setCatan(game);
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
-		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
+//		gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
+		updateRefreshMessages();
 		gameControl.updateBoard();
 		gameControl.getCatanGame().getGameboard()
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
@@ -93,6 +94,7 @@ public class MainControl {
 			public void run() {
 				
 				while (ingame) {
+					updateRefreshMessages();
 //					System.out.println("ingame: "+ ingame);
 					try {
 						boolean result = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
@@ -104,7 +106,7 @@ public class MainControl {
 						updateRefreshRobber();
 						updateRefreshPlayers();
 						updateRefreshTradeRequest();
-						updateRefreshMessages();
+						
 						System.out.println("refresh");
 					}
 					try {
@@ -355,6 +357,7 @@ public class MainControl {
 			ArrayList<String> messageList = new ArrayList<String>();
 			messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 			gameControl.getCatanGame().setMessages(messageList);
+
 			guiController.refreshChat();
 		} catch (Exception e) {
 			System.out.println("updateRefreshmessages failed");
