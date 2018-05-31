@@ -95,7 +95,6 @@ public class GameControl {
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
 		changeRobberInDB(idTile);
-
 		guiController.showRobberDialog();
 
 		enableEveryoneShouldRefresh();
@@ -123,7 +122,8 @@ public class GameControl {
 		int rolledValue = catanGame.getDice().getValue();
 
 		if (rolledValue == 7) {
-			setRobber();
+			guiController.addSystemMessageToChat(Color.BLUE, "Je hebt 7 gegooit, Verplaats de Rover");
+			enableRobber();
 			takeAwayHalfResources();
 		} else {
 			// giveResources(rolledValue);
@@ -136,20 +136,21 @@ public class GameControl {
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 		catanGame.setRolledDice(true);
 		
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + rolledValue + " gegooid.");
 		enableEveryoneShouldRefresh();
 		// return catanGame.getDice().getDie();
 	}
 
-	private void setRobber() {
+	private void enableRobber() {
 		guiController.getBoardPanel().enableTileButtons();
 	}
 
-	// Action Listener in the Tile calls this.
-	public void stealCardCauseRobber() {
-		Tile robberTile = gameBoardControl.getGameBoard().getRobberTile();
-		ArrayList<Player> playersAtRobberTile = getPlayersAroundTile(robberTile);
-		guiController.createStealDialog(playersAtRobberTile);
-	}
+	// Action Listener in the Tile DOES NOT call this.
+//	public void stealCardCauseRobber() {
+//		Tile robberTile = gameBoardControl.getGameBoard().getRobberTile();
+//		ArrayList<Player> playersAtRobberTile = getPlayersAroundTile(robberTile);
+//		guiController.createStealDialog(playersAtRobberTile);
+//	}
 
 	private ArrayList<Player> getPlayersAroundTile(Tile tile) {
 		ArrayList<BuildingLocation> buildingLocations = tile.getBuildingLocArr();

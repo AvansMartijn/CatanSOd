@@ -57,7 +57,7 @@ public class RobberDialogPanel extends JPanel {
 
 		playerButtons = new ArrayList<>();
 
-		for (int i = 1; i < players.size(); i++) {
+		for (int i = 0; i < players.size(); i++) {
 			
 			JButton playerButton = new JButton(players.get(i).getUsername());
 			playerButton.setFont(new Font("SansSerif", Font.BOLD, 20));

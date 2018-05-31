@@ -216,8 +216,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-			if(newGamePanel.getInvitedPlayers().size() == 4) {
-				String boardChoice = (String) newGamePanel.getBoardChoice();
+				if (newGamePanel.getInvitedPlayers().size() == 4) {
+					String boardChoice = (String) newGamePanel.getBoardChoice();
 					if (boardChoice == "Random") {
 						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
 					} else {
@@ -226,7 +226,7 @@ public class GuiController {
 					frame.setContentPane(waitingRoom);
 					frame.pack();
 					newGamedialog.dispose();
-					
+
 					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
 							gameControl.getCatanGame());
 				}
@@ -238,16 +238,16 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Object[] options = { "Ja", "Nee" };
-			
-				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afbreken?", "Waarschuwing",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afbreken?",
+						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 				if (result == JOptionPane.YES_OPTION) {
 					frame.setContentPane(mainMenuGui);
 					manageInvitesFrame.dispose();
 					mainControl.abortGame();
 					frame.pack();
 				}
-	
+
 			}
 		});
 
@@ -532,14 +532,13 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					if(!b.getTile().hasRobber()) {
-					gameControl.changeRobber(b.getTile().getIdTile());
-					boardPanel.disableTileButtons();
-					boardPanel.repaint();
-					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
-							+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
-					enablePlayerActionPanel();
-					gameControl.stealCardCauseRobber();
+					if (!b.getTile().hasRobber()) {
+						gameControl.changeRobber(b.getTile().getIdTile());
+						boardPanel.disableTileButtons();
+						boardPanel.repaint();
+						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+								+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+						enablePlayerActionPanel();
 					} else {
 						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
 					}
@@ -547,11 +546,11 @@ public class GuiController {
 			});
 		}
 	}
-//	
-//	public void repaintAndValidate() {
-//		gameGUIPanel.repaint();
-//		gameGUIPanel.revalidate();
-//	}
+	//
+	// public void repaintAndValidate() {
+	// gameGUIPanel.repaint();
+	// gameGUIPanel.revalidate();
+	// }
 
 	private void addBuildLocListeners() {
 
@@ -595,7 +594,7 @@ public class GuiController {
 								playerActionPanel.setBuildPanel();
 								addPlayerColorToBuildingLocs();
 								refreshPlayerResources();
-//								refreshPlayers();
+								// refreshPlayers();
 							}
 						} else {
 							if (!gameControl.buildVillage(blb.getBuildingLocation())) {
@@ -610,7 +609,7 @@ public class GuiController {
 								addPlayerColorToBuildingLocs();
 
 								refreshPlayerResources();
-//								refreshPlayers();
+								// refreshPlayers();
 							}
 						}
 					}
@@ -691,7 +690,7 @@ public class GuiController {
 		diceDotPanel.revalidate();
 		System.out.println("disabled dice button");
 	}
-	
+
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
 		diceDotPanel.revalidate();
@@ -724,7 +723,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 playerActionPanel.setBuyPanel();
+				playerActionPanel.setBuyPanel();
 
 			}
 		});
@@ -756,57 +755,56 @@ public class GuiController {
 			}
 		}
 
-		RobberDialog robberDialog = new RobberDialog(playersToRob);
-
 		// if no player has a building on one of the building locations, the dialog
 		// closes/ won't show
-		if (playersToRob.size() == 0) {
-			robberDialog.dispose();
+		if (playersToRob.size() > 0) {
+			RobberDialog robberDialog = new RobberDialog(playersToRob);
+			
+
+			robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					gameControl.robberTakeResource(playersToRob.get(0));
+
+					for (int i = 0; i < robberBuildLocations.size(); i++) {
+						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(0)) {
+							robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
+						}
+					}
+				}
+			});
+
+			robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					gameControl.robberTakeResource(playersToRob.get(1));
+					for (int i = 0; i < robberBuildLocations.size(); i++) {
+						if (robberBuildLocations.get(i).getBuilding().getPlayer() == playersToRob.get(1)) {
+							robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
+						}
+					}
+				}
+			});
+
+			robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					gameControl.robberTakeResource(playersToRob.get(2));
+					for (int i = 0; i < robberBuildLocations.size(); i++) {
+						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(2)) {
+							robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
+						}
+					}
+				}
+
+			});
 		}
-
-		robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				gameControl.robberTakeResource(playersToRob.get(0));
-
-				for (int i = 0; i < robberBuildLocations.size(); i++) {
-					if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(0)) {
-						robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
-					}
-				}
-			}
-		});
-
-		robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				gameControl.robberTakeResource(playersToRob.get(1));
-				for (int i = 0; i < robberBuildLocations.size(); i++) {
-					if (robberBuildLocations.get(i).getBuilding().getPlayer() == playersToRob.get(1)) {
-						robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
-					}
-				}
-			}
-		});
-
-		robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				gameControl.robberTakeResource(playersToRob.get(2));
-				for (int i = 0; i < robberBuildLocations.size(); i++) {
-					if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(2)) {
-						robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
-					}
-				}
-			}
-		});
-
 	}
 
 	public void drawMonopolyDialog() {
@@ -1383,9 +1381,9 @@ public class GuiController {
 		diceDotPanel.repaint();
 	}
 
-//	public void refreshPlayers() {
-//		
-//	}
+	// public void refreshPlayers() {
+	//
+	// }
 
 	private void addListeners() {
 
@@ -1420,21 +1418,21 @@ public class GuiController {
 	public Frame getFrame() {
 		return frame;
 	}
-	
+
 	public BoardPanel getBoardPanel() {
 		return boardPanel;
 	}
 
-	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
-
-	}
-
-	public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake,
-			HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
-
-		// TODO Auto-generated method stub
-
-	}
+	// public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
+	//
+	// }
+	//
+	// public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake,
+	// HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
+	//
+	// // TODO Auto-generated method stub
+	//
+	// }
 
 	private void updatePlayerStats() {
 
@@ -1456,7 +1454,5 @@ public class GuiController {
 		playerOptionMenuPanel.getTradeButton().setEnabled(false);
 		playerOptionMenuPanel.getEndTurnButton().setEnabled(false);
 	}
-
-	
 
 }
