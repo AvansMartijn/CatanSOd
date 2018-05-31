@@ -21,6 +21,7 @@ import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.DevelopmentCard;
+import model.DevelopmentCardType;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
@@ -622,6 +623,8 @@ public class GuiController {
 
 	public void refreshPlayerResources() {
 		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+		developmentCardsPanel.addDevelopmentCard(developmentCardsPanel.getDevelopmentCards()
+				.get(developmentCardsPanel.getDevelopmentCards().size()).getDevelopmentCardType());
 		updatePlayerStats();
 	}
 
@@ -738,9 +741,10 @@ public class GuiController {
 		playerActionPanel.getBuyPanel().getYesButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) { 
-					// TODO if someone wants to buy 2 developmentcards but only is able to buy 1, 
-					// "JA" button will still be enabled (this if-statement will prevent buy-abuse though). Check for a more fancy way
+				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) {
+					// TODO if someone wants to buy 2 developmentcards but only is able to buy 1,
+					// "JA" button will still be enabled (this if-statement will prevent buy-abuse
+					// though). Check for a more fancy way
 					// Not sure if the same happens with building stuff and its costs
 					gameControl.buyDevelopmentCard();
 				}
