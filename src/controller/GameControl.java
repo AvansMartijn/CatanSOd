@@ -1181,7 +1181,7 @@ public class GameControl {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
 						System.out.println("1 fw set next turn for " +p.getIdPlayer());
-						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						enableEveryoneShouldRefresh();
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						isInTurn = false;
 						break;
@@ -1193,7 +1193,7 @@ public class GameControl {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
 						System.out.println("2 fw set next turn for " +p.getIdPlayer());
-						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						enableEveryoneShouldRefresh();
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						isInTurn = false;
 						break;
@@ -1218,7 +1218,7 @@ public class GameControl {
 				
 				
 				isInTurn = false;
-				mainDA.setShouldRefresh(catanGame.getSelfPlayer().getIdPlayer(), true);
+				enableEveryoneShouldRefresh();
 				addLogMessage(catanGame.getSelfPlayer().getUsername() + " is nu aan de Beurt.");
 			} else {
 				for (Player p : catanGame.getPlayers()) {
@@ -1227,7 +1227,7 @@ public class GameControl {
 						catanGame.setTurn(p.getIdPlayer());
 						System.out.println("3 bw set next turn for " +p.getIdPlayer());
 						
-						mainDA.setShouldRefresh(p.getIdPlayer(), true);
+						enableEveryoneShouldRefresh();
 						isInTurn = false;
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						break;
