@@ -740,7 +740,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) { 
 					// TODO if someone wants to buy 2 developmentcards but only is able to buy 1, 
-					// "JA" button will still be enabled (this if-statement will prevent buy abuse though). Check for a more fancy way
+					// "JA" button will still be enabled (this if-statement will prevent buy-abuse though). Check for a more fancy way
 					// Not sure if the same happens with building stuff and its costs
 					gameControl.buyDevelopmentCard();
 				}

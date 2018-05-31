@@ -1306,7 +1306,9 @@ public class GameControl {
 		return true;
 	}
 	
-	public void buyDevelopmentCard() {
+	public void buyDevelopmentCard() { 	// TODO test
 		payResources(DevelopmentCard.CARD_COST);
+		DevelopmentCard developmentCard = catanGame.getBank().takeDevelopmentCard();
+		catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
 	}
 }
