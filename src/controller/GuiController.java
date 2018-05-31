@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import model.BuildingLocation;
 import model.Catan;
 import model.City;
+import model.DevelopmentCard;
+import model.DevelopmentCardType;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
@@ -216,8 +218,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-			if(newGamePanel.getInvitedPlayers().size() == 4) {
-				String boardChoice = (String) newGamePanel.getBoardChoice();
+				if (newGamePanel.getInvitedPlayers().size() == 4) {
+					String boardChoice = (String) newGamePanel.getBoardChoice();
 					if (boardChoice == "Random") {
 						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
 					} else {
@@ -226,7 +228,7 @@ public class GuiController {
 					frame.setContentPane(waitingRoom);
 					frame.pack();
 					newGamedialog.dispose();
-					
+
 					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
 							gameControl.getCatanGame());
 				}
@@ -238,16 +240,16 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Object[] options = { "Ja", "Nee" };
-			
-				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afbreken?", "Waarschuwing",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afbreken?",
+						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 				if (result == JOptionPane.YES_OPTION) {
 					frame.setContentPane(mainMenuGui);
 					manageInvitesFrame.dispose();
 					mainControl.abortGame();
 					frame.pack();
 				}
-	
+
 			}
 		});
 
@@ -532,14 +534,14 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					if(!b.getTile().hasRobber()) {
-					gameControl.changeRobber(b.getTile().getIdTile());
-					boardPanel.disableTileButtons();
-					boardPanel.repaint();
-					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
-							+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
-					enablePlayerActionPanel();
-					gameControl.stealCardCauseRobber();
+					if (!b.getTile().hasRobber()) {
+						gameControl.changeRobber(b.getTile().getIdTile());
+						boardPanel.disableTileButtons();
+						boardPanel.repaint();
+						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+								+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+						enablePlayerActionPanel();
+						gameControl.stealCardCauseRobber();
 					} else {
 						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
 					}
@@ -547,11 +549,11 @@ public class GuiController {
 			});
 		}
 	}
-//	
-//	public void repaintAndValidate() {
-//		gameGUIPanel.repaint();
-//		gameGUIPanel.revalidate();
-//	}
+	//
+	// public void repaintAndValidate() {
+	// gameGUIPanel.repaint();
+	// gameGUIPanel.revalidate();
+	// }
 
 	private void addBuildLocListeners() {
 
@@ -574,7 +576,6 @@ public class GuiController {
 							try {
 								Thread.sleep(1000);
 							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 							boardPanel.enableStreetLocButtons();
@@ -595,7 +596,7 @@ public class GuiController {
 								playerActionPanel.setBuildPanel();
 								addPlayerColorToBuildingLocs();
 								refreshPlayerResources();
-//								refreshPlayers();
+								// refreshPlayers();
 							}
 						} else {
 							if (!gameControl.buildVillage(blb.getBuildingLocation())) {
@@ -610,7 +611,7 @@ public class GuiController {
 								addPlayerColorToBuildingLocs();
 
 								refreshPlayerResources();
-//								refreshPlayers();
+								// refreshPlayers();
 							}
 						}
 					}
@@ -691,7 +692,7 @@ public class GuiController {
 		diceDotPanel.revalidate();
 		System.out.println("disabled dice button");
 	}
-	
+
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
 		diceDotPanel.revalidate();
@@ -724,8 +725,29 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 playerActionPanel.setBuyPanel();
+				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) {
+					playerActionPanel.getBuyPanel().getYesButton().setEnabled(true);
+				} else {
+					playerActionPanel.getBuyPanel().getYesButton().setEnabled(false);
+				}
+				playerActionPanel.setBuyPanel();
+			}
+		});
+	}
 
+	private void addPlayerActionBuyConfirmButtonListener() {
+		playerActionPanel.getBuyPanel().getYesButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) {
+					// TODO if someone wants to buy 2 developmentcards but only is able to buy 1,
+					// "JA" button will still be enabled (this if-statement will prevent buy-abuse
+					// though). Check for a more fancy way
+					// Not sure if the same happens with building stuff and its costs
+					gameControl.buyDevelopmentCard();
+					developmentCardsPanel.addDevelopmentCard(developmentCardsPanel.getDevelopmentCards()
+							.get(developmentCardsPanel.getDevelopmentCards().size()).getDevelopmentCardType());
+				}
 			}
 		});
 	}
@@ -1383,9 +1405,9 @@ public class GuiController {
 		diceDotPanel.repaint();
 	}
 
-//	public void refreshPlayers() {
-//		
-//	}
+	// public void refreshPlayers() {
+	//
+	// }
 
 	private void addListeners() {
 
@@ -1401,6 +1423,7 @@ public class GuiController {
 
 		// buy listeners
 		addPlayerActionBuyButtonListener();
+		addPlayerActionBuyConfirmButtonListener();
 		addPlayerActionBuyQuitButtonListener();
 
 		// Trade listeners
@@ -1420,7 +1443,7 @@ public class GuiController {
 	public Frame getFrame() {
 		return frame;
 	}
-	
+
 	public BoardPanel getBoardPanel() {
 		return boardPanel;
 	}
@@ -1456,7 +1479,5 @@ public class GuiController {
 		playerOptionMenuPanel.getTradeButton().setEnabled(false);
 		playerOptionMenuPanel.getEndTurnButton().setEnabled(false);
 	}
-
-	
 
 }
