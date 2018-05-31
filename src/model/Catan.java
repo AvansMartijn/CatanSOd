@@ -13,6 +13,9 @@ public class Catan {
 	private Dice dice;
 	private Gameboard gameboard;
 	private Bank bank;
+	private boolean firstRound;
+	
+
 	//TODO Make sure that a conversion from playerID is made to the turn 
 	//get the followNr of the player of which it is it's turn. 
 	/** Player's turn in order: 1-4 */
@@ -40,6 +43,7 @@ public class Catan {
 		this.selfPlayer = selfPlayer;
 		this.idGame = players.get(0).getidGame();
 		this.turn = turn;
+		this.rolledDice = false;
 		tradeRequestArr = new ArrayList<TradeRequest>();
 		//First player (Players[0]) is the UITDAGER. The Rest is UIGEDAAGDE. 
 		//players[0] has already been made, so start at 1. 
@@ -48,6 +52,14 @@ public class Catan {
 		//Game starts at turn -1, after the setup of the game is complete, 
 		//nextTurn() will set it to turn 0, 
 		//which is the 1st real turn of the game. 
+	}
+	
+	public boolean isFirstRound() {
+		return firstRound;
+	}
+
+	public void setFirstRound(boolean firstRound) {
+		this.firstRound = firstRound;
 	}
 	
 	public void fillCatan(Gameboard gameBoard) {
@@ -201,16 +213,16 @@ public class Catan {
 		this.rolledDice = rolledDice;
 	}
 
-	public void endTurn() {
-		rolledDice = false;
-		/*
-		 * Turn 1-4 % 4 -> Turn 0-3
-		 * turn++ -> turn 1-4 (turn 4 -> 1)
-		 */
-		turn = turn % 4;
-		turn++;
-	}
-	
+//	public void endTurn() {
+//		rolledDice = false;
+//		/*
+//		 * Turn 1-4 % 4 -> Turn 0-3
+//		 * turn++ -> turn 1-4 (turn 4 -> 1)
+//		 */
+//		turn = turn % 4;
+//		turn++;
+//	}
+//	
 	/**
 	 * Set this method to return true for testing, so you can test everything all the time. 
 	 * 

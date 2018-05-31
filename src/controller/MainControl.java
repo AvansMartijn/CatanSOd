@@ -11,6 +11,7 @@ import model.Player;
 import model.PlayerColor;
 import model.Tile;
 import model.TradeRequest;
+import view.Frame;
 
 public class MainControl {
 
@@ -33,6 +34,8 @@ public class MainControl {
 	public boolean loginAccount(String username, String password) {
 		if (mainDA.login(username, password)) {
 			account = new Account(username);
+			Frame frame = guiController.getFrame();
+			frame.setTitle(username + " - " + frame.getTitle());
 			return true;
 		} else {
 			return false;
@@ -82,35 +85,47 @@ public class MainControl {
 		}
 
 		guiController.setIngameGuiPanel();
-
+		updateRefreshTurn();
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				while(ingame) {
-					updateRefreshMessages();
-					updateRefreshDice();
-					if(mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer())) {
+				
+				while (ingame) {
+//					System.out.println("ingame: "+ ingame);
+					try {
+						boolean result = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+					if (result) {
+//						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
+						updateRefreshTurn();
+						updateRefreshDice();
 						updateRefreshBoard();
 						updateRefreshRobber();
-						updateRefreshPlayers();	
+						updateRefreshPlayers();
 						updateRefreshTradeRequest();
-            updateRefreshTurn();
-						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
+						updateRefreshMessages();
+						System.out.println("refresh");
 					}
-					System.out.println("Refreshed");
 					try {
-						Thread.sleep(8000);
+						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					}
+					}catch (Exception e) {
+						System.out.println(e);
 					}
 				}
 			}
 		});
 		ingameTimerThread.start();
+
 	}
+
+	// private void repaintAndValidate() {
+	// guiController.repaintAndValidate();
+	// }
 
 	public void createNewGame(ArrayList<String> playerUsernames, boolean randomBoard) {
 		Catan catanGame;
@@ -299,53 +314,101 @@ public class MainControl {
 	}
 
 	public void updateRefreshRobber() {
-		gameControl.getCatanGame().getGameboard()
-				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		guiController.refreshRobber();
+		try {
+			gameControl.getCatanGame().getGameboard()
+					.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
+			guiController.refreshRobber();
+		} catch (Exception e) {
+			System.out.println("updaterefreshRobber failed");
+		}
 	}
-	
+
 	public void updateRefreshTurn() {
-		int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
-		gameControl.getCatanGame().setTurn(turn);
-		if(turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-			gameControl.doTurn();
-//			guiController.refreshDice();
+		try {
+			int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
+			gameControl.getCatanGame().setTurn(turn);
+			System.out.println("idturn"+ turn + " idplayer: " + gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+			if (turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
+					if (gameControl.isFirstRoundActive() == false) {
+						gameControl.setFirstRoundActive(true);
+						System.out.println("playFirstsRound");
+						gameControl.getCatanGame().setFirstRound(true);
+
+						gameControl.playFirstRound();
+					}
+				} else {
+					gameControl.getCatanGame().setFirstRound(false);
+					gameControl.doTurn();
+					System.out.println("doTurn");
+
+					// guiController.refreshDice();
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("updateRefreshTurn failed");
 		}
 	}
 
 	public void updateRefreshMessages() {
-		ArrayList<String> messageList = new ArrayList<String>();
-		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
-		gameControl.getCatanGame().setMessages(messageList);
-		guiController.refreshChat();
+		try {
+			ArrayList<String> messageList = new ArrayList<String>();
+			messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
+			gameControl.getCatanGame().setMessages(messageList);
+			guiController.refreshChat();
+		} catch (Exception e) {
+			System.out.println("updateRefreshmessages failed");
+		}
 	}
 
 	private void updateRefreshBoard() {
-		gameControl.updateBoard();
-		guiController.refreshBoard();
+		try {
+			gameControl.updateBoard();
+			guiController.refreshBoard();
+		} catch (Exception e) {
+			System.out.println("updateRefreshBoard failed");
+		}
 	}
 
 	private void updateRefreshTradeRequest() {
-		TradeRequest tr = gameControl.updateTradeRequests();
-		if(tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-			gameControl.getCatanGame().addTradeRequest(tr);
-			guiController.showTradeReceiveDialog(tr);
+		try {
+			TradeRequest tr = gameControl.updateTradeRequests();
+			if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) != null) {
+					gameControl.getCatanGame().addTradeRequest(tr);
+					guiController.showTradeReceiveDialog(tr);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("updateRefreshTradeRequest failed");
 		}
 	}
-	
+
 	private void updateRefreshDice() {
-		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
-		gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
-		guiController.refreshDice();
+		try {
+			gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
+			gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
+			guiController.refreshDice();
+		} catch (Exception e) {
+			System.out.println("updaterefresh dice failed");
+		}
 	}
 
 	private void updateRefreshPlayers() {
-		for (Player p : gameControl.getCatanGame().getPlayers()) {
-			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
-			p.getHand().setDevelopmentCards(
-					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+		try {
+			for (Player p : gameControl.getCatanGame().getPlayers()) {
+				p.getHand()
+						.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+				p.getHand().setDevelopmentCards(
+						mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+			}
+			gameControl.getCatanGame().getBank()
+					.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
+			guiController.refreshPlayerResources();
+			// guiController.refreshPlayers();
+		} catch (Exception e) {
+			System.out.println("updateRefreshPlayers failed");
 		}
-		guiController.refreshPlayers();
 	}
 
 	public void logOut() {
@@ -362,5 +425,14 @@ public class MainControl {
 
 	public void stopIngameTimer() {
 		ingame = false;
+	}
+
+	public void abortGame() {
+		int[] playerids = new int[4];
+		
+		for(int i = 0; i < 4; i++) {
+			playerids[i] = gameControl.getCatanGame().getPlayers().get(i).getIdPlayer();
+		}
+		mainDA.abortGame(playerids);
 	}
 }
