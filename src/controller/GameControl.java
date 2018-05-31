@@ -95,7 +95,11 @@ public class GameControl {
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
 		changeRobberInDB(idTile);
+
+		guiController.showRobberDialog();
+
 		enableEveryoneShouldRefresh();
+
 	}
 
 	public void changeRobberInDB(int idTile) {
@@ -1076,6 +1080,14 @@ public class GameControl {
 			System.out.println("endTurn failed");
 		}
 		
+	}
+
+	public void robberTakeResource(Player player) {
+
+		int robbedPlayerID = player.getIdPlayer();
+		Resource randomResource = getCatanGame().getPlayerByID(robbedPlayerID).getHand().takeRandomResource();
+		getCatanGame().getSelfPlayer().getHand().addResource(randomResource);
+
 	}
 
 	public void doTurn() {
