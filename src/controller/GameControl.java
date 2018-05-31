@@ -120,7 +120,7 @@ public class GameControl {
 	public void rollDice() {
 		catanGame.rollDice();
 		int rolledValue = catanGame.getDice().getValue();
-		 rolledValue = 7;
+//		 rolledValue = 7;
 
 		if (rolledValue == 7) {
 			guiController.addSystemMessageToChat(Color.BLUE, "Je hebt 7 gegooit, Verplaats de Rover");
