@@ -11,6 +11,7 @@ import model.Player;
 import model.PlayerColor;
 import model.Tile;
 import model.TradeRequest;
+import view.Frame;
 
 public class MainControl {
 
@@ -33,6 +34,8 @@ public class MainControl {
 	public boolean loginAccount(String username, String password) {
 		if (mainDA.login(username, password)) {
 			account = new Account(username);
+			Frame frame = guiController.getFrame();
+			frame.setTitle(username + " - " + frame.getTitle());
 			return true;
 		} else {
 			return false;
@@ -422,5 +425,14 @@ public class MainControl {
 
 	public void stopIngameTimer() {
 		ingame = false;
+	}
+
+	public void abortGame() {
+		int[] playerids = new int[4];
+		
+		for(int i = 0; i < 4; i++) {
+			playerids[i] = gameControl.getCatanGame().getPlayers().get(i).getIdPlayer();
+		}
+		mainDA.abortGame(playerids);
 	}
 }

@@ -514,7 +514,7 @@ public class MainDA {
 		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idspel FROM speler WHERE username = '" + username + "';";
+		String query = "SELECT idspel FROM speler WHERE username = '" + username + "' ORDER BY idspel DESC;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -1150,6 +1150,16 @@ public class MainDA {
 		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
 		}
 		return amount;
+	}
+
+	public void abortGame(int[] playerids) {
+		for(int playerId: playerids) {
+			String query = "UPDATE speler SET speelstatus = 'afgebroken' WHERE idspeler = " + playerId + ";";
+			
+			if (!insertUpdateQuery(query)) {
+				System.out.println("Unable to change playstatus");
+			}	
+		}
 	}
 
 }

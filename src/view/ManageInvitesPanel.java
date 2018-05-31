@@ -12,7 +12,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -21,7 +20,6 @@ import javax.swing.SwingConstants;
 
 import model.Catan;
 import model.Player;
-import view.NewGameFrame.NewGamePanel.GameOptionsPanel;
 
 @SuppressWarnings("serial")
 public class ManageInvitesPanel extends JPanel {
@@ -39,9 +37,9 @@ public class ManageInvitesPanel extends JPanel {
 		saveInvitesButton = new JButton("Opslaan");
 		removeButtonsList = new ArrayList<>();
 		invitedPlayers = new ArrayList<Player>();
-		for(Player p : game.getPlayers()) {
-				addPlayer(p);
-		}
+		JLabel header = new JLabel("Invites Aanpassen");
+		header.setFont(new Font(header.getFont().getFontName(), Font.PLAIN, 20));
+		header.setAlignmentX(Component.CENTER_ALIGNMENT);
 		invitedPlayersPanel = new InvitedPlayersPanel();
 		inviteInput = new JList<String>();
 		inviteInput.setMaximumSize(new Dimension(350, 150));
@@ -58,21 +56,13 @@ public class ManageInvitesPanel extends JPanel {
 			}
 		}));
 		inviteButton.setMaximumSize(new Dimension(350, 30));
-
-		JLabel header = new JLabel("Invites Aanpassen");
-		header.setFont(new Font(header.getFont().getFontName(), Font.PLAIN, 20));
-		header.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.add(invitedPlayersPanel);
 		this.add(header);
 		this.add(new InvitePlayerPanel());
-		this.add(invitedPlayersPanel);
 		this.setVisible(true);
-
-		// invitedPlayers.add("naam1");
-		// invitedPlayers.add("naam2");
-		// invitedPlayers.add("naam3");
-		// invitedPlayers.add("naam4");
-		//
-
+		for(Player p : game.getPlayers()) {
+			addPlayer(p);
+		}
 	}
 
 	public void UpdateInvitedPlayers() {
@@ -86,8 +76,6 @@ public class ManageInvitesPanel extends JPanel {
 		JScrollPane scrollPane;
 
 		public InvitePlayerPanel() {
-			// int height = currentGames.getGamePanels().size() * 110;
-			// currentGames.setPreferredSize(new Dimension(400, height));
 			scrollPane = new JScrollPane(inviteInput, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
@@ -114,7 +102,6 @@ public class ManageInvitesPanel extends JPanel {
 
 	public class InvitedPlayersPanel extends JPanel {
 		public InvitedPlayersPanel() {
-			// this.setPreferredSize(new Dimension(100, 300));
 			removeButtonsList.clear();
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			for (Player player : invitedPlayers) {
@@ -122,7 +109,7 @@ public class ManageInvitesPanel extends JPanel {
 				JLabel name = new JLabel(player.getUsername());
 				name.setFont(name.getFont().deriveFont(Font.BOLD, 16));
 				JButton remove = new JButton("X");
-				if(!player.getPlayStatus().toString().toLowerCase().equals("geweigerd") && !(player.getPlayStatus() == null)){
+				if(!(player.getPlayStatus() == null) && !player.getPlayStatus().toString().toLowerCase().equals("geweigerd")){
 					remove.setEnabled(false);
 				}
 				removeButtonsList.add(remove);
@@ -132,9 +119,10 @@ public class ManageInvitesPanel extends JPanel {
 						int indexOf = removeButtonsList.indexOf(remove);
 						removeButtonsList.remove(indexOf);
 						invitedPlayers.remove(indexOf);
-						if (invitedPlayers.size() < 3) {
+						if (invitedPlayers.size() < 4) {
 							inviteButton.setEnabled(true);
 						}
+						UpdateInvitedPlayers();
 					}
 				});
 				panel.add(name);
@@ -162,9 +150,10 @@ public class ManageInvitesPanel extends JPanel {
 	}
 
 	private void addPlayer(Player player) {
-
-		invitedPlayers.add(player);
-		UpdateInvitedPlayers();
+		if(!invitedPlayers.stream().anyMatch(t -> t.getUsername().equals(player.getUsername()))){
+			invitedPlayers.add(player);
+			UpdateInvitedPlayers();	
+		}
 	}
 
 }

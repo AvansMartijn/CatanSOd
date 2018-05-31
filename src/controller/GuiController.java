@@ -22,7 +22,6 @@ import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
 import model.Street;
-import model.Tile;
 import model.TradeRequest;
 import model.Village;
 import view.BoardPanel;
@@ -56,6 +55,7 @@ import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
 import view.TradeReceiveDialog;
 import view.TradeRespondDialog;
+import view.WaitingRoom;
 import view.CurrentTradeRequestPanel;
 import view.DevelopmentCardButton;
 import view.DevelopmentCardDialogPanel;
@@ -87,15 +87,11 @@ public class GuiController {
 	private TradeBankPanel tradeBankPanel;
 	private CurrentTradeRequestPanel tradeRequestListPanel;
 	private DevelopmentCardsPanel developmentCardsPanel;
+	private WaitingRoom waitingRoom;
+	private JDialog newGamedialog;
+	private ManageInvitesFrame manageInvitesFrame;
 
 	private ArrayList<Catan> gameList;
-	// private Gameboard gameBoard;
-
-	// TODO uncomment these when PlayerActionPanelExpended is merged (these classes
-	// are added in that branch)
-	// private BuyDialog buyDialog;
-	// private TradeDialog tradeDialog;
-	// private BuildDialog buildDialog;
 
 	private int pageNr;
 
@@ -104,29 +100,8 @@ public class GuiController {
 		this.gameControl = gameControl;
 		gameControl.setGuiController(this);
 		frame = new Frame();
-
+		waitingRoom = new WaitingRoom();
 		setInlogPanel();
-
-		// GraphicsEnvironment graphicsEnvironment =
-		// GraphicsEnvironment.getLocalGraphicsEnvironment();
-		// GraphicsDevice graphicsDevice= graphicsEnvironment.getDefaultScreenDevice();
-		//
-		// boolean canChangeDisplay = graphicsDevice.isDisplayChangeSupported();
-		// if (canChangeDisplay) {
-		// DisplayMode displayMode = graphicsDevice.getDisplayMode();
-		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// int width = (int) screenSize.getWidth();
-		// int height = (int) screenSize.getHeight();
-		// int bitDepth = 16;
-		// displayMode = new DisplayMode(width, height, bitDepth,
-		// displayMode.getRefreshRate());
-		// try {
-		// graphicsDevice.setDisplayMode(displayMode);
-		// } catch(Throwable e) {
-		// graphicsDevice.setFullScreenWindow(null);
-		// }
-		//
-		// }
 
 		frame.dispose();
 		frame.setUndecorated(true);
@@ -210,36 +185,61 @@ public class GuiController {
 		topOptionsPanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog dialog = new JDialog();
-				dialog.setTitle("Nieuw Spel");
-				dialog.setContentPane(newGamePanel);
-				dialog.pack();
-				dialog.setLocationRelativeTo(null);
-				dialog.toFront();
-				dialog.requestFocus();
-				dialog.setVisible(true);
+				newGamedialog = new JDialog();
+				newGamedialog.setTitle("Nieuw Spel");
+				newGamedialog.setContentPane(newGamePanel);
+				newGamedialog.pack();
+				newGamedialog.setLocationRelativeTo(null);
+				newGamedialog.setAlwaysOnTop(true);
+				newGamedialog.setVisible(true);
 			}
 		});
+		
 		topOptionsPanel.getInviteButton().addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
-
 			}
 		});
 
 		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+			if(newGamePanel.getInvitedPlayers().size() == 4) {
 				String boardChoice = (String) newGamePanel.getBoardChoice();
-				if (boardChoice == "Random") {
-					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
-				} else {
-					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+					if (boardChoice == "Random") {
+						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
+					} else {
+						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+					}
+					frame.setContentPane(waitingRoom);
+					frame.pack();
+					newGamedialog.dispose();
+					
+					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
+							gameControl.getCatanGame());
 				}
+			}
+		});
 
+		waitingRoom.getExitButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Object[] options = { "Ja", "Nee" };
+			
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afbreken?", "Waarschuwing",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+				if (result == JOptionPane.YES_OPTION) {
+					frame.setContentPane(mainMenuGui);
+					manageInvitesFrame.dispose();
+					mainControl.abortGame();
+					frame.pack();
+				}
+	
 			}
 		});
 
@@ -251,7 +251,6 @@ public class GuiController {
 				public void mouseClicked(MouseEvent e) {
 					mainControl.joinGame(p.getGame());
 				}
-
 			});
 		}
 		bottomOptionsPanel = new BottomOptionsPanel();
@@ -269,7 +268,6 @@ public class GuiController {
 					mainControl.stopIngameTimer();
 					mainControl.logOut();
 					setInlogPanel();
-					// TODO Auto-generated method stub
 				}
 			}
 		});
@@ -326,7 +324,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Catan catan = invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex());
+				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex());
 				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
 				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
 
@@ -364,6 +362,14 @@ public class GuiController {
 
 					}
 				});
+			}
+		});
+
+		invitePanel.getReturnButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadProfile();
 			}
 		});
 		this.invitePanel = invitePanel;
@@ -1100,9 +1106,6 @@ public class GuiController {
 					boardPanel.disableBuildingLocButtons();
 					playerActionPanel.setBuildPanel();
 				}
-				if (gameControl.getCatanGame().isSelfPlayerTurn()) {
-				}
-
 			}
 		});
 	}
@@ -1180,6 +1183,7 @@ public class GuiController {
 		System.out.println("Enabled Panel");
 		playerActionPanel.revalidate();
 	}
+
 	public void disablePlayerActionPanel() {
 		playerActionPanel.setVisible(false);
 		System.out.println("Disabled Panel");
@@ -1239,10 +1243,10 @@ public class GuiController {
 
 	}
 
-	// public void setGameBoard(Gameboard gameBoard) {
-	// this.gameBoard = gameBoard;
-	// }
-
+	public Frame getFrame() {
+		return frame;
+	}
+	
 	public BoardPanel getBoardPanel() {
 		return boardPanel;
 	}
