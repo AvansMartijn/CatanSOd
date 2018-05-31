@@ -541,7 +541,7 @@ public class GuiController {
 						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
 								+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
 						enablePlayerActionPanel();
-						gameControl.stealCardCauseRobber();
+//						gameControl.stealCardCauseRobber();
 					} else {
 						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
 					}
