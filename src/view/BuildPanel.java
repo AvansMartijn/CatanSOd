@@ -103,8 +103,7 @@ public class BuildPanel extends JPanel {
 		 */
 		add(cityButton);
 
-		returnButton = new JButton();
-		returnButton.setIcon(citys);
+		returnButton = new JButton("TERUG");
 		returnButton.setBounds(BUTTON_OFFSET_X, 280, citys.getIconWidth(), citys.getIconHeight());
 		returnButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 		returnButton.setBackground(textBackgroundColor);
