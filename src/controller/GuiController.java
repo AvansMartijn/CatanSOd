@@ -754,51 +754,68 @@ public class GuiController {
 		// closes/ won't show
 		if (playersToRob.size() > 0) {
 			RobberDialog robberDialog = new RobberDialog(playersToRob);
-			
+			ArrayList<JButton> playerButtons = robberDialog.getRobberDialogPanel().getPlayerButtons();
+			for(int i = 0; i < playerButtons.size(); i++) {
+				int y = i;
+				robberDialog.getRobberDialogPanel().getPlayerButton(i).addActionListener(new ActionListener() {
 
-			robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					gameControl.robberTakeResource(playersToRob.get(0));
-
-					for (int i = 0; i < robberBuildLocations.size(); i++) {
-						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(0)) {
-							robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
-						}
+						gameControl.robberTakeResource(playersToRob.get(y));
+						robberDialog.dispose();
+//						for (int x = 0; x < robberBuildLocations.size(); x++) {
+//							if (robberBuildLocations.get(x).getBuilding().getPlayer() != playersToRob.get(y)) {
+//								robberDialog.getRobberDialogPanel().getPlayerButton(y).setEnabled(false);
+//							}
+//						}
 					}
-				}
-			});
-
-			robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					gameControl.robberTakeResource(playersToRob.get(1));
-					for (int i = 0; i < robberBuildLocations.size(); i++) {
-						if (robberBuildLocations.get(i).getBuilding().getPlayer() == playersToRob.get(1)) {
-							robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
-						}
-					}
-				}
-			});
-
-			robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					gameControl.robberTakeResource(playersToRob.get(2));
-					for (int i = 0; i < robberBuildLocations.size(); i++) {
-						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(2)) {
-							robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
-						}
-					}
-				}
-
-			});
+				});
+			}
+//
+//			robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//
+//					gameControl.robberTakeResource(playersToRob.get(0));
+//
+//					for (int i = 0; i < robberBuildLocations.size(); i++) {
+//						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(0)) {
+//							robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
+//						}
+//					}
+//				}
+//			});
+//			
+//			robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//
+//					gameControl.robberTakeResource(playersToRob.get(1));
+//					for (int i = 0; i < robberBuildLocations.size(); i++) {
+//						if (robberBuildLocations.get(i).getBuilding().getPlayer() == playersToRob.get(1)) {
+//							robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
+//						}
+//					}
+//				}
+//			});
+//
+//			robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//
+//					gameControl.robberTakeResource(playersToRob.get(2));
+//					for (int i = 0; i < robberBuildLocations.size(); i++) {
+//						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(2)) {
+//							robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
+//						}
+//					}
+//				}
+//
+//			});
 		}
 	}
 

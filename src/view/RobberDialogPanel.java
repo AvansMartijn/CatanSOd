@@ -56,24 +56,36 @@ public class RobberDialogPanel extends JPanel {
 		add(subTitleLabel);
 
 		playerButtons = new ArrayList<>();
+		
 
-		for (int i = 0; i < players.size(); i++) {
+//		for (int i = 0; i < players.size(); i++) {
+		for(Player p: players) {
 			
-			JButton playerButton = new JButton(players.get(i).getUsername());
+//			JButton playerButton = new JButton(players.get(i).getUsername());
+			JButton playerButton = new JButton(p.getUsername());
+			System.out.println(p.getUsername() + " ars: " + p.getHand().getResources().size());
 			playerButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 			playerButton.setBackground(textBackgroundColor);
 			playerButton.setForeground(TextColor);
 			playerButton.setHorizontalAlignment(JLabel.CENTER);
 			playerButton.setBorder(buttonBorder);
 			playerButton.setSize(buttonDimension);
-			playerButton.setEnabled(false);
+			if(p.getHand().getResources().size() < 1) {
+				playerButton.setEnabled(false);
+			}
 			playerButtons.add(playerButton);
+			add(playerButton);
 		}
+		
+		
 	}
 
 	public JButton getPlayerButton(int amount) {
 
 		return playerButtons.get(amount);
 
+	}
+	public ArrayList<JButton> getPlayerButtons(){
+		return this.playerButtons;
 	}
 }

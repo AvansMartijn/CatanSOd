@@ -120,6 +120,7 @@ public class GameControl {
 	public void rollDice() {
 		catanGame.rollDice();
 		int rolledValue = catanGame.getDice().getValue();
+		 rolledValue = 7;
 
 		if (rolledValue == 7) {
 			guiController.addSystemMessageToChat(Color.BLUE, "Je hebt 7 gegooit, Verplaats de Rover");
@@ -1089,6 +1090,11 @@ public class GameControl {
 		int robbedPlayerID = player.getIdPlayer();
 		Resource randomResource = getCatanGame().getPlayerByID(robbedPlayerID).getHand().takeRandomResource();
 		getCatanGame().getSelfPlayer().getHand().addResource(randomResource);
+		mainDA.addResourceToPlayer(randomResource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+		guiController.refreshPlayerResources();
+		//TODO check if you have to show the rstype or just tell that he stole a card
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een " + randomResource.getRsType().toString().toLowerCase() + " van " + player.getUsername() + " gestolen");
+		enableEveryoneShouldRefresh();
 
 	}
 
