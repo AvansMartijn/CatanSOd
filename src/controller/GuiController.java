@@ -724,7 +724,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// playerActionPanel.setBuyPanel();
+				 playerActionPanel.setBuyPanel();
 
 			}
 		});
