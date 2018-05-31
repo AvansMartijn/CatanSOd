@@ -94,7 +94,7 @@ public class MainControl {
 					try {
 						boolean result = mainDA.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 					if (result) {
-						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
+//						mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(), false);
 						updateRefreshTurn();
 						updateRefreshDice();
 						updateRefreshBoard();

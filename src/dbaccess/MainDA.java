@@ -28,11 +28,12 @@ public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
 	private static final String user = "mfghaneg";
 	private static final String password = "Ab12345";
-	private ChatPanel chatPanel;
 	protected Connection myConn;
+	protected C3P0DataSource connectionPool;
 
 	public MainDA() {
 		myConn = null;
+		connectionPool = C3P0DataSource.getInstance();
 	}
 
 	/**
@@ -59,7 +60,11 @@ public class MainDA {
 				comboPooledDataSource.setDriverClass("com.mysql.jdbc.Driver");
 				comboPooledDataSource.setJdbcUrl(url);
 				comboPooledDataSource.setUser(user);
-				comboPooledDataSource.setMaxPoolSize(3);
+				comboPooledDataSource.setInitialPoolSize(2);
+				comboPooledDataSource.setMinPoolSize(2);
+				comboPooledDataSource.setMaxPoolSize(2);
+//				comboPooledDataSource.setMaxIdleTimeExcessConnections(3600);
+				
 				comboPooledDataSource.setPassword(password);
 			} catch (PropertyVetoException ex1) {
 				ex1.printStackTrace();
@@ -87,7 +92,7 @@ public class MainDA {
 	 * Initializes a connection
 	 */
 	public void makeConnection() {
-		myConn = C3P0DataSource.getInstance().getConnection();
+		Connection myConn = connectionPool.getConnection();
 		// try {
 		// myConn = DriverManager.getConnection(url, user, password);
 		// } catch (SQLException ex) {
@@ -689,7 +694,10 @@ public class MainDA {
 		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
 		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
 		}
-
+		
+		if(shouldRefresh) {
+			this.setShouldRefresh(idPlayer, false);
+		}
 		return shouldRefresh;
 	}
 
