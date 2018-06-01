@@ -1005,6 +1005,7 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				playerActionPanel.getPlayerTradePanel().createResourceInput();
 				playerActionPanel.setTradePlayerPanel();
 				System.out.println("trade1");
 

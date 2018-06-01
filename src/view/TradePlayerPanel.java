@@ -108,7 +108,7 @@ public class TradePlayerPanel extends JPanel {
 		return resources;
 	}
 
-	private void createResourceInput() {
+	public void createResourceInput() {
 
 		// brick, wool, iron, wheat, wood
 		int[] resourceTypes = new int[5];
