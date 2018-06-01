@@ -1005,7 +1005,6 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.getPlayerTradePanel().createFormatters();
 				playerActionPanel.setTradePlayerPanel();
 				System.out.println("trade1");
 
@@ -1074,7 +1073,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				int stoneGive = playerActionPanel.getPlayerTradePanel().getBrickGive();
+				int brickGive = playerActionPanel.getPlayerTradePanel().getBrickGive();
 				int woolGive = playerActionPanel.getPlayerTradePanel().getWoolGive();
 				int ironGive = playerActionPanel.getPlayerTradePanel().getIronGive();
 				int wheatGive = playerActionPanel.getPlayerTradePanel().getWheatGive();
@@ -1086,13 +1085,31 @@ public class GuiController {
 				int wheatReceive = playerActionPanel.getPlayerTradePanel().getWheatReceive();
 				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoodReceive();
 
-				System.out.println(stoneGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
+				HashMap<ResourceType, Integer> currentHand = gameControl.getCatanGame().getSelfPlayer().getHand()
+						.getAmountOfResources();
+
+				if (currentHand.get(ResourceType.BAKSTEEN).intValue() < brickGive
+						|| currentHand.get(ResourceType.WOL).intValue() < woolGive
+						|| currentHand.get(ResourceType.ERTS).intValue() < ironGive
+						|| currentHand.get(ResourceType.GRAAN).intValue() < wheatGive
+						|| currentHand.get(ResourceType.HOUT).intValue() < woodGive) {
+
+					Object[] options = { "Oke" };
+
+					int result = JOptionPane.showOptionDialog(null, "Je hebt niet genoeg grondstoffen", "Waarschuwing",
+							JOptionPane.CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
+					if (result == JOptionPane.CANCEL_OPTION) {
+					}
+				} else {
+				
+				System.out.println(brickGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
 						+ ironReceive + wheatReceive + woodReceive);
-				gameControl.createPlayerTradeRequest(stoneGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
+				gameControl.createPlayerTradeRequest(brickGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
 						woolReceive, ironReceive, wheatReceive, woodReceive);
 
 				gameControl.countTradeOffers();
 				playerActionPanel.setPlayerOptionMenuPanel();
+				}
 			}
 		});
 	}

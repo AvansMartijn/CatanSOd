@@ -107,34 +107,27 @@ public class TradePlayerPanel extends JPanel {
 		}
 		return resources;
 	}
-	
-	NumberFormatter[] formatters = new NumberFormatter[5];
-	NumberFormat format = NumberFormat.getInstance();
-	public NumberFormatter[] createFormatters() {
-		
+
+	public void createResourceInput() {
+
+		// brick, wool, iron, wheat, wood
+		NumberFormatter[] formatters = new NumberFormatter[5];
+		NumberFormat format = NumberFormat.getInstance();
+
 		int[] resourceTypes = new int[5];
 		resourceTypes = getResourceAmount();
-		
-		
+
 		for (int i = 0; i < resourceTypes.length; i++) {
 			System.out.println("resourceType amount" + resourceTypes[i]);
 			formatters[i] = new NumberFormatter(format);
 			formatters[i].setValueClass(Integer.class);
 			formatters[i].setMinimum(0);
-			formatters[i].setMaximum(resourceTypes[i]);
+			formatters[i].setMaximum(19);
 			formatters[i].setAllowsInvalid(true);
 			formatters[i].setCommitsOnValidEdit(true);
 			formatters[i].setOverwriteMode(true);
-			
+
 		}
-		return formatters;
-	}
-	
-
-	public void createResourceInput() {
-
-		// brick, wool, iron, wheat, wood
-		
 
 		subTitleLabel1 = new JLabel("grondstoffen:");
 		subTitleLabel1.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -267,46 +260,46 @@ public class TradePlayerPanel extends JPanel {
 
 	public int getWheatGive() {
 		int parsed = Integer.parseInt(wheatGive.getText());
-		return parsed;                
-	}  
+		return parsed;
+	}
 
 	public int getBrickGive() {
 		int parsed = Integer.parseInt(brickGive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getIronGive() {
 		int parsed = Integer.parseInt(ironGive.getText());
-		return parsed;                
-	} 
+		return parsed;
+	}
 
 	public int getWoolGive() {
 		int parsed = Integer.parseInt(woolGive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getWoodReceive() {
 		int parsed = Integer.parseInt(woodReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getWheatReceive() {
 		int parsed = Integer.parseInt(wheatReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getBrickReceive() {
 		int parsed = Integer.parseInt(brickReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getIronReceive() {
 		int parsed = Integer.parseInt(ironReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getWoolReceive() {
 		int parsed = Integer.parseInt(woolReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 }

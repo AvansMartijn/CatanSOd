@@ -41,57 +41,54 @@ public class TradeRespondPanel extends JPanel {
 	private JFormattedTextField woodReceive, wheatReceive, brickReceive, ironReceive, woolReceive;
 
 	private JButton sendRequestButton;
-	
+
 	private TradeRequest tR;
-	
+
 	public TradeRespondPanel(Player playerName, TradeRequest tR) {
 
 		this.tR = tR;
-		
+
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
 
 		setLayout(null);
 
-		titleLabel = new JLabel("Bod van speler " + playerName.getUsername());
-		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-		titleLabel.setForeground(TextColor);
-		titleLabel.setBounds(0, 5, 280, 40);
-		titleLabel.setHorizontalAlignment(JLabel.CENTER);
-		add(titleLabel);
+		if (tR.getAccepted() == 1) {
+			titleLabel = new JLabel("Bod van speler " + playerName.getUsername());
+			titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+			titleLabel.setForeground(TextColor);
+			titleLabel.setBounds(0, 5, 280, 40);
+			titleLabel.setHorizontalAlignment(JLabel.CENTER);
+			add(titleLabel);
 
-		subTitleLabel = new JLabel("wat wil je doen?");
-		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
-		subTitleLabel.setForeground(TextColor);
-		subTitleLabel.setBounds(0, 30, 280, 40);
-		subTitleLabel.setHorizontalAlignment(JLabel.CENTER);
-		add(subTitleLabel);
+			subTitleLabel = new JLabel("wat wil je doen?");
+			subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+			subTitleLabel.setForeground(TextColor);
+			subTitleLabel.setBounds(0, 30, 280, 40);
+			subTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+			add(subTitleLabel);
 
-		createResourceInput();
+			createResourceInput();
 
-		sendRequestButton = new JButton("Tegenbod Accepteren");
-		sendRequestButton.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
-		sendRequestButton.setHorizontalAlignment(JLabel.CENTER);
-		sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
-		sendRequestButton.setBackground(textBackgroundColor);
-		sendRequestButton.setForeground(TextColor);
-		if(tR.getAccepted() == 1) {
+			sendRequestButton = new JButton("Tegenbod Accepteren");
+			sendRequestButton.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
+			sendRequestButton.setHorizontalAlignment(JLabel.CENTER);
+			sendRequestButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+			sendRequestButton.setBackground(textBackgroundColor);
+			sendRequestButton.setForeground(TextColor);
 			add(sendRequestButton);
-		}else {
-			declinedLabel = new JLabel("Speler heeft verzoek afgewezen");
+		} else {
+			declinedLabel = new JLabel("Verzoek afgewezen");
 			declinedLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 			declinedLabel.setForeground(TextColor);
-			declinedLabel.setBounds(55, 255, BUTTON_WIDTH, BUTTON_HEIGHT);
+			declinedLabel.setBounds(55, 125, BUTTON_WIDTH, BUTTON_HEIGHT);
 			declinedLabel.setHorizontalAlignment(JLabel.CENTER);
 			add(declinedLabel);
 		}
-		
 
 	}
 
 	private void createResourceInput() {
-
-		
 
 		subTitleLabel1 = new JLabel("grondstoffen");
 		subTitleLabel1.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -219,48 +216,47 @@ public class TradeRespondPanel extends JPanel {
 
 	public int getWheatGive() {
 		int parsed = Integer.parseInt(wheatGive.getText());
-		return parsed;                
-	}  
+		return parsed;
+	}
 
 	public int getBrickGive() {
 		int parsed = Integer.parseInt(brickGive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getIronGive() {
 		int parsed = Integer.parseInt(ironGive.getText());
-		return parsed;                
-	} 
+		return parsed;
+	}
 
 	public int getWoolGive() {
 		int parsed = Integer.parseInt(woolGive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getWoodReceive() {
 		int parsed = Integer.parseInt(woodReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getWheatReceive() {
 		int parsed = Integer.parseInt(wheatReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getBrickReceive() {
 		int parsed = Integer.parseInt(brickReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getIronReceive() {
 		int parsed = Integer.parseInt(ironReceive.getText());
-		return parsed;                
+		return parsed;
 	}
 
 	public int getWoolReceive() {
 		int parsed = Integer.parseInt(woolReceive.getText());
-		return parsed;                
+		return parsed;
 	}
-	
-	
+
 }
