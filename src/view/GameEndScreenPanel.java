@@ -33,7 +33,6 @@ public class GameEndScreenPanel extends JPanel {
 		this.winner = winner;
 		
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-		setBackground(Color.GRAY);
 		
 		createEndingScreen();
 	}
