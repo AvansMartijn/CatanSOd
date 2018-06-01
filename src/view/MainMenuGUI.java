@@ -36,7 +36,7 @@ public class MainMenuGUI extends JPanel {
 	private JPanel bottomOptionsPanel;
 	private Image image;
 
-	public MainMenuGUI(String username, JPanel topOptionsPanel, JPanel bottomOptionsPanel, RecentGamesPanel currentGames) {
+	public MainMenuGUI(String username, JPanel topOptionsPanel, JPanel bottomOptionsPanel) {
 		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		setBackground(backgroundColor);
 		mainPanel = new JPanel();
@@ -53,7 +53,7 @@ public class MainMenuGUI extends JPanel {
 		GridBagLayout gridLayout = new GridBagLayout();
 		setLayout(gridLayout);
 		
-		scrollPane = new JScrollPane(currentGames, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLLPANE_INCREMENT);
 		scrollPane.setPreferredSize(new Dimension(SCROLLPANE_WIDTH, SCROLLPANE_HEIGHT));
@@ -79,6 +79,7 @@ public class MainMenuGUI extends JPanel {
 	}
 	
 	public void updateScrollPane(RecentGamesPanel gamesPanel) {
+		scrollPane.getViewport().removeAll();
 		scrollPane.setViewportView(gamesPanel);
 		revalidate();
 	}
