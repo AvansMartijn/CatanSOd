@@ -114,12 +114,6 @@ public class Player {
 //
 //	}
 
-	// Village v is the village that is built, this is important for Catan class.
-	public void getStartResources(Village v) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public String getUsername() {
 		return username;
 	}

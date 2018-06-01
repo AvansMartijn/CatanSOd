@@ -117,15 +117,6 @@ public class Hand {
 		this.resources = resources;
 	}
 
-	// <<<<<<< PlayerTurn
-	// public Resource takeresource(ResourceType resourceType) {
-	// for (int i = 0; i < resources.size(); i++) {
-	// if(resources.get(i).getRsType() == resourceType) {
-	// return resources.remove(i);
-	// }
-	// }
-	// return null;
-	// =======
 	public Resource takeRandomResource() {
 		Resource rsToReturn;
 		Random random = new Random();
@@ -134,7 +125,6 @@ public class Hand {
 		resources.remove(randomInt);
 		return rsToReturn;
 	}
-
 	public Resource takeResource(ResourceType rsType) {
 		Resource rsToReturn;
 		for (int i = 0; i < resources.size(); i++) {

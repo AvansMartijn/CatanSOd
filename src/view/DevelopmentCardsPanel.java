@@ -31,7 +31,7 @@ public class DevelopmentCardsPanel extends JPanel {
 		this.selfPlayer = selfPlayer;
 		developmentCards = new ArrayList<DevelopmentCardButton>();
 		createComponents();
-		creatDevelopmentCards();
+		createDevelopmentCards();
 	}
 
 	public void createComponents() {
@@ -48,7 +48,7 @@ public class DevelopmentCardsPanel extends JPanel {
 		add(scrollPane);
 	}
 	
-	private void creatDevelopmentCards() {
+	private void createDevelopmentCards() {
 		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
 			DevelopmentCardType developmentCardType = selfPlayer.getHand().getDevelopmentCards().get(i).getDevelopmentCardType();
 			addDevelopmentCard(developmentCardType);
@@ -63,9 +63,7 @@ public class DevelopmentCardsPanel extends JPanel {
 		panel.add(developmentCardButton);
 	}
 	
-	public void removeDevelopmentCard() {
-		// TODO
-	}
+	// TODO function if card played, set not visible
 	
 	private void setPanelSize() {
 		int size = (developmentCards.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));

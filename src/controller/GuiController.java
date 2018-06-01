@@ -11,18 +11,21 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import model.BuildingLocation;
 import model.Catan;
 import model.City;
+import model.DevelopmentCard;
+import model.DevelopmentCardType;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
 import model.Street;
-import model.Tile;
 import model.TradeRequest;
 import model.Village;
 import view.BoardPanel;
@@ -41,6 +44,7 @@ import view.InvitePanel;
 import view.LoginRegisterPanel;
 import view.MainMenuGUI;
 import view.ManageInvitesFrame;
+import view.MonopolyDialog;
 import view.NewGamePanel;
 import view.RecentGamesTopPanel;
 import view.PlayerActionPanel;
@@ -49,6 +53,7 @@ import view.PlayerStatsPanel;
 import view.RecentGamePanel;
 import view.RecentGamesPanel;
 import view.ReturnToBuildPanel;
+import view.RobberDialog;
 import view.StreetLocationButton;
 import view.TileButton;
 import view.TradeBankPanel;
@@ -56,7 +61,11 @@ import view.TradeOptionsPanel;
 import view.TradePlayerPanel;
 import view.TradeReceiveDialog;
 import view.TradeRespondDialog;
+
+import view.YearOfPlentyDialog;
+
 import view.WaitingRoom;
+
 import view.CurrentTradeRequestPanel;
 import view.DevelopmentCardButton;
 import view.DevelopmentCardDialogPanel;
@@ -90,6 +99,7 @@ public class GuiController {
 	private DevelopmentCardsPanel developmentCardsPanel;
 	private WaitingRoom waitingRoom;
 	private JDialog newGamedialog;
+	private ManageInvitesFrame manageInvitesFrame;
 
 	private ArrayList<Catan> gameList;
 
@@ -200,7 +210,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
-
 			}
 		});
 
@@ -230,14 +239,20 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				String boardChoice = (String) newGamePanel.getBoardChoice();
-				if (boardChoice == "Random") {
-					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
-				} else {
-					mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+				if (newGamePanel.getInvitedPlayers().size() == 4) {
+					String boardChoice = (String) newGamePanel.getBoardChoice();
+					if (boardChoice == "Random") {
+						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
+					} else {
+						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+					}
+					frame.setContentPane(waitingRoom);
+					frame.pack();
+					newGamedialog.dispose();
+
+					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
+							gameControl.getCatanGame());
 				}
-				frame.setContentPane(waitingRoom);
-				frame.pack();
 			}
 		});
 
@@ -245,9 +260,17 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.setContentPane(mainMenuGui);
-				frame.pack();
-				newGamedialog.dispose();
+				Object[] options = { "Ja", "Nee" };
+
+				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afbreken?",
+						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+				if (result == JOptionPane.YES_OPTION) {
+					frame.setContentPane(mainMenuGui);
+					manageInvitesFrame.dispose();
+					mainControl.abortGame();
+					frame.pack();
+				}
+
 			}
 		});
 
@@ -295,86 +318,47 @@ public class GuiController {
 	}
 
 	public void setInvitePanel(ArrayList<Catan> invitedList, ArrayList<Catan> ableToInviteList) {
+		
 		InvitePanel invitePanel = new InvitePanel(invitedList, ableToInviteList);
+		JDialog dialog = new JDialog();
+		
 		invitePanel.getAcceptButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
-				mainControl.loadInvites();
+				if (invitePanel.getInvitedList().size() > 0) {
+					mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl.loadInvites();
+					dialog.dispose(); // FIXME sometimes a second screen will still pop-up with one of the actionlisteners
+				}
 			}
 		});
 		invitePanel.getDeclineButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
-				mainControl.loadInvites();
+				if (invitePanel.getInvitedList().size() > 0) {
+					mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl.loadInvites();
+					dialog.dispose();
+				}
 			}
 		});
 		invitePanel.getRefreshButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
-			}
-		});
-		invitePanel.getInviteButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex());
-				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
-				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						if (frame.panel.getInvitedPlayers().size() < 4) {
-							JOptionPane.showConfirmDialog(null, "Te weinig spelers",
-									"Je moet minimaal 4 spelers hebben.", JOptionPane.OK_OPTION);
-						} else {
-							// Compare Lists and update in DB.
-							ArrayList<Player> playersToRemove = new ArrayList<>();
-							ArrayList<Player> playersToAdd = new ArrayList<>();
-							for (Player p : catan.getPlayers()) {
-								if (!frame.panel.getInvitedPlayers().stream()
-										.anyMatch(t -> t.getUsername().equals(p.getUsername()))) {
-									// Remove P
-									playersToRemove.add(p);
-								}
-							}
-							for (Player s : frame.panel.getInvitedPlayers()) {
-								if (!catan.getPlayers().stream()
-										.anyMatch(t -> t.getUsername().equals(s.getUsername()))) {
-									// Add S
-									playersToAdd.add(s);
-								}
-							}
-							if (playersToRemove.size() == playersToAdd.size()) {
-								mainControl.switchInvites(playersToAdd, playersToRemove, catan.getIdGame());
-								JOptionPane.showConfirmDialog(null, "Gelukt!", "De nieuwe mensen zijn uitgenodigd!",
-										JOptionPane.OK_OPTION);
-							}
-							frame.dispose();// Invited. Frame can close now.
-							mainControl.loadInvites();
-						}
-
-					}
-				});
-			}
-		});
-
-		invitePanel.getReturnButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainControl.loadProfile(false);
+				dialog.dispose();
 			}
 		});
 		this.invitePanel = invitePanel;
-		frame.setContentPane(this.invitePanel);
-		frame.pack();
+		
+		dialog.setTitle("Uitnodigingenbeheer");
+		dialog.setContentPane(this.invitePanel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.toFront();
+		dialog.requestFocus();
+		dialog.setAlwaysOnTop(true);
+		dialog.setVisible(true);
 	}
 
 	public void setWaitingRoom(ArrayList<Player> players) {
@@ -531,16 +515,26 @@ public class GuiController {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					gameControl.changeRobber(b.getTile().getIdTile());
-					boardPanel.disableTileButtons();
-					boardPanel.repaint();
-					gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
-							+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
-					gameControl.stealCardCauseRobber();
+					if (!b.getTile().hasRobber()) {
+						gameControl.changeRobber(b.getTile().getIdTile());
+						boardPanel.disableTileButtons();
+						boardPanel.repaint();
+						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
+								+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
+						enablePlayerActionPanel();
+						// gameControl.stealCardCauseRobber();
+					} else {
+						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
+					}
 				}
 			});
 		}
 	}
+	//
+	// public void repaintAndValidate() {
+	// gameGUIPanel.repaint();
+	// gameGUIPanel.revalidate();
+	// }
 
 	private void addBuildLocListeners() {
 
@@ -556,18 +550,17 @@ public class GuiController {
 
 						} else {
 							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
-									+ " Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: "
+									+ " Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: "
 									+ blb.getBuildingLocation().getYLoc());
-
 							boardPanel.disableBuildingLocButtons();
 							addPlayerColorToBuildingLocs();
 							try {
 								Thread.sleep(1000);
 							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 							boardPanel.enableStreetLocButtons();
+							addSystemMessageToChat(Color.BLUE, "Klik op een straatlocatie om je straat te bouwen");
 
 							// refreshPlayerResources();
 							// refreshPlayers();
@@ -585,7 +578,7 @@ public class GuiController {
 								playerActionPanel.setBuildPanel();
 								addPlayerColorToBuildingLocs();
 								refreshPlayerResources();
-								refreshPlayers();
+								// refreshPlayers();
 							}
 						} else {
 							if (!gameControl.buildVillage(blb.getBuildingLocation())) {
@@ -600,7 +593,7 @@ public class GuiController {
 								addPlayerColorToBuildingLocs();
 
 								refreshPlayerResources();
-								refreshPlayers();
+								// refreshPlayers();
 							}
 						}
 					}
@@ -612,6 +605,7 @@ public class GuiController {
 
 	public void refreshPlayerResources() {
 		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+		updatePlayerStats();
 	}
 
 	private void addStreetLocListeners() {
@@ -669,15 +663,22 @@ public class GuiController {
 			public void actionPerformed(ActionEvent arg0) {
 
 				gameControl.rollDice();
-				diceDotPanel.getButton().setVisible(false);
+				disableDice();
 				refreshDice();
 			}
 		});
 	}
 
+	public void disableDice() {
+		diceDotPanel.getButton().setVisible(false);
+		diceDotPanel.revalidate();
+		System.out.println("disabled dice button");
+	}
+
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
-		System.out.println("enabled button");
+		diceDotPanel.revalidate();
+		System.out.println("enabled dice button");
 	}
 
 	private void addDevelopmentCardsPanelButtonListeners() {
@@ -706,7 +707,29 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) {
+					playerActionPanel.getBuyPanel().getYesButton().setEnabled(true);
+				} else {
+					playerActionPanel.getBuyPanel().getYesButton().setEnabled(false);
+				}
 				playerActionPanel.setBuyPanel();
+			}
+		});
+	}
+
+	private void addPlayerActionBuyConfirmButtonListener() {
+		playerActionPanel.getBuyPanel().getYesButton().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) {
+					// TODO if someone wants to buy 2 developmentcards but only is able to buy 1,
+					// "JA" button will still be enabled (this if-statement will prevent buy-abuse
+					// though). Check for a more fancy way
+					// Not sure if the same happens with building stuff and its costs
+					gameControl.buyDevelopmentCard();
+					developmentCardsPanel.addDevelopmentCard(developmentCardsPanel.getDevelopmentCards()
+							.get(developmentCardsPanel.getDevelopmentCards().size()).getDevelopmentCardType());
+				}
 			}
 		});
 	}
@@ -719,6 +742,147 @@ public class GuiController {
 				playerActionPanel.setPlayerOptionMenuPanel();
 			}
 		});
+	}
+
+	public void showRobberDialog() {
+
+		ArrayList<BuildingLocation> robberBuildLocations = gameControl.getCatanGame().getGameboard().getRobberTile()
+				.getBuildingLocArr();
+		ArrayList<Player> playersToRob = new ArrayList<>();
+
+		for (BuildingLocation bl : robberBuildLocations) {
+			if (bl.hasBuilding()) {
+				if (!playersToRob.contains(bl.getBuilding().getPlayer())) {
+					if (bl.getBuilding().getPlayer() != gameControl.getCatanGame().getSelfPlayer()) {
+						playersToRob.add(bl.getBuilding().getPlayer());
+					}
+				}
+			}
+		}
+
+		// if no player has a building on one of the building locations, the dialog
+		// closes/ won't show
+		if (playersToRob.size() > 0) {
+			RobberDialog robberDialog = new RobberDialog(playersToRob);
+			ArrayList<JButton> playerButtons = robberDialog.getRobberDialogPanel().getPlayerButtons();
+			for (int i = 0; i < playerButtons.size(); i++) {
+				int y = i;
+				robberDialog.getRobberDialogPanel().getPlayerButton(i).addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+
+						gameControl.robberTakeResource(playersToRob.get(y));
+						robberDialog.dispose();
+						// for (int x = 0; x < robberBuildLocations.size(); x++) {
+						// if (robberBuildLocations.get(x).getBuilding().getPlayer() !=
+						// playersToRob.get(y)) {
+						// robberDialog.getRobberDialogPanel().getPlayerButton(y).setEnabled(false);
+						// }
+						// }
+					}
+				});
+			}
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(0));
+			//
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() !=
+			// playersToRob.get(0)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
+			// }
+			// }
+			// }
+			// });
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(1));
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() ==
+			// playersToRob.get(1)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
+			// }
+			// }
+			// }
+			// });
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(2));
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() !=
+			// playersToRob.get(2)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
+			// }
+			// }
+			// }
+			//
+			// });
+		}
+	}
+
+	public void drawMonopolyDialog() {
+
+		MonopolyDialog monopolyDialog = new MonopolyDialog();
+
+		ArrayList<JButton> resourceButtons = monopolyDialog.getMonopolyDialogPanel().getResourceButtons();
+
+		resourceButtons.get(0).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				gameControl.doDevCardMonopoly(ResourceType.BAKSTEEN);
+			}
+		});
+		resourceButtons.get(1).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				gameControl.doDevCardMonopoly(ResourceType.WOL);
+			}
+		});
+		resourceButtons.get(2).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				gameControl.doDevCardMonopoly(ResourceType.ERTS);
+			}
+		});
+		resourceButtons.get(3).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				gameControl.doDevCardMonopoly(ResourceType.GRAAN);
+			}
+		});
+		resourceButtons.get(4).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				gameControl.doDevCardMonopoly(ResourceType.HOUT);
+			}
+		});
+
 	}
 
 	public void showTradeReceiveDialog(TradeRequest tr) {
@@ -759,7 +923,7 @@ public class GuiController {
 
 					tradeReceive.setAlwaysOnTop(false);
 
-					Object[] options = { "Oké" };
+					Object[] options = { "Oke" };
 
 					int result = JOptionPane.showOptionDialog(null, "Je hebt niet genoeg grondstoffen", "Waarschuwing",
 							JOptionPane.CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
@@ -810,6 +974,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
+
 			}
 		});
 
@@ -842,15 +1007,6 @@ public class GuiController {
 			}
 		});
 
-		playerActionPanel.getTradeOptionsPanel().getRequestsButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("trade3");
-				playerActionPanel.setTradeRequestListPanel();
-			}
-		});
-
 		playerActionPanel.getPlayerTradePanel().getReturnButton().addActionListener(new ActionListener() {
 
 			@Override
@@ -864,14 +1020,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-			}
-		});
 
-		playerActionPanel.getTradeBankPanel().getReturnButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setTradeOptionsPanel();
 			}
 		});
 
@@ -936,8 +1085,10 @@ public class GuiController {
 
 	public void fillTradeRequest() {
 		ArrayList<TradeRequest> tradeRequestArr = gameControl.getCatanGame().getTradeRequestArr();
-		TradeRespondDialog tradeRespond = new TradeRespondDialog(tradeRequestArr.get(0), tradeRequestArr.get(1),
-				tradeRequestArr.get(2));
+		TradeRespondDialog tradeRespond = new TradeRespondDialog(
+				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(0).getIdPlayer()), tradeRequestArr.get(0),
+				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(1).getIdPlayer()), tradeRequestArr.get(1),
+				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(2).getIdPlayer()), tradeRequestArr.get(2));
 
 		gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
 		disablePanelButtons();
@@ -1104,7 +1255,8 @@ public class GuiController {
 		playerActionPanel.getPlayerOptionMenuPanel().getEndTurnButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerActionPanel.setVisible(false);
+
+				disablePlayerActionPanel();
 				gameControl.endTurn();
 			}
 		});
@@ -1166,17 +1318,83 @@ public class GuiController {
 	// addPlayerColorToStreetLocs();
 	// }
 
+	public void drawYearOfPlentyDialog() {
+
+		YearOfPlentyDialog yearOfPlentyDialog = new YearOfPlentyDialog();
+
+		yearOfPlentyDialog.getYearOfPlentyDialogPanel().getSendRequestButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ResourceType resourceType1 = null;
+
+				String resourceName1 = yearOfPlentyDialog.getYearOfPlentyDialogPanel().getGetResourceButtons1()
+						.getSelection().toString();
+				switch (resourceName1) {
+				case "BRICK":
+					resourceType1 = ResourceType.BAKSTEEN;
+					break;
+				case "WOL":
+					resourceType1 = ResourceType.WOL;
+					break;
+				case "ERTS":
+					resourceType1 = ResourceType.ERTS;
+					break;
+				case "GRAAN":
+					resourceType1 = ResourceType.GRAAN;
+					break;
+				case "HOUT":
+					resourceType1 = ResourceType.HOUT;
+					break;
+				default:
+					break;
+				}
+
+				ResourceType resourceType2 = null;
+
+				String resourceName2 = yearOfPlentyDialog.getYearOfPlentyDialogPanel().getGetResourceButtons2()
+						.getSelection().toString();
+
+				switch (resourceName2) {
+				case "BRICK":
+					resourceType2 = ResourceType.BAKSTEEN;
+					break;
+				case "WOL":
+					resourceType2 = ResourceType.WOL;
+					break;
+				case "ERTS":
+					resourceType2 = ResourceType.ERTS;
+					break;
+				case "GRAAN":
+					resourceType2 = ResourceType.GRAAN;
+					break;
+				case "HOUT":
+					resourceType2 = ResourceType.HOUT;
+					break;
+				default:
+					break;
+				}
+				gameControl.doDevCardYearOfPlenty(resourceType1, resourceType2);
+			}
+		});
+	}
+
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
+		System.out.println("Enabled Panel");
+		playerActionPanel.revalidate();
 	}
 
 	public void disablePlayerActionPanel() {
 		playerActionPanel.setVisible(false);
+		System.out.println("Disabled Panel");
+		playerActionPanel.revalidate();
 	}
 
 	public void refreshBoard() {
 		addPlayerColorToBuildingLocs();
 		addPlayerColorToStreetLocs();
+		boardPanel.revalidate();
 	}
 
 	public void refreshChat() {
@@ -1192,9 +1410,9 @@ public class GuiController {
 		diceDotPanel.repaint();
 	}
 
-	public void refreshPlayers() {
-		gameSouthContainerPanel.repaint();
-	}
+	// public void refreshPlayers() {
+	//
+	// }
 
 	private void addListeners() {
 
@@ -1210,6 +1428,7 @@ public class GuiController {
 
 		// buy listeners
 		addPlayerActionBuyButtonListener();
+		addPlayerActionBuyConfirmButtonListener();
 		addPlayerActionBuyQuitButtonListener();
 
 		// Trade listeners
@@ -1226,13 +1445,24 @@ public class GuiController {
 
 	}
 
+	public Frame getFrame() {
+		return frame;
+	}
+
 	public BoardPanel getBoardPanel() {
 		return boardPanel;
 	}
 
-	public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
-
-	}
+	// public void createStealDialog(ArrayList<Player> playersAtRobberTile) {
+	//
+	// }
+	//
+	// public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake,
+	// HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
+	//
+	// // TODO Auto-generated method stub
+	//
+	// }
 
 	private void updatePlayerStats() {
 

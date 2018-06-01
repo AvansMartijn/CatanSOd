@@ -2,6 +2,7 @@ package model;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Bank {
 
@@ -16,6 +17,7 @@ public class Bank {
 	// Instance variables
 	private ArrayList<Resource> resources;
 	private ArrayList<DevelopmentCard> developmentCards;
+	private Random random;
 
 	// Constructor
 
@@ -34,6 +36,7 @@ public class Bank {
 	public Bank(ArrayList<String> resourceIDs, ArrayList<String> developmentCardIDs, ArrayList<Boolean> played) {
 		resources = new ArrayList<>();
 		developmentCards = new ArrayList<>();
+		random = new Random();
 		addResourcesFromDatabase(resourceIDs);
 		try {
 			addDevelopmentCardsFromDatabase(developmentCardIDs, played);
@@ -114,6 +117,7 @@ public class Bank {
 //		return null;
 //	}
 
+	
 	public void addMultipleResources(ArrayList<Resource> resourcesToAdd) {
 		for (Resource rs : resourcesToAdd) {
 			resources.add(rs);
@@ -165,5 +169,10 @@ public class Bank {
 
 	public void setResources(ArrayList<Resource> resources) {
 		this.resources = resources;
+	}
+	
+	public DevelopmentCard takeDevelopmentCard() {
+		int index = random.nextInt(developmentCards.size()) + 0;
+		return developmentCards.get(index);
 	}
 }

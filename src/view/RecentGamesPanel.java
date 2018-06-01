@@ -12,7 +12,7 @@ import model.Catan;
 public class RecentGamesPanel extends JPanel {
 	
 	private final int PANEL_WIDTH = 500;
-	private final int GAMEPANEL_HEIGHT = 110;
+	private final int GAMEPANEL_HEIGHT = 105;
 	
 	private ArrayList<RecentGamePanel> gamePanels;
 	private Color textBackgroundColor = new Color(223, 190, 172);

@@ -60,7 +60,7 @@ public class TradeReceiveDialogPanel extends JPanel {
 		titleLabel.setBounds(25, 10, 320, 40);
 		add(titleLabel);
 
-		subTitleLabel = new JLabel("Speler * heeft een handelsverzoek verstuurd");
+		subTitleLabel = new JLabel(player.getUsername() + " heeft een handelsverzoek verstuurd");
 		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel.setForeground(TextColor);
 		subTitleLabel.setBounds(40, 35, 280, 40);
@@ -114,39 +114,34 @@ public class TradeReceiveDialogPanel extends JPanel {
 		subTitleLabel2.setBounds(60, 50, 200, 60);
 		add(subTitleLabel2);
 
-		brickGive = new JFormattedTextField();
+		brickGive = new JFormattedTextField(formatters[0]);
 		brickGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		brickGive.setText("" + tr.getW_brick());
-		brickGive.setEditable(false);
 		add(brickGive);
 
-		woolGive = new JFormattedTextField();
+		woolGive = new JFormattedTextField(formatters[1]);
 		woolGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		woolGive.setText("" + tr.getW_wool());
-		woolGive.setEditable(false);
 		add(woolGive);
 
-		ironGive = new JFormattedTextField();
+		ironGive = new JFormattedTextField(formatters[2]);
 		ironGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		ironGive.setText("" + tr.getW_iron());
-		ironGive.setEditable(false);
 		add(ironGive);
 
-		wheatGive = new JFormattedTextField();
+		wheatGive = new JFormattedTextField(formatters[3]);
 		wheatGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		wheatGive.setText("" + tr.getW_wheat());
-		wheatGive.setEditable(false);
 		add(wheatGive);
 
-		woodGive = new JFormattedTextField();
+		woodGive = new JFormattedTextField(formatters[4]);
 		woodGive.setBounds(TEXTFIELD_OFFSET_X1, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		woodGive.setText("" + tr.getW_wood());
-		woodGive.setEditable(false);
 		add(woodGive);
 
 		brickLabel = new JLabel("Baksteen");
@@ -175,34 +170,39 @@ public class TradeReceiveDialogPanel extends JPanel {
 		subTitleLabel3.setBounds(240, 50, 250, 60);
 		add(subTitleLabel3);
 
-		brickReceive = new JFormattedTextField(formatters[0]);
+		brickReceive = new JFormattedTextField();
 		brickReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		brickReceive.setText("" + tr.getG_brick());
+		brickReceive.setEditable(false);
 		add(brickReceive);
 
-		woolReceive = new JFormattedTextField(formatters[0]);
+		woolReceive = new JFormattedTextField();
 		woolReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 2, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		woolReceive.setText("" + tr.getG_wool());
+		woolReceive.setEditable(false);
 		add(woolReceive);
 
-		ironReceive = new JFormattedTextField(formatters[0]);
+		ironReceive = new JFormattedTextField();
 		ironReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 3, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		ironReceive.setText("" + tr.getG_iron());
+		ironReceive.setEditable(false);
 		add(ironReceive);
 
-		wheatReceive = new JFormattedTextField(formatters[0]);
+		wheatReceive = new JFormattedTextField();
 		wheatReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 4, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		wheatReceive.setText("" + tr.getG_wheat());
+		wheatReceive.setEditable(false);
 		add(wheatReceive);
 
-		woodReceive = new JFormattedTextField(formatters[0]);
+		woodReceive = new JFormattedTextField();
 		woodReceive.setBounds(TEXTFIELD_OFFSET_X2, 70 + TEXTFIELD_OFFSET_Y * 5, TEXTFIELD_INPUT_WIDTH,
 				TEXTFIELD_INPUT_HEIGHT);
 		woodReceive.setText("" + tr.getG_wood());
+		woodReceive.setEditable(false);
 		add(woodReceive);
 
 	}

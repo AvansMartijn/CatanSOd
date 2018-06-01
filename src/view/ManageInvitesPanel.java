@@ -12,7 +12,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -21,7 +20,6 @@ import javax.swing.SwingConstants;
 
 import model.Catan;
 import model.Player;
-import view.NewGameFrame.NewGamePanel.GameOptionsPanel;
 
 @SuppressWarnings("serial")
 public class ManageInvitesPanel extends JPanel {
@@ -65,12 +63,6 @@ public class ManageInvitesPanel extends JPanel {
 		for(Player p : game.getPlayers()) {
 			addPlayer(p);
 		}
-		// invitedPlayers.add("naam1");
-		// invitedPlayers.add("naam2");
-		// invitedPlayers.add("naam3");
-		// invitedPlayers.add("naam4");
-		//
-
 	}
 
 	public void UpdateInvitedPlayers() {
@@ -84,8 +76,6 @@ public class ManageInvitesPanel extends JPanel {
 		JScrollPane scrollPane;
 
 		public InvitePlayerPanel() {
-			// int height = currentGames.getGamePanels().size() * 110;
-			// currentGames.setPreferredSize(new Dimension(400, height));
 			scrollPane = new JScrollPane(inviteInput, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollPane.getHorizontalScrollBar().setUnitIncrement(20);
@@ -112,7 +102,6 @@ public class ManageInvitesPanel extends JPanel {
 
 	public class InvitedPlayersPanel extends JPanel {
 		public InvitedPlayersPanel() {
-			// this.setPreferredSize(new Dimension(100, 300));
 			removeButtonsList.clear();
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			for (Player player : invitedPlayers) {

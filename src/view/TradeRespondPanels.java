@@ -1,16 +1,14 @@
 package view;
 
-
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Player;
 import model.TradeRequest;
 
 @SuppressWarnings("serial")
@@ -32,16 +30,16 @@ public class TradeRespondPanels extends JPanel {
 	
 	private JButton cancelButton;
 
-	public TradeRespondPanels(TradeRequest tR1,TradeRequest tR2,TradeRequest tR3) {
+	public TradeRespondPanels(Player player,TradeRequest tR1,Player player2,TradeRequest tR2,Player player3,TradeRequest tR3) {
 
 		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		setBackground(backgroundColor);
 		
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		
-		tradeRespondDialogPanel1 = new TradeRespondPanel(tR1);
-		tradeRespondDialogPanel2 = new TradeRespondPanel(tR2);
-		tradeRespondDialogPanel3 = new TradeRespondPanel(tR3);
+		tradeRespondDialogPanel1 = new TradeRespondPanel(player,tR1);
+		tradeRespondDialogPanel2 = new TradeRespondPanel(player2,tR2);
+		tradeRespondDialogPanel3 = new TradeRespondPanel(player3,tR3);
 
 		add(tradeRespondDialogPanel1);
 		add(tradeRespondDialogPanel2);
