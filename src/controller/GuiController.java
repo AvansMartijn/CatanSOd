@@ -317,9 +317,9 @@ public class GuiController {
 		frame.pack();
 	}
 
-	public void setInvitePanel(ArrayList<Catan> invitedList, ArrayList<Catan> ableToInviteList) {
+	public void setInvitePanel(ArrayList<Catan> invitedList) {
 		
-		InvitePanel invitePanel = new InvitePanel(invitedList, ableToInviteList);
+		InvitePanel invitePanel = new InvitePanel(invitedList);
 		JDialog dialog = new JDialog();
 		
 		invitePanel.getAcceptButton().addActionListener(new ActionListener() {

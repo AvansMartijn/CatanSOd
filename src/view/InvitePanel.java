@@ -40,7 +40,7 @@ public class InvitePanel extends JPanel {
 
 	private int invitedListSelectedIndex = -1;
 
-	public InvitePanel(ArrayList<Catan> invitedList, ArrayList<Catan> ableToInviteList) {
+	public InvitePanel(ArrayList<Catan> invitedList) {
 		this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
