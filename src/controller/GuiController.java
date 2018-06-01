@@ -36,6 +36,7 @@ import view.BuyPanel;
 import view.ChatPanel;
 import view.DiceDotPanel;
 import view.Frame;
+import view.GameEndScreenPanel;
 import view.GameGUIPanel;
 import view.GameSelect;
 import view.GameSouthContainerPanel;
@@ -1442,7 +1443,6 @@ public class GuiController {
 
 		// end turn listener
 		addPlayerActionEndTurnButtonListener();
-
 	}
 
 	public Frame getFrame() {
@@ -1465,7 +1465,6 @@ public class GuiController {
 	// }
 
 	private void updatePlayerStats() {
-
 		for (int i = 0; i < playerStatsPanels.length; i++) {
 			playerStatsPanels[i].updateStats();
 		}
@@ -1488,6 +1487,26 @@ public class GuiController {
 	public void setGameList(ArrayList<Catan> gameList) {
 		this.gameList = gameList;
 	}
-	
 
+	public static void setwinnerDialog(Player p, Player winner) {
+		JDialog dialog = new JDialog();
+		boolean isWinner = false;
+		
+		if(p == winner) {
+			dialog.setTitle("Winnaar!");
+			isWinner = true;
+		} else {
+			dialog.setTitle("Verloren!");
+		}
+		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner)); // TODO
+		System.out.println("Gefeliciteerd " + winner.getUsername() + " met je overwinning!");
+		System.out.println("Helaas! " + winner.getUsername() + " heeft gewonnen");
+		
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.toFront();
+		dialog.requestFocus();
+		dialog.setAlwaysOnTop(true);
+		dialog.setVisible(true);
+	}
 }

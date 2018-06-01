@@ -1512,4 +1512,8 @@ public class MainDA {
 		}
 	}
 
+	public void finishGame(int idGame) {
+	
+	}
+
 }
