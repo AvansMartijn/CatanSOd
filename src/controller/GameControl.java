@@ -1320,10 +1320,16 @@ public class GameControl {
 		catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
 	}
 	
-	private void checkForWinner() {
+	private void checkForWinner() { // TODO add to refresh?
+		
+		Player winner = null;
+		
 		for(Player p: catanGame.getPlayers()) {
 			if(p.getVictoryPoints() >= 10) {
+				winner = p;
 				mainDA.finishGame(catanGame.getIdGame());
+				GuiController.setwinnerDialog(p, winner);
+				return;
 			}
 		}
 	}
