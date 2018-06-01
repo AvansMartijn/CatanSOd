@@ -888,7 +888,7 @@ public class GuiController {
 
 	public void showTradeReceiveDialog(TradeRequest tr) {
 
-		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(gameControl.getCatanGame().getSelfPlayer(), tr);
+		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()), tr);
 
 		tradeReceive.pack();
 		tradeReceive.setLocationRelativeTo(null);
@@ -899,7 +899,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
+//				gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
 
 				int brickGive = tradeReceive.getTradeReceiveDialogPanel().getBrickGive();
 				int woolGive = tradeReceive.getTradeReceiveDialogPanel().getWoolGive();
@@ -917,10 +917,10 @@ public class GuiController {
 						.getAmountOfResources();
 
 				if (currentHand.get(ResourceType.BAKSTEEN).intValue() < brickGive
-						|| currentHand.get(ResourceType.WOL).intValue() < woolReceive
-						|| currentHand.get(ResourceType.ERTS).intValue() < ironReceive
-						|| currentHand.get(ResourceType.GRAAN).intValue() < wheatReceive
-						|| currentHand.get(ResourceType.HOUT).intValue() < woodReceive) {
+						|| currentHand.get(ResourceType.WOL).intValue() < woolGive
+						|| currentHand.get(ResourceType.ERTS).intValue() < ironGive
+						|| currentHand.get(ResourceType.GRAAN).intValue() < wheatGive
+						|| currentHand.get(ResourceType.HOUT).intValue() < woodGive) {
 
 					tradeReceive.setAlwaysOnTop(false);
 
@@ -931,6 +931,7 @@ public class GuiController {
 
 					if (result == JOptionPane.CANCEL_OPTION) {
 						tradeReceive.setAlwaysOnTop(true);
+						
 					}
 
 				} else {
@@ -1061,7 +1062,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				int stoneGive = playerActionPanel.getPlayerTradePanel().getBrickGive();
+				int brickGive = playerActionPanel.getPlayerTradePanel().getBrickGive();
 				int woolGive = playerActionPanel.getPlayerTradePanel().getWoolGive();
 				int ironGive = playerActionPanel.getPlayerTradePanel().getIronGive();
 				int wheatGive = playerActionPanel.getPlayerTradePanel().getWheatGive();
@@ -1073,13 +1074,31 @@ public class GuiController {
 				int wheatReceive = playerActionPanel.getPlayerTradePanel().getWheatReceive();
 				int woodReceive = playerActionPanel.getPlayerTradePanel().getWoodReceive();
 
-				System.out.println(stoneGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
+				HashMap<ResourceType, Integer> currentHand = gameControl.getCatanGame().getSelfPlayer().getHand()
+						.getAmountOfResources();
+
+				if (currentHand.get(ResourceType.BAKSTEEN).intValue() < brickGive
+						|| currentHand.get(ResourceType.WOL).intValue() < woolGive
+						|| currentHand.get(ResourceType.ERTS).intValue() < ironGive
+						|| currentHand.get(ResourceType.GRAAN).intValue() < wheatGive
+						|| currentHand.get(ResourceType.HOUT).intValue() < woodGive) {
+
+					Object[] options = { "Oke" };
+
+					int result = JOptionPane.showOptionDialog(null, "Je hebt niet genoeg grondstoffen", "Waarschuwing",
+							JOptionPane.CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
+					if (result == JOptionPane.CANCEL_OPTION) {
+					}
+				} else {
+				
+				System.out.println(brickGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
 						+ ironReceive + wheatReceive + woodReceive);
-				gameControl.createPlayerTradeRequest(stoneGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
+				gameControl.createPlayerTradeRequest(brickGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
 						woolReceive, ironReceive, wheatReceive, woodReceive);
 
 				gameControl.countTradeOffers();
 				playerActionPanel.setPlayerOptionMenuPanel();
+				}
 			}
 		});
 	}
@@ -1091,7 +1110,7 @@ public class GuiController {
 				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(1).getIdPlayer()), tradeRequestArr.get(1),
 				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(2).getIdPlayer()), tradeRequestArr.get(2));
 
-		gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
+//		gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
 		disablePanelButtons();
 
 		tradeRespond.pack();
@@ -1109,10 +1128,11 @@ public class GuiController {
 					public void actionPerformed(ActionEvent e) {
 						gameControl.commenceTrade(0);
 						refreshPlayerResources();
-						tradeRespond.dispose();
+						
 
 						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 						enablePanelButtons();
+						tradeRespond.dispose();
 					}
 				});
 
