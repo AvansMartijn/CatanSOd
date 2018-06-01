@@ -330,50 +330,6 @@ public class GuiController {
 				mainControl.loadInvites();
 			}
 		});
-		invitePanel.getInviteButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex());
-				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
-				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						if (frame.panel.getInvitedPlayers().size() < 4) {
-							JOptionPane.showConfirmDialog(null, "Te weinig spelers",
-									"Je moet minimaal 4 spelers hebben.", JOptionPane.OK_OPTION);
-						} else {
-							// Compare Lists and update in DB.
-							ArrayList<Player> playersToRemove = new ArrayList<>();
-							ArrayList<Player> playersToAdd = new ArrayList<>();
-							for (Player p : catan.getPlayers()) {
-								if (!frame.panel.getInvitedPlayers().stream()
-										.anyMatch(t -> t.getUsername().equals(p.getUsername()))) {
-									// Remove P
-									playersToRemove.add(p);
-								}
-							}
-							for (Player s : frame.panel.getInvitedPlayers()) {
-								if (!catan.getPlayers().stream()
-										.anyMatch(t -> t.getUsername().equals(s.getUsername()))) {
-									// Add S
-									playersToAdd.add(s);
-								}
-							}
-							if (playersToRemove.size() == playersToAdd.size()) {
-								mainControl.switchInvites(playersToAdd, playersToRemove, catan.getIdGame());
-								JOptionPane.showConfirmDialog(null, "Gelukt!", "De nieuwe mensen zijn uitgenodigd!",
-										JOptionPane.OK_OPTION);
-							}
-							frame.dispose();// Invited. Frame can close now.
-							mainControl.loadInvites();
-						}
-
-					}
-				});
-			}
-		});
 
 		invitePanel.getReturnButton().addActionListener(new ActionListener() {
 
