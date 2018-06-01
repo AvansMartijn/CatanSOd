@@ -377,7 +377,7 @@ public class MainControl {
 		try {
 			TradeRequest tr = gameControl.updateTradeRequests();
 			if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-				if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) != null) {
+				if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) == null) {
 					gameControl.getCatanGame().addTradeRequest(tr);
 					guiController.showTradeReceiveDialog(tr);
 				}

@@ -984,6 +984,7 @@ public class GameControl {
 
 		mainDA.deleteTradeRequests(catanGame.getIdGame());
 		catanGame.setTradeRequests(null);
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft het tegenaanbod van " + tradePlayer.getUsername() + " geaccepteerd");
 
 		// swap resources in code
 		// remove traderequests in db
