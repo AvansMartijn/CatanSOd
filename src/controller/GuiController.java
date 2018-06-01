@@ -305,42 +305,47 @@ public class GuiController {
 	}
 
 	public void setInvitePanel(ArrayList<Catan> invitedList, ArrayList<Catan> ableToInviteList) {
+		
 		InvitePanel invitePanel = new InvitePanel(invitedList, ableToInviteList);
+		JDialog dialog = new JDialog();
+		
 		invitePanel.getAcceptButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
-				mainControl.loadInvites();
+				if (invitePanel.getInvitedList().size() > 0) {
+					mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl.loadInvites();
+					dialog.dispose(); // FIXME sometimes a second screen will still pop-up with one of the actionlisteners
+				}
 			}
 		});
 		invitePanel.getDeclineButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
-				mainControl.loadInvites();
+				if (invitePanel.getInvitedList().size() > 0) {
+					mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl.loadInvites();
+					dialog.dispose();
+				}
 			}
 		});
 		invitePanel.getRefreshButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
-			}
-		});
-
-		invitePanel.getReturnButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainControl.loadProfile();
+				dialog.dispose();
 			}
 		});
 		this.invitePanel = invitePanel;
-		frame.setContentPane(this.invitePanel);
-		frame.pack();
+		
+		dialog.setTitle("Uitnodigingenbeheer");
+		dialog.setContentPane(this.invitePanel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.toFront();
+		dialog.requestFocus();
+		dialog.setAlwaysOnTop(true);
+		dialog.setVisible(true);
 	}
 
 	public void setWaitingRoom(ArrayList<Player> players) {
@@ -497,7 +502,7 @@ public class GuiController {
 						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
 								+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
 						enablePlayerActionPanel();
-//						gameControl.stealCardCauseRobber();
+						// gameControl.stealCardCauseRobber();
 					} else {
 						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
 					}
@@ -740,7 +745,7 @@ public class GuiController {
 		if (playersToRob.size() > 0) {
 			RobberDialog robberDialog = new RobberDialog(playersToRob);
 			ArrayList<JButton> playerButtons = robberDialog.getRobberDialogPanel().getPlayerButtons();
-			for(int i = 0; i < playerButtons.size(); i++) {
+			for (int i = 0; i < playerButtons.size(); i++) {
 				int y = i;
 				robberDialog.getRobberDialogPanel().getPlayerButton(i).addActionListener(new ActionListener() {
 
@@ -749,58 +754,65 @@ public class GuiController {
 
 						gameControl.robberTakeResource(playersToRob.get(y));
 						robberDialog.dispose();
-//						for (int x = 0; x < robberBuildLocations.size(); x++) {
-//							if (robberBuildLocations.get(x).getBuilding().getPlayer() != playersToRob.get(y)) {
-//								robberDialog.getRobberDialogPanel().getPlayerButton(y).setEnabled(false);
-//							}
-//						}
+						// for (int x = 0; x < robberBuildLocations.size(); x++) {
+						// if (robberBuildLocations.get(x).getBuilding().getPlayer() !=
+						// playersToRob.get(y)) {
+						// robberDialog.getRobberDialogPanel().getPlayerButton(y).setEnabled(false);
+						// }
+						// }
 					}
 				});
 			}
-//
-//			robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//
-//					gameControl.robberTakeResource(playersToRob.get(0));
-//
-//					for (int i = 0; i < robberBuildLocations.size(); i++) {
-//						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(0)) {
-//							robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
-//						}
-//					}
-//				}
-//			});
-//			
-//			robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//
-//					gameControl.robberTakeResource(playersToRob.get(1));
-//					for (int i = 0; i < robberBuildLocations.size(); i++) {
-//						if (robberBuildLocations.get(i).getBuilding().getPlayer() == playersToRob.get(1)) {
-//							robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
-//						}
-//					}
-//				}
-//			});
-//
-//			robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//
-//					gameControl.robberTakeResource(playersToRob.get(2));
-//					for (int i = 0; i < robberBuildLocations.size(); i++) {
-//						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(2)) {
-//							robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
-//						}
-//					}
-//				}
-//
-//			});
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(0));
+			//
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() !=
+			// playersToRob.get(0)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
+			// }
+			// }
+			// }
+			// });
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(1));
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() ==
+			// playersToRob.get(1)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
+			// }
+			// }
+			// }
+			// });
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(2));
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() !=
+			// playersToRob.get(2)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
+			// }
+			// }
+			// }
+			//
+			// });
 		}
 	}
 
