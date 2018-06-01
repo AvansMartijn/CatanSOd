@@ -533,14 +533,20 @@ public class MainDA {
 	/**
 	 * Get all players from an account from the database
 	 */
-	public ArrayList<Integer> getGameIDsFromPlayer(String username) {
+	public ArrayList<Integer> getGameIDsFromPlayer(String username, boolean finished) {
 
 		ArrayList<Integer> retList = new ArrayList<Integer>();
 
 		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idspel FROM speler WHERE username = '" + username + "' ORDER BY idspel DESC;";
+		String query = null;
+		
+		if(finished) {
+			query = "SELECT idspel FROM speler WHERE username = '" + username + "' AND speelstatus = 'uitgespeeld' ORDER BY idspel DESC;";
+		} else {
+			query = "SELECT idspel FROM speler WHERE username = '" + username + "' AND (speelstatus = 'geaccepteerd' OR speelstatus = 'uitdager') ORDER BY idspel DESC;";
+		}
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);

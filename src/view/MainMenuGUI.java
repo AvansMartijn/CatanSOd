@@ -28,31 +28,32 @@ public class MainMenuGUI extends JPanel {
 	private Color backgroundColor = new Color(240, 226, 223);
 	private Color innerColor = new Color(189, 133, 100);
 
-	private RecentGamesPanel currentGames;
+//	private RecentGamesPanel gamesPanel;
 	private JPanel mainPanel;
 	private String username;
 	private JPanel topOptionsPanel;
 	private JScrollPane scrollPane;
 	private JPanel bottomOptionsPanel;
-	private int pageNr;
 	private Image image;
 
-	public MainMenuGUI(String username, JPanel topOptionsPanel, JPanel bottomOptionsPanel, RecentGamesPanel currentGames) {
+	public MainMenuGUI(String username, JPanel topOptionsPanel, JPanel bottomOptionsPanel) {
 		setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		setBackground(backgroundColor);
 		mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.topOptionsPanel = topOptionsPanel;
 		this.bottomOptionsPanel = bottomOptionsPanel;
-		this.currentGames = currentGames;
+//		this.gamesPanel = currentGames;
 		this.username = username;
-		pageNr = 0;
 
 		mainPanel.add(new Title());
 		mainPanel.add(this.topOptionsPanel);
 		mainPanel.setBackground(innerColor);
 
-		scrollPane = new JScrollPane(currentGames, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		GridBagLayout gridLayout = new GridBagLayout();
+		setLayout(gridLayout);
+		
+		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLLPANE_INCREMENT);
 		scrollPane.setPreferredSize(new Dimension(SCROLLPANE_WIDTH, SCROLLPANE_HEIGHT));
@@ -60,8 +61,6 @@ public class MainMenuGUI extends JPanel {
 		
 		mainPanel.add(this.bottomOptionsPanel);
 		
-		GridBagLayout gridLayout = new GridBagLayout();
-		setLayout(gridLayout);
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.CENTER;
 
@@ -76,15 +75,18 @@ public class MainMenuGUI extends JPanel {
 					Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 		}
+		
+	}
+	
+	public void updateScrollPane(RecentGamesPanel gamesPanel) {
+		scrollPane.getViewport().removeAll();
+		scrollPane.setViewportView(gamesPanel);
+		revalidate();
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
-	}
-	
-	public JPanel getCurrentGamesPanel() {
-		return currentGames;
 	}
 
 	public class Title extends JPanel {
@@ -97,13 +99,5 @@ public class MainMenuGUI extends JPanel {
 			this.add(new JLabel("Welkom terug, " + username + "!")); // Must be logged in user.
 			this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		}
-	}
-
-	public int getPageNr() {
-		return pageNr;
-	}
-
-	public void setPageNr(int pageNr) {
-		this.pageNr = pageNr;
 	}
 }

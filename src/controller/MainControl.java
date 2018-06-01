@@ -54,8 +54,8 @@ public class MainControl {
 		return selfPlayer;
 	}
 
-	public void loadProfile() {
-		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
+	public void loadProfile(boolean finished) {
+		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername(), finished);
 		catanGames = new ArrayList<Catan>();
 		for (Integer i : gameIDsOfUser) {
 			ArrayList<Player> players = getPlayers(i.intValue());
@@ -65,10 +65,14 @@ public class MainControl {
 			catanGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
 
 		}
-		// for (int i = 0; i < gameIDsOfUser.size(); i++) {
+		guiController.setGameList(catanGames);
 		// }
 
-		guiController.setMainMenu(catanGames, account.getUsername());
+	}
+	
+	public void setMainMenu() {
+		guiController.setMainMenu(account.getUsername());
+		
 	}
 
 	public void joinGame(Catan game) {
@@ -193,7 +197,7 @@ public class MainControl {
 	}
 
 	public void loadInvites() {
-		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername());
+		ArrayList<Integer> gameIDsOfUser = mainDA.getGameIDsFromPlayer(account.getUsername(), false);
 		ArrayList<Catan> invitedGames = new ArrayList<Catan>();
 		ArrayList<Catan> ableToInviteGames = new ArrayList<Catan>();
 		for (Integer i : gameIDsOfUser) {

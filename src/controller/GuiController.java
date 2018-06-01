@@ -82,7 +82,7 @@ public class GuiController {
 	private BottomOptionsPanel bottomOptionsPanel;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
-	private RecentGamesPanel currentGamesPanel;
+//	private RecentGamesPanel currentGamesPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
@@ -102,8 +102,6 @@ public class GuiController {
 	private ManageInvitesFrame manageInvitesFrame;
 
 	private ArrayList<Catan> gameList;
-
-	private int pageNr;
 
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
@@ -139,7 +137,8 @@ public class GuiController {
 					passwordTextField.setText("");
 					loginregisterPanel.setMessagelabel("Ongeldige gegevens ingevoerd");
 				} else {
-					mainControl.loadProfile();
+					mainControl.setMainMenu();
+					;
 				}
 			}
 		});
@@ -187,9 +186,10 @@ public class GuiController {
 		frame.pack();
 	}
 
-	public void setMainMenu(ArrayList<Catan> gameList, String username) {
-
+	public void setMainMenu(String username) {
+		mainControl.loadProfile(false);
 		topOptionsPanel = new RecentGamesTopPanel();
+		topOptionsPanel.getRecentButton().setSelected(true);
 
 		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
 		topOptionsPanel.getCreateGameButton().addActionListener(new ActionListener() {
@@ -210,6 +210,27 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
+			}
+		});
+
+		topOptionsPanel.getRecentButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadProfile(false);
+				retrieveGames();
+//				mainMenuGui.repaint();
+
+			}
+		});
+		topOptionsPanel.getClosedGameButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadProfile(true);
+				retrieveGames();
+//				mainMenuGui.repaint();
+
 			}
 		});
 
@@ -253,16 +274,7 @@ public class GuiController {
 			}
 		});
 
-		currentGamesPanel = new RecentGamesPanel(gameList, pageNr);
-		ArrayList<RecentGamePanel> gamePanels = currentGamesPanel.getGamePanels();
-		for (RecentGamePanel p : gamePanels) {
-			p.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					mainControl.joinGame(p.getGame());
-				}
-			});
-		}
+		
 		bottomOptionsPanel = new BottomOptionsPanel();
 
 		bottomOptionsPanel.getLogoutButton().addActionListener(new ActionListener() {
@@ -298,7 +310,8 @@ public class GuiController {
 			}
 		});
 
-		this.mainMenuGui = new MainMenuGUI(username, topOptionsPanel, bottomOptionsPanel, currentGamesPanel);
+		this.mainMenuGui = new MainMenuGUI(username, topOptionsPanel, bottomOptionsPanel);
+		retrieveGames();
 
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
@@ -355,17 +368,23 @@ public class GuiController {
 
 	}
 
-	public void retrieveGames(int pageId) {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		mainMenuGui.remove(currentGamesPanel);
-		currentGamesPanel = new RecentGamesPanel(gameList, pageId);
-		mainMenuGui.add(currentGamesPanel, c);
-		mainMenuGui.getCurrentGamesPanel().invalidate();
-		mainMenuGui.getCurrentGamesPanel().validate();
+	public void retrieveGames() {
+
+		RecentGamesPanel gamesPanel = new RecentGamesPanel(gameList);
+
+		mainMenuGui.updateScrollPane(gamesPanel);
+		ArrayList<RecentGamePanel> gamePanels = gamesPanel.getGamePanels();
+		for (RecentGamePanel p : gamePanels) {
+			p.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					p.setBackground(Color.LIGHT_GRAY);
+					p.revalidate();
+					mainControl.joinGame(p.getGame());
+				}
+			});
+
+		}
 	}
 
 	public void setGameSelect() {
@@ -424,7 +443,8 @@ public class GuiController {
 				if (result == JOptionPane.YES_OPTION) {
 					gameControl.unloadCatan();
 					mainControl.stopIngameTimer();
-					mainControl.loadProfile();
+//					mainControl.loadProfile(false);
+					mainControl.setMainMenu();
 				}
 				if (result == JOptionPane.NO_OPTION) {
 					System.exit(0);
@@ -1464,5 +1484,10 @@ public class GuiController {
 		playerOptionMenuPanel.getTradeButton().setEnabled(false);
 		playerOptionMenuPanel.getEndTurnButton().setEnabled(false);
 	}
+
+	public void setGameList(ArrayList<Catan> gameList) {
+		this.gameList = gameList;
+	}
+	
 
 }
