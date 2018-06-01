@@ -55,7 +55,7 @@ public class NewGameFrame extends JFrame {
 		public NewGamePanel() {
 
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			createGameButton = new JButton("Game aanmaken!");
+			createGameButton = new JButton("Spel aanmaken!");
 			removeButtonsList = new ArrayList<>();
 			boardChoice = new JComboBox<String>(new String[] { "Normaal", "Random" });
 			invitedPlayers = new ArrayList<String>();
@@ -77,7 +77,7 @@ public class NewGameFrame extends JFrame {
 					}
 				}
 			}));
-			JLabel header = new JLabel("Nieuwe Game Aanmaken");
+			JLabel header = new JLabel("Nieuw Spel Aanmaken");
 			header.setFont(new Font(header.getFont().getFontName(), Font.PLAIN, 20));
 			header.setAlignmentX(Component.CENTER_ALIGNMENT);
 			this.add(header);

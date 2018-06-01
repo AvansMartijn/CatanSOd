@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import model.BuildingLocation;
+import model.Catan;
 import model.City;
 import model.DevelopmentCard;
 import model.PlayStatus;
@@ -28,11 +29,11 @@ public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
 	private static final String user = "mfghaneg";
 	private static final String password = "Ab12345";
-//	protected Connection myConn;
+	// protected Connection myConn;
 	protected C3P0DataSource connectionPool;
 
 	public MainDA() {
-//		myConn = null;
+		// myConn = null;
 		connectionPool = C3P0DataSource.getInstance();
 	}
 
@@ -63,8 +64,8 @@ public class MainDA {
 				comboPooledDataSource.setInitialPoolSize(2);
 				comboPooledDataSource.setMinPoolSize(2);
 				comboPooledDataSource.setMaxPoolSize(2);
-//				comboPooledDataSource.setMaxIdleTimeExcessConnections(3600);
-				
+				// comboPooledDataSource.setMaxIdleTimeExcessConnections(3600);
+
 				comboPooledDataSource.setPassword(password);
 			} catch (PropertyVetoException ex1) {
 				ex1.printStackTrace();
@@ -88,7 +89,6 @@ public class MainDA {
 		}
 	}
 
-
 	/**
 	 * Executes an insert or update query
 	 */
@@ -103,8 +103,14 @@ public class MainDA {
 			e.printStackTrace();
 			queryResult = false;
 		} finally {
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		queryResult = true;
 		return queryResult;
@@ -130,9 +136,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 	}
 
@@ -156,9 +171,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable get last game ID from DB");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		String insertquery = "INSERT INTO spel (idspel, israndomboard, eersteronde)" + " VALUES(" + idGame + ", "
 				+ randomBoard + ", " + true + ");";
@@ -184,9 +208,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get last player ID");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return idPlayer;
 	}
@@ -200,9 +233,10 @@ public class MainDA {
 		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String searchquery = "SELECT (tijdstip < CURRENT_TIMESTAMP), tijdstip FROM chatregel WHERE idspeler = " + idPlayer + " ORDER BY tijdstip DESC LIMIT 1";
+		String searchquery = "SELECT (tijdstip < CURRENT_TIMESTAMP), tijdstip FROM chatregel WHERE idspeler = "
+				+ idPlayer + " ORDER BY tijdstip DESC LIMIT 1";
 		try {
-			stmt = myConn.createStatement();	
+			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(searchquery);
 			while (myRs.next()) {
 				differentTimestamp = myRs.getBoolean(1);
@@ -211,19 +245,29 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get last player ID");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		String query = null;
-		if(differentTimestamp) {
-			 query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", '" + bericht + "');";
+		if (differentTimestamp) {
+			query = "INSERT INTO chatregel (idspeler, bericht)" + " VALUES (" + idPlayer + ", '" + bericht + "');";
 		} else {
-			query = "INSERT INTO chatregel (tijdstip, idspeler, bericht) VALUES (DATE_ADD(\""+lastTimeStamp+"\", INTERVAL 1 second), " + idPlayer + ", '" + bericht + "');";
+			query = "INSERT INTO chatregel (tijdstip, idspeler, bericht) VALUES (DATE_ADD(\"" + lastTimeStamp
+					+ "\", INTERVAL 1 second), " + idPlayer + ", '" + bericht + "');";
 		}
 		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
-			
+
 			System.out.println("Adding message to DB failed");
 			return false;
 		}
@@ -241,7 +285,8 @@ public class MainDA {
 		ResultSet myRs = null;
 		String query = "SELECT tijdstip, bericht FROM chatregel "
 				+ "JOIN speler ON chatregel.idspeler = speler.idspeler "
-				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") ORDER BY tijdstip ASC;";
+				+ "WHERE chatregel.idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame
+				+ ") ORDER BY tijdstip ASC;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -255,9 +300,18 @@ public class MainDA {
 			e.printStackTrace();
 			// System.out.println("Failed to get messages from Database");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return retList;
 	}
@@ -346,9 +400,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 
 		return returnTile;
@@ -388,9 +451,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return false;
 	}
@@ -433,9 +505,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get last player ID");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return idPlayer;
 	}
@@ -455,14 +536,14 @@ public class MainDA {
 			System.out.println("Changing firstround to DB failed");
 		}
 	}
-	
+
 	public int getFirstRound(int idGame) {
-		
+
 		int firstround = 0;
 		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT eersteronde FROM spel WHERE idspel = "+ idGame + ";";
+		String query = "SELECT eersteronde FROM spel WHERE idspel = " + idGame + ";";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -472,13 +553,21 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get first round");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return firstround;
 	}
-
 
 	public int getLastUsedPlayerID() {
 		int idPlayer = 0;
@@ -496,9 +585,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get last player ID");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return idPlayer;
 	}
@@ -523,9 +621,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get last follownumber from database");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return lastNR;
 	}
@@ -533,14 +640,22 @@ public class MainDA {
 	/**
 	 * Get all players from an account from the database
 	 */
-	public ArrayList<Integer> getGameIDsFromPlayer(String username) {
+	public ArrayList<Integer> getGameIDsFromPlayer(String username, boolean finished) {
 
 		ArrayList<Integer> retList = new ArrayList<Integer>();
 
 		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT idspel FROM speler WHERE username = '" + username + "' ORDER BY idspel DESC;";
+		String query = null;
+
+		if (finished) {
+			query = "SELECT idspel FROM speler WHERE username = '" + username
+					+ "' AND speelstatus = 'uitgespeeld' ORDER BY idspel DESC;";
+		} else {
+			query = "SELECT idspel FROM speler WHERE username = '" + username
+					+ "' AND (speelstatus = 'geaccepteerd' OR speelstatus = 'uitdager') ORDER BY idspel DESC;";
+		}
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -551,9 +666,55 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get GameId's");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
+		}
+
+		return retList;
+
+	}
+
+	public ArrayList<Integer> getInvitesFromPlayer(String username) {
+
+		ArrayList<Integer> retList = new ArrayList<Integer>();
+
+		Connection myConn = connectionPool.getConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT idspel FROM speler WHERE username = '" + username
+				+ "' AND speelstatus = 'uitgedaagde' ORDER BY idspel DESC;";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				int idGame = myRs.getInt(1);
+				retList.add(idGame);
+			}
+		} catch (SQLException e) {
+			System.out.println("Unable to get GameId's");
+		} finally {
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 
 		return retList;
@@ -584,9 +745,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get gameplayers");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 
 		return playerList;
@@ -609,7 +779,7 @@ public class MainDA {
 			while (myRs.next()) {
 				retusername = myRs.getString(1);
 			}
-			
+
 			if (retusername == null) {
 				return false;
 			} else {
@@ -618,9 +788,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to check if username exists");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return false;
 	}
@@ -649,9 +828,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get players");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 
 		return streetRobberIdTile;
@@ -682,9 +870,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get last throws");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 
 		return lastThrows;
@@ -704,13 +901,22 @@ public class MainDA {
 			}
 		} catch (SQLException e) {
 			System.out.println("Unable to get shouldRefresh");
-		}  finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+		} finally {
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
-		
-		if(shouldRefresh) {
+
+		if (shouldRefresh) {
 			this.setShouldRefresh(idPlayer, false);
 		}
 		return shouldRefresh;
@@ -774,9 +980,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return retArr;
 	}
@@ -802,9 +1017,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return retArr;
 	}
@@ -830,9 +1054,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return retArr;
 	}
@@ -859,9 +1092,18 @@ public class MainDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return retArr;
 	}
@@ -884,9 +1126,18 @@ public class MainDA {
 			e.printStackTrace();
 			System.out.println("Failed to get accounts from Database");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return retList;
 	}
@@ -916,9 +1167,18 @@ public class MainDA {
 			e.printStackTrace();
 			// System.out.println("Failed to get messages from Database");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return retList;
 	}
@@ -967,9 +1227,18 @@ public class MainDA {
 			e.printStackTrace();
 			// System.out.println("Failed to get messages from Database");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return retList;
 	}
@@ -989,30 +1258,39 @@ public class MainDA {
 		} catch (SQLException e) {
 			System.out.println("Unable to get has Thrown");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return shouldRefresh;
 	}
 
 	public void createTradeRequest(TradeRequest tR) {
 		String query;
-		if(tR.getAccepted() == 1) {
+		if (tR.getAccepted() == 1) {
 			query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
 					+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getW_brick() + ", " + tR.getW_wool() + ", "
 					+ tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", " + tR.getG_brick() + ", "
 					+ tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", 1);";
-		}else if(tR.getAccepted() == 0){
-		 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
-				+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getW_brick() + ", " + tR.getW_wool() + ", "
-				+ tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", " + tR.getG_brick() + ", "
-				+ tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", 0);";
-		}else {
-			 query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
-						+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
-						+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
-						+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ");";
+		} else if (tR.getAccepted() == 0) {
+			query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout, geaccepteerd)"
+					+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getW_brick() + ", " + tR.getW_wool() + ", "
+					+ tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ", " + tR.getG_brick() + ", "
+					+ tR.getG_wool() + ", " + tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", 0);";
+		} else {
+			query = "INSERT INTO ruilaanbod (idspeler, geeft_baksteen, geeft_wol, geeft_erts, geeft_graan, geeft_hout, vraagt_baksteen, vraagt_wol, vraagt_erts, vraagt_graan, vraagt_hout)"
+					+ " VALUES " + "(" + tR.getIdPlayer() + ", " + tR.getG_brick() + ", " + tR.getG_wool() + ", "
+					+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
+					+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ");";
 		}
 		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
@@ -1020,42 +1298,49 @@ public class MainDA {
 		}
 	}
 
-
 	public void deleteTradeRequests(int idGame) {
 
-		String query = "DELETE FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ");"; 
+		String query = "DELETE FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame
+				+ ");";
 		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
 			System.out.println("Unable to delete tradeRequest");
 		}
 	}
-	
 
-
-	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {
-
-		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
-		Connection myConn = connectionPool.getConnection();
-		Statement stmt = null;
-		ResultSet myRs = null;
-		String query = "SELECT * FROM ruilaanbod WHERE idspel = " + idGame + " AND idspeler IS NULL;";
-		try {
-			stmt = myConn.createStatement();
-			myRs = stmt.executeQuery(query);
-			while (myRs.next()) {
-				String developmentCardID = myRs.getString(1);
-				boolean played = myRs.getBoolean(2);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
-		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
-		}
-		return retList;
-	}
+//	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {
+//
+//		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
+//		Connection myConn = connectionPool.getConnection();
+//		Statement stmt = null;
+//		ResultSet myRs = null;
+//		String query = "SELECT * FROM ruilaanbod WHERE idspel = " + idGame + " AND idspeler IS NULL;";
+//		try {
+//			stmt = myConn.createStatement();
+//			myRs = stmt.executeQuery(query);
+//			while (myRs.next()) {
+//				String developmentCardID = myRs.getString(1);
+//				boolean played = myRs.getBoolean(2);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			// System.out.println("Failed to get messages from Database");
+//		} finally {
+//			try {
+//				myRs.close();
+//			} catch (Exception e) {
+//				/* ignored */ }
+//			try {
+//				stmt.close();
+//			} catch (Exception e) {
+//				/* ignored */ }
+//			try {
+//				myConn.close();
+//			} catch (Exception e) {
+//				/* ignored */ }
+//		}
+//		return retList;
+//	}
 
 	public void acceptInvite(int playerId) {
 		String query = "UPDATE speler SET speelstatus = 'geaccepteerd' WHERE idspeler = " + playerId + ";";
@@ -1082,14 +1367,15 @@ public class MainDA {
 			System.out.println("Unable to switch player");
 		}
 	}
-	
+
 	public TradeRequest getInitialTradeRequest(int idGame) {
 
 		TradeRequest tr = null;
 		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT * FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") AND geaccepteerd IS NULL;";
+		String query = "SELECT * FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame
+				+ ") AND geaccepteerd IS NULL;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
@@ -1104,20 +1390,30 @@ public class MainDA {
 				int woolreceive = myRs.getInt(8);
 				int ironreceive = myRs.getInt(9);
 				int wheatreceive = myRs.getInt(10);
-				int woodreceive = myRs.getInt(11);				
-				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive);
+				int woodreceive = myRs.getInt(11);
+				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive,
+						woolreceive, ironreceive, wheatreceive, woodreceive);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// System.out.println("Failed to get messages from Database");
-		}  finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+		} finally {
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return tr;
 	}
-	
+
 	public TradeRequest getSingleTradeRequest(int idPlayer) {
 
 		TradeRequest tr = null;
@@ -1140,51 +1436,79 @@ public class MainDA {
 				int ironreceive = myRs.getInt(9);
 				int wheatreceive = myRs.getInt(10);
 				int woodreceive = myRs.getInt(11);
-				int accepted = myRs.getInt(12);	
-				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive, woolreceive, ironreceive, wheatreceive, woodreceive, accepted);
+				int accepted = myRs.getInt(12);
+				tr = new TradeRequest(playerID, brickgive, woolgive, irongive, wheatgive, woodgive, brickreceive,
+						woolreceive, ironreceive, wheatreceive, woodreceive, accepted);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// System.out.println("Failed to get messages from Database");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return tr;
 	}
-	
+
 	public int getAmountOfOpenRequests(int idGame) {
 		int amount = 0;
 		Connection myConn = connectionPool.getConnection();
 		Statement stmt = null;
 		ResultSet myRs = null;
-		String query = "SELECT count(*) FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame + ") ;";
+		String query = "SELECT count(*) FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = "
+				+ idGame + ") ;";
 		try {
 			stmt = myConn.createStatement();
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
-				 amount = myRs.getInt(1);				
+				amount = myRs.getInt(1);
 			}
 			System.out.println("amount retrieved from DB: " + amount);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			// System.out.println("Failed to get messages from Database");
 		} finally {
-		    try { myRs.close(); } catch (Exception e) { /* ignored */ }
-		    try { stmt.close(); } catch (Exception e) { /* ignored */ }
-		    try { myConn.close(); } catch (Exception e) { /* ignored */ }
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
 		}
 		return amount;
 	}
 
 	public void abortGame(int[] playerids) {
-		for(int playerId: playerids) {
+		for (int playerId : playerids) {
 			String query = "UPDATE speler SET speelstatus = 'afgebroken' WHERE idspeler = " + playerId + ";";
-			
+
 			if (!insertUpdateQuery(query)) {
 				System.out.println("Unable to change playstatus");
-			}	
+			}
+		}
+	}
+
+	public void finishGame(int idGame) {
+		String query = "UPDATE speler SET speelstatus = 'uitgespeeld' WHERE idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(query)) {
+			System.out.println("Unable to change playstatus");
 		}
 	}
 

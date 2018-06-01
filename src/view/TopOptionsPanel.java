@@ -26,7 +26,7 @@ public class TopOptionsPanel extends JPanel {
 
 		setBackground(backgroundColor);
 		
-		createGameButton = new JButton("Game aanmaken");
+		createGameButton = new JButton("Spel aanmaken");
 		createGameButton.setBackground(buttonBackgroundColor);
 		add(createGameButton);
 

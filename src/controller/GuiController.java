@@ -82,7 +82,7 @@ public class GuiController {
 	private BottomOptionsPanel bottomOptionsPanel;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
-	private RecentGamesPanel currentGamesPanel;
+//	private RecentGamesPanel currentGamesPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
@@ -102,8 +102,6 @@ public class GuiController {
 	private ManageInvitesFrame manageInvitesFrame;
 
 	private ArrayList<Catan> gameList;
-
-	private int pageNr;
 
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
@@ -139,7 +137,8 @@ public class GuiController {
 					passwordTextField.setText("");
 					loginregisterPanel.setMessagelabel("Ongeldige gegevens ingevoerd");
 				} else {
-					mainControl.loadProfile();
+					mainControl.setMainMenu();
+					;
 				}
 			}
 		});
@@ -187,9 +186,10 @@ public class GuiController {
 		frame.pack();
 	}
 
-	public void setMainMenu(ArrayList<Catan> gameList, String username) {
-
+	public void setMainMenu(String username) {
+		mainControl.loadProfile(false);
 		topOptionsPanel = new RecentGamesTopPanel();
+		topOptionsPanel.getRecentButton().setSelected(true);
 
 		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
 		topOptionsPanel.getCreateGameButton().addActionListener(new ActionListener() {
@@ -210,6 +210,27 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
+			}
+		});
+
+		topOptionsPanel.getRecentButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadProfile(false);
+				retrieveGames();
+//				mainMenuGui.repaint();
+
+			}
+		});
+		topOptionsPanel.getClosedGameButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainControl.loadProfile(true);
+				retrieveGames();
+//				mainMenuGui.repaint();
+
 			}
 		});
 
@@ -253,16 +274,7 @@ public class GuiController {
 			}
 		});
 
-		currentGamesPanel = new RecentGamesPanel(gameList, pageNr);
-		ArrayList<RecentGamePanel> gamePanels = currentGamesPanel.getGamePanels();
-		for (RecentGamePanel p : gamePanels) {
-			p.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					mainControl.joinGame(p.getGame());
-				}
-			});
-		}
+		
 		bottomOptionsPanel = new BottomOptionsPanel();
 
 		bottomOptionsPanel.getLogoutButton().addActionListener(new ActionListener() {
@@ -298,93 +310,55 @@ public class GuiController {
 			}
 		});
 
-		this.mainMenuGui = new MainMenuGUI(username, topOptionsPanel, bottomOptionsPanel, currentGamesPanel);
+		this.mainMenuGui = new MainMenuGUI(username, topOptionsPanel, bottomOptionsPanel);
+		retrieveGames();
 
 		frame.setContentPane(mainMenuGui);
 		frame.pack();
 	}
 
-	public void setInvitePanel(ArrayList<Catan> invitedList, ArrayList<Catan> ableToInviteList) {
-		InvitePanel invitePanel = new InvitePanel(invitedList, ableToInviteList);
+	public void setInvitePanel(ArrayList<Catan> invitedList) {
+		
+		InvitePanel invitePanel = new InvitePanel(invitedList);
+		JDialog dialog = new JDialog();
+		
 		invitePanel.getAcceptButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
-				mainControl.loadInvites();
+				if (invitePanel.getInvitedList().size() > 0) {
+					mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl.loadInvites();
+					dialog.dispose(); // FIXME sometimes a second screen will still pop-up with one of the actionlisteners
+				}
 			}
 		});
 		invitePanel.getDeclineButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
-				mainControl.loadInvites();
+				if (invitePanel.getInvitedList().size() > 0) {
+					mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl.loadInvites();
+					dialog.dispose();
+				}
 			}
 		});
 		invitePanel.getRefreshButton().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadInvites();
-			}
-		});
-		invitePanel.getInviteButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Catan catan = invitePanel.getAbleToInviteList().get(invitePanel.getAbleToInviteListSelectedIndex());
-				ManageInvitesFrame frame = new ManageInvitesFrame(mainControl.getAllAccounts(), catan);
-				frame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						if (frame.panel.getInvitedPlayers().size() < 4) {
-							JOptionPane.showConfirmDialog(null, "Te weinig spelers",
-									"Je moet minimaal 4 spelers hebben.", JOptionPane.OK_OPTION);
-						} else {
-							// Compare Lists and update in DB.
-							ArrayList<Player> playersToRemove = new ArrayList<>();
-							ArrayList<Player> playersToAdd = new ArrayList<>();
-							for (Player p : catan.getPlayers()) {
-								if (!frame.panel.getInvitedPlayers().stream()
-										.anyMatch(t -> t.getUsername().equals(p.getUsername()))) {
-									// Remove P
-									playersToRemove.add(p);
-								}
-							}
-							for (Player s : frame.panel.getInvitedPlayers()) {
-								if (!catan.getPlayers().stream()
-										.anyMatch(t -> t.getUsername().equals(s.getUsername()))) {
-									// Add S
-									playersToAdd.add(s);
-								}
-							}
-							if (playersToRemove.size() == playersToAdd.size()) {
-								mainControl.switchInvites(playersToAdd, playersToRemove, catan.getIdGame());
-								JOptionPane.showConfirmDialog(null, "Gelukt!", "De nieuwe mensen zijn uitgenodigd!",
-										JOptionPane.OK_OPTION);
-							}
-							frame.dispose();// Invited. Frame can close now.
-							mainControl.loadInvites();
-						}
-
-					}
-				});
-			}
-		});
-
-		invitePanel.getReturnButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainControl.loadProfile();
+				dialog.dispose();
 			}
 		});
 		this.invitePanel = invitePanel;
-		frame.setContentPane(this.invitePanel);
-		frame.pack();
+		
+		dialog.setTitle("Uitnodigingenbeheer");
+		dialog.setContentPane(this.invitePanel);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.toFront();
+		dialog.requestFocus();
+		dialog.setAlwaysOnTop(true);
+		dialog.setVisible(true);
 	}
 
 	public void setWaitingRoom(ArrayList<Player> players) {
@@ -394,17 +368,23 @@ public class GuiController {
 
 	}
 
-	public void retrieveGames(int pageId) {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		mainMenuGui.remove(currentGamesPanel);
-		currentGamesPanel = new RecentGamesPanel(gameList, pageId);
-		mainMenuGui.add(currentGamesPanel, c);
-		mainMenuGui.getCurrentGamesPanel().invalidate();
-		mainMenuGui.getCurrentGamesPanel().validate();
+	public void retrieveGames() {
+
+		RecentGamesPanel gamesPanel = new RecentGamesPanel(gameList);
+
+		mainMenuGui.updateScrollPane(gamesPanel);
+		ArrayList<RecentGamePanel> gamePanels = gamesPanel.getGamePanels();
+		for (RecentGamePanel p : gamePanels) {
+			p.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					p.setBackground(Color.LIGHT_GRAY);
+					p.revalidate();
+					mainControl.joinGame(p.getGame());
+				}
+			});
+
+		}
 	}
 
 	public void setGameSelect() {
@@ -463,7 +443,8 @@ public class GuiController {
 				if (result == JOptionPane.YES_OPTION) {
 					gameControl.unloadCatan();
 					mainControl.stopIngameTimer();
-					mainControl.loadProfile();
+//					mainControl.loadProfile(false);
+					mainControl.setMainMenu();
 				}
 				if (result == JOptionPane.NO_OPTION) {
 					System.exit(0);
@@ -541,7 +522,7 @@ public class GuiController {
 						gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
 								+ " Heeft de struikrover verzet naar " + b.getTile().getIdTile());
 						enablePlayerActionPanel();
-//						gameControl.stealCardCauseRobber();
+						// gameControl.stealCardCauseRobber();
 					} else {
 						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
 					}
@@ -784,7 +765,7 @@ public class GuiController {
 		if (playersToRob.size() > 0) {
 			RobberDialog robberDialog = new RobberDialog(playersToRob);
 			ArrayList<JButton> playerButtons = robberDialog.getRobberDialogPanel().getPlayerButtons();
-			for(int i = 0; i < playerButtons.size(); i++) {
+			for (int i = 0; i < playerButtons.size(); i++) {
 				int y = i;
 				robberDialog.getRobberDialogPanel().getPlayerButton(i).addActionListener(new ActionListener() {
 
@@ -793,58 +774,65 @@ public class GuiController {
 
 						gameControl.robberTakeResource(playersToRob.get(y));
 						robberDialog.dispose();
-//						for (int x = 0; x < robberBuildLocations.size(); x++) {
-//							if (robberBuildLocations.get(x).getBuilding().getPlayer() != playersToRob.get(y)) {
-//								robberDialog.getRobberDialogPanel().getPlayerButton(y).setEnabled(false);
-//							}
-//						}
+						// for (int x = 0; x < robberBuildLocations.size(); x++) {
+						// if (robberBuildLocations.get(x).getBuilding().getPlayer() !=
+						// playersToRob.get(y)) {
+						// robberDialog.getRobberDialogPanel().getPlayerButton(y).setEnabled(false);
+						// }
+						// }
 					}
 				});
 			}
-//
-//			robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//
-//					gameControl.robberTakeResource(playersToRob.get(0));
-//
-//					for (int i = 0; i < robberBuildLocations.size(); i++) {
-//						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(0)) {
-//							robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
-//						}
-//					}
-//				}
-//			});
-//			
-//			robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//
-//					gameControl.robberTakeResource(playersToRob.get(1));
-//					for (int i = 0; i < robberBuildLocations.size(); i++) {
-//						if (robberBuildLocations.get(i).getBuilding().getPlayer() == playersToRob.get(1)) {
-//							robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
-//						}
-//					}
-//				}
-//			});
-//
-//			robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//
-//					gameControl.robberTakeResource(playersToRob.get(2));
-//					for (int i = 0; i < robberBuildLocations.size(); i++) {
-//						if (robberBuildLocations.get(i).getBuilding().getPlayer() != playersToRob.get(2)) {
-//							robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
-//						}
-//					}
-//				}
-//
-//			});
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(0).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(0));
+			//
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() !=
+			// playersToRob.get(0)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(0).setEnabled(false);
+			// }
+			// }
+			// }
+			// });
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(1).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(1));
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() ==
+			// playersToRob.get(1)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(1).setEnabled(true);
+			// }
+			// }
+			// }
+			// });
+			//
+			// robberDialog.getRobberDialogPanel().getPlayerButton(2).addActionListener(new
+			// ActionListener() {
+			//
+			// @Override
+			// public void actionPerformed(ActionEvent e) {
+			//
+			// gameControl.robberTakeResource(playersToRob.get(2));
+			// for (int i = 0; i < robberBuildLocations.size(); i++) {
+			// if (robberBuildLocations.get(i).getBuilding().getPlayer() !=
+			// playersToRob.get(2)) {
+			// robberDialog.getRobberDialogPanel().getPlayerButton(2).setEnabled(false);
+			// }
+			// }
+			// }
+			//
+			// });
 		}
 	}
 
@@ -1496,5 +1484,10 @@ public class GuiController {
 		playerOptionMenuPanel.getTradeButton().setEnabled(false);
 		playerOptionMenuPanel.getEndTurnButton().setEnabled(false);
 	}
+
+	public void setGameList(ArrayList<Catan> gameList) {
+		this.gameList = gameList;
+	}
+	
 
 }
