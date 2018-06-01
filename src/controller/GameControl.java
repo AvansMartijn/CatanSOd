@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import dbaccess.MainDA;
+import model.Building;
 import model.BuildingLocation;
 import model.Catan;
 import model.City;
@@ -77,6 +78,15 @@ public class GameControl {
 
 	public boolean addPlayerMessage(String message) {
 		message = catanGame.getSelfPlayer().getUsername() + ": " + message;
+		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean addPlayerMessage(String message, Player player) {
+		message = player.getUsername() + ": " + message;
 		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
 			return true;
 		} else {
@@ -678,7 +688,6 @@ public class GameControl {
 
 		case BAKSTEEN:
 			ratio = resourceRatios[0];
-
 			break;
 		case WOL:
 			ratio = resourceRatios[1];
@@ -697,7 +706,6 @@ public class GameControl {
 		}
 
 		ArrayList<Resource> resourceCardsToGive = new ArrayList<>();
-		Resource resourceCardToReceive;
 
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
 		if (resourceCardsToGive == null) {
@@ -705,11 +713,13 @@ public class GameControl {
 			return;
 		}
 
-		if (catanGame.getBank().takeResource(resourceTypeToReceive) == null) {
+		Resource resourceCardToReceive = null;
+		try {
+			resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
+		} 
+		catch (Exception e) {
 			addLogMessage("De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
 			return;
-		} else {
-			resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
 		}
 
 		catanGame.getSelfPlayer().getHand().addResource(resourceCardToReceive);
@@ -1009,23 +1019,29 @@ public class GameControl {
 	}
 
 	public void doDevCardYearOfPlenty(ResourceType rsType1, ResourceType rsType2) {
-		Resource rs1 = catanGame.getBank().takeResource(rsType1);
-		Resource rs2 = catanGame.getBank().takeResource(rsType2);
+		Resource rs1 = null;
+		try {
+			rs1 = catanGame.getBank().takeResource(rsType1);
+		} catch (Exception e) {
+			guiController.addSystemMessageToChat(Color.RED, "de bank heeft niet genoeg " + rsType1 + " kaarten");
+		}
+		Resource rs2 = null;
+		try {
+			rs2 = catanGame.getBank().takeResource(rsType2);
+		} catch (Exception e) {
+			guiController.addSystemMessageToChat(Color.RED, "de bank heeft niet genoeg " + rsType2 + " kaarten");
+		}
 
 		if (rs1 != null) {
 			mainDA.addResourceToPlayer(rs1.getResourceID(), catanGame.getIdGame(),
 					catanGame.getSelfPlayer().getIdPlayer());
 			catanGame.getSelfPlayer().getHand().addResource(rs1);
-		} else {
-			guiController.addSystemMessageToChat(Color.RED, "de bank heeft niet genoeg " + rsType1 + " kaarten");
 		}
 
 		if (rs2 != null) {
 			mainDA.addResourceToPlayer(rs2.getResourceID(), catanGame.getIdGame(),
 					catanGame.getSelfPlayer().getIdPlayer());
 			catanGame.getSelfPlayer().getHand().addResource(rs2);
-		} else {
-			guiController.addSystemMessageToChat(Color.RED, "de bank heeft niet genoeg " + rsType2 + " kaarten");
 		}
 		enableEveryoneShouldRefresh();
 	}
@@ -1092,7 +1108,8 @@ public class GameControl {
 		mainDA.addResourceToPlayer(randomResource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
 		guiController.refreshPlayerResources();
 		//TODO check if you have to show the rstype or just tell that he stole a card
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een " + randomResource.getRsType().toString().toLowerCase() + " van " + player.getUsername() + " gestolen");
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een " + randomResource.getRsType().toString().toLowerCase()
+				+ " van " + player.getUsername() + " gestolen");
 		enableEveryoneShouldRefresh();
 
 	}
@@ -1113,32 +1130,67 @@ public class GameControl {
 	}
 
 	public void giveTurnResources(int number) {
+		HashMap<Player, ArrayList<Resource>> resourcesHashMap = new HashMap<>();
 		for (Tile t : catanGame.getGameboard().getTileArr()) {
 			if (!t.hasRobber()) {
 				if (t.getChipNumber() == number) {
 					for (BuildingLocation bl : t.getBuildingLocArr()) {
-						if (bl.getBuilding() != null) {
+						Building building = bl.getBuilding();
+						if (building != null) {
+							ResourceType rsTypeOfTile = t.getRsType();
+							String resourceTypeString = rsTypeOfTile.toString().toLowerCase();
+							Player player = building.getPlayer();
 							if (bl.getCity() != null) {
 								// give two
-								ArrayList<Resource> rsArr = catanGame.getBank().takeMultipleResources(t.getRsType(), 2);
+								ArrayList<Resource> rsArr = catanGame.getBank().takeMultipleResources(rsTypeOfTile, 2);
 								for (Resource rs : rsArr) {
-									bl.getBuilding().getPlayer().getHand().addResource(rs);
+									building.getPlayer().getHand().addResource(rs);
 									mainDA.addResourceToPlayer(rs.getResourceID(), catanGame.getIdGame(),
-											bl.getBuilding().getPlayer().getIdPlayer());
+											building.getPlayer().getIdPlayer());
+									
+									//Add the resource to the HashMap
+									if(resourcesHashMap.containsKey(player)) {
+										resourcesHashMap.get(player).add(rs);
+									}
+									else {
+										ArrayList<Resource> resourcesOfPlayer = new ArrayList<>();
+										resourcesOfPlayer.add(rs);
+										resourcesHashMap.put(player, resourcesOfPlayer);
+									}
 								}
-
+								if(rsArr.size() == 0) {
+									addPlayerMessage("Helaas, de bank heeft geen " + resourceTypeString + "meer.");									
+								}
 							} else if (bl.getVillage() != null) {
 								// give one
-								Resource rs = catanGame.getBank().takeResource(t.getRsType());
-								bl.getBuilding().getPlayer().getHand().addResource(rs);
-								mainDA.addResourceToPlayer(rs.getResourceID(), catanGame.getIdGame(),
-										bl.getBuilding().getPlayer().getIdPlayer());
+								try {
+									Resource rs = catanGame.getBank().takeResource(rsTypeOfTile);
+									building.getPlayer().getHand().addResource(rs);
+									mainDA.addResourceToPlayer(rs.getResourceID(), catanGame.getIdGame(),
+											building.getPlayer().getIdPlayer());
+									
+									//Add the resource to the HashMap
+									if(resourcesHashMap.containsKey(player)) {
+										resourcesHashMap.get(player).add(rs);
+									}
+									else {
+										ArrayList<Resource> resourcesOfPlayer = new ArrayList<>();
+										resourcesOfPlayer.add(rs);
+										resourcesHashMap.put(player, resourcesOfPlayer);
+									}
+								} 
+								catch (Exception e) {
+									addPlayerMessage("Helaas, de bank heeft geen " + resourceTypeString + "meer.");
+								}
 							}
 						}
 					}
 				}
 			}
 		}
+		
+		logResources(resourcesHashMap);
+		
 		enableEveryoneShouldRefresh();
 		guiController.refreshPlayerResources();
 	}
@@ -1180,26 +1232,108 @@ public class GameControl {
 	}
 	
 	/**
-	 * This method gives the player the 
+	 * This method gives the player the resources at the start.
 	 * 
 	 * @param village the village that the player gets resources from
 	 * @since 30 May 2018
 	 * @author Jasper Mooren
 	 */
 	private void giveStartResources(Village village) {
+		ArrayList<Resource> resourcesGiven = new ArrayList<>();
+		
+		//Add the actual gameBoard
 		for (Tile tile : catanGame.getGameboard().getTileArr()) {
 			for (BuildingLocation buildingLocation : tile.getBuildingLocArr()) {
 				if (village.getBuildingLocation() == buildingLocation) {
-					Resource resource = catanGame.getBank().takeResource(tile.getRsType());
-					if (resource != null) {
-						//Add to model
-						catanGame.getSelfPlayer().getHand().addResource(resource);
+					try {
+						Resource resource = catanGame.getBank().takeResource(tile.getRsType());
 						//Add to database
 						mainDA.addResourceToPlayer(resource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+						//Add to model
+						catanGame.getSelfPlayer().getHand().addResource(resource);
+						resourcesGiven.add(resource);
+					} catch (Exception e) {
+						addPlayerMessage("Helaas, de bank heeft geen " + tile.getRsType().toString().toLowerCase() + "meer.");
 					}
 				}
 			}
 		}
+		
+		logResources(resourcesGiven);
+		
+	}
+
+	/**
+	 * @param resources the resources that should be logged
+	 * @since 1 Jun 2018
+	 * @author Jasper Mooren
+	 */
+	private void logResources(ArrayList<Resource> resources) {
+		//Create the HashMap to make the String for the Log
+		HashMap<ResourceType, Integer> resourcesGivenHashMap = new HashMap<>();
+		for (Resource resource : resources) {
+			ResourceType resourceType = resource.getRsType();
+			if(resourcesGivenHashMap.containsKey(resourceType)) {
+				resourcesGivenHashMap.put(resourceType, 0);
+			}
+			for (Resource resource2 : resources) {
+				if(resourceType == resource2.getRsType()) {
+					int value = resourcesGivenHashMap.get(resourceType);
+					resourcesGivenHashMap.put(resourceType, value + 1);
+				}
+			}
+		}
+		
+		//Create the String from the HashMap for the Log
+		String resourcesGivenString = "";
+		for(ResourceType resourceType: ResourceType.values()) {
+			if(resourcesGivenHashMap.containsKey(resourceType)) {
+				resourcesGivenString += "krijgt " + resourcesGivenHashMap.get(resourceType) + " " + resourceType.toString().toLowerCase() + ", ";
+			}
+		}
+		
+		resourcesGivenString = resourcesGivenString.substring(0, resourcesGivenString.length() - 2);
+		
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " " + resourcesGivenString);
+	}
+	
+	/**
+	 * @param resourcesHashMap all the resources of all the players
+	 * @since 1 Jun 2018
+	 * @author Jasper Mooren
+	 */
+	private void logResources(HashMap<Player, ArrayList<Resource>> resourcesHashMap) {
+		String logMessage = "";
+		
+		for (Player player: resourcesHashMap.keySet()) {
+			ArrayList<Resource> resources = resourcesHashMap.get(player);
+			
+			//Create the HashMap to make the String for the Log
+			HashMap<ResourceType, Integer> resourcesGivenHashMap = new HashMap<>();
+			for (Resource resource : resources) {
+				ResourceType resourceType = resource.getRsType();
+				if(resourcesGivenHashMap.containsKey(resourceType)) {
+					resourcesGivenHashMap.put(resourceType, 0);
+				}
+				for (Resource resource2 : resources) {
+					if(resourceType == resource2.getRsType()) {
+						int value = resourcesGivenHashMap.get(resourceType);
+						resourcesGivenHashMap.put(resourceType, value + 1);
+					}
+				}
+			}
+			
+			//Create the String from the HashMap for the Log
+			for(ResourceType resourceType: ResourceType.values()) {
+				if(resourcesGivenHashMap.containsKey(resourceType)) {
+					logMessage += player.getUsername() + " krijgt " + resourcesGivenHashMap.get(resourceType) + " " + resourceType.toString().toLowerCase() + ", ";
+				}
+			}
+		}
+		
+		logMessage = logMessage.substring(0, logMessage.length() - 2);
+
+		addLogMessage(logMessage);
 	}
 
 	public boolean isFirstRoundActive() {
