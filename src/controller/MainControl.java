@@ -63,7 +63,6 @@ public class MainControl {
 
 		}
 		guiController.setGameList(catanGames);
-		// for (int i = 0; i < gameIDsOfUser.size(); i++) {
 		// }
 
 	}

@@ -403,15 +403,18 @@ public class GuiController {
 	}
 
 	public void retrieveGames() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		mainMenuGui.getScrollPanel().remove(currentGamesPanel);
+//		GridBagConstraints c = new GridBagConstraints();
+//		c.gridx = 0;
+//		c.gridy = 2;
+//		c.gridwidth = 2;
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		mainMenuGui.getScrollPanel().remove(currentGamesPanel);
+//		currentGamesPanel = new RecentGamesPanel(gameList);
+//		mainMenuGui.getScrollPanel().add(currentGamesPanel, c);
+//		mainMenuGui.getCurrentGamesPanel().revalidate();
 		currentGamesPanel = new RecentGamesPanel(gameList);
-		mainMenuGui.getScrollPanel().add(currentGamesPanel, c);
-		mainMenuGui.getCurrentGamesPanel().revalidate();
+
+		mainMenuGui.updateScrollPane(currentGamesPanel);
 	}
 
 	public void setGameSelect() {
