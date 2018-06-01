@@ -858,7 +858,8 @@ public class GameControl {
 				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 1);
 
 		mainDA.createTradeRequest(tR);
-		enableEveryoneShouldRefresh();
+		setShouldRefreshEnabled(oldtR.getIdPlayer());
+		
 
 	}
 
@@ -869,7 +870,7 @@ public class GameControl {
 				oldtR.getG_wool(), oldtR.getG_iron(), oldtR.getG_wheat(), oldtR.getG_wood(), 0);
 
 		mainDA.createTradeRequest(tR);
-		enableEveryoneShouldRefresh();
+		setShouldRefreshEnabled(oldtR.getIdPlayer());
 	}
 
 	public void deleteTradeRequest() {
@@ -1144,10 +1145,10 @@ public class GameControl {
 		guiController.refreshPlayerResources();
 	}
 
-//	public void setShouldRefreshEnabled(int idPlayer) {
-//		mainDA.setShouldRefresh(idPlayer, true);
-//
-//	}
+	public void setShouldRefreshEnabled(int idPlayer) {
+		mainDA.setShouldRefresh(idPlayer, true);
+
+	}
 
 	public boolean buildInitialVillage(BuildingLocation buildingLocation) {
 		Village village = catanGame.getSelfPlayer().getAvailableVillage();

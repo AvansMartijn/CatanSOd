@@ -378,7 +378,7 @@ public class MainControl {
 
 	private void updateRefreshTradeRequest() {
 		try {
-			if (mainDA.getAmountOfOpenRequests(gameControl.getCatanGame().getIdGame()) == 1) {
+//			if (mainDA.getAmountOfOpenRequests(gameControl.getCatanGame().getIdGame()) == 1) {
 				TradeRequest tr = gameControl.updateTradeRequests();
 				if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
 					if (mainDA
@@ -387,7 +387,7 @@ public class MainControl {
 						guiController.showTradeReceiveDialog(tr);
 					}
 				}
-			}
+//			}
 		} catch (Exception e) {
 			System.out.println("updateRefreshTradeRequest failed");
 		}
