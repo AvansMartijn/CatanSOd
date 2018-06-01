@@ -1319,4 +1319,12 @@ public class GameControl {
 		DevelopmentCard developmentCard = catanGame.getBank().takeDevelopmentCard();
 		catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
 	}
+	
+	private void checkForWinner() {
+		for(Player p: catanGame.getPlayers()) {
+			if(p.getVictoryPoints() >= 10) {
+				mainDA.finishGame(catanGame.getIdGame());
+			}
+		}
+	}
 }

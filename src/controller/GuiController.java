@@ -1488,6 +1488,10 @@ public class GuiController {
 	public void setGameList(ArrayList<Catan> gameList) {
 		this.gameList = gameList;
 	}
+
+	public static void setwinnerDialog(Player p) {
+		
+	}
 	
 
 }
