@@ -107,18 +107,17 @@ public class TradePlayerPanel extends JPanel {
 		}
 		return resources;
 	}
-
-	public void createResourceInput() {
-
-		// brick, wool, iron, wheat, wood
+	
+	NumberFormatter[] formatters = new NumberFormatter[5];
+	NumberFormat format = NumberFormat.getInstance();
+	public NumberFormatter[] createFormatters() {
+		
 		int[] resourceTypes = new int[5];
 		resourceTypes = getResourceAmount();
-
-		NumberFormat format = NumberFormat.getInstance();
-		NumberFormatter[] formatters = new NumberFormatter[5];
-
+		
+		
 		for (int i = 0; i < resourceTypes.length; i++) {
-
+			System.out.println("resourceType amount" + resourceTypes[i]);
 			formatters[i] = new NumberFormatter(format);
 			formatters[i].setValueClass(Integer.class);
 			formatters[i].setMinimum(0);
@@ -126,8 +125,16 @@ public class TradePlayerPanel extends JPanel {
 			formatters[i].setAllowsInvalid(true);
 			formatters[i].setCommitsOnValidEdit(true);
 			formatters[i].setOverwriteMode(true);
-
+			
 		}
+		return formatters;
+	}
+	
+
+	public void createResourceInput() {
+
+		// brick, wool, iron, wheat, wood
+		
 
 		subTitleLabel1 = new JLabel("grondstoffen:");
 		subTitleLabel1.setFont(new Font("SansSerif", Font.BOLD, 12));
@@ -252,7 +259,9 @@ public class TradePlayerPanel extends JPanel {
 	}
 
 	public int getWoodGive() {
+		System.out.println("unparsed:" + woodGive.getText());
 		int parsed = Integer.parseInt(woodGive.getText());
+		System.out.println("parsed:" + parsed);
 		return parsed;
 	}
 

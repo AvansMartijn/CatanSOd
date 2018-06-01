@@ -60,7 +60,7 @@ public class TradeReceiveDialogPanel extends JPanel {
 		titleLabel.setBounds(25, 10, 320, 40);
 		add(titleLabel);
 
-		subTitleLabel = new JLabel(player + " heeft een handelsverzoek verstuurd");
+		subTitleLabel = new JLabel(player.getUsername() + " heeft een handelsverzoek verstuurd");
 		subTitleLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel.setForeground(TextColor);
 		subTitleLabel.setBounds(40, 35, 280, 40);
