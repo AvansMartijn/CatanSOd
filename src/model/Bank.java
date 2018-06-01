@@ -127,11 +127,11 @@ public class Bank {
 			resources.add(rs);
 		}
 	}
-	
+
 	public ArrayList<Resource> getResources() {
 		return resources;
 	}
-	
+
 	public Resource takeResource(ResourceType resourceType) throws Exception {
 		for (int i = 0; i < resources.size(); i++) {
 			if (resources.get(i).getRsType() == resourceType) {
@@ -141,25 +141,31 @@ public class Bank {
 		throw new Exception();
 	}
 
-	
 	/**
 	 * 
 	 * 
-	 * @param resourceType the type of resource
-	 * @param amount the amount of {@code Resources} that should be taken from the {@code ResourceType}
-	 * @return The resources that are taken from the bank, if the bank has less resources of the ResourceType than demanded, all the resources it can return are returned. 
+	 * @param resourceType
+	 *            the type of resource
+	 * @param amount
+	 *            the amount of {@code Resources} that should be taken from the
+	 *            {@code ResourceType}
+	 * @return The resources that are taken from the bank, if the bank has less
+	 *         resources of the ResourceType than demanded, all the resources it can
+	 *         return are returned.
 	 * @since 1 Jun 2018
 	 * @author Jasper Mooren
 	 */
 	public ArrayList<Resource> takeMultipleResources(ResourceType resourceType, int amount) {
 		ArrayList<Resource> resourcesTaken = new ArrayList<>();
-		for(int i = 0; i < amount; i++) {
+		for (int i = 0; i < amount; i++) {
 			try {
-				resourcesTaken.add(takeResource(resourceType));				
+				resourcesTaken.add(takeResource(resourceType));
+			} catch (Exception e) {
+				return resourcesTaken;
 			}
-			catch (Exception e) {
-					return resourcesTaken;
-			}
+		}
+		return null;
+	}
 
 	public DevelopmentCard takeDevelopmentCard() {
 		int index = random.nextInt(developmentCards.size());
@@ -167,58 +173,59 @@ public class Bank {
 
 	}
 
-// 	public ArrayList<Resource> takeMultipleResources(ResourceType rsType, int amount) {
-// 		ArrayList<Resource> rsToReturn = new ArrayList<>();
-// 		int counter = 0;
-// 		for (int i = 0; i < resources.size(); i++) {
-// 			if (resources.get(i).getRsType() == rsType) {
-// 				rsToReturn.add(resources.get(i));
-// 				System.out.println("add:" + resources.get(i));
-// 				counter++;
-// 				if (counter == amount) {
-// 					break;
-// 				}
-// 			}
-// 		}
+	// public ArrayList<Resource> takeMultipleResources(ResourceType rsType, int
+	// amount) {
+	// ArrayList<Resource> rsToReturn = new ArrayList<>();
+	// int counter = 0;
+	// for (int i = 0; i < resources.size(); i++) {
+	// if (resources.get(i).getRsType() == rsType) {
+	// rsToReturn.add(resources.get(i));
+	// System.out.println("add:" + resources.get(i));
+	// counter++;
+	// if (counter == amount) {
+	// break;
+	// }
+	// }
+	// }
 
-// 		if (rsToReturn.size() == amount) {
-// 			for (int x = 0; x < resources.size(); x++) {
-// 				if (resources.get(x).getRsType() == rsType) {
-// 					resources.remove(x);
-// 				}
-// 			}
-// 			System.out.println("tmr return: " + rsToReturn);
-// 			return rsToReturn;
-// 		}
-// 		return resourcesTaken;
-// 	}
+	// if (rsToReturn.size() == amount) {
+	// for (int x = 0; x < resources.size(); x++) {
+	// if (resources.get(x).getRsType() == rsType) {
+	// resources.remove(x);
+	// }
+	// }
+	// System.out.println("tmr return: " + rsToReturn);
+	// return rsToReturn;
+	// }
+	// return resourcesTaken;
+	// }
 
-	
-//	public ArrayList<Resource> takeMultipleResources(ResourceType rsType, int amount) {
-//		ArrayList<Resource> rsToReturn = new ArrayList<>();
-//		int counter = 0;
-//		for(int i = 0; i < resources.size(); i++) {
-//			if(resources.get(i).getRsType() == rsType) {
-//				rsToReturn.add(resources.get(i));
-//				System.out.println("add:" + resources.get(i));
-//				counter++;
-//				if(counter == amount) {
-//					break;
-//				}
-//			}
-//		}
-//		
-//		if(rsToReturn.size() == amount) {
-//			for(int x = 0; x < resources.size(); x++) {
-//				if(resources.get(x).getRsType() == rsType) {
-//					resources.remove(x);			
-//				}
-//			}
-//			System.out.println("tmr return: "+ rsToReturn);
-//			return rsToReturn;
-//		}
-//		return null;
-//	}
+	// public ArrayList<Resource> takeMultipleResources(ResourceType rsType, int
+	// amount) {
+	// ArrayList<Resource> rsToReturn = new ArrayList<>();
+	// int counter = 0;
+	// for(int i = 0; i < resources.size(); i++) {
+	// if(resources.get(i).getRsType() == rsType) {
+	// rsToReturn.add(resources.get(i));
+	// System.out.println("add:" + resources.get(i));
+	// counter++;
+	// if(counter == amount) {
+	// break;
+	// }
+	// }
+	// }
+	//
+	// if(rsToReturn.size() == amount) {
+	// for(int x = 0; x < resources.size(); x++) {
+	// if(resources.get(x).getRsType() == rsType) {
+	// resources.remove(x);
+	// }
+	// }
+	// System.out.println("tmr return: "+ rsToReturn);
+	// return rsToReturn;
+	// }
+	// return null;
+	// }
 
 	public void addResource(Resource resourceToAdd) {
 		resources.add(resourceToAdd);
