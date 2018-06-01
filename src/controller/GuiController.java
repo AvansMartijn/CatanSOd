@@ -214,7 +214,7 @@ public class GuiController {
 					System.out.println(g.getIdGame());
 				}
 				retrieveGames();
-				mainMenuGui.repaint();
+//				mainMenuGui.repaint();
 
 			}
 		});
@@ -228,7 +228,7 @@ public class GuiController {
 					System.out.println(g.getIdGame());
 				}
 				retrieveGames();
-				mainMenuGui.repaint();
+//				mainMenuGui.repaint();
 
 			}
 		});
@@ -266,6 +266,8 @@ public class GuiController {
 			p.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					p.setBackground(Color.LIGHT_GRAY);
+					p.revalidate();
 					mainControl.joinGame(p.getGame());
 				}
 			});
@@ -403,15 +405,7 @@ public class GuiController {
 	}
 
 	public void retrieveGames() {
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.gridx = 0;
-//		c.gridy = 2;
-//		c.gridwidth = 2;
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		mainMenuGui.getScrollPanel().remove(currentGamesPanel);
-//		currentGamesPanel = new RecentGamesPanel(gameList);
-//		mainMenuGui.getScrollPanel().add(currentGamesPanel, c);
-//		mainMenuGui.getCurrentGamesPanel().revalidate();
+
 		currentGamesPanel = new RecentGamesPanel(gameList);
 
 		mainMenuGui.updateScrollPane(currentGamesPanel);
@@ -474,6 +468,7 @@ public class GuiController {
 					gameControl.unloadCatan();
 					mainControl.stopIngameTimer();
 					mainControl.loadProfile(false);
+					mainControl.setMainMenu();
 				}
 				if (result == JOptionPane.NO_OPTION) {
 					System.exit(0);
