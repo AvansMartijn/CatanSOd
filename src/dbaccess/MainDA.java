@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import model.BuildingLocation;
+import model.Catan;
 import model.City;
 import model.DevelopmentCard;
 import model.PlayStatus;
