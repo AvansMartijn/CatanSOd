@@ -83,7 +83,7 @@ public class GuiController {
 	private BottomOptionsPanel bottomOptionsPanel;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
-//	private RecentGamesPanel currentGamesPanel;
+	// private RecentGamesPanel currentGamesPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
@@ -220,7 +220,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadProfile(false);
 				retrieveGames();
-//				mainMenuGui.repaint();
+				// mainMenuGui.repaint();
 
 			}
 		});
@@ -230,7 +230,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadProfile(true);
 				retrieveGames();
-//				mainMenuGui.repaint();
+				// mainMenuGui.repaint();
 
 			}
 		});
@@ -275,7 +275,6 @@ public class GuiController {
 			}
 		});
 
-		
 		bottomOptionsPanel = new BottomOptionsPanel();
 
 		bottomOptionsPanel.getLogoutButton().addActionListener(new ActionListener() {
@@ -319,17 +318,19 @@ public class GuiController {
 	}
 
 	public void setInvitePanel(ArrayList<Catan> invitedList) {
-		
+
 		InvitePanel invitePanel = new InvitePanel(invitedList);
 		JDialog dialog = new JDialog();
-		
+
 		invitePanel.getAcceptButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (invitePanel.getInvitedList().size() > 0) {
-					mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl
+							.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 					mainControl.loadInvites();
-					dialog.dispose(); // FIXME sometimes a second screen will still pop-up with one of the actionlisteners
+					dialog.dispose(); // FIXME sometimes a second screen will still pop-up with one of the
+										// actionlisteners
 				}
 			}
 		});
@@ -337,7 +338,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (invitePanel.getInvitedList().size() > 0) {
-					mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl
+							.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 					mainControl.loadInvites();
 					dialog.dispose();
 				}
@@ -351,7 +353,7 @@ public class GuiController {
 			}
 		});
 		this.invitePanel = invitePanel;
-		
+
 		dialog.setTitle("Uitnodigingenbeheer");
 		dialog.setContentPane(this.invitePanel);
 		dialog.pack();
@@ -444,7 +446,7 @@ public class GuiController {
 				if (result == JOptionPane.YES_OPTION) {
 					gameControl.unloadCatan();
 					mainControl.stopIngameTimer();
-//					mainControl.loadProfile(false);
+					// mainControl.loadProfile(false);
 					mainControl.setMainMenu();
 				}
 				if (result == JOptionPane.NO_OPTION) {
@@ -683,23 +685,25 @@ public class GuiController {
 	}
 
 	private void addDevelopmentCardsPanelButtonListeners() {
-		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
+		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCardButtons();
 		for (DevelopmentCardButton b : developmentCards) {
-			b.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					DevelopmentCardDialogPanel developmentCardDialogPanel = new DevelopmentCardDialogPanel(b);
-					JDialog dialog = new JDialog();
-					dialog.setTitle("Ontwikkelingskaart");
-					dialog.setContentPane(developmentCardDialogPanel); // TODO add actionlisteners for playbutton
-					dialog.pack();
-					dialog.setLocationRelativeTo(null);
-					dialog.toFront();
-					dialog.requestFocus();
-					dialog.setAlwaysOnTop(true);
-					dialog.setVisible(true);
-				}
-			});
+			if (b.getActionListeners() != null) {
+				b.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						DevelopmentCardDialogPanel developmentCardDialogPanel = new DevelopmentCardDialogPanel(b);
+						JDialog dialog = new JDialog();
+						dialog.setTitle("Ontwikkelingskaart");
+						dialog.setContentPane(developmentCardDialogPanel); // TODO add actionlisteners for playbutton
+						dialog.pack();
+						dialog.setLocationRelativeTo(null);
+						dialog.toFront();
+						dialog.requestFocus();
+						dialog.setAlwaysOnTop(true);
+						dialog.setVisible(true);
+					}
+				});
+			}
 		}
 	}
 
@@ -718,6 +722,22 @@ public class GuiController {
 		});
 	}
 
+	public void enableUnplayedDevelopmentCards() {
+		for (DevelopmentCardButton b : developmentCardsPanel.getDevelopmentCardButtons()) {
+			if (!b.getDevelopmentCard().isPlayed()) {
+				b.setEnabled(true);
+			}
+
+		}
+	}
+
+	public void disableAllDevelopmentCards() {
+		for (DevelopmentCardButton b : developmentCardsPanel.getDevelopmentCardButtons()) {
+			b.setEnabled(false);
+		}
+
+	}
+
 	private void addPlayerActionBuyConfirmButtonListener() {
 		playerActionPanel.getBuyPanel().getYesButton().addActionListener(new ActionListener() {
 			@Override
@@ -727,9 +747,17 @@ public class GuiController {
 					// "JA" button will still be enabled (this if-statement will prevent buy-abuse
 					// though). Check for a more fancy way
 					// Not sure if the same happens with building stuff and its costs
-					gameControl.buyDevelopmentCard();
-					developmentCardsPanel.addDevelopmentCard(developmentCardsPanel.getDevelopmentCards()
-							.get(developmentCardsPanel.getDevelopmentCards().size()).getDevelopmentCardType());
+					DevelopmentCard dc = gameControl.buyDevelopmentCard();
+					if (dc != null) {
+						System.out.println("Bought developmentcard");
+
+						playerActionPanel.setPlayerOptionMenuPanel();
+						developmentCardsPanel.addDevelopmentCardButton(dc);
+						addDevelopmentCardsPanelButtonListeners();
+						refreshPlayerResources();
+					} else {
+						addSystemMessageToChat(Color.RED, "Er is iets mis gegaan met je aankoop, probeer opnieuw");
+					}
 				}
 			}
 		});
@@ -888,7 +916,8 @@ public class GuiController {
 
 	public void showTradeReceiveDialog(TradeRequest tr) {
 
-		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()), tr);
+		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(
+				gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()), tr);
 
 		tradeReceive.pack();
 		tradeReceive.setLocationRelativeTo(null);
@@ -899,7 +928,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-//				gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
+				// gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
 
 				int brickGive = tradeReceive.getTradeReceiveDialogPanel().getBrickGive();
 				int woolGive = tradeReceive.getTradeReceiveDialogPanel().getWoolGive();
@@ -931,7 +960,7 @@ public class GuiController {
 
 					if (result == JOptionPane.CANCEL_OPTION) {
 						tradeReceive.setAlwaysOnTop(true);
-						
+
 					}
 
 				} else {
@@ -1090,14 +1119,14 @@ public class GuiController {
 					if (result == JOptionPane.CANCEL_OPTION) {
 					}
 				} else {
-				
-				System.out.println(brickGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
-						+ ironReceive + wheatReceive + woodReceive);
-				gameControl.createPlayerTradeRequest(brickGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
-						woolReceive, ironReceive, wheatReceive, woodReceive);
 
-				gameControl.countTradeOffers();
-				playerActionPanel.setPlayerOptionMenuPanel();
+					System.out.println(brickGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive
+							+ woolReceive + ironReceive + wheatReceive + woodReceive);
+					gameControl.createPlayerTradeRequest(brickGive, woolGive, ironGive, wheatGive, woodGive,
+							stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
+
+					gameControl.countTradeOffers();
+					playerActionPanel.setPlayerOptionMenuPanel();
 				}
 			}
 		});
@@ -1110,7 +1139,7 @@ public class GuiController {
 				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(1).getIdPlayer()), tradeRequestArr.get(1),
 				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(2).getIdPlayer()), tradeRequestArr.get(2));
 
-//		gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
+		// gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
 		disablePanelButtons();
 
 		tradeRespond.pack();
@@ -1121,50 +1150,53 @@ public class GuiController {
 
 	private void addTradeRespondDialogActionListeners(TradeRespondDialog tradeRespond) {
 
-		tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1().getSendRequestButton()
-				.addActionListener(new ActionListener() {
+		if (tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1().getSendRequestButton() != null) {
+			tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1().getSendRequestButton()
+					.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gameControl.commenceTrade(0);
-						refreshPlayerResources();
-						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							gameControl.commenceTrade(0);
+							refreshPlayerResources();
 
-						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
-						enablePanelButtons();
-						tradeRespond.dispose();
-					}
-				});
+							gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+							enablePanelButtons();
+							tradeRespond.dispose();
+						}
+					});
+		}
+		if (tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2().getSendRequestButton() != null) {
+			tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2().getSendRequestButton()
+					.addActionListener(new ActionListener() {
 
-		tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2().getSendRequestButton()
-				.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							gameControl.commenceTrade(1);
+							refreshPlayerResources();
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gameControl.commenceTrade(1);
-						refreshPlayerResources();
+							gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+							enablePanelButtons();
 
-						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
-						enablePanelButtons();
+							tradeRespond.dispose();
+						}
+					});
+		}
+		if (tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3().getSendRequestButton() != null) {
+			tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3().getSendRequestButton()
+					.addActionListener(new ActionListener() {
 
-						tradeRespond.dispose();
-					}
-				});
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							gameControl.commenceTrade(2);
+							refreshPlayerResources();
 
-		tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3().getSendRequestButton()
-				.addActionListener(new ActionListener() {
+							gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+							enablePanelButtons();
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						gameControl.commenceTrade(2);
-						refreshPlayerResources();
-
-						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
-						enablePanelButtons();
-
-						tradeRespond.dispose();
-					}
-				});
+							tradeRespond.dispose();
+						}
+					});
+		}
 
 		tradeRespond.getTradeRespondPanels().getCancelButton().addActionListener(new ActionListener() {
 
@@ -1511,8 +1543,8 @@ public class GuiController {
 	public static void setwinnerDialog(Player p, Player winner) {
 		JDialog dialog = new JDialog();
 		boolean isWinner = false;
-		
-		if(p == winner) {
+
+		if (p == winner) {
 			dialog.setTitle("Winnaar!");
 			isWinner = true;
 		} else {
@@ -1521,7 +1553,7 @@ public class GuiController {
 		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner)); // TODO
 		System.out.println("Gefeliciteerd " + winner.getUsername() + " met je overwinning!");
 		System.out.println("Helaas! " + winner.getUsername() + " heeft gewonnen");
-		
+
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.toFront();

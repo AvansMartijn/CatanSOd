@@ -1191,7 +1191,7 @@ public class GameControl {
 			}
 		}
 		
-		logResources(resourcesHashMap);
+//		logResources(resourcesHashMap);
 		
 		enableEveryoneShouldRefresh();
 		guiController.refreshPlayerResources();
@@ -1450,10 +1450,14 @@ public class GameControl {
 		return true;
 	}
 	
-	public void buyDevelopmentCard() { 	// TODO test
-		payResources(DevelopmentCard.CARD_COST);
+	public DevelopmentCard buyDevelopmentCard() { 	// TODO test
 		DevelopmentCard developmentCard = catanGame.getBank().takeDevelopmentCard();
 		catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
+		mainDA.addDevelopmentCardToPlayer(developmentCard.getDevelopmentCardID(), catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
+		if(developmentCard != null) {
+			payResources(DevelopmentCard.CARD_COST);
+		}
+		return developmentCard;
 	}
 	
 	private void checkForWinner() { // TODO add to refresh?
