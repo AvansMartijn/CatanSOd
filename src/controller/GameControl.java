@@ -1191,7 +1191,7 @@ public class GameControl {
 			}
 		}
 		
-		logResources(resourcesHashMap);
+//		logResources(resourcesHashMap);
 		
 		enableEveryoneShouldRefresh();
 		guiController.refreshPlayerResources();
@@ -1392,7 +1392,6 @@ public class GameControl {
 				mainDA.setTurn(catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
 				catanGame.setTurn(catanGame.getSelfPlayer().getIdPlayer());
 				
-				
 				mainDA.setThrownDice(0, catanGame.getIdGame());
 				
 				catanGame.setRolledDice(false);
@@ -1421,7 +1420,6 @@ public class GameControl {
 			}
 		}
 		firstRoundActive = false;
-		
 	}
 
 	public boolean buildInitialStreet(StreetLocation streetLocation) {
@@ -1464,7 +1462,7 @@ public class GameControl {
 			if(p.getVictoryPoints() >= 10) {
 				winner = p;
 				mainDA.finishGame(catanGame.getIdGame());
-//				GuiController.setwinnerDialog(winner);
+//				GuiController.setwinnerDialog(winner); // TODO
 				return;
 			}
 		}

@@ -190,4 +190,12 @@ public class PlayerStatsPanel extends JPanel {
 		label.setIcon(imageIcon);
 		add(label, gridBagConstraints);
 	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
 }

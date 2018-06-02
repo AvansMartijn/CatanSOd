@@ -1,7 +1,6 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,7 +20,6 @@ import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.DevelopmentCard;
-import model.DevelopmentCardType;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
@@ -83,7 +81,7 @@ public class GuiController {
 	private BottomOptionsPanel bottomOptionsPanel;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
-//	private RecentGamesPanel currentGamesPanel;
+	// private RecentGamesPanel currentGamesPanel;
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
@@ -220,7 +218,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadProfile(false);
 				retrieveGames();
-//				mainMenuGui.repaint();
+				// mainMenuGui.repaint();
 
 			}
 		});
@@ -230,7 +228,7 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				mainControl.loadProfile(true);
 				retrieveGames();
-//				mainMenuGui.repaint();
+				// mainMenuGui.repaint();
 
 			}
 		});
@@ -275,7 +273,6 @@ public class GuiController {
 			}
 		});
 
-		
 		bottomOptionsPanel = new BottomOptionsPanel();
 
 		bottomOptionsPanel.getLogoutButton().addActionListener(new ActionListener() {
@@ -319,17 +316,19 @@ public class GuiController {
 	}
 
 	public void setInvitePanel(ArrayList<Catan> invitedList) {
-		
+
 		InvitePanel invitePanel = new InvitePanel(invitedList);
 		JDialog dialog = new JDialog();
-		
+
 		invitePanel.getAcceptButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (invitePanel.getInvitedList().size() > 0) {
-					mainControl.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl
+							.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 					mainControl.loadInvites();
-					dialog.dispose(); // FIXME sometimes a second screen will still pop-up with one of the actionlisteners
+					dialog.dispose(); // FIXME sometimes a second screen will still pop-up with one of the
+										// actionlisteners
 				}
 			}
 		});
@@ -337,7 +336,8 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (invitePanel.getInvitedList().size() > 0) {
-					mainControl.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
+					mainControl
+							.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 					mainControl.loadInvites();
 					dialog.dispose();
 				}
@@ -351,7 +351,7 @@ public class GuiController {
 			}
 		});
 		this.invitePanel = invitePanel;
-		
+
 		dialog.setTitle("Uitnodigingenbeheer");
 		dialog.setContentPane(this.invitePanel);
 		dialog.pack();
@@ -444,7 +444,7 @@ public class GuiController {
 				if (result == JOptionPane.YES_OPTION) {
 					gameControl.unloadCatan();
 					mainControl.stopIngameTimer();
-//					mainControl.loadProfile(false);
+					// mainControl.loadProfile(false);
 					mainControl.setMainMenu();
 				}
 				if (result == JOptionPane.NO_OPTION) {
@@ -478,7 +478,7 @@ public class GuiController {
 		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
 			boolean isSelfPlayer = false;
-			if(gameControl.getCatanGame().getSelfPlayer() == player) {
+			if (gameControl.getCatanGame().getSelfPlayer() == player) {
 				isSelfPlayer = true;
 			}
 			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player, isSelfPlayer);
@@ -506,6 +506,8 @@ public class GuiController {
 		addPlayerColorToStreetLocs();
 		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel,
 				gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
+
+		enlightenPlayerTurn();
 
 		addListeners();
 
@@ -610,6 +612,7 @@ public class GuiController {
 
 	public void refreshPlayerResources() {
 		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+		enlightenPlayerTurn();
 		updatePlayerStats();
 	}
 
@@ -892,7 +895,8 @@ public class GuiController {
 
 	public void showTradeReceiveDialog(TradeRequest tr) {
 
-		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()), tr);
+		TradeReceiveDialog tradeReceive = new TradeReceiveDialog(
+				gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()), tr);
 
 		tradeReceive.pack();
 		tradeReceive.setLocationRelativeTo(null);
@@ -903,7 +907,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-//				gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
+				// gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
 
 				int brickGive = tradeReceive.getTradeReceiveDialogPanel().getBrickGive();
 				int woolGive = tradeReceive.getTradeReceiveDialogPanel().getWoolGive();
@@ -935,7 +939,7 @@ public class GuiController {
 
 					if (result == JOptionPane.CANCEL_OPTION) {
 						tradeReceive.setAlwaysOnTop(true);
-						
+
 					}
 
 				} else {
@@ -1094,14 +1098,14 @@ public class GuiController {
 					if (result == JOptionPane.CANCEL_OPTION) {
 					}
 				} else {
-				
-				System.out.println(brickGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive + woolReceive
-						+ ironReceive + wheatReceive + woodReceive);
-				gameControl.createPlayerTradeRequest(brickGive, woolGive, ironGive, wheatGive, woodGive, stoneReceive,
-						woolReceive, ironReceive, wheatReceive, woodReceive);
 
-				gameControl.countTradeOffers();
-				playerActionPanel.setPlayerOptionMenuPanel();
+					System.out.println(brickGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive
+							+ woolReceive + ironReceive + wheatReceive + woodReceive);
+					gameControl.createPlayerTradeRequest(brickGive, woolGive, ironGive, wheatGive, woodGive,
+							stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
+
+					gameControl.countTradeOffers();
+					playerActionPanel.setPlayerOptionMenuPanel();
 				}
 			}
 		});
@@ -1114,7 +1118,7 @@ public class GuiController {
 				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(1).getIdPlayer()), tradeRequestArr.get(1),
 				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(2).getIdPlayer()), tradeRequestArr.get(2));
 
-//		gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
+		// gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
 		disablePanelButtons();
 
 		tradeRespond.pack();
@@ -1132,7 +1136,6 @@ public class GuiController {
 					public void actionPerformed(ActionEvent e) {
 						gameControl.commenceTrade(0);
 						refreshPlayerResources();
-						
 
 						gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 						enablePanelButtons();
@@ -1484,7 +1487,7 @@ public class GuiController {
 	// public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake,
 	// HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
 	//
-	// // TODO Auto-generated method stub
+	//
 	//
 	// }
 
@@ -1515,8 +1518,8 @@ public class GuiController {
 	public void setwinnerDialog(Player winner) {
 		JDialog dialog = new JDialog();
 		boolean isWinner = false;
-		
-		if(gameControl.getCatanGame().getSelfPlayer() == winner) {
+
+		if (gameControl.getCatanGame().getSelfPlayer() == winner) {
 			dialog.setTitle("Winnaar!");
 			isWinner = true;
 		} else {
@@ -1529,5 +1532,18 @@ public class GuiController {
 		dialog.requestFocus();
 		dialog.setAlwaysOnTop(true);
 		dialog.setVisible(true);
+	}
+
+	public void enlightenPlayerTurn() {
+		Color color = new Color(207, 181, 59);
+
+		for (int i = 0; i < playerStatsPanels.length; i++) {
+			if (playerStatsPanels[i].getPlayer().getIdPlayer() == gameControl.getCatanGame().getTurn()) {
+				playerStatsPanels[i].setBackground(color);
+			} else {
+				playerStatsPanels[i].setBackground(playerStatsPanels[i].getBackgroundColor());
+			}
+			playerStatsPanels[i].repaint();
+		}
 	}
 }
