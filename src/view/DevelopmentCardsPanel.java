@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.DevelopmentCard;
 import model.DevelopmentCardType;
 import model.Player;
 
@@ -50,17 +51,19 @@ public class DevelopmentCardsPanel extends JPanel {
 	
 	private void createDevelopmentCards() {
 		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
-			DevelopmentCardType developmentCardType = selfPlayer.getHand().getDevelopmentCards().get(i).getDevelopmentCardType();
-			addDevelopmentCardButton(developmentCardType);
+			DevelopmentCard developmentCard = selfPlayer.getHand().getDevelopmentCards().get(i);
+			addDevelopmentCardButton(developmentCard);
 		}
 	}
 
 	// Add development card
-	public void addDevelopmentCardButton(DevelopmentCardType developmentCardType) {
-		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCardType);
+	public void addDevelopmentCardButton(DevelopmentCard developmentCard) {
+		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
 		developmentCardButtons.add(developmentCardButton);
+		developmentCardButton.setEnabled(false);
 		setPanelSize();
 		panel.add(developmentCardButton);
+		revalidate();
 	}
 	
 	// TODO function if card played, set not visible
@@ -70,7 +73,7 @@ public class DevelopmentCardsPanel extends JPanel {
 		panel.setPreferredSize(new Dimension(size, PANEL_HEIGHT));
 	}
 
-	public ArrayList<DevelopmentCardButton> getDevelopmentCards() {
+	public ArrayList<DevelopmentCardButton> getDevelopmentCardButtons() {
 		return developmentCardButtons;
 	}
 }

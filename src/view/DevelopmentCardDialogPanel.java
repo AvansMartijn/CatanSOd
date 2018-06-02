@@ -21,7 +21,7 @@ public class DevelopmentCardDialogPanel extends JPanel {
 	private JButton playButton;
 
 	public DevelopmentCardDialogPanel(DevelopmentCardButton developmentCardButton) {
-		this.developmentCardType = developmentCardButton.getDevelopmentCardType();
+		this.developmentCardType = developmentCardButton.getDevelopmentCard().getDevelopmentCardType();
 		this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
 		playButton = new JButton("Speel");

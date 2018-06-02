@@ -683,23 +683,25 @@ public class GuiController {
 	}
 
 	private void addDevelopmentCardsPanelButtonListeners() {
-		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCards();
+		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCardButtons();
 		for (DevelopmentCardButton b : developmentCards) {
-			b.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					DevelopmentCardDialogPanel developmentCardDialogPanel = new DevelopmentCardDialogPanel(b);
-					JDialog dialog = new JDialog();
-					dialog.setTitle("Ontwikkelingskaart");
-					dialog.setContentPane(developmentCardDialogPanel); // TODO add actionlisteners for playbutton
-					dialog.pack();
-					dialog.setLocationRelativeTo(null);
-					dialog.toFront();
-					dialog.requestFocus();
-					dialog.setAlwaysOnTop(true);
-					dialog.setVisible(true);
-				}
-			});
+			if(b.getActionListeners() != null) {
+				b.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						DevelopmentCardDialogPanel developmentCardDialogPanel = new DevelopmentCardDialogPanel(b);
+						JDialog dialog = new JDialog();
+						dialog.setTitle("Ontwikkelingskaart");
+						dialog.setContentPane(developmentCardDialogPanel); // TODO add actionlisteners for playbutton
+						dialog.pack();
+						dialog.setLocationRelativeTo(null);
+						dialog.toFront();
+						dialog.requestFocus();
+						dialog.setAlwaysOnTop(true);
+						dialog.setVisible(true);
+					}
+				});
+			}
 		}
 	}
 
@@ -717,6 +719,22 @@ public class GuiController {
 			}
 		});
 	}
+	
+	public void enableUnplayedDevelopmentCards() {
+		for(DevelopmentCardButton b: developmentCardsPanel.getDevelopmentCardButtons()) {
+			if(!b.getDevelopmentCard().isPlayed()) {
+				b.setEnabled(true);
+			}
+			
+		}
+	}
+	
+	public void disableAllDevelopmentCards() {
+		for(DevelopmentCardButton b: developmentCardsPanel.getDevelopmentCardButtons()) {
+			b.setEnabled(false);
+		}
+		
+	}
 
 	private void addPlayerActionBuyConfirmButtonListener() {
 		playerActionPanel.getBuyPanel().getYesButton().addActionListener(new ActionListener() {
@@ -727,12 +745,17 @@ public class GuiController {
 					// "JA" button will still be enabled (this if-statement will prevent buy-abuse
 					// though). Check for a more fancy way
 					// Not sure if the same happens with building stuff and its costs
-					gameControl.buyDevelopmentCard();
+					DevelopmentCard dc = gameControl.buyDevelopmentCard();
+					if(dc != null) {
 					System.out.println("Bought developmentcard");
 					
 					playerActionPanel.setPlayerOptionMenuPanel();
-					developmentCardsPanel.addDevelopmentCardButton(developmentCardsPanel.getDevelopmentCards()
-							.get(gameControl.getCatanGame().getSelfPlayer().getHand().getDevelopmentCards().size()).getDevelopmentCardType());
+					developmentCardsPanel.addDevelopmentCardButton(dc);
+					addDevelopmentCardsPanelButtonListeners();
+					refreshPlayerResources();
+					}else {
+						addSystemMessageToChat(Color.RED, "Er is iets mis gegaan met je aankoop, probeer opnieuw");
+					}
 				}
 			}
 		});
