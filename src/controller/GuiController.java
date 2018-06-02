@@ -728,8 +728,11 @@ public class GuiController {
 					// though). Check for a more fancy way
 					// Not sure if the same happens with building stuff and its costs
 					gameControl.buyDevelopmentCard();
-					developmentCardsPanel.addDevelopmentCard(developmentCardsPanel.getDevelopmentCards()
-							.get(developmentCardsPanel.getDevelopmentCards().size()).getDevelopmentCardType());
+					System.out.println("Bought developmentcard");
+					
+					playerActionPanel.setPlayerOptionMenuPanel();
+					developmentCardsPanel.addDevelopmentCardButton(developmentCardsPanel.getDevelopmentCards()
+							.get(gameControl.getCatanGame().getSelfPlayer().getHand().getDevelopmentCards().size()).getDevelopmentCardType());
 				}
 			}
 		});

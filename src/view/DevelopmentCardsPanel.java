@@ -23,13 +23,13 @@ public class DevelopmentCardsPanel extends JPanel {
 	private final int SPACE_BETWEEN_CARDS = 5;
 	
 	private Color myBackgroundColor = new Color(189, 133, 100);
-	private ArrayList<DevelopmentCardButton> developmentCards;
+	private ArrayList<DevelopmentCardButton> developmentCardButtons;
 	private JPanel panel = new JPanel();
 	private Player selfPlayer;
 
 	public DevelopmentCardsPanel(Player selfPlayer) {
 		this.selfPlayer = selfPlayer;
-		developmentCards = new ArrayList<DevelopmentCardButton>();
+		developmentCardButtons = new ArrayList<DevelopmentCardButton>();
 		createComponents();
 		createDevelopmentCards();
 	}
@@ -51,14 +51,14 @@ public class DevelopmentCardsPanel extends JPanel {
 	private void createDevelopmentCards() {
 		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
 			DevelopmentCardType developmentCardType = selfPlayer.getHand().getDevelopmentCards().get(i).getDevelopmentCardType();
-			addDevelopmentCard(developmentCardType);
+			addDevelopmentCardButton(developmentCardType);
 		}
 	}
 
 	// Add development card
-	public void addDevelopmentCard(DevelopmentCardType developmentCardType) {
+	public void addDevelopmentCardButton(DevelopmentCardType developmentCardType) {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCardType);
-		developmentCards.add(developmentCardButton);
+		developmentCardButtons.add(developmentCardButton);
 		setPanelSize();
 		panel.add(developmentCardButton);
 	}
@@ -66,11 +66,11 @@ public class DevelopmentCardsPanel extends JPanel {
 	// TODO function if card played, set not visible
 	
 	private void setPanelSize() {
-		int size = (developmentCards.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));
+		int size = (developmentCardButtons.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));
 		panel.setPreferredSize(new Dimension(size, PANEL_HEIGHT));
 	}
 
 	public ArrayList<DevelopmentCardButton> getDevelopmentCards() {
-		return developmentCards;
+		return developmentCardButtons;
 	}
 }

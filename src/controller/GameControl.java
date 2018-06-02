@@ -1454,6 +1454,7 @@ public class GameControl {
 		payResources(DevelopmentCard.CARD_COST);
 		DevelopmentCard developmentCard = catanGame.getBank().takeDevelopmentCard();
 		catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
+		mainDA.addDevelopmentCardToPlayer(developmentCard.getDevelopmentCardID(), catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
 	}
 	
 	private void checkForWinner() { // TODO add to refresh?
