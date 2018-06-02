@@ -477,7 +477,11 @@ public class GuiController {
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
-			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
+			boolean isSelfPlayer = false;
+			if(gameControl.getCatanGame().getSelfPlayer() == player) {
+				isSelfPlayer = true;
+			}
+			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player, isSelfPlayer);
 			playerStatsPanels[i] = (playerstatspanel);
 		}
 		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels, developmentCardsPanel);
@@ -1508,7 +1512,7 @@ public class GuiController {
 		this.gameList = gameList;
 	}
 
-	public static void setwinnerDialog(Player winner) {
+	public void setwinnerDialog(Player winner) {
 		JDialog dialog = new JDialog();
 		boolean isWinner = false;
 		
@@ -1518,7 +1522,7 @@ public class GuiController {
 		} else {
 			dialog.setTitle("Verloren!");
 		}
-		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner)); // TODO
+		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner));
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.toFront();

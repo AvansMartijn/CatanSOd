@@ -1464,7 +1464,7 @@ public class GameControl {
 			if(p.getVictoryPoints() >= 10) {
 				winner = p;
 				mainDA.finishGame(catanGame.getIdGame());
-				GuiController.setwinnerDialog(p, winner);
+//				GuiController.setwinnerDialog(winner);
 				return;
 			}
 		}

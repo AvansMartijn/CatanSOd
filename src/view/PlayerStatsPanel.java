@@ -43,10 +43,13 @@ public class PlayerStatsPanel extends JPanel {
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
 	// Constructor
-	public PlayerStatsPanel(Player player) {
+	public PlayerStatsPanel(Player player, boolean isSelfPlayer) {
 		this.statLabels = new JLabel[STATS_AMOUNT];
 		this.player = player;
 		this.playerNameLabel = new JLabel(player.getUsername());
+		if(isSelfPlayer) {
+			playerNameLabel.setText(player.getUsername() + " (jij)");
+		}
 		this.playerPointsLabel = new JLabel("Punten: " + player.getPoints());
 		this.longestRoadLabel = new JLabel();
 		this.largestArmyLabel = new JLabel();
