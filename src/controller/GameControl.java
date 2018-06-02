@@ -1191,7 +1191,7 @@ public class GameControl {
 			}
 		}
 		
-		logResources(resourcesHashMap);
+//		logResources(resourcesHashMap);
 		
 		enableEveryoneShouldRefresh();
 		guiController.refreshPlayerResources();
