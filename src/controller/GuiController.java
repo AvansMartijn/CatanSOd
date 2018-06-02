@@ -1508,20 +1508,17 @@ public class GuiController {
 		this.gameList = gameList;
 	}
 
-	public static void setwinnerDialog(Player p, Player winner) {
+	public static void setwinnerDialog(Player winner) {
 		JDialog dialog = new JDialog();
 		boolean isWinner = false;
 		
-		if(p == winner) {
+		if(gameControl.getCatanGame().getSelfPlayer() == winner) {
 			dialog.setTitle("Winnaar!");
 			isWinner = true;
 		} else {
 			dialog.setTitle("Verloren!");
 		}
 		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner)); // TODO
-		System.out.println("Gefeliciteerd " + winner.getUsername() + " met je overwinning!");
-		System.out.println("Helaas! " + winner.getUsername() + " heeft gewonnen");
-		
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.toFront();
