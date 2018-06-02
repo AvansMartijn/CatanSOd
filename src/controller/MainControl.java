@@ -377,6 +377,7 @@ public class MainControl {
 				}
 //			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("updateRefreshTradeRequest failed");
 		}
 	}
