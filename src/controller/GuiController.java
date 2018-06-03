@@ -760,7 +760,7 @@ public class GuiController {
 												b.setEnabled(false);
 												gameControl.updateDevCardInDB(
 														b.getDevelopmentCard().getDevelopmentCardID());
-												b.setBackground(new Color(0, 0, 0, 60));
+												b.setBackground(new Color(0, 0, 0));
 												break;
 											case ROAD_BUILDING:
 												addSystemMessageToChat(Color.BLUE,
