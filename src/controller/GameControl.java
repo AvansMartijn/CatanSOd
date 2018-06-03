@@ -1462,7 +1462,7 @@ public class GameControl {
 			if(p.getVictoryPoints() >= 10) {
 				winner = p;
 				mainDA.finishGame(catanGame.getIdGame());
-//				GuiController.setwinnerDialog(winner); // TODO
+				guiController.setwinnerDialog(winner);
 				return;
 			}
 		}
