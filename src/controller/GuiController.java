@@ -253,6 +253,64 @@ public class GuiController {
 
 					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
 							gameControl.getCatanGame());
+					ActionListener saveListener = new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							if (manageInvitesFrame.panel.getInvitedPlayers().size() < 4) {
+								JOptionPane.showConfirmDialog(null, "Te weinig spelers",
+										"Je moet minimaal 4 spelers hebben.", JOptionPane.OK_OPTION);
+							} else {
+								// Compare Lists and update in DB.
+								ArrayList<Player> playersToRemove = new ArrayList<>();
+								ArrayList<Player> playersToAdd = new ArrayList<>();
+								for (Player p : gameControl.getCatanGame().getPlayers()) {
+									if (!manageInvitesFrame.panel.getInvitedPlayers().stream()
+											.anyMatch(t -> t.getUsername().equals(p.getUsername()))) {
+										// Remove P
+										playersToRemove.add(p);
+									}
+								}
+								for (Player s : manageInvitesFrame.panel.getInvitedPlayers()) {
+									if (!gameControl.getCatanGame().getPlayers().stream()
+											.anyMatch(t -> t.getUsername().equals(s.getUsername()))) {
+										// Add S
+										playersToAdd.add(s);
+									}
+								}
+								if (playersToRemove.size() == playersToAdd.size()) {
+									mainControl.switchInvites(playersToAdd, playersToRemove, gameControl.getCatanGame().getIdGame());
+									JOptionPane.showConfirmDialog(null, "Gelukt!", "De nieuwe mensen zijn uitgenodigd!",
+											JOptionPane.OK_OPTION);
+									Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
+									manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
+								}
+							}
+
+						}
+					};
+					manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
+							int count = 0;
+							for(Player p : game.getPlayers()) {
+								if(p.getPlayStatus().toString().toLowerCase().equals("geaccepteerd")) {
+									count++;
+								}
+							}
+							if(count == 3) {
+								//Open Game
+								manageInvitesFrame.dispose();
+							}
+							manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
+							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(this);
+							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(saveListener);
+						}
+					});
+					
+					manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(saveListener);
 				}
 			}
 		});

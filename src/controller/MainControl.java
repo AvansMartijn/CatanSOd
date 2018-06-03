@@ -434,4 +434,8 @@ public class MainControl {
 		}
 		mainDA.abortGame(playerids);
 	}
+
+	public Catan getGameFromId(int gameId) {
+		return new Catan(mainDA.getPlayersFromGame(gameId), new Player(account.getUsername()), gameId);
+	}
 }

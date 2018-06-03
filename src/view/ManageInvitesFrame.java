@@ -20,4 +20,11 @@ public class ManageInvitesFrame extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.isAlwaysOnTop();
 	}
+	
+	public void UpdatePanel(ArrayList<String> availablePlayers, Catan game) {
+		panel = new ManageInvitesPanel(availablePlayers, game);
+		this.setContentPane(panel);
+		this.pack();
+		this.repaint();
+	}
 }
