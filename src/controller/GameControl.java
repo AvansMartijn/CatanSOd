@@ -35,6 +35,7 @@ public class GameControl {
 	private Thread tradeRequestThread;
 	private boolean isInTurn;
 	private boolean firstRoundActive;
+	
 
 	// private Gameboard gameboard;
 	// private ArrayList<Player> gamePlayers;
@@ -49,6 +50,7 @@ public class GameControl {
 		this.mainDA = mainDA;
 		// This will be added in the GuiController(). So it won't be null in the
 		// program.
+		
 		isInTurn = false;
 		guiController = null;
 	}
@@ -138,6 +140,7 @@ public class GameControl {
 		} else {
 			// giveResources(rolledValue);
 			giveTurnResources(rolledValue);
+			guiController.enableUnplayedDevelopmentCards();
 			guiController.enablePlayerActionPanel();
 		}
 
@@ -151,7 +154,7 @@ public class GameControl {
 		// return catanGame.getDice().getDie();
 	}
 
-	private void enableRobber() {
+	public void enableRobber() {
 		guiController.getBoardPanel().enableTileButtons();
 	}
 
@@ -1004,8 +1007,20 @@ public class GameControl {
 	}
 
 	public void doDevCardRoadBuilding() {
-		// build 2 streets without the cost
-		enableEveryoneShouldRefresh();
+		
+		//if first time enable
+		
+		getCatanGame().setRoadBuilding(true);
+		getCatanGame().setRoadBuildingFirst(true);		
+		if(catanGame.getSelfPlayer().getAmountAvailableStreets() != 0) {
+			guiController.enableStreetLocButtons();	
+		}else {
+			guiController.addSystemMessageToChat(Color.RED, "Je hebt niet genoeg straten om te bouwen");
+			getCatanGame().setRoadBuilding(false);
+		}
+		
+
+	
 	}
 
 	public void doDevCardMonopoly(ResourceType rsType) {
@@ -1038,13 +1053,17 @@ public class GameControl {
 			mainDA.addResourceToPlayer(rs1.getResourceID(), catanGame.getIdGame(),
 					catanGame.getSelfPlayer().getIdPlayer());
 			catanGame.getSelfPlayer().getHand().addResource(rs1);
+			addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een uitvindingskaart gespeeld");
+			addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een " + rs1.getRsType().toString() + " kaart ontvangen van de bank");
 		}
 
 		if (rs2 != null) {
 			mainDA.addResourceToPlayer(rs2.getResourceID(), catanGame.getIdGame(),
 					catanGame.getSelfPlayer().getIdPlayer());
 			catanGame.getSelfPlayer().getHand().addResource(rs2);
+			addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een " + rs2.getRsType().toString() + " kaart ontvangen van de bank");
 		}
+		
 		enableEveryoneShouldRefresh();
 	}
 
@@ -1472,5 +1491,10 @@ public class GameControl {
 				return;
 			}
 		}
+	}
+
+	public void updateDevCardInDB(String developmentCardID) {
+		mainDA.useDevelopmentCard(developmentCardID, catanGame.getIdGame());
+		
 	}
 }

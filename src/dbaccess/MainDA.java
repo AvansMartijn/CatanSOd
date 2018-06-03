@@ -1522,8 +1522,13 @@ public class MainDA {
 		
 	}
 	
-	public void useDevelopmentCard(String developmentCardID) {
-		
+	public void useDevelopmentCard(String developmentCardID, int idGame) {
+		String insertquery = "UPDATE spelerontwikkelingskaart SET gespeeld = '1' WHERE idontwikkelingskaart = '"
+				+ developmentCardID + "' AND idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("updating resource to player in DB failed");
+		}
 	}
 
 }

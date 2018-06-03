@@ -52,4 +52,8 @@ public class DevelopmentCardDialogPanel extends JPanel {
 		}
 		return null;
 	}
+
+	public JButton getPlayButton() {
+		return playButton;
+	}
 }
