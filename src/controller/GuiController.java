@@ -583,7 +583,7 @@ public class GuiController {
 										+ " Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc()
 										+ " Y: " + blb.getBuildingLocation().getYLoc());
 								boardPanel.disableBuildingLocButtons();
-								playerActionPanel.setBuildPanel();
+								playerActionPanel.setPlayerOptionMenuPanel();
 								addPlayerColorToBuildingLocs();
 								refreshPlayerResources();
 								gameControl.doDevCardRoadBuilding();
@@ -598,7 +598,7 @@ public class GuiController {
 										+ " Heeft een dorp gebouwd op X: " + blb.getBuildingLocation().getXLoc()
 										+ " Y: " + blb.getBuildingLocation().getYLoc());
 								boardPanel.disableBuildingLocButtons();
-								playerActionPanel.setBuildPanel();
+								playerActionPanel.setPlayerOptionMenuPanel();
 								addPlayerColorToBuildingLocs();
 
 								refreshPlayerResources();
