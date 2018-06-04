@@ -887,6 +887,7 @@ public class GameControl {
 	}
 
 	public void deleteTradeRequest() {
+		catanGame.deleteTradeRequests();
 		mainDA.deleteTradeRequests(catanGame.getIdGame());
 	}
 
@@ -997,7 +998,7 @@ public class GameControl {
 		}
 
 		mainDA.deleteTradeRequests(catanGame.getIdGame());
-		catanGame.setTradeRequests(null);
+		catanGame.getTradeRequestArr().clear();
 		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft het tegenaanbod van " + tradePlayer.getUsername() + " geaccepteerd");
 
 		// swap resources in code
