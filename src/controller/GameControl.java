@@ -1485,6 +1485,8 @@ public class GameControl {
 			if(p.getVictoryPoints() >= 10) {
 				winner = p;
 				mainDA.finishGame(catanGame.getIdGame());
+				addLogMessage(p.getUsername() + " heeft gewonnen");
+				addLogMessage("Het spel is afgelopen");
 				guiController.setwinnerDialog(winner);
 				return;
 			}

@@ -23,6 +23,7 @@ import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.DevelopmentCard;
+import model.DevelopmentCardType;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
@@ -70,7 +71,6 @@ import view.WaitingRoom;
 
 import view.CurrentTradeRequestPanel;
 import view.DevelopmentCardButton;
-import view.DevelopmentCardDialogPanel;
 import view.DevelopmentCardPlayDialog;
 import view.DevelopmentCardsPanel;
 
@@ -1679,15 +1679,13 @@ public class GuiController {
 		boolean isWinner = false;
 
 
-		if (p == winner) {
+		if (gameControl.getCatanGame().getSelfPlayer() == winner) {
 			dialog.setTitle("Winnaar!");
 			isWinner = true;
 		} else {
 			dialog.setTitle("Verloren!");
 		}
 		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner)); // TODO
-		System.out.println("Gefeliciteerd " + winner.getUsername() + " met je overwinning!");
-		System.out.println("Helaas! " + winner.getUsername() + " heeft gewonnen");
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.toFront();
