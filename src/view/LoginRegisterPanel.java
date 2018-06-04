@@ -55,7 +55,7 @@ public class LoginRegisterPanel extends JPanel {
 		} catch (IOException e) {
 		}
 
-		playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
+		
 	}
 
 	public void paintComponent(Graphics g) {
@@ -63,7 +63,7 @@ public class LoginRegisterPanel extends JPanel {
 		g.drawImage(image, 0, 0, this);
 	}
 
-	private void playBackgroundMusic(String fileName) { // TODO make music class which handles this 
+	public void playBackgroundMusic(String fileName) { // TODO make music class which handles this 
 		Clip clip = null;
 		try {
 		URL sound = getClass().getResource("/Music/" + fileName);
@@ -72,8 +72,13 @@ public class LoginRegisterPanel extends JPanel {
 		clip = AudioSystem.getClip();
 		clip.open(audioInputStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		clip.start();
+
 		} catch (Exception ex) {
 		}
+	}
+	public void stopPlayingMusic() {
+		
 	}
 
 	public JButton getInlogButton() {

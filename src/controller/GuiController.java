@@ -101,9 +101,9 @@ public class GuiController {
 	private WaitingRoom waitingRoom;
 	private JDialog newGamedialog;
 	private ManageInvitesFrame manageInvitesFrame;
-
 	private ArrayList<Catan> gameList;
-
+	private LoginRegisterPanel loginregisterPanel;
+	private MusicPlayer musicPlayer;
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
@@ -124,7 +124,8 @@ public class GuiController {
 	}
 
 	public void setInlogPanel() {
-		LoginRegisterPanel loginregisterPanel = new LoginRegisterPanel();
+		musicPlayer = new MusicPlayer();
+		loginregisterPanel = new LoginRegisterPanel();
 		loginregisterPanel.getInlogButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -139,6 +140,8 @@ public class GuiController {
 					loginregisterPanel.setMessagelabel("Ongeldige gegevens ingevoerd");
 				} else {
 					mainControl.setMainMenu();
+					//loginregisterPanel.playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
+					musicPlayer.playMusic();
 					;
 				}
 			}
@@ -282,15 +285,19 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				loginregisterPanel = new LoginRegisterPanel();
+				musicPlayer = new MusicPlayer();
 				Object[] options = { "Ja", "Nee" };
 
 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je wilt uitloggen?", "Waarschuwing",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 				if (result == JOptionPane.YES_OPTION) {
+					musicPlayer.stopMusic();
+					//loginregisterPanel.playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
 					mainControl.stopIngameTimer();
 					mainControl.logOut();
 					setInlogPanel();
+					
 				}
 			}
 		});
