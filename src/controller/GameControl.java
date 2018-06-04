@@ -131,8 +131,9 @@ public class GameControl {
 	public void rollDice() {
 		catanGame.rollDice();
 		int rolledValue = catanGame.getDice().getValue();
-//		 rolledValue = 7;
-
+		//This has to be before the if-statement, 
+		//otherwise first the message will be who gets the resources, and afterwards the value rolled. 
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + rolledValue + " gegooid.");
 		if (rolledValue == 7) {
 			guiController.addSystemMessageToChat(Color.BLUE, "Je hebt 7 gegooit, Verplaats de Rover");
 			enableRobber();
@@ -149,7 +150,6 @@ public class GameControl {
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 		catanGame.setRolledDice(true);
 		
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + rolledValue + " gegooid.");
 		enableEveryoneShouldRefresh();
 		// return catanGame.getDice().getDie();
 	}
@@ -1210,7 +1210,7 @@ public class GameControl {
 			}
 		}
 		
-//		logResources(resourcesHashMap);
+		logResources(resourcesHashMap);
 		
 		enableEveryoneShouldRefresh();
 		guiController.refreshPlayerResources();
@@ -1282,7 +1282,7 @@ public class GameControl {
 			}
 		}
 		
-//		logResources(resourcesGiven);
+		logResources(resourcesGiven);
 		
 	}
 
@@ -1340,7 +1340,11 @@ public class GameControl {
 				}
 				for (Resource resource2 : resources) {
 					if(resourceType == resource2.getRsType()) {
-						int value = resourcesGivenHashMap.get(resourceType);
+						int value = 0;
+						//If the resourceType is not in the HashMap yet, it returns null, therefore the value will be 0
+						if(resourcesGivenHashMap.get(resourceType) != null) {
+							value = resourcesGivenHashMap.get(resourceType);							
+						}
 						resourcesGivenHashMap.put(resourceType, value + 1);
 					}
 				}
