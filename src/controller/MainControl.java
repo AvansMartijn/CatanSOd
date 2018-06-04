@@ -404,7 +404,9 @@ public class MainControl {
 					.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
 			gameControl.getCatanGame().getBank()
 					.setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), 0));
+			gameControl.checkForWinner();
 			guiController.refreshPlayerResources();
+			
 		} catch (Exception e) {
 			System.out.println("updateRefreshPlayers failed");
 		}

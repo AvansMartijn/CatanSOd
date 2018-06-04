@@ -1477,7 +1477,7 @@ public class GameControl {
 		return developmentCard;
 	}
 	
-	private void checkForWinner() { // TODO add to refresh?
+	public void checkForWinner() { // TODO add to refresh?
 		
 		Player winner = null;
 		
