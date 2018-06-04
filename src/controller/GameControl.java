@@ -1268,11 +1268,13 @@ public class GameControl {
 				if (village.getBuildingLocation() == buildingLocation) {
 					try {
 						Resource resource = catanGame.getBank().takeResource(tile.getRsType());
-						//Add to database
-						mainDA.addResourceToPlayer(resource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-						//Add to model
-						catanGame.getSelfPlayer().getHand().addResource(resource);
-						resourcesGiven.add(resource);
+						if(resource.getRsType() != ResourceType.WOESTIJN) {
+							//Add to database
+							mainDA.addResourceToPlayer(resource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+							//Add to model
+							catanGame.getSelfPlayer().getHand().addResource(resource);
+							resourcesGiven.add(resource);
+						}
 					} catch (Exception e) {
 						addPlayerMessage("Helaas, de bank heeft geen " + tile.getRsType().toString().toLowerCase() + "meer.");
 					}
@@ -1280,7 +1282,7 @@ public class GameControl {
 			}
 		}
 		
-		logResources(resourcesGiven);
+//		logResources(resourcesGiven);
 		
 	}
 
