@@ -14,7 +14,11 @@ public class Catan {
 	private Gameboard gameboard;
 	private Bank bank;
 	private boolean firstRound;
+	private boolean roadBuilding;
+	private boolean roadBuildingFirst;
 	
+	
+
 
 	//TODO Make sure that a conversion from playerID is made to the turn 
 	//get the followNr of the player of which it is it's turn. 
@@ -44,6 +48,8 @@ public class Catan {
 		this.idGame = players.get(0).getidGame();
 		this.turn = turn;
 		this.rolledDice = false;
+		this.roadBuilding = false;
+		this.roadBuildingFirst = true;
 		tradeRequestArr = new ArrayList<TradeRequest>();
 		//First player (Players[0]) is the UITDAGER. The Rest is UIGEDAAGDE. 
 		//players[0] has already been made, so start at 1. 
@@ -54,6 +60,14 @@ public class Catan {
 		//which is the 1st real turn of the game. 
 	}
 	
+	public boolean isRoadBuildingFirst() {
+		return roadBuildingFirst;
+	}
+
+	public void setRoadBuildingFirst(boolean roadBuildingFirst) {
+		this.roadBuildingFirst = roadBuildingFirst;
+	}
+
 	public boolean isFirstRound() {
 		return firstRound;
 	}
@@ -150,6 +164,13 @@ public class Catan {
 	
 	public ArrayList<Player> getPlayers() {
 		return players;
+	}
+	public boolean isRoadBuilding() {
+		return roadBuilding;
+	}
+	
+	public void setRoadBuilding(boolean roadBuilding) {
+		this.roadBuilding = roadBuilding;
 	}
 	
 //	public int getPlayerTurn() {

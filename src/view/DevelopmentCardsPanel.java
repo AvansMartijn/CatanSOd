@@ -27,6 +27,8 @@ public class DevelopmentCardsPanel extends JPanel {
 	private ArrayList<DevelopmentCardButton> developmentCardButtons;
 	private JPanel panel = new JPanel();
 	private Player selfPlayer;
+	
+
 
 	public DevelopmentCardsPanel(Player selfPlayer) {
 		this.selfPlayer = selfPlayer;
@@ -60,7 +62,13 @@ public class DevelopmentCardsPanel extends JPanel {
 	public void addDevelopmentCardButton(DevelopmentCard developmentCard) {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
 		developmentCardButtons.add(developmentCardButton);
-		developmentCardButton.setEnabled(false);
+		developmentCardButton.setEnabled(true);
+		if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() == DevelopmentCardType.KNIGHT) {
+			developmentCardButton.setEnabled(false);
+			developmentCardButton.setBackground(new Color(0, 0, 0));
+		}else if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() != DevelopmentCardType.KNIGHT) {
+			developmentCardButton.setVisible(false);
+		}
 		setPanelSize();
 		panel.add(developmentCardButton);
 		revalidate();
@@ -76,4 +84,5 @@ public class DevelopmentCardsPanel extends JPanel {
 	public ArrayList<DevelopmentCardButton> getDevelopmentCardButtons() {
 		return developmentCardButtons;
 	}
+
 }
