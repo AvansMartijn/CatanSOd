@@ -1411,7 +1411,6 @@ public class GameControl {
 				mainDA.setTurn(catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
 				catanGame.setTurn(catanGame.getSelfPlayer().getIdPlayer());
 				
-				
 				mainDA.setThrownDice(0, catanGame.getIdGame());
 				
 				catanGame.setRolledDice(false);
@@ -1440,7 +1439,6 @@ public class GameControl {
 			}
 		}
 		firstRoundActive = false;
-		
 	}
 
 	public boolean buildInitialStreet(StreetLocation streetLocation) {
@@ -1487,7 +1485,7 @@ public class GameControl {
 			if(p.getVictoryPoints() >= 10) {
 				winner = p;
 				mainDA.finishGame(catanGame.getIdGame());
-				GuiController.setwinnerDialog(p, winner);
+				guiController.setwinnerDialog(winner);
 				return;
 			}
 		}

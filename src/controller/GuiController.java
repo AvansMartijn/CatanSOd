@@ -1,7 +1,6 @@
 package controller;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -24,7 +23,6 @@ import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.DevelopmentCard;
-import model.DevelopmentCardType;
 import model.Player;
 import model.PlayerColor;
 import model.ResourceType;
@@ -483,7 +481,11 @@ public class GuiController {
 		this.boardPanel = new BoardPanel(gameControl.getCatanGame().getGameboard());
 		for (int i = 0; i < 4; i++) {
 			Player player = gameControl.getCatanGame().getPlayers().get(i);
-			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player);
+			boolean isSelfPlayer = false;
+			if (gameControl.getCatanGame().getSelfPlayer() == player) {
+				isSelfPlayer = true;
+			}
+			PlayerStatsPanel playerstatspanel = new PlayerStatsPanel(player, isSelfPlayer);
 			playerStatsPanels[i] = (playerstatspanel);
 		}
 		this.gameSouthContainerPanel = new GameSouthContainerPanel(playerStatsPanels, developmentCardsPanel);
@@ -508,6 +510,8 @@ public class GuiController {
 		addPlayerColorToStreetLocs();
 		gameGUIPanel = new GameGUIPanel(gameTopPanel, boardPanel, diceDotPanel, chatPanel, playerActionPanel,
 				gameSouthContainerPanel, gameControl.getCatanGame().getSelfPlayer());
+
+		enlightenPlayerTurn();
 
 		addListeners();
 
@@ -614,6 +618,7 @@ public class GuiController {
 
 	public void refreshPlayerResources() {
 		gameGUIPanel.getResourcesPanel().updateResourcesAmount();
+		enlightenPlayerTurn();
 		updatePlayerStats();
 	}
 
@@ -1260,7 +1265,6 @@ public class GuiController {
 		if (tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1().getSendRequestButton() != null) {
 			tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1().getSendRequestButton()
 					.addActionListener(new ActionListener() {
-
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							gameControl.commenceTrade(0);
@@ -1642,7 +1646,7 @@ public class GuiController {
 	// public void OpenTakeAwayResoucesDialog(int amountOfResourcesToTake,
 	// HashMap<ResourceType, Integer> amountOfResourcesAvailable) {
 	//
-	// // TODO Auto-generated method stub
+	//
 	//
 	// }
 
@@ -1670,9 +1674,10 @@ public class GuiController {
 		this.gameList = gameList;
 	}
 
-	public static void setwinnerDialog(Player p, Player winner) {
+	public void setwinnerDialog(Player winner) {
 		JDialog dialog = new JDialog();
 		boolean isWinner = false;
+
 
 		if (p == winner) {
 			dialog.setTitle("Winnaar!");
@@ -1683,12 +1688,24 @@ public class GuiController {
 		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner)); // TODO
 		System.out.println("Gefeliciteerd " + winner.getUsername() + " met je overwinning!");
 		System.out.println("Helaas! " + winner.getUsername() + " heeft gewonnen");
-
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.toFront();
 		dialog.requestFocus();
 		dialog.setAlwaysOnTop(true);
 		dialog.setVisible(true);
+	}
+
+	public void enlightenPlayerTurn() {
+		Color color = new Color(207, 181, 59);
+
+		for (int i = 0; i < playerStatsPanels.length; i++) {
+			if (playerStatsPanels[i].getPlayer().getIdPlayer() == gameControl.getCatanGame().getTurn()) {
+				playerStatsPanels[i].setBackground(color);
+			} else {
+				playerStatsPanels[i].setBackground(playerStatsPanels[i].getBackgroundColor());
+			}
+			playerStatsPanels[i].repaint();
+		}
 	}
 }

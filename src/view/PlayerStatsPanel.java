@@ -35,19 +35,26 @@ public class PlayerStatsPanel extends JPanel {
 	// GUI Components
 	private JLabel playerNameLabel;
 	private JLabel playerPointsLabel;
+	private JLabel buildingPointsLabel;
 	private JLabel[] statLabels;
 	private JLabel longestRoadLabel;
 	private JLabel largestArmyLabel;
 
 	private Player player;
+	private boolean isSelfPlayer;
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
 	// Constructor
-	public PlayerStatsPanel(Player player) {
+	public PlayerStatsPanel(Player player, boolean isSelfPlayer) {
 		this.statLabels = new JLabel[STATS_AMOUNT];
 		this.player = player;
+		this.isSelfPlayer = isSelfPlayer;
 		this.playerNameLabel = new JLabel(player.getUsername());
-		this.playerPointsLabel = new JLabel("Punten: " + player.getPoints());
+		if(this.isSelfPlayer) {
+			playerNameLabel.setText(player.getUsername() + " (jij)");
+			buildingPointsLabel = new JLabel();
+		}
+		this.playerPointsLabel = new JLabel();
 		this.longestRoadLabel = new JLabel();
 		this.largestArmyLabel = new JLabel();
 
@@ -76,6 +83,13 @@ public class PlayerStatsPanel extends JPanel {
 		playerPointsLabel.setFont(new Font("Arial", Font.BOLD, 18));
 		playerPointsLabel.setForeground(player.getColorObject());
 		add(playerPointsLabel, gridBagConstraints);
+		
+		if(isSelfPlayer) {
+			gridBagConstraints.gridx = 1;
+			buildingPointsLabel.setFont(new Font("Arial", Font.BOLD, 18));
+			buildingPointsLabel.setForeground(player.getColorObject());
+			add(buildingPointsLabel, gridBagConstraints);
+		}
 
 		addSatsImages();
 		createLabels();
@@ -135,6 +149,9 @@ public class PlayerStatsPanel extends JPanel {
 	// Update stats
 	public void updateStats() {
 		playerPointsLabel.setText("Punten: " + player.getVictoryPoints());
+		if(isSelfPlayer) {
+			buildingPointsLabel.setText("+ " + player.getVictoryCardAmount()); // TODO is this what a buildingpoint is according to reqs?
+		}
 		String[] playerStats = new String[] { "" + player.getAmountBuildVillages(), "" + player.getAmountBuildCities(),
 				"" + player.getAmountBuildStreets(), "" + player.getHand().getResources().size(),
 				"" + player.getHand().getDevelopmentCards().size() };
@@ -172,5 +189,13 @@ public class PlayerStatsPanel extends JPanel {
 		ImageIcon imageIcon = new ImageIcon(image);
 		label.setIcon(imageIcon);
 		add(label, gridBagConstraints);
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
 	}
 }
