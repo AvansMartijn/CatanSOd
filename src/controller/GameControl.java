@@ -712,7 +712,7 @@ public class GameControl {
 
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
 		if (resourceCardsToGive == null) {
-			addLogMessage("Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
+			guiController.addSystemMessageToChat(Color.RED,"Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
 			return;
 		}
 
@@ -721,7 +721,7 @@ public class GameControl {
 			resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
 		} 
 		catch (Exception e) {
-			addLogMessage("De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
+			guiController.addSystemMessageToChat(Color.RED,"De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
 			return;
 		}
 
@@ -887,7 +887,6 @@ public class GameControl {
 	}
 
 	public void deleteTradeRequest() {
-		catanGame.deleteTradeRequests();
 		mainDA.deleteTradeRequests(catanGame.getIdGame());
 	}
 
