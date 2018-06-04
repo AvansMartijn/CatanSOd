@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import model.DevelopmentCard;
 import model.DevelopmentCardType;
 
 @SuppressWarnings("serial")
@@ -17,13 +18,17 @@ public class DevelopmentCardButton extends JButton {
 	private final int CARD_WIDTH = 150;
 	private final int CARD_HEIGHT = 220;
 	
-	private DevelopmentCardType developmentCardType;
+	private DevelopmentCard developmentCard;
+//	private DevelopmentCardDialogPanel developmentCardDialogPanel;
+	private DevelopmentCardPlayDialog developmentCardPlayDialog;
 
-	public DevelopmentCardButton(DevelopmentCardType developmentCardType) {
-		this.developmentCardType = developmentCardType;
+	public DevelopmentCardButton(DevelopmentCard developmentCard) {
+		this.developmentCard = developmentCard;
+		this.developmentCardPlayDialog = new DevelopmentCardPlayDialog(this);
+//		this.developmentCardDialogPanel = new DevelopmentCardDialogPanel(this);
 		setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		
-		URL iconURL = this.getClass().getResource(getImagePath(developmentCardType));
+		URL iconURL = this.getClass().getResource(getImagePath(developmentCard.getDevelopmentCardType()));
 		ImageIcon developmentCardImage = new ImageIcon(iconURL);
 		Image img = developmentCardImage.getImage();  
 	    Image resizedImage = img.getScaledInstance(CARD_WIDTH, CARD_HEIGHT, java.awt.Image.SCALE_DEFAULT);
@@ -34,6 +39,14 @@ public class DevelopmentCardButton extends JButton {
 		add(myOpenLabel);
 	}
 	
+	public DevelopmentCardPlayDialog getDevelopmentCardPlayDialog() {
+		return developmentCardPlayDialog;
+	}
+
+	public void setDevelopmentCardPlayDialog(DevelopmentCardPlayDialog developmentCardPlayDialog) {
+		this.developmentCardPlayDialog = developmentCardPlayDialog;
+	}
+
 	private String getImagePath(DevelopmentCardType developmentCardType) {
 		switch (developmentCardType) {
 		case KNIGHT:
@@ -52,8 +65,8 @@ public class DevelopmentCardButton extends JButton {
 		return null;
 	}
 
-	public DevelopmentCardType getDevelopmentCardType() {
-		return developmentCardType;
+	public DevelopmentCard getDevelopmentCard() {
+		return developmentCard;
 	}
 	
 	

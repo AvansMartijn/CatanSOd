@@ -9,7 +9,6 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
-import model.Tile;
 import model.TradeRequest;
 import view.Frame;
 
@@ -78,17 +77,11 @@ public class MainControl {
 	public void joinGame(Catan game) {
 		gameControl.setCatan(game);
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
-		// gameControl.getCatanGame().setMessages(mainDA.getMessages(gameControl.getCatanGame().getIdGame()));
 		updateRefreshMessages();
 		gameControl.updateBoard();
 		gameControl.getCatanGame().getGameboard()
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		for (Player p : gameControl.getCatanGame().getPlayers()) {
-			p.getHand().setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
-			p.getHand().setDevelopmentCards(
-					mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
-		}
-
+		updateRefreshPlayers();
 		guiController.setIngameGuiPanel();
 		updateRefreshTurn();
 		ingame = true;
@@ -384,6 +377,7 @@ public class MainControl {
 				}
 //			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("updateRefreshTradeRequest failed");
 		}
 	}

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.DevelopmentCard;
 import model.DevelopmentCardType;
 import model.Player;
 
@@ -23,13 +24,15 @@ public class DevelopmentCardsPanel extends JPanel {
 	private final int SPACE_BETWEEN_CARDS = 5;
 	
 	private Color myBackgroundColor = new Color(189, 133, 100);
-	private ArrayList<DevelopmentCardButton> developmentCards;
+	private ArrayList<DevelopmentCardButton> developmentCardButtons;
 	private JPanel panel = new JPanel();
 	private Player selfPlayer;
+	
+
 
 	public DevelopmentCardsPanel(Player selfPlayer) {
 		this.selfPlayer = selfPlayer;
-		developmentCards = new ArrayList<DevelopmentCardButton>();
+		developmentCardButtons = new ArrayList<DevelopmentCardButton>();
 		createComponents();
 		createDevelopmentCards();
 	}
@@ -50,27 +53,36 @@ public class DevelopmentCardsPanel extends JPanel {
 	
 	private void createDevelopmentCards() {
 		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
-			DevelopmentCardType developmentCardType = selfPlayer.getHand().getDevelopmentCards().get(i).getDevelopmentCardType();
-			addDevelopmentCard(developmentCardType);
+			DevelopmentCard developmentCard = selfPlayer.getHand().getDevelopmentCards().get(i);
+			addDevelopmentCardButton(developmentCard);
 		}
 	}
 
 	// Add development card
-	public void addDevelopmentCard(DevelopmentCardType developmentCardType) {
-		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCardType);
-		developmentCards.add(developmentCardButton);
+	public void addDevelopmentCardButton(DevelopmentCard developmentCard) {
+		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
+		developmentCardButtons.add(developmentCardButton);
+		developmentCardButton.setEnabled(true);
+		if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() == DevelopmentCardType.KNIGHT) {
+			developmentCardButton.setEnabled(false);
+			developmentCardButton.setBackground(new Color(0, 0, 0));
+		}else if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() != DevelopmentCardType.KNIGHT) {
+			developmentCardButton.setVisible(false);
+		}
 		setPanelSize();
 		panel.add(developmentCardButton);
+		revalidate();
 	}
 	
 	// TODO function if card played, set not visible
 	
 	private void setPanelSize() {
-		int size = (developmentCards.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));
+		int size = (developmentCardButtons.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));
 		panel.setPreferredSize(new Dimension(size, PANEL_HEIGHT));
 	}
 
-	public ArrayList<DevelopmentCardButton> getDevelopmentCards() {
-		return developmentCards;
+	public ArrayList<DevelopmentCardButton> getDevelopmentCardButtons() {
+		return developmentCardButtons;
 	}
+
 }

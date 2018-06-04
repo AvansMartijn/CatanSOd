@@ -92,6 +92,7 @@ public class YearOfPlentyDialogPanel extends JPanel {
 					RADIOBUTTON_SIZE);
 			resourceRadioButton.setBackground(backgroundColor);
 			resourceRadioButton.setActionCommand(resourceNames1[i]);
+			resourceRadioButton.setText(resourceNames1[i]);
 			getResourceButtons1.add(resourceRadioButton);
 			add(resourceRadioButton);
 
@@ -115,7 +116,7 @@ public class YearOfPlentyDialogPanel extends JPanel {
 
 		getResourceButtons2 = new ButtonGroup();
 
-		resourceNames2 = new String[] { "brick", "wool", "iron", "wheat", "wood" };
+		resourceNames2 = new String[] { "BAKSTEEN", "WOL", "ERTS", "GRAAN", "HOUT" };
 
 		for (int i = 0; i < resourceNames2.length; i++) {
 			JRadioButton resourceRadioButton = new JRadioButton();
@@ -123,6 +124,8 @@ public class YearOfPlentyDialogPanel extends JPanel {
 					RADIOBUTTON_SIZE);
 			resourceRadioButton.setBackground(backgroundColor);
 			resourceRadioButton.setActionCommand(resourceNames2[i]);
+			resourceRadioButton.setText(resourceNames2[i]);
+
 			getResourceButtons2.add(resourceRadioButton);
 			add(resourceRadioButton);
 			if (i == 0) {

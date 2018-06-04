@@ -64,6 +64,7 @@ public class MonopolyDialogPanel extends JPanel {
 			resourceButton.setBorder(buttonBorder);
 			resourceButton.setPreferredSize(buttonDimension);
 			resourceButtons.add(resourceButton);
+			add(resourceButton);
 		}
 	}
 

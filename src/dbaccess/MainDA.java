@@ -1512,4 +1512,23 @@ public class MainDA {
 		}
 	}
 
+	public void addDevelopmentCardToPlayer(String developmentCardID, int idPlayer, int idGame) {
+		String insertquery = "UPDATE spelerontwikkelingskaart SET idspeler = '" + idPlayer + "' WHERE idontwikkelingskaart = '"
+				+ developmentCardID + "' AND idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("adding resource to player in DB failed");
+		}
+		
+	}
+	
+	public void useDevelopmentCard(String developmentCardID, int idGame) {
+		String insertquery = "UPDATE spelerontwikkelingskaart SET gespeeld = '1' WHERE idontwikkelingskaart = '"
+				+ developmentCardID + "' AND idspel = " + idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("updating resource to player in DB failed");
+		}
+	}
+
 }

@@ -344,7 +344,15 @@ public class Player {
 			}
 		}
 		
+
 		victoryPoints += getVictoryCardAmount();
+		//1 point for every Victory Point card the player has played. 
+		for(DevelopmentCard developmentCard : hand.getDevelopmentCards()) {
+			if(developmentCard.getDevelopmentCardType() 
+					== DevelopmentCardType.VICTORY_POINT) {
+				victoryPoints++;
+			}
+		}
 		
 		if(hasLargestArmy) {
 			victoryPoints += 2;

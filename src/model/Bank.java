@@ -57,8 +57,8 @@ public class Bank {
 	public Bank() {
 		resources = new ArrayList<>();
 		developmentCards = new ArrayList<>();
-		createResourceCards();
-		createDevelopmentCards();
+//		createResourceCards();
+//		createDevelopmentCards();
 		random = new Random();
 	}
 
@@ -107,7 +107,7 @@ public class Bank {
 
 	// Add DevelopmentCards to developmentCards ArrayList
 	private void createDevelopmentCards() {
-
+		
 	}
 
 	// public Resource takeResource(ResourceType rsType) {
@@ -168,7 +168,9 @@ public class Bank {
 	}
 
 	public DevelopmentCard takeDevelopmentCard() {
+		System.out.println(developmentCards.size());
 		int index = random.nextInt(developmentCards.size());
+		System.out.println(index);
 		return developmentCards.remove(index);
 
 	}
