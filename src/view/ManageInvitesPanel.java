@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -30,11 +31,13 @@ public class ManageInvitesPanel extends JPanel {
 	private ArrayList<JButton> removeButtonsList;
 	private JPanel invitedPlayersPanel;
 	private JButton saveInvitesButton;
+	private JButton refreshInvitesButton;
 
 	public ManageInvitesPanel(ArrayList<String> availablePlayers, Catan game) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.availablePlayers = availablePlayers;
 		saveInvitesButton = new JButton("Opslaan");
+		refreshInvitesButton = new JButton("Verversen");
 		removeButtonsList = new ArrayList<>();
 		invitedPlayers = new ArrayList<Player>();
 		JLabel header = new JLabel("Invites Aanpassen");
@@ -45,6 +48,7 @@ public class ManageInvitesPanel extends JPanel {
 		inviteInput.setMaximumSize(new Dimension(350, 150));
 		inviteInput.setFont(inviteInput.getFont().deriveFont(Font.PLAIN, 17));
 		inviteButton = new JButton("Uitnodigen");
+		inviteButton.setEnabled(false);
 		inviteButton.addActionListener((new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -107,6 +111,13 @@ public class ManageInvitesPanel extends JPanel {
 			for (Player player : invitedPlayers) {
 				JPanel panel = new JPanel();
 				JLabel name = new JLabel(player.getUsername());
+				if(player.getPlayStatus() != null) {
+				if(player.getPlayStatus().toString().toLowerCase().contains("geaccepteerd")) {
+					name.setForeground(Color.green);
+				}else if(player.getPlayStatus().toString().toLowerCase().contains("geweigerd")) {
+					name.setForeground(Color.red);
+				}
+				}
 				name.setFont(name.getFont().deriveFont(Font.BOLD, 16));
 				JButton remove = new JButton("X");
 				if(!(player.getPlayStatus() == null) && !player.getPlayStatus().toString().toLowerCase().equals("geweigerd")){
@@ -138,13 +149,16 @@ public class ManageInvitesPanel extends JPanel {
 			JPanel buttons = new JPanel();
 			this.add(buttons);
 			this.add(saveInvitesButton);
+			this.add(refreshInvitesButton);
 		}
 	}
 
 	public JButton getSaveInvitesButton() {
 		return saveInvitesButton;
 	}
-
+	public JButton getRefreshInvitesButton() {
+		return refreshInvitesButton;
+	}
 	public ArrayList<Player> getInvitedPlayers() {
 		return invitedPlayers;
 	}

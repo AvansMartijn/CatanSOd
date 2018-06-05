@@ -79,12 +79,12 @@ public class MainControl {
 	public void joinGame(Catan game) {
 		gameControl.setCatan(game);
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
-		updateRefreshMessages();
 		gameControl.updateBoard();
 		gameControl.getCatanGame().getGameboard()
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		updateRefreshPlayers();
 		guiController.setIngameGuiPanel();
+		updateRefreshPlayers();
+		updateRefreshMessages();
 		updateRefreshTurn();
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
@@ -441,5 +441,10 @@ public class MainControl {
 			playerids[i] = gameControl.getCatanGame().getPlayers().get(i).getIdPlayer();
 		}
 		mainDA.abortGame(playerids);
+	}
+
+	public Catan getGameFromId(int gameId) {
+		ArrayList<Player> playerArray = mainDA.getPlayersFromGame(gameId);
+		return new Catan(playerArray, getSelfPlayer(playerArray), gameId);
 	}
 }
