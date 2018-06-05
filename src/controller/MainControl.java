@@ -205,7 +205,6 @@ public class MainControl {
 
 			Player selfPlayer = getSelfPlayer(players);
 			invitedGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
-			System.out.println(i);
 		}
 		guiController.setInvitePanel(invitedGames);
 	}
@@ -214,14 +213,12 @@ public class MainControl {
 		ArrayList<Player> players = getPlayers(gameToAccept.getIdGame());
 		int playerId = getSelfPlayer(players).getIdPlayer();
 		mainDA.acceptInvite(playerId);
-		loadInvites();
 	}
 
 	public void declineInvite(Catan gameToDecline) {
 		ArrayList<Player> players = getPlayers(gameToDecline.getIdGame());
 		int playerId = getSelfPlayer(players).getIdPlayer();
 		mainDA.declineInvite(playerId);
-		loadInvites();
 	}
 
 	public void switchInvites(ArrayList<Player> playersToAdd, ArrayList<Player> playersToRemove, int gameId) {

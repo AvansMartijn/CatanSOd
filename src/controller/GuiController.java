@@ -395,8 +395,7 @@ public class GuiController {
 					mainControl
 							.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 					mainControl.loadInvites();
-					dialog.dispose(); // FIXME sometimes a second screen will still pop-up with one of the
-										// actionlisteners
+					dialog.dispose();
 				}
 			}
 		});

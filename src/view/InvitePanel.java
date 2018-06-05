@@ -34,7 +34,7 @@ public class InvitePanel extends JPanel {
 
 	private ArrayList<Catan> invitedList;
 	private ArrayList<Catan> ableToInviteList;
-	private JButton acceptButton, declineButton, inviteButton, refreshButton, returnButton;
+	private JButton acceptButton, declineButton, refreshButton;
 	private JList<String> invitedJList;
 
 	private int invitedListSelectedIndex = -1;
@@ -137,19 +137,11 @@ public class InvitePanel extends JPanel {
 		return declineButton;
 	}
 
-	public JButton getInviteButton() {
-		return inviteButton;
-	}
-
 	public JButton getRefreshButton() {
 		return refreshButton;
 	}
 
 	public int getInvitedListSelectedIndex() {
 		return invitedListSelectedIndex;
-	}
-
-	public JButton getReturnButton() {
-		return returnButton;
 	}
 }

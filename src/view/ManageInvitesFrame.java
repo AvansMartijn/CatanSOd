@@ -18,7 +18,7 @@ public class ManageInvitesFrame extends JFrame {
 		this.pack();
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
-		this.isAlwaysOnTop();
+		this.setAlwaysOnTop(true);
 	}
 	
 	public void UpdatePanel(ArrayList<String> availablePlayers, Catan game) {
