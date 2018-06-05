@@ -107,6 +107,7 @@ public class MainControl {
 							updateRefreshRobber();
 							updateRefreshPlayers();
 							updateRefreshTradeRequest();
+							updateRefreshArmyAndTradeRoute();
 
 							System.out.println("refresh");
 						}
@@ -123,6 +124,26 @@ public class MainControl {
 			}
 		});
 		ingameTimerThread.start();
+
+	}
+
+	private void updateRefreshArmyAndTradeRoute() {
+		int idPlayerLongestRoute = mainDA.getPlayerWithLongestTradeRoute(gameControl.getCatanGame().getIdGame());
+		int idPlayerLargestArmy = mainDA.getPlayerWithLargestArmy(gameControl.getCatanGame().getIdGame());
+
+		for (Player p : gameControl.getCatanGame().getPlayers()) {
+			if (p.getIdPlayer() == idPlayerLongestRoute) {
+				p.setHasLongestRoad(true);
+			}else {
+				p.setHasLongestRoad(false);
+			}
+			if (p.getIdPlayer() == idPlayerLargestArmy) {
+				p.setHasLargestArmy(true);
+			}else {
+				p.setHasLargestArmy(false);
+			}
+		}
+		guiController.refreshPlayerResources();
 
 	}
 
@@ -369,16 +390,16 @@ public class MainControl {
 
 	private void updateRefreshTradeRequest() {
 		try {
-//			if (mainDA.getAmountOfOpenRequests(gameControl.getCatanGame().getIdGame()) == 1) {
-				TradeRequest tr = gameControl.updateTradeRequests();
-				if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-					if (mainDA
-							.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) == null) {
-						gameControl.getCatanGame().addTradeRequest(tr);
-						guiController.showTradeReceiveDialog(tr);
-					}
+			// if (mainDA.getAmountOfOpenRequests(gameControl.getCatanGame().getIdGame()) ==
+			// 1) {
+			TradeRequest tr = gameControl.updateTradeRequests();
+			if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) == null) {
+					gameControl.getCatanGame().addTradeRequest(tr);
+					guiController.showTradeReceiveDialog(tr);
 				}
-//			}
+			}
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("updateRefreshTradeRequest failed");

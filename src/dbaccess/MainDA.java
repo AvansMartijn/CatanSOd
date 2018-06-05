@@ -1528,5 +1528,91 @@ public class MainDA {
 			System.out.println("updating resource to player in DB failed");
 		}
 	}
+	
+	public void updateLargestArmy(int idGame, int idPlayer) {
+		String insertquery = "UPDATE spel SET grootste_rm_idspeler = " + idPlayer + "  WHERE idspel = "
+				+ idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("updating largest army in DB failed");
+		}
+	}
+	
+	public void updateLongestTradeRoute(int idGame, int idPlayer) {
+		String insertquery = "UPDATE spel SET langste_hr_idspeler = " + idPlayer + "  WHERE idspel = "
+				+ idGame + ";";
+
+		if (!insertUpdateQuery(insertquery)) {
+			System.out.println("updating largest army in DB failed");
+		}
+	}
+	
+	public int getPlayerWithLongestTradeRoute(int idGame) {
+
+		int playerID = 0;
+		Connection myConn = connectionPool.getConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT langste_hr_idspeler FROM spel WHERE idspel = " + idGame + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				 playerID = myRs.getInt(1);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		} finally {
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
+		}
+		return playerID;
+	}
+	
+	public int getPlayerWithLargestArmy(int idGame) {
+
+		int playerID = 0;
+		Connection myConn = connectionPool.getConnection();
+		Statement stmt = null;
+		ResultSet myRs = null;
+		String query = "SELECT grootste_rm_idspeler FROM spel WHERE idspel = " + idGame + ";";
+		try {
+			stmt = myConn.createStatement();
+			myRs = stmt.executeQuery(query);
+			while (myRs.next()) {
+				 playerID = myRs.getInt(1);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// System.out.println("Failed to get messages from Database");
+		} finally {
+			try {
+				myRs.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				stmt.close();
+			} catch (Exception e) {
+				/* ignored */ }
+			try {
+				myConn.close();
+			} catch (Exception e) {
+				/* ignored */ }
+		}
+		return playerID;
+	}
 
 }

@@ -62,12 +62,16 @@ public class DevelopmentCardsPanel extends JPanel {
 	public void addDevelopmentCardButton(DevelopmentCard developmentCard) {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
 		developmentCardButtons.add(developmentCardButton);
-		developmentCardButton.setEnabled(true);
-		if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() == DevelopmentCardType.KNIGHT) {
+		developmentCardButton.setEnabled(false);
+//		if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() == DevelopmentCardType.KNIGHT) {
+//			developmentCardButton.setEnabled(false);
+//			developmentCardButton.setBackground(new Color(0, 0, 0));
+//		}else if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() != DevelopmentCardType.KNIGHT) {
+//			developmentCardButton.setVisible(false);
+//		}
+		if(developmentCard.isPlayed()) {
 			developmentCardButton.setEnabled(false);
 			developmentCardButton.setBackground(new Color(0, 0, 0));
-		}else if(developmentCard.isPlayed() && developmentCard.getDevelopmentCardType() != DevelopmentCardType.KNIGHT) {
-			developmentCardButton.setVisible(false);
 		}
 		setPanelSize();
 		panel.add(developmentCardButton);

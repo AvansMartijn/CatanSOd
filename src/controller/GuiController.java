@@ -799,6 +799,7 @@ public class GuiController {
 												gameControl.updateDevCardInDB(
 														b.getDevelopmentCard().getDevelopmentCardID());
 												b.setBackground(new Color(0, 0, 0));
+												gameControl.calculateLargestArmy();
 												break;
 											case ROAD_BUILDING:
 												addSystemMessageToChat(Color.BLUE,
@@ -885,7 +886,7 @@ public class GuiController {
 						addDevelopmentCardsPanelButtonListeners();
 						refreshPlayerResources();
 					} else {
-						addSystemMessageToChat(Color.RED, "Er is iets mis gegaan met je aankoop, probeer opnieuw");
+						addSystemMessageToChat(Color.RED, "De bank heeft niet genoeg ontwikkelingskaarten");
 					}
 				}
 			}
@@ -1306,23 +1307,36 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (gameControl.canBuy(Village.cost)) {
-					playerActionPanel.getBuildPanel().getVillageButton().setEnabled(true);
+				if (gameControl.getCatanGame().getSelfPlayer().getAmountAvailableVillages() > 0) {
+					if (gameControl.canBuy(Village.cost)) {
+						playerActionPanel.getBuildPanel().getVillageButton().setEnabled(true);
+					} else {
+						playerActionPanel.getBuildPanel().getVillageButton().setEnabled(false);
+					}
 				} else {
 					playerActionPanel.getBuildPanel().getVillageButton().setEnabled(false);
 				}
-				if (gameControl.canBuy(Street.cost)) {
-					playerActionPanel.getBuildPanel().getStreetButton().setEnabled(true);
+				if (gameControl.getCatanGame().getSelfPlayer().getAmountAvailableStreets() > 0) {
+					if (gameControl.canBuy(Street.cost)) {
+						playerActionPanel.getBuildPanel().getStreetButton().setEnabled(true);
+					} else {
+						playerActionPanel.getBuildPanel().getStreetButton().setEnabled(false);
+					}
 				} else {
 					playerActionPanel.getBuildPanel().getStreetButton().setEnabled(false);
 				}
-				if (gameControl.canBuy(City.cost)) {
-					playerActionPanel.getBuildPanel().getCityButton().setEnabled(true);
+				if (gameControl.getCatanGame().getSelfPlayer().getAmountAvailableCities() > 0) {
+					if (gameControl.canBuy(City.cost)) {
+						playerActionPanel.getBuildPanel().getCityButton().setEnabled(true);
+					} else {
+						playerActionPanel.getBuildPanel().getCityButton().setEnabled(false);
+					}
 				} else {
 					playerActionPanel.getBuildPanel().getCityButton().setEnabled(false);
 				}
 				playerActionPanel.setBuildPanel();
 			}
+
 		});
 
 		playerActionPanel.getBuildPanel().getStreetButton().addActionListener(new ActionListener() {

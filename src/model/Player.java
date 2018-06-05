@@ -356,6 +356,18 @@ public class Player {
 		
 		return victoryPoints;
 	}
+
+	public int getAmountOfKnights() {
+		int ret = 0;
+		for(DevelopmentCard d : getHand().getDevelopmentCards()) {
+			if(d.getDevelopmentCardType() == DevelopmentCardType.KNIGHT && d.isPlayed()) {
+				ret++;
+			}
+		}
+		
+		return ret;
+		
+	}
 	
 	public int getVictoryCardAmount() {
 		
