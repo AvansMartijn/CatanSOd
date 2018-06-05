@@ -148,7 +148,7 @@ public class PlayerStatsPanel extends JPanel {
 
 	// Update stats
 	public void updateStats() {
-		playerPointsLabel.setText("Punten: " + player.getVictoryPoints());
+		playerPointsLabel.setText("Punten: " + (player.getVictoryPoints() - player.getVictoryCardAmount()));
 		if(isSelfPlayer) {
 			buildingPointsLabel.setText("+ " + player.getVictoryCardAmount()); // TODO is this what a buildingpoint is according to reqs?
 		}
