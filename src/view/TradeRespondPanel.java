@@ -3,16 +3,13 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.text.NumberFormatter;
 
 import model.Player;
-import model.ResourceType;
 import model.TradeRequest;
 
 @SuppressWarnings("serial")

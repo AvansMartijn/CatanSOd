@@ -74,8 +74,6 @@ public class DevelopmentCardsPanel extends JPanel {
 		revalidate();
 	}
 	
-	// TODO function if card played, set not visible
-	
 	private void setPanelSize() {
 		int size = (developmentCardButtons.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));
 		panel.setPreferredSize(new Dimension(size, PANEL_HEIGHT));

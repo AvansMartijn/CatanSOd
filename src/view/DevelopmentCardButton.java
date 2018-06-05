@@ -19,13 +19,11 @@ public class DevelopmentCardButton extends JButton {
 	private final int CARD_HEIGHT = 220;
 	
 	private DevelopmentCard developmentCard;
-//	private DevelopmentCardDialogPanel developmentCardDialogPanel;
 	private DevelopmentCardPlayDialog developmentCardPlayDialog;
 
 	public DevelopmentCardButton(DevelopmentCard developmentCard) {
 		this.developmentCard = developmentCard;
 		this.developmentCardPlayDialog = new DevelopmentCardPlayDialog(this);
-//		this.developmentCardDialogPanel = new DevelopmentCardDialogPanel(this);
 		setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		
 		URL iconURL = this.getClass().getResource(getImagePath(developmentCard.getDevelopmentCardType()));

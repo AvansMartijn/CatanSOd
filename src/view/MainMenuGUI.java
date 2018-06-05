@@ -28,7 +28,6 @@ public class MainMenuGUI extends JPanel {
 	private Color backgroundColor = new Color(240, 226, 223);
 	private Color innerColor = new Color(189, 133, 100);
 
-//	private RecentGamesPanel gamesPanel;
 	private JPanel mainPanel;
 	private String username;
 	private JPanel topOptionsPanel;
@@ -43,7 +42,6 @@ public class MainMenuGUI extends JPanel {
 		mainPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.topOptionsPanel = topOptionsPanel;
 		this.bottomOptionsPanel = bottomOptionsPanel;
-//		this.gamesPanel = currentGames;
 		this.username = username;
 
 		mainPanel.add(new Title());

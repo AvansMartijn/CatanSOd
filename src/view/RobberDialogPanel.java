@@ -57,11 +57,7 @@ public class RobberDialogPanel extends JPanel {
 
 		playerButtons = new ArrayList<>();
 		
-
-//		for (int i = 0; i < players.size(); i++) {
 		for(Player p: players) {
-			
-//			JButton playerButton = new JButton(players.get(i).getUsername());
 			JButton playerButton = new JButton(p.getUsername());
 			System.out.println(p.getUsername() + " ars: " + p.getHand().getResources().size());
 			playerButton.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -76,14 +72,10 @@ public class RobberDialogPanel extends JPanel {
 			playerButtons.add(playerButton);
 			add(playerButton);
 		}
-		
-		
 	}
 
 	public JButton getPlayerButton(int amount) {
-
 		return playerButtons.get(amount);
-
 	}
 	public ArrayList<JButton> getPlayerButtons(){
 		return this.playerButtons;

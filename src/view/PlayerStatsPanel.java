@@ -150,7 +150,7 @@ public class PlayerStatsPanel extends JPanel {
 	public void updateStats() {
 		playerPointsLabel.setText("Punten: " + (player.getVictoryPoints() - player.getVictoryCardAmount()));
 		if(isSelfPlayer) {
-			buildingPointsLabel.setText("+ " + player.getVictoryCardAmount()); // TODO is this what a buildingpoint is according to reqs?
+			buildingPointsLabel.setText("+ " + player.getVictoryCardAmount());
 		}
 		String[] playerStats = new String[] { "" + player.getAmountBuildVillages(), "" + player.getAmountBuildCities(),
 				"" + player.getAmountBuildStreets(), "" + player.getHand().getResources().size(),

@@ -64,7 +64,6 @@ public class GameTopPanel extends JPanel {
 		add(ChatButton, BorderLayout.WEST);
 		add(GameLabel, BorderLayout.CENTER);
 		add(GoToMainMenuButton, BorderLayout.EAST);
-
 	}
 	
 	public JButton getGoToMainMenuButton() {
