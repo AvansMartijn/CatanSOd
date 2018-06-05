@@ -9,6 +9,8 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.ResourceType;
+import model.Tile;
 import model.TradeRequest;
 import view.Frame;
 
@@ -140,7 +142,11 @@ public class MainControl {
 
 		guiController.setWaitingRoom(players);
 		Gameboard gameBoard = gameControl.createBoardAndAddToDB(players, randomBoard);
-		mainDA.changeRobberLocation(gameID, 10);
+		for(Tile t: gameBoard.getTileArr()) {
+			if(t.getRsType().equals(ResourceType.WOESTIJN)) {
+				mainDA.changeRobberLocation(gameID, t.getIdTile());
+			}
+		}
 		createDevelopmentCardsInDB(gameID);
 		createResourceCardsInDB(gameID);
 		createPlayerPiecesInDB(players);

@@ -56,50 +56,48 @@ public class GameBoardControl {
 
 	public Gameboard createBoardAndAddToDB(ArrayList<Player> players, boolean randomBoard) {
 		createTiles(randomBoard);
-		
-		System.out.println(randomBoard);
+
 		createBuildingLocations();
 		assignHarbours();
 		createStreetLocations();
 		printAllTilesAndLocs();
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
 		addBoardToDB();
-//		addPlayerPiecesToDB(players);
 		return gameBoard;
 
 	}
 
 	// create all tiles with x & y coordinate, resourcetype and number
 	private void createTiles(boolean randomBoard) {
-		
-		ResourceType[] resourceTypes = new ResourceType[]{ResourceType.GRAAN, ResourceType.HOUT, ResourceType.GRAAN, ResourceType.BAKSTEEN, ResourceType.HOUT
-				, ResourceType.ERTS, ResourceType.ERTS, ResourceType.BAKSTEEN, ResourceType.GRAAN, ResourceType.WOESTIJN, ResourceType.WOL, ResourceType.GRAAN
-				, ResourceType.WOL, ResourceType.WOL, ResourceType.HOUT, ResourceType.HOUT, ResourceType.WOL, ResourceType.BAKSTEEN, ResourceType.ERTS};
-		
-		int[] numbers = new int[] {12, 10, 18, 6, 16, 14, 2, 8, 9, 0, 1, 5, 4, 17, 3, 13, 7, 15, 11};
-		
-		if(randomBoard) {
-		int n = numbers.length;
-		Random random = new Random();			
-			for (int i = 0; i < numbers.length; i++) {				
-				int randomValue = i + random.nextInt(n - i);				
+
+		ResourceType[] resourceTypes = new ResourceType[] { ResourceType.GRAAN, ResourceType.HOUT, ResourceType.GRAAN,
+				ResourceType.BAKSTEEN, ResourceType.HOUT, ResourceType.ERTS, ResourceType.ERTS, ResourceType.BAKSTEEN,
+				ResourceType.GRAAN, ResourceType.WOESTIJN, ResourceType.WOL, ResourceType.GRAAN, ResourceType.WOL,
+				ResourceType.WOL, ResourceType.HOUT, ResourceType.HOUT, ResourceType.WOL, ResourceType.BAKSTEEN,
+				ResourceType.ERTS };
+
+		int[] numbers = new int[] { 12, 10, 18, 6, 16, 14, 2, 8, 9, 1, 5, 4, 17, 3, 13, 7, 15, 11 };
+
+		if (randomBoard) {
+			int n = numbers.length;
+			Random random = new Random();
+			for (int i = 0; i < numbers.length; i++) {
+				int randomValue = i + random.nextInt(n - i);
 				int randomElement = numbers[randomValue];
 				numbers[randomValue] = numbers[i];
 				numbers[i] = randomElement;
 			}
 
 			int x = resourceTypes.length;
-			Random random1 = new Random();			
-			for (int i = 0; i < numbers.length; i++) {				
-				int randomValue = i + random1.nextInt(x - i);				
+			Random random1 = new Random();
+			for (int i = 0; i < numbers.length; i++) {
+				int randomValue = i + random1.nextInt(x - i);
 				ResourceType randomElement = resourceTypes[randomValue];
 				resourceTypes[randomValue] = resourceTypes[i];
 				resourceTypes[i] = randomElement;
 			}
 		}
-		
-		
-		
+
 		tileArr.add(new Tile(1, 2, 4));
 		tileArr.add(new Tile(2, 3, 3));
 		tileArr.add(new Tile(3, 3, 6));
@@ -119,12 +117,24 @@ public class GameBoardControl {
 		tileArr.add(new Tile(17, 9, 6));
 		tileArr.add(new Tile(18, 9, 9));
 		tileArr.add(new Tile(19, 10, 8));
-		
-		for(int i = 0; i < tileArr.size(); i++) {
+
+		for (int i = 0; i < tileArr.size(); i++) {
 			tileArr.get(i).setRsType(resourceTypes[i]);
-			System.out.println(resourceTypes[i]);
-			tileArr.get(i).setChipNumber(numbers[i]);
-			System.out.println(numbers[i]);
+		}
+		
+//		for (int i = 0; i < tileArr.size(); i++) {
+//			if()
+//			System.out.println(resourceTypes[i]);
+//			tileArr.get(i).setChipNumber(numbers[i]);
+//		}
+		int index = 0;
+		for(Tile t: tileArr) {
+			if(t.getRsType().equals(ResourceType.WOESTIJN)) {
+				t.setChipNumber(0);
+			} else {
+				t.setChipNumber(numbers[index]);
+				index++;
+			}
 		}
 	}
 
@@ -172,13 +182,12 @@ public class GameBoardControl {
 				if (!exists) {
 					tileArr.get(count).addStreetLoc(strLocArr.get(strLocCount));
 					streetLocArr.add(strLocArr.get(strLocCount));
-					strLocArr.get(strLocCount).getBlStart().getAdjacentStreetLocations().add(strLocArr.get(strLocCount));
+					strLocArr.get(strLocCount).getBlStart().getAdjacentStreetLocations()
+							.add(strLocArr.get(strLocCount));
 					strLocArr.get(strLocCount).getBlEnd().getAdjacentStreetLocations().add(strLocArr.get(strLocCount));
 				}
-				//assign streets to buildinglocations adjecentstreets array
-				
-				
-				
+				// assign streets to buildinglocations adjecentstreets array
+
 				strLocCount++;
 			}
 			count++;
@@ -299,33 +308,33 @@ public class GameBoardControl {
 			System.out.println("");
 		}
 	}
-	
+
 	public Gameboard getGameBoard() {
 		return gameBoard;
 	}
 
-//	public void addPlayerPiecesToDB(ArrayList<Player> players) {
-//		String idPiece;
-//		for (Player p : players) {
-//
-//			for (int i = 1; i <= 5; i++) {
-//				idPiece = "d0" + i;
-//				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-//			}
-//			for (int i = 1; i <= 4; i++) {
-//				idPiece = "c0" + i;
-//				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-//			}
-//			for (int i = 1; i <= 15; i++) {
-//				if (i > 9) {
-//					idPiece = "r" + i;
-//				} else {
-//					idPiece = "r0" + i;
-//				}
-//				mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-//			}
-//		}
-//
-//	}
+	// public void addPlayerPiecesToDB(ArrayList<Player> players) {
+	// String idPiece;
+	// for (Player p : players) {
+	//
+	// for (int i = 1; i <= 5; i++) {
+	// idPiece = "d0" + i;
+	// mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
+	// }
+	// for (int i = 1; i <= 4; i++) {
+	// idPiece = "c0" + i;
+	// mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
+	// }
+	// for (int i = 1; i <= 15; i++) {
+	// if (i > 9) {
+	// idPiece = "r" + i;
+	// } else {
+	// idPiece = "r0" + i;
+	// }
+	// mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
+	// }
+	// }
+	//
+	// }
 
 }
