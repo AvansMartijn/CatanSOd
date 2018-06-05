@@ -164,7 +164,7 @@ public class Bank {
 				return resourcesTaken;
 			}
 		}
-		return null;
+		return resourcesTaken;
 	}
 
 	public DevelopmentCard takeDevelopmentCard() {

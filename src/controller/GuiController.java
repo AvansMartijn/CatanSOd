@@ -1102,7 +1102,7 @@ public class GuiController {
 						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 				gameControl.declineTradeRequest(declineRequest);
 				gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
-						+ " heeft het handelsaanbod van"
+						+ " heeft het handelsaanbod van "
 						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " afgewezen");
 				// gameControl.setShouldRefreshEnabled(tr.getIdPlayer());
 				tradeReceive.dispose();
