@@ -71,7 +71,6 @@ public class YearOfPlentyDialogPanel extends JPanel {
 		sendRequestButton.setForeground(TextColor);
 		sendRequestButton.setHorizontalAlignment(JButton.CENTER);
 		add(sendRequestButton);
-
 	}
 
 	private void createResourceInput() {
@@ -132,12 +131,6 @@ public class YearOfPlentyDialogPanel extends JPanel {
 				resourceRadioButton.setSelected(true);
 			}
 		}
-	}
-	
-	public void setCountedBankResources() {
-		
-		
-		
 	}
 
 	public ButtonGroup getGetResourceButtons1() {

@@ -51,7 +51,6 @@ public class TradeRespondPanels extends JPanel {
 		cancelButton.setBackground(textBackgroundColor);
 		cancelButton.setForeground(TextColor);
 		add(cancelButton);
-		
 	}
 
 	public JButton getCancelButton() {
@@ -73,7 +72,4 @@ public class TradeRespondPanels extends JPanel {
 	public TradeRespondPanel getTradeRespondDialogPanel3() {
 		return tradeRespondDialogPanel3;
 	}
-	
-	
-	
 }

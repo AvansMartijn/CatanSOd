@@ -9,6 +9,8 @@ import model.Gameboard;
 import model.PlayStatus;
 import model.Player;
 import model.PlayerColor;
+import model.ResourceType;
+import model.Tile;
 import model.TradeRequest;
 import view.Frame;
 
@@ -77,12 +79,12 @@ public class MainControl {
 	public void joinGame(Catan game) {
 		gameControl.setCatan(game);
 		gameControl.getCatanGame().getDice().setDie(mainDA.getLastThrows(gameControl.getCatanGame().getIdGame()));
-		updateRefreshMessages();
 		gameControl.updateBoard();
 		gameControl.getCatanGame().getGameboard()
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		updateRefreshPlayers();
 		guiController.setIngameGuiPanel();
+		updateRefreshPlayers();
+		updateRefreshMessages();
 		updateRefreshTurn();
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
@@ -161,7 +163,11 @@ public class MainControl {
 
 		guiController.setWaitingRoom(players);
 		Gameboard gameBoard = gameControl.createBoardAndAddToDB(players, randomBoard);
-		mainDA.changeRobberLocation(gameID, 10);
+		for(Tile t: gameBoard.getTileArr()) {
+			if(t.getRsType().equals(ResourceType.WOESTIJN)) {
+				mainDA.changeRobberLocation(gameID, t.getIdTile());
+			}
+		}
 		createDevelopmentCardsInDB(gameID);
 		createResourceCardsInDB(gameID);
 		createPlayerPiecesInDB(players);
@@ -220,7 +226,6 @@ public class MainControl {
 
 			Player selfPlayer = getSelfPlayer(players);
 			invitedGames.add(new Catan(players, selfPlayer, mainDA.getTurn(i.intValue())));
-			System.out.println(i);
 		}
 		guiController.setInvitePanel(invitedGames);
 	}
@@ -229,14 +234,12 @@ public class MainControl {
 		ArrayList<Player> players = getPlayers(gameToAccept.getIdGame());
 		int playerId = getSelfPlayer(players).getIdPlayer();
 		mainDA.acceptInvite(playerId);
-		loadInvites();
 	}
 
 	public void declineInvite(Catan gameToDecline) {
 		ArrayList<Player> players = getPlayers(gameToDecline.getIdGame());
 		int playerId = getSelfPlayer(players).getIdPlayer();
 		mainDA.declineInvite(playerId);
-		loadInvites();
 	}
 
 	public void switchInvites(ArrayList<Player> playersToAdd, ArrayList<Player> playersToRemove, int gameId) {
@@ -425,7 +428,9 @@ public class MainControl {
 					.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
 			gameControl.getCatanGame().getBank()
 					.setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), 0));
+			gameControl.checkForWinner();
 			guiController.refreshPlayerResources();
+			
 		} catch (Exception e) {
 			System.out.println("updateRefreshPlayers failed");
 		}
@@ -454,5 +459,10 @@ public class MainControl {
 			playerids[i] = gameControl.getCatanGame().getPlayers().get(i).getIdPlayer();
 		}
 		mainDA.abortGame(playerids);
+	}
+
+	public Catan getGameFromId(int gameId) {
+		ArrayList<Player> playerArray = mainDA.getPlayersFromGame(gameId);
+		return new Catan(playerArray, getSelfPlayer(playerArray), gameId);
 	}
 }

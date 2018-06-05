@@ -12,14 +12,12 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class DicePanel extends JPanel {
 	
+	// instance variables
 	private final int PREF_WIDTH = 250;
 	private final int PREF_HEIGHT = 250;
 	private final int ARC = 20;
 	private final int SQUARE = 100;
 	private JButton rollButton;
-	
-	
-	// instance variables
 
 	// constructor
 	public DicePanel() {

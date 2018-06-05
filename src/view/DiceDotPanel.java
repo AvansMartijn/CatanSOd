@@ -23,7 +23,7 @@ public class DiceDotPanel extends DicePanel
 
 	@Override
 	protected void paintComponent(Graphics g){
-		super.paintComponent(g); // calls MyPanel (is super here)
+		super.paintComponent(g);
 		
 		int d1;
 		int d2;

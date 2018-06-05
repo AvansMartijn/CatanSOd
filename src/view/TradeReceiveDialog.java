@@ -21,7 +21,6 @@ public class TradeReceiveDialog extends JDialog {
 		setLocationRelativeTo(null);
 		setAlwaysOnTop(true);
 		setVisible(true);
-
 	}
 
 	public TradeReceiveDialogPanel getTradeReceiveDialogPanel() {

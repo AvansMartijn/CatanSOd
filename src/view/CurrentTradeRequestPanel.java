@@ -9,9 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import javax.swing.JScrollPane;
-
-import model.Player;
 
 @SuppressWarnings("serial")
 public class CurrentTradeRequestPanel extends JPanel {
@@ -64,12 +61,9 @@ public class CurrentTradeRequestPanel extends JPanel {
 		returnButton.setBackground(textBackgroundColor);
 		returnButton.setForeground(TextColor);
 		add(returnButton);
-
 	}	
 	
 	public JButton getReturnButton() {
-
 		return returnButton;
-
 	}
 }

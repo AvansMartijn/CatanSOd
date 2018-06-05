@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import model.BuildingLocation;
-import model.Catan;
 import model.City;
 import model.DevelopmentCard;
 import model.PlayStatus;
@@ -23,7 +22,6 @@ import model.Street;
 import model.Tile;
 import model.TradeRequest;
 import model.Village;
-import view.ChatPanel;
 
 public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";

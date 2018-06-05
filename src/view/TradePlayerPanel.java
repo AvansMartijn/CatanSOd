@@ -102,7 +102,7 @@ public class TradePlayerPanel extends JPanel {
 				resources[4]++;
 				break;
 			default:
-				// TODO maybe?
+				
 			}
 		}
 		return resources;

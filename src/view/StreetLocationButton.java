@@ -1,19 +1,12 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
-import javax.swing.border.Border;
 
 import model.StreetLocation;
 

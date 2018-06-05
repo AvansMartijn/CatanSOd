@@ -2,8 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import view.BuildingLocationButton;
-
 public class BuildingLocation {
 	private int x;
 	private int y;	

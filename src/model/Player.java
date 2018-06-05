@@ -20,7 +20,6 @@ public class Player {
 	private ArrayList<Village> villageArr;
 	private ArrayList<City> cityArr;
 	private ArrayList<Street> streetArr;
-	
 		
 	public Player(String username) {
 		this.username = username;
@@ -29,7 +28,6 @@ public class Player {
 //	private ArrayList<Settlement> settlementArr;
 	private int cities;
 	private int roads;
-	
 
 //	public Player(int idGame, String username, PlayerColor color, int follownr, PlayStatus playStatus) {	
 //		this.idPlayer = idPlayer;
@@ -164,7 +162,6 @@ public class Player {
 		this.overwinningspunten = this.overwinningspunten + overwinningspunten;
 	}
 	
-	
 	public int getPoints() {
 		return points;
 	}
@@ -233,8 +230,6 @@ public class Player {
 		}
 		return  available;
 	}
-	
-	
 	
 	public int getAmountAvailableVillages() {
 		int available = 0;
@@ -330,8 +325,6 @@ public class Player {
 		villageArr            = null;
 		cityArr               = null;
 		streetArr             = null;
-		                           
-		
 	}
 	
 	public int getVictoryPoints() {
@@ -351,20 +344,14 @@ public class Player {
 			}
 		}
 		
-		//1 point for every Victory Point card the player has played. 
-		for(DevelopmentCard developmentCard : hand.getDevelopmentCards()) {
-			if(developmentCard.getDevelopmentCardType() 
-					== DevelopmentCardType.VICTORY_POINT) {
-				victoryPoints++;
-			}
-		}
+		victoryPoints += getVictoryCardAmount();
 		
 		if(hasLargestArmy) {
 			victoryPoints += 2;
 		}
 		
 		if(hasLongestRoad) {
-			victoryPoints +=2;
+			victoryPoints += 2;
 		}
 		
 		return victoryPoints;
@@ -382,5 +369,16 @@ public class Player {
 		
 	}
 	
-	
+	public int getVictoryCardAmount() {
+		
+		int victoryPoints = 0;
+		
+		//1 point for every Victory Point card the player has played. 
+		for(DevelopmentCard developmentCard : hand.getDevelopmentCards()) {
+			if(developmentCard.getDevelopmentCardType() == DevelopmentCardType.VICTORY_POINT) {
+				victoryPoints++;
+			}
+		}
+		return victoryPoints;
+	}
 }

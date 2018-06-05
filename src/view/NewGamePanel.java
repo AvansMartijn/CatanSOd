@@ -39,7 +39,7 @@ public class NewGamePanel extends JPanel {
 	public NewGamePanel(ArrayList<String> availablePlayers, String selfUsername) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.availablePlayers = availablePlayers;
-		createGameButton = new JButton("Game aanmaken!");
+		createGameButton = new JButton("Spel aanmaken!");
 		removeButtonsList = new ArrayList<>();
 		boardChoice = new JComboBox<String>(new String[] { "Normaal", "Random" });
 		invitedPlayers = new ArrayList<String>();
@@ -64,7 +64,7 @@ public class NewGamePanel extends JPanel {
 		}));
 		inviteButton.setMaximumSize(new Dimension(INVITE_BUTTON_WIDTH, INVITE_BUTTON_HEIGHT));
 
-		JLabel header = new JLabel("Nieuwe Game Aanmaken");
+		JLabel header = new JLabel("Nieuw Spel Aanmaken");
 		header.setFont(new Font(header.getFont().getFontName(), Font.PLAIN, 20));
 		header.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(header);
@@ -143,7 +143,7 @@ public class NewGamePanel extends JPanel {
 						int indexOf = removeButtonsList.indexOf(remove);
 						removeButtonsList.remove(indexOf);
 						invitedPlayers.remove(indexOf);
-						if (invitedPlayers.size() < 3) {
+						if (invitedPlayers.size() < 4) {
 							inviteButton.setEnabled(true);
 						}
 						UpdateInvitedPlayers();

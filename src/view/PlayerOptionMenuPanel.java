@@ -40,7 +40,7 @@ public class PlayerOptionMenuPanel extends JPanel {
 		constraints.gridwidth = GridBagConstraints.REMAINDER;
 		constraints.fill = GridBagConstraints.BOTH;
 
-		// Create objects, because creating them once is nicer than 4 times
+		// Create objects, because creating them once is better than 4 times
 		String[] buttonNames = new String[] { "Ontwikkelingskaart kopen", "Handelen", "Bouwen", "Eindig Beurt" };
 		JButton actionButton = null;
 		Insets insets = new Insets(4, 0, 4, 0);

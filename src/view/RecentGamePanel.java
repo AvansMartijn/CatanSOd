@@ -80,7 +80,7 @@ public class RecentGamePanel extends JPanel {
 		this.add(label, c);
 		
 		URL url = null;
-		if(playerArray.get(0).getPlayStatus().equals(PlayStatus.UITGESPEELD)) { // TODO test if this works
+		if(playerArray.get(0).getPlayStatus().equals(PlayStatus.UITGESPEELD)) {
 			url = this.getClass().getResource("/images/GamePanelFinished.png");
 		} else {
 			url = this.getClass().getResource("/images/GamePanel.png");

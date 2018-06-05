@@ -131,8 +131,10 @@ public class GameControl {
 	public void rollDice() {
 		catanGame.rollDice();
 		int rolledValue = catanGame.getDice().getValue();
-		// rolledValue = 7;
 
+		//This has to be before the if-statement, 
+		//otherwise first the message will be who gets the resources, and afterwards the value rolled. 
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + rolledValue + " gegooid.");
 		if (rolledValue == 7) {
 			guiController.addSystemMessageToChat(Color.BLUE, "Je hebt 7 gegooit, Verplaats de Rover");
 			enableRobber();
@@ -148,8 +150,12 @@ public class GameControl {
 		editDiceLastThrown(catanGame.getDice().getSeperateValues());
 		mainDA.setThrownDice(1, catanGame.getIdGame());
 		catanGame.setRolledDice(true);
+// <<<<<<< knightstuff
 
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + rolledValue + " gegooid.");
+// 		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + rolledValue + " gegooid.");
+// =======
+		
+// >>>>>>> development
 		enableEveryoneShouldRefresh();
 		// return catanGame.getDice().getDie();
 	}
@@ -726,15 +732,17 @@ public class GameControl {
 
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
 		if (resourceCardsToGive == null) {
-			addLogMessage("Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
+			guiController.addSystemMessageToChat(Color.RED,"Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
 			return;
 		}
 
 		Resource resourceCardToReceive = null;
 		try {
 			resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
-		} catch (Exception e) {
-			addLogMessage("De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
+
+		} 
+		catch (Exception e) {
+			guiController.addSystemMessageToChat(Color.RED,"De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
 			return;
 		}
 
@@ -798,32 +806,34 @@ public class GameControl {
 
 	private void setResourceRatio(int[] resources, BuildingLocation buildingLocation) {
 
-		switch (buildingLocation.getHarbour().getRsType()) {
+        if (buildingLocation.getHarbour().getRsType() != null) {
+            switch (buildingLocation.getHarbour().getRsType()) {
 
-		case BAKSTEEN:
-			resources[0] = 2;
-			break;
-		case ERTS:
-			resources[1] = 2;
-			break;
-		case WOL:
-			resources[2] = 2;
-			break;
-		case GRAAN:
-			resources[3] = 2;
-			break;
-		case HOUT:
-			resources[4] = 2;
-			break;
-		default:
-			for (int i = 0; i < resources.length; i++) {
-
-				if (resources[i] != 2) {
-					resources[i] = 3;
-				}
-			}
-		}
-	}
+            case BAKSTEEN:
+                resources[0] = 2;
+                break;
+            case ERTS:
+                resources[1] = 2;
+                break;
+            case WOL:
+                resources[2] = 2;
+                break;
+            case GRAAN:
+                resources[3] = 2;
+                break;
+            case HOUT:
+                resources[4] = 2;
+                break;
+            default:
+            }
+        } else {
+            for (int i = 0; i < resources.length; i++) {
+                if (resources[i] != 2) {
+                    resources[i] = 3;
+                }
+            }
+        }
+    }
 
 	public void createPlayerTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
@@ -1009,9 +1019,9 @@ public class GameControl {
 		}
 
 		mainDA.deleteTradeRequests(catanGame.getIdGame());
-		catanGame.setTradeRequests(null);
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft het tegenaanbod van "
-				+ tradePlayer.getUsername() + " geaccepteerd");
+
+		catanGame.getTradeRequestArr().clear();
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft het tegenaanbod van " + tradePlayer.getUsername() + " geaccepteerd");
 
 		// swap resources in code
 		// remove traderequests in db
@@ -1220,9 +1230,8 @@ public class GameControl {
 				}
 			}
 		}
-
-		// logResources(resourcesHashMap);
-
+		
+		logResources(resourcesHashMap);
 		enableEveryoneShouldRefresh();
 		guiController.refreshPlayerResources();
 	}
@@ -1279,12 +1288,13 @@ public class GameControl {
 				if (village.getBuildingLocation() == buildingLocation) {
 					try {
 						Resource resource = catanGame.getBank().takeResource(tile.getRsType());
-						// Add to database
-						mainDA.addResourceToPlayer(resource.getResourceID(), catanGame.getIdGame(),
-								catanGame.getSelfPlayer().getIdPlayer());
-						// Add to model
-						catanGame.getSelfPlayer().getHand().addResource(resource);
-						resourcesGiven.add(resource);
+						if(resource.getRsType() != ResourceType.WOESTIJN) {
+							//Add to database
+							mainDA.addResourceToPlayer(resource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+							//Add to model
+							catanGame.getSelfPlayer().getHand().addResource(resource);
+							resourcesGiven.add(resource);
+						}
 					} catch (Exception e) {
 						addPlayerMessage(
 								"Helaas, de bank heeft geen " + tile.getRsType().toString().toLowerCase() + "meer.");
@@ -1312,8 +1322,11 @@ public class GameControl {
 				resourcesGivenHashMap.put(resourceType, 0);
 			}
 			for (Resource resource2 : resources) {
-				if (resourceType == resource2.getRsType()) {
-					int value = resourcesGivenHashMap.get(resourceType);
+				if(resourceType == resource2.getRsType()) {
+					int value = 0;
+					if(resourcesGivenHashMap.get(resourceType) != null) {
+						value = resourcesGivenHashMap.get(resourceType);						
+					}
 					resourcesGivenHashMap.put(resourceType, value + 1);
 				}
 			}
@@ -1353,8 +1366,12 @@ public class GameControl {
 					resourcesGivenHashMap.put(resourceType, 0);
 				}
 				for (Resource resource2 : resources) {
-					if (resourceType == resource2.getRsType()) {
-						int value = resourcesGivenHashMap.get(resourceType);
+					if(resourceType == resource2.getRsType()) {
+						int value = 0;
+						//If the resourceType is not in the HashMap yet, it returns null, therefore the value will be 0
+						if(resourcesGivenHashMap.get(resourceType) != null) {
+							value = resourcesGivenHashMap.get(resourceType);							
+						}
 						resourcesGivenHashMap.put(resourceType, value + 1);
 					}
 				}
@@ -1493,16 +1510,17 @@ public class GameControl {
 		}
 		return developmentCard;
 	}
-
-	private void checkForWinner() { // TODO add to refresh?
-
+	
+	public void checkForWinner() { // TODO add to refresh?
 		Player winner = null;
 
 		for (Player p : catanGame.getPlayers()) {
 			if (p.getVictoryPoints() >= 10) {
 				winner = p;
 				mainDA.finishGame(catanGame.getIdGame());
-				GuiController.setwinnerDialog(p, winner);
+				addLogMessage(p.getUsername() + " heeft gewonnen");
+				addLogMessage("Het spel is afgelopen");
+				guiController.setwinnerDialog(winner);
 				return;
 			}
 		}
