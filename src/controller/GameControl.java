@@ -12,6 +12,7 @@ import model.BuildingLocation;
 import model.Catan;
 import model.City;
 import model.DevelopmentCard;
+import model.DevelopmentCardType;
 import model.Gameboard;
 import model.Player;
 import model.Resource;
@@ -1496,5 +1497,28 @@ public class GameControl {
 	public void updateDevCardInDB(String developmentCardID) {
 		mainDA.useDevelopmentCard(developmentCardID, catanGame.getIdGame());
 		
+	}
+	
+	public void calculateLargestArmy() {
+		for(Player p : catanGame.getPlayers()) {
+			for(Player p2 : catanGame.getPlayers()) {
+				if(p.getIdPlayer() != p2.getIdPlayer()) {
+					if(p.getAmountOfKnights() > p2.getAmountOfKnights()) {
+						p.setHasLargestArmy(true);
+						p2.setHasLargestArmy(false);
+					}
+					
+				}
+				
+			}
+		}
+		
+		for(Player p: catanGame.getPlayers()) {
+			if(p.getHasLargestArmy()) {
+				//DA shit
+//				mainDA.
+				//break
+			}
+		}
 	}
 }
