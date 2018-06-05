@@ -394,7 +394,7 @@ public class GuiController {
 		invitePanel.getAcceptButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (invitePanel.getInvitedList().size() > 0) {
+				if (invitePanel.getInvitedList().size() > 0 && invitePanel.getInvitedListSelectedIndex() >= 0) {
 					mainControl
 							.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 					mainControl.loadInvites();
@@ -406,7 +406,7 @@ public class GuiController {
 		invitePanel.getDeclineButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (invitePanel.getInvitedList().size() > 0) {
+				if (invitePanel.getInvitedList().size() > 0 && invitePanel.getInvitedListSelectedIndex() >= 0) {
 					mainControl
 							.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
 					mainControl.loadInvites();
