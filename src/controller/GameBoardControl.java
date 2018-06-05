@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,8 +11,6 @@ import model.Player;
 import model.ResourceType;
 import model.StreetLocation;
 import model.Tile;
-import view.BoardPanel;
-import view.Frame;
 
 public class GameBoardControl {
 	private ArrayList<Tile> tileArr = new ArrayList<Tile>();

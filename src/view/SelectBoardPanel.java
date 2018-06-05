@@ -100,9 +100,6 @@ public class SelectBoardPanel extends JPanel {
 			randomButton.setBackground(textBackgroundColor);
 			randomButton.setForeground(TextColor);
 			add(randomButton);
-
 		}
-
 	}
-
 }

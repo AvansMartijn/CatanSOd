@@ -61,7 +61,7 @@ public class GameGUIPanel extends JPanel {
 		gridBagConstraints.gridx++;
 		add(boardPanel, gridBagConstraints);
 
-		// Add PlayerOptionMenuPanel // TODO only if its this players turn
+		// Add PlayerOptionMenuPanel
 		gridBagConstraints.anchor = GridBagConstraints.EAST;
 		gridBagConstraints.insets = new Insets(200, 0, 0, 100);
 		add(playerActionPanel, gridBagConstraints);

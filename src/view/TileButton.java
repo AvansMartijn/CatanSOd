@@ -33,19 +33,11 @@ public class TileButton extends JButton {
 		setContentAreaFilled(false);
 		setFocusPainted(false);
 		setBorderPainted(false);
-		// setPreferredSize(new Dimension(WIDTH, LENGTH));
 		setIcon(imageIcon);
 		setDisabledIcon(imageIcon);
-
-		// setBackground(Color.black);
 	}
 
 	protected void paintComponent(Graphics g) {
-		if (getModel().isArmed()) {
-			// g.setColor(Color.lightGray);
-		} else {
-			// g.setColor(getBackground());
-		}
 		int x0 = getSize().width / 2;
 		int y0 = getSize().height / 2;
 		for (int i = 0; i < n; i++) {
@@ -96,7 +88,6 @@ public class TileButton extends JButton {
 		}
 		g.drawPolygon(x, y, n);
 	}
-
 	Polygon polygon;
 
 	public boolean contains(int x1, int y1) {

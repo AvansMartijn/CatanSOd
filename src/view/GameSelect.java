@@ -51,11 +51,7 @@ public class GameSelect extends JPanel {
 	public class CenterPanel extends JPanel {
 
 		public CenterPanel() {
-
 			setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-
-		
-
 			setBorder(new EmptyBorder(15, 15, 15, 15));
 
 			title = new JLabel("Bord Keuze");

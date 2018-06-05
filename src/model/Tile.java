@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import view.TileButton;
 
 public class Tile {
 	private int idTile;

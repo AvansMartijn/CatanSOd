@@ -85,8 +85,6 @@ public class TradeReceiveDialogPanel extends JPanel {
 
 	private void createResourceInput(TradeRequest tr) {
 
-		
-
 		subTitleLabel1 = new JLabel("grondstoffen");
 		subTitleLabel1.setFont(new Font("SansSerif", Font.BOLD, 12));
 		subTitleLabel1.setForeground(TextColor);
@@ -286,7 +284,6 @@ public class TradeReceiveDialogPanel extends JPanel {
 				resources[4]++;
 				break;
 			default:
-				// TODO maybe?
 			}
 		}
 		return resources;

@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.JDialog;
 
-import model.Player;
 
 @SuppressWarnings("serial")
 public class YearOfPlentyDialog extends JDialog {

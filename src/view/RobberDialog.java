@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 
 import model.Player;
-import model.TradeRequest;
 
 @SuppressWarnings("serial")
 public class RobberDialog extends JDialog {
@@ -23,7 +22,6 @@ public class RobberDialog extends JDialog {
 		setLocationRelativeTo(null);
 		setAlwaysOnTop(true);
 		setVisible(true);
-
 	}
 
 	public RobberDialogPanel getRobberDialogPanel() {

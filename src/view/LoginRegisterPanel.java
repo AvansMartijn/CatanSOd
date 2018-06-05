@@ -148,7 +148,6 @@ public class LoginRegisterPanel extends JPanel {
 			exitButton.setBackground(new Color(40, 40, 40));
 			exitButton.setForeground(Color.WHITE);
 			add(exitButton);
-
 		}
 	}
 }
