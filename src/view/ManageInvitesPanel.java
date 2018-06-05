@@ -111,10 +111,12 @@ public class ManageInvitesPanel extends JPanel {
 			for (Player player : invitedPlayers) {
 				JPanel panel = new JPanel();
 				JLabel name = new JLabel(player.getUsername());
+				if(player.getPlayStatus() != null) {
 				if(player.getPlayStatus().toString().toLowerCase().contains("geaccepteerd")) {
 					name.setForeground(Color.green);
 				}else if(player.getPlayStatus().toString().toLowerCase().contains("geweigerd")) {
 					name.setForeground(Color.red);
+				}
 				}
 				name.setFont(name.getFont().deriveFont(Font.BOLD, 16));
 				JButton remove = new JButton("X");

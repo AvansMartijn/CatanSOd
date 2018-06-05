@@ -253,7 +253,33 @@ public class GuiController {
 
 					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
 							gameControl.getCatanGame());
-					ActionListener saveListener = new ActionListener() {
+
+					ActionListener refreshListener = new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
+							int count = 0;
+							for (Player p : game.getPlayers()) {
+								if (p.getPlayStatus().toString().toLowerCase().equals("geaccepteerd")) {
+									count++;
+								}
+							}
+							if (count == 3) {
+								// Open Game
+								mainControl.joinGame(game);
+								manageInvitesFrame.dispose();
+							}
+							ActionListener listener = manageInvitesFrame.panel.getSaveInvitesButton().getActionListeners()[0];
+							manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
+							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(this);
+							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(listener);
+						}
+					};
+
+					manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(refreshListener);
+					
+					manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
@@ -279,41 +305,24 @@ public class GuiController {
 									}
 								}
 								if (playersToRemove.size() == playersToAdd.size()) {
-									mainControl.switchInvites(playersToAdd, playersToRemove, gameControl.getCatanGame().getIdGame());
+									mainControl.switchInvites(playersToAdd, playersToRemove,
+											gameControl.getCatanGame().getIdGame());
 									JOptionPane.showConfirmDialog(null, "Gelukt!", "De nieuwe mensen zijn uitgenodigd!",
 											JOptionPane.OK_OPTION);
 									Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
 									manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
 								}
 							}
+							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(refreshListener);
+							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(this);
 
 						}
-					};
-					manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
-							int count = 0;
-							for(Player p : game.getPlayers()) {
-								if(p.getPlayStatus().toString().toLowerCase().equals("geaccepteerd")) {
-									count++;
-								}
-							}
-							if(count == 3) {
-								//Open Game
-								manageInvitesFrame.dispose();
-							}
-							manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
-							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(this);
-							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(saveListener);
-						}
 					});
-					
-					manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(saveListener);
+
 				}
 			}
 		});
+
 
 		waitingRoom.getExitButton().addActionListener(new ActionListener() {
 
