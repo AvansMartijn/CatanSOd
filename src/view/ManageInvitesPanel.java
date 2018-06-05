@@ -40,7 +40,7 @@ public class ManageInvitesPanel extends JPanel {
 		refreshInvitesButton = new JButton("Verversen");
 		removeButtonsList = new ArrayList<>();
 		invitedPlayers = new ArrayList<Player>();
-		JLabel header = new JLabel("Invites Aanpassen");
+		JLabel header = new JLabel("Uitnodigingen Aanpassen");
 		header.setFont(new Font(header.getFont().getFontName(), Font.PLAIN, 20));
 		header.setAlignmentX(Component.CENTER_ALIGNMENT);
 		invitedPlayersPanel = new InvitedPlayersPanel();

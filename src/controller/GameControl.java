@@ -785,32 +785,34 @@ public class GameControl {
 
 	private void setResourceRatio(int[] resources, BuildingLocation buildingLocation) {
 
-		switch (buildingLocation.getHarbour().getRsType()) {
+        if (buildingLocation.getHarbour().getRsType() != null) {
+            switch (buildingLocation.getHarbour().getRsType()) {
 
-		case BAKSTEEN:
-			resources[0] = 2;
-			break;
-		case ERTS:
-			resources[1] = 2;
-			break;
-		case WOL:
-			resources[2] = 2;
-			break;
-		case GRAAN:
-			resources[3] = 2;
-			break;
-		case HOUT:
-			resources[4] = 2;
-			break;
-		default:
-			for (int i = 0; i < resources.length; i++) {
-
-				if (resources[i] != 2) {
-					resources[i] = 3;
-				}
-			}
-		}
-	}
+            case BAKSTEEN:
+                resources[0] = 2;
+                break;
+            case ERTS:
+                resources[1] = 2;
+                break;
+            case WOL:
+                resources[2] = 2;
+                break;
+            case GRAAN:
+                resources[3] = 2;
+                break;
+            case HOUT:
+                resources[4] = 2;
+                break;
+            default:
+            }
+        } else {
+            for (int i = 0; i < resources.length; i++) {
+                if (resources[i] != 2) {
+                    resources[i] = 3;
+                }
+            }
+        }
+    }
 
 	public void createPlayerTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
