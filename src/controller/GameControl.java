@@ -1301,7 +1301,10 @@ public class GameControl {
 			}
 			for (Resource resource2 : resources) {
 				if(resourceType == resource2.getRsType()) {
-					int value = resourcesGivenHashMap.get(resourceType);
+					int value = 0;
+					if(resourcesGivenHashMap.get(resourceType) != null) {
+						value = resourcesGivenHashMap.get(resourceType);						
+					}
 					resourcesGivenHashMap.put(resourceType, value + 1);
 				}
 			}
