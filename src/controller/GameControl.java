@@ -1441,12 +1441,18 @@ public class GameControl {
 	}
 
 	public void calculateLongestTradeRoute() {
-		if (!catanGame.getSelfPlayer().getHasLongestRoad()) {
+		System.out.println("CalculateTradeRoute");
+		if (catanGame.getSelfPlayer().getHasLongestRoad() == false) {
+			System.out.println("Not longest self");
 			if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) >= 5) {
+				System.out.println("More than 5 roads");
 				boolean anyoneHas = false;
 				for (Player p : catanGame.getPlayers()) {
-					if (!p.equals(catanGame.getSelfPlayer())) {
+					System.out.println("Loops players");
 						if (p.getHasLongestRoad()) {
+							System.out.println(p.getUsername() +  "Has longest road");
+							System.out.println(getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) + " < YOU | CurrentOwner> " +  getTradeRouteLength(
+									p.getUsername()));
 							if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) > getTradeRouteLength(
 									p.getUsername())) {
 								p.setHasLongestRoad(false);
@@ -1461,10 +1467,10 @@ public class GameControl {
 								break;
 							}
 
-						}
 					}
 				}
 				if (!anyoneHas) {
+					System.out.println("Nobody has");
 					catanGame.getSelfPlayer().setHasLongestRoad(true);
 					mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
 					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
