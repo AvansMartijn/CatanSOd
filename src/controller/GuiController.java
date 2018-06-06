@@ -89,6 +89,7 @@ public class GuiController {
 	private BoardPanel boardPanel;
 	private DiceDotPanel diceDotPanel;
 	private ChatPanel chatPanel;
+	private RecentGamesPanel gamesPanel;
 	private PlayerActionPanel playerActionPanel;
 	private PlayerOptionMenuPanel playerOptionMenuPanel;
 	private BuyPanel buyPanel;
@@ -105,7 +106,7 @@ public class GuiController {
 	private ManageInvitesFrame manageInvitesFrame;
 
 	private ArrayList<Catan> gameList;
-
+	private ArrayList<RecentGamePanel> gamePanels;
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
@@ -436,11 +437,14 @@ public class GuiController {
 	}
 
 	public void retrieveGames() {
-
-		RecentGamesPanel gamesPanel = new RecentGamesPanel(gameList);
-
+		if(gamesPanel != null) {
+			gamesPanel.UpdateGames(gameList);
+		}else {
+			gamesPanel = new RecentGamesPanel(gameList);
+		}
+		System.gc();
 		mainMenuGui.updateScrollPane(gamesPanel);
-		ArrayList<RecentGamePanel> gamePanels = gamesPanel.getGamePanels();
+		gamePanels = gamesPanel.getGamePanels();
 		for (RecentGamePanel p : gamePanels) {
 			p.addMouseListener(new MouseAdapter() {
 				@Override
