@@ -25,8 +25,8 @@ public class PlayerStatsPanel extends JPanel {
 	private final int PANEL_WIDTH = 210;
 	private final int PANEL_HEIGHT = 240;
 	private final int STATS_AMOUNT = 5;
-	private final int LARGEST_ARMY_IMAGE_SIZE = 80;
-	private final int LONGEST_ROAD_IMAGE_SIZE = 60;
+	private final int LARGEST_ARMY_IMAGE_SIZE = 60;
+	private final int LONGEST_ROAD_IMAGE_SIZE = 45;
 	private final int STAT_LABEL_DIMENSION = 35;
 
 	// Instance variables
@@ -70,6 +70,7 @@ public class PlayerStatsPanel extends JPanel {
 	private void create() {
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridwidth = 4;
 		gridBagConstraints.insets = new Insets(2, 2, 2, 2);
 		gridBagConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
@@ -107,6 +108,7 @@ public class PlayerStatsPanel extends JPanel {
 		// Add images of buildings
 		gridBagConstraints.insets = new Insets(0, 5, 0, 2);
 		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridwidth = 1;
 		String[] urls = new String[] { "/images/Village-Icon.png", "/images/City-Icon.png", "/images/Road_Icon.png",
 				"/images/ResourceCards_Icon.png", "/images/DevelopmentCards_Icon.png" };
 
