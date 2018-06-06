@@ -711,6 +711,7 @@ public class GuiController {
 									boardPanel.disableStreetLocButtons();
 									gameControl.getCatanGame().setRoadBuilding(false);
 								}
+								gameControl.calculateLongestTradeRoute();
 								addPlayerColorToStreetLocs();
 								gameControl.enableEveryoneShouldRefresh();
 							}
@@ -727,7 +728,9 @@ public class GuiController {
 									+ slb.getStreetLocation().getBlEnd().getYLoc());
 							boardPanel.disableStreetLocButtons();
 							playerActionPanel.setPlayerOptionMenuPanel();
+							gameControl.calculateLongestTradeRoute();
 							addPlayerColorToStreetLocs();
+							gameControl.enableEveryoneShouldRefresh();
 							gameGUIPanel.getResourcesPanel().updateResourcesAmount();
 							updatePlayerStats();
 						}
@@ -823,6 +826,7 @@ public class GuiController {
 												break;
 											}
 											b.getDevelopmentCard().setPlayed(true);
+											disableAllDevelopmentCards();
 											developmentCardsPanel.repaint();
 										}
 

@@ -82,10 +82,11 @@ public class MainControl {
 		gameControl.updateBoard();
 		gameControl.getCatanGame().getGameboard()
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		guiController.setIngameGuiPanel();
 		updateRefreshPlayers();
 		updateRefreshMessages();
 		updateRefreshTurn();
+		updateRefreshTradeRequest();
+		guiController.setIngameGuiPanel();
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 
@@ -134,11 +135,13 @@ public class MainControl {
 		for (Player p : gameControl.getCatanGame().getPlayers()) {
 			if (p.getIdPlayer() == idPlayerLongestRoute) {
 				p.setHasLongestRoad(true);
+				System.out.println(p.getUsername() + "Has road");
 			}else {
 				p.setHasLongestRoad(false);
 			}
 			if (p.getIdPlayer() == idPlayerLargestArmy) {
 				p.setHasLargestArmy(true);
+				System.out.println(p.getUsername() + "Has army");
 			}else {
 				p.setHasLargestArmy(false);
 			}
@@ -398,6 +401,9 @@ public class MainControl {
 					gameControl.getCatanGame().addTradeRequest(tr);
 					guiController.showTradeReceiveDialog(tr);
 				}
+			}else if(tr != null && tr.getIdPlayer() == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				gameControl.deleteTradeRequest();
+				gameControl.addLogMessage("Het handelsverzoek is afgebroken");
 			}
 			// }
 		} catch (Exception e) {
@@ -423,6 +429,7 @@ public class MainControl {
 						.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 				p.getHand().setDevelopmentCards(
 						mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+				System.out.println(p.getUsername() + " " +mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()).size());
 			}
 			gameControl.getCatanGame().getBank()
 					.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
@@ -430,6 +437,7 @@ public class MainControl {
 					.setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), 0));
 			gameControl.checkForWinner();
 			guiController.refreshPlayerResources();
+//			guiController.
 			
 		} catch (Exception e) {
 			System.out.println("updateRefreshPlayers failed");
