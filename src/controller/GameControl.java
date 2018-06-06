@@ -1402,36 +1402,79 @@ public class GameControl {
 		mainDA.useDevelopmentCard(developmentCardID, catanGame.getIdGame());
 	}
 
+//	public void calculateLargestArmy() {
+//		if (!catanGame.getSelfPlayer().getHasLargestArmy()) {
+//			
+//			if (catanGame.getSelfPlayer().getAmountOfKnights() >= 2) {
+//				boolean anyoneHas = false;
+//				for (Player p : catanGame.getPlayers()) {
+//
+//					if (!p.equals(catanGame.getSelfPlayer())) {
+//						if (p.getHasLargestArmy()) {
+//							if (catanGame.getSelfPlayer().getAmountOfKnights() > p.getAmountOfKnights()) {
+//								p.setHasLargestArmy(false);
+//								catanGame.getSelfPlayer().setHasLargestArmy(true);
+//								mainDA.updateLargestArmy(catanGame.getIdGame(),
+//										catanGame.getSelfPlayer().getIdPlayer());
+//								addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+//										+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+//										+ ") heeft nu de grootste riddermacht");
+//								anyoneHas = true;
+//								enableEveryoneShouldRefresh();
+//								break;
+//							}
+//						}
+//					}
+//				}
+//				if (!anyoneHas) {
+//					catanGame.getSelfPlayer().setHasLargestArmy(true);
+//					mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+//					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+//							+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+//							+ ") heeft nu de grootste riddermacht");
+//					anyoneHas = true;
+//					enableEveryoneShouldRefresh();
+//				}
+//			}
+//		}
+//	}
+	
 	public void calculateLargestArmy() {
-		if (!catanGame.getSelfPlayer().getHasLargestArmy()) {
-			if (catanGame.getSelfPlayer().getAmountOfKnights() >= 2) {
-				boolean anyoneHas = false;
+		System.out.println("largestArmy");
+		if (catanGame.getSelfPlayer().getHasLongestRoad() == false) {
+			System.out.println("Not biggest self");
+			Player currentLongest = null;
+			System.out.println(catanGame.getSelfPlayer().getAmountOfKnights());
+			if (catanGame.getSelfPlayer().getAmountOfKnights() >= 3) {
+				System.out.println("More than 3 knights");
 				for (Player p : catanGame.getPlayers()) {
-
-					if (!p.equals(catanGame.getSelfPlayer())) {
-						if (p.getHasLargestArmy()) {
-							if (catanGame.getSelfPlayer().getAmountOfKnights() > p.getAmountOfKnights()) {
-								p.setHasLargestArmy(false);
-								catanGame.getSelfPlayer().setHasLargestArmy(true);
-								mainDA.updateLargestArmy(catanGame.getIdGame(),
-										catanGame.getSelfPlayer().getIdPlayer());
-								addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
-										+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-										+ ") heeft nu de grootste riddermacht");
-								anyoneHas = true;
-								enableEveryoneShouldRefresh();
-								break;
-							}
-						}
+					if (p.getHasLargestArmy()) {
+						System.out.println("Loops players");
+						currentLongest = p;
+						break;
 					}
-				}
-				if (!anyoneHas) {
+				}				
+				
+				if(currentLongest != null) {
+					System.out.println(currentLongest.getUsername() + "Has largest army");
+					System.out.println(catanGame.getSelfPlayer().getAmountOfKnights()	+ " < YOU | CurrentOwner> " + currentLongest.getAmountOfKnights());
+					if (catanGame.getSelfPlayer().getAmountOfKnights() > currentLongest.getAmountOfKnights()) {
+						currentLongest.setHasLargestArmy(false);
+						catanGame.getSelfPlayer().setHasLargestArmy(true);
+						mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+						addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+								+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+								+ ") heeft nu de grootste riddermacht");
+						enableEveryoneShouldRefresh();
+						
+					}
+				} else {
+					System.out.println("Nobody has");
 					catanGame.getSelfPlayer().setHasLargestArmy(true);
 					mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
 					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 							+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
 							+ ") heeft nu de grootste riddermacht");
-					anyoneHas = true;
 					enableEveryoneShouldRefresh();
 				}
 			}
