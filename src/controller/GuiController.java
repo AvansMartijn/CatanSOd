@@ -1623,8 +1623,10 @@ public class GuiController {
 		if (gameControl.getCatanGame().getSelfPlayer() == winner) {
 			dialog.setTitle("Winnaar!");
 			isWinner = true;
+			musicPlayer.playTaunt("Applause Crowd Cheering sound effect.wav");
 		} else {
 			dialog.setTitle("Verloren!");
+			musicPlayer.playTaunt("Super Mario Bros. - Game Over Sound Effect.wav");
 		}
 		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner));
 		dialog.pack();
