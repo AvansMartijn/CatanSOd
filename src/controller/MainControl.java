@@ -82,11 +82,11 @@ public class MainControl {
 		gameControl.updateBoard();
 		gameControl.getCatanGame().getGameboard()
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		updateRefreshPlayers();
-		updateRefreshMessages();
+		updatePlayers();
+		updateMessages();
+		guiController.setIngameGuiPanel();
 		updateRefreshTurn();
 		updateRefreshTradeRequest();
-		guiController.setIngameGuiPanel();
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 
@@ -372,13 +372,20 @@ public class MainControl {
 
 	public void updateRefreshMessages() {
 		try {
-			ArrayList<String> messageList = new ArrayList<String>();
-			messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
-			gameControl.getCatanGame().setMessages(messageList);
-
+			updateMessages();
 			guiController.refreshChat();
 		} catch (Exception e) {
 			System.out.println("updateRefreshmessages failed");
+		}
+	}
+	
+	private void updateMessages() {
+		try {
+		ArrayList<String> messageList = new ArrayList<String>();
+		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
+		gameControl.getCatanGame().setMessages(messageList);
+		} catch (Exception e) {
+			System.out.println("Updatemessages failed");
 		}
 	}
 
@@ -421,7 +428,18 @@ public class MainControl {
 
 	private void updateRefreshPlayers() {
 		try {
+			updatePlayers();
+			guiController.refreshPlayerResources();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("updateRefreshPlayers failed");
+		}
+	}
+	private void updatePlayers() {
+		try {
 			for (Player p : gameControl.getCatanGame().getPlayers()) {
+				System.out.println(p.getUsername());
 				p.getHand()
 						.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 				p.getHand().setDevelopmentCards(
@@ -433,11 +451,11 @@ public class MainControl {
 			gameControl.getCatanGame().getBank()
 					.setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), 0));
 			gameControl.checkForWinner();
-			guiController.refreshPlayerResources();
-//			guiController.
+			System.out.println("camehere");
 			
 		} catch (Exception e) {
-			System.out.println("updateRefreshPlayers failed");
+			e.printStackTrace();
+			System.out.println("updatePlayers failed");
 		}
 	}
 
