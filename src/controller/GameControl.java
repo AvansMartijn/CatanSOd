@@ -106,7 +106,8 @@ public class GameControl {
 
 		//This has to be before the if-statement, 
 		//otherwise first the message will be who gets the resources, and afterwards the value rolled. 
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + rolledValue + " gegooid.");
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft " + rolledValue + " gegooid.");
 		if (rolledValue == 7) {
 			guiController.addSystemMessageToChat(Color.BLUE, "Je hebt 7 gegooit, Verplaats de Rover");
 			enableRobber();
@@ -634,8 +635,9 @@ public class GameControl {
 		mainDA.addResourceToPlayer(resourceCardToReceive.getResourceID(), catanGame.getIdGame(),
 				catanGame.getSelfPlayer().getIdPlayer());
 
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft " + ratio + " " + resourceTypeToGive
-				+ " geruild voor een " + resourceTypeToReceive + " kaart met de bank");
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft " + ratio + " "
+				+ resourceTypeToGive + " geruild voor een " + resourceTypeToReceive + " kaart met de bank");
 	}
 
 	public void enableEveryoneShouldRefresh() {
@@ -887,7 +889,10 @@ public class GameControl {
 		mainDA.deleteTradeRequests(catanGame.getIdGame());
 
 		catanGame.getTradeRequestArr().clear();
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft het tegenaanbod van " + tradePlayer.getUsername() + " geaccepteerd");
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft het tegenaanbod van "
+				+ tradePlayer.getUsername() + " (" +catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+				+ ") geaccepteerd");
 
 		// swap resources in code
 		// remove traderequests in db
@@ -940,17 +945,20 @@ public class GameControl {
 			mainDA.addResourceToPlayer(rs1.getResourceID(), catanGame.getIdGame(),
 					catanGame.getSelfPlayer().getIdPlayer());
 			catanGame.getSelfPlayer().getHand().addResource(rs1);
-			addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een uitvindingskaart gespeeld");
-			addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een " + rs1.getRsType().toString()
-					+ " kaart ontvangen van de bank");
+			addLogMessage(catanGame.getSelfPlayer().getUsername() + " (" + 
+			catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft een uitvindingskaart gespeeld");
+			addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+					+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft een "
+					+ rs1.getRsType().toString() + " kaart ontvangen van de bank");
 		}
 
 		if (rs2 != null) {
 			mainDA.addResourceToPlayer(rs2.getResourceID(), catanGame.getIdGame(),
 					catanGame.getSelfPlayer().getIdPlayer());
 			catanGame.getSelfPlayer().getHand().addResource(rs2);
-			addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een " + rs2.getRsType().toString()
-					+ " kaart ontvangen van de bank");
+			addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+					+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft een "
+					+ rs2.getRsType().toString() + " kaart ontvangen van de bank");
 		}
 
 		enableEveryoneShouldRefresh();
@@ -975,7 +983,8 @@ public class GameControl {
 					if (p.getFollownr() == 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+								+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
 						enableEveryoneShouldRefresh();
 						break;
@@ -986,7 +995,8 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+								+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
 						enableEveryoneShouldRefresh();
 						break;
@@ -1008,8 +1018,10 @@ public class GameControl {
 				catanGame.getSelfPlayer().getIdPlayer());
 		guiController.refreshPlayerResources();
 		// TODO check if you have to show the rstype or just tell that he stole a card
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft een "
-				+ randomResource.getRsType().toString().toLowerCase() + " van " + player.getUsername() + " gestolen");
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " (" +
+				catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft een "
+				+ randomResource.getRsType().toString().toLowerCase() + " van " + player.getUsername() + " ("
+				+ player.getColor().toString().toLowerCase() + ") gestolen");
 		enableEveryoneShouldRefresh();
 
 	}
@@ -1191,7 +1203,8 @@ public class GameControl {
 
 		resourcesGivenString = resourcesGivenString.substring(0, resourcesGivenString.length() - 2);
 
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " " + resourcesGivenString);
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") " + resourcesGivenString);
 	}
 
 	/**
@@ -1228,8 +1241,8 @@ public class GameControl {
 			// Create the String from the HashMap for the Log
 			for (ResourceType resourceType : ResourceType.values()) {
 				if (resourcesGivenHashMap.containsKey(resourceType)) {
-					logMessage += player.getUsername() + " krijgt " + resourcesGivenHashMap.get(resourceType) + " "
-							+ resourceType.toString().toLowerCase() + ", ";
+					logMessage += player.getUsername() + " (" + player.getColor().toString().toLowerCase() + ") krijgt "
+							+ resourcesGivenHashMap.get(resourceType) + " " + resourceType.toString().toLowerCase() + ", ";
 				}
 			}
 		}
@@ -1264,7 +1277,7 @@ public class GameControl {
 						catanGame.setTurn(p.getIdPlayer());
 						System.out.println("1 fw set next turn for " + p.getIdPlayer());
 						enableEveryoneShouldRefresh();
-						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase() + ") is nu aan de Beurt.");
 						break;
 					}
 				}
@@ -1275,7 +1288,7 @@ public class GameControl {
 						catanGame.setTurn(p.getIdPlayer());
 						System.out.println("2 fw set next turn for " + p.getIdPlayer());
 						enableEveryoneShouldRefresh();
-						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase() + ") is nu aan de Beurt.");
 						break;
 					}
 				}
@@ -1305,7 +1318,7 @@ public class GameControl {
 						System.out.println("3 bw set next turn for " + p.getIdPlayer());
 
 						enableEveryoneShouldRefresh();
-						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase() + ") is nu aan de Beurt.");
 						break;
 					}
 				}
@@ -1361,7 +1374,7 @@ public class GameControl {
 			if (p.getVictoryPoints() >= 10) {
 				winner = p;
 				mainDA.finishGame(catanGame.getIdGame());
-				addLogMessage(p.getUsername() + " heeft gewonnen");
+				addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase() + ") heeft gewonnen");
 				addLogMessage("Het spel is afgelopen");
 				guiController.setwinnerDialog(winner);
 				return;
@@ -1382,7 +1395,9 @@ public class GameControl {
 						p.setHasLargestArmy(false);
 						catanGame.getSelfPlayer().setHasLargestArmy(true);
 						mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-						addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft nu de grootste riddermacht");
+						addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+								+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+								+ " heeft nu de grootste riddermacht");
 						anyoneHas = true;
 						enableEveryoneShouldRefresh();
 						break;
@@ -1392,7 +1407,9 @@ public class GameControl {
 			if (!anyoneHas) {
 				catanGame.getSelfPlayer().setHasLargestArmy(true);
 				mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-				addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft nu de grootste riddermacht");
+				addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+						+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+						+ " heeft nu de grootste riddermacht");
 				anyoneHas = true;
 				enableEveryoneShouldRefresh();
 			}
@@ -1408,7 +1425,8 @@ public class GameControl {
 						p.setHasLongestRoad(false);
 						catanGame.getSelfPlayer().setHasLongestRoad(true);
 						mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-						addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft nu de langste handelsroute");
+						addLogMessage(catanGame.getSelfPlayer().getUsername() + " (" 
+						+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + " heeft nu de langste handelsroute");
 						anyoneHas = true;
 						enableEveryoneShouldRefresh();
 						break;
@@ -1418,7 +1436,8 @@ public class GameControl {
 			if (!anyoneHas) {
 				catanGame.getSelfPlayer().setHasLongestRoad(true);
 				mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-				addLogMessage(catanGame.getSelfPlayer().getUsername() + " heeft nu de langste handelsroute");
+				addLogMessage(catanGame.getSelfPlayer().getUsername() + " (" 
+						+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + " heeft nu de langste handelsroute");
 				anyoneHas = true;
 				enableEveryoneShouldRefresh();
 			}
