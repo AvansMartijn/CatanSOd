@@ -129,7 +129,7 @@ public class GuiController {
 	public void setInlogPanel() {
 		LoginRegisterPanel loginregisterPanel = new LoginRegisterPanel();
 		musicPlayer.playMusic();
-		
+
 		loginregisterPanel.getInlogButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -273,7 +273,8 @@ public class GuiController {
 								mainControl.joinGame(game);
 								manageInvitesFrame.dispose();
 							}
-							ActionListener listener = manageInvitesFrame.panel.getSaveInvitesButton().getActionListeners()[0];
+							ActionListener listener = manageInvitesFrame.panel.getSaveInvitesButton()
+									.getActionListeners()[0];
 							manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
 							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(this);
 							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(listener);
@@ -281,7 +282,7 @@ public class GuiController {
 					};
 
 					manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(refreshListener);
-					
+
 					manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
 
 						@Override
@@ -323,7 +324,6 @@ public class GuiController {
 				}
 			}
 		});
-
 
 		waitingRoom.getExitButton().addActionListener(new ActionListener() {
 
@@ -766,76 +766,77 @@ public class GuiController {
 	private void addDevelopmentCardsPanelButtonListeners() {
 		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCardButtons();
 		for (DevelopmentCardButton b : developmentCards) {
-			if (b.getActionListeners() != null) {
-				if (b.getDevelopmentCard().getDevelopmentCardType() != DevelopmentCardType.VICTORY_POINT) {
-					b.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
+			for (ActionListener al : b.getActionListeners()) {
+				b.removeActionListener(al);
+			}
+			if (b.getDevelopmentCard().getDevelopmentCardType() != DevelopmentCardType.VICTORY_POINT) {
+				b.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
 
-							DevelopmentCardPlayDialog developmentCardPlayDialog = new DevelopmentCardPlayDialog(b);
-							b.setDevelopmentCardPlayDialog(developmentCardPlayDialog);
-							developmentCardPlayDialog.setVisible(true);
+						DevelopmentCardPlayDialog developmentCardPlayDialog = new DevelopmentCardPlayDialog(b);
+						b.setDevelopmentCardPlayDialog(developmentCardPlayDialog);
+						developmentCardPlayDialog.setVisible(true);
 
-							b.getDevelopmentCardPlayDialog().getDevelopmentCardDialogPanel().getPlayButton()
-									.addActionListener(new ActionListener() {
+						b.getDevelopmentCardPlayDialog().getDevelopmentCardDialogPanel().getPlayButton()
+								.addActionListener(new ActionListener() {
 
-										@Override
-										public void actionPerformed(ActionEvent arg0) {
-											developmentCardPlayDialog.dispose();
-											System.out.println("clicked play");
-											DevelopmentCardType cardType = b.getDevelopmentCard()
-													.getDevelopmentCardType();
-											switch (cardType) {
-											case KNIGHT:
-												addSystemMessageToChat(Color.BLUE,
-														"Je hebt een ridder gespeeld, verplaats de struikrover");
-												disablePlayerActionPanel();
-												gameControl.enableRobber();
-												b.setEnabled(false);
-												gameControl.updateDevCardInDB(
-														b.getDevelopmentCard().getDevelopmentCardID());
-												b.setBackground(new Color(0, 0, 0));
-												gameControl.calculateLargestArmy();
-												break;
-											case ROAD_BUILDING:
-												addSystemMessageToChat(Color.BLUE,
-														"Je hebt stratenbouw gespeeld, plaats 2 straten");
-												gameControl.doDevCardRoadBuilding();
-												b.setVisible(false);
-												gameControl.updateDevCardInDB(
-														b.getDevelopmentCard().getDevelopmentCardID());
-												break;
-											case VICTORY_POINT:
-												// don't do anything
-												break;
-											case YEAR_OF_PLENTY:
-												addSystemMessageToChat(Color.BLUE,
-														"Je hebt uitvinding gespeeld, kies 2 grondstofkaarten");
-												drawYearOfPlentyDialog();
-												b.setVisible(false);
-												gameControl.updateDevCardInDB(
-														b.getDevelopmentCard().getDevelopmentCardID());
-												break;
-											case MONOPOLY:
-												addSystemMessageToChat(Color.BLUE,
-														"Je hebt monopoly gespeeld, kies 1 grondstofkaart");
-												drawMonopolyDialog();
-												b.setVisible(false);
-												gameControl.updateDevCardInDB(
-														b.getDevelopmentCard().getDevelopmentCardID());
-												break;
-											}
-											b.getDevelopmentCard().setPlayed(true);
-											disableAllDevelopmentCards();
-											developmentCardsPanel.repaint();
+									@Override
+									public void actionPerformed(ActionEvent arg0) {
+										developmentCardPlayDialog.dispose();
+										System.out.println("clicked play");
+										DevelopmentCardType cardType = b.getDevelopmentCard().getDevelopmentCardType();
+										switch (cardType) {
+										case KNIGHT:
+											addSystemMessageToChat(Color.BLUE,
+													"Je hebt een ridder gespeeld, verplaats de struikrover");
+											disablePlayerActionPanel();
+											gameControl.enableRobber();
+											b.setEnabled(false);
+											gameControl
+													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
+											b.setBackground(new Color(0, 0, 0));
+											break;
+										case ROAD_BUILDING:
+											addSystemMessageToChat(Color.BLUE,
+													"Je hebt stratenbouw gespeeld, plaats 2 straten");
+											gameControl.doDevCardRoadBuilding();
+											b.setVisible(false);
+											gameControl
+													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
+											break;
+										case VICTORY_POINT:
+											// don't do anything
+											break;
+										case YEAR_OF_PLENTY:
+											addSystemMessageToChat(Color.BLUE,
+													"Je hebt uitvinding gespeeld, kies 2 grondstofkaarten");
+											drawYearOfPlentyDialog();
+											b.setVisible(false);
+											gameControl
+													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
+											break;
+										case MONOPOLY:
+											addSystemMessageToChat(Color.BLUE,
+													"Je hebt monopoly gespeeld, kies 1 grondstofkaart");
+											drawMonopolyDialog();
+											b.setVisible(false);
+											gameControl
+													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
+											break;
 										}
+										b.getDevelopmentCard().setPlayed(true);
+										disableAllDevelopmentCards();
+										gameControl.calculateLargestArmy();
+										developmentCardsPanel.repaint();
+									}
 
-									});
-						}
-					});
-				}
+								});
+					}
+				});
 			}
 		}
+
 	}
 
 	private void addPlayerActionBuyButtonListener() {
@@ -1622,7 +1623,6 @@ public class GuiController {
 	public void setwinnerDialog(Player winner) {
 		JDialog dialog = new JDialog();
 		boolean isWinner = false;
-
 
 		if (gameControl.getCatanGame().getSelfPlayer() == winner) {
 			dialog.setTitle("Winnaar!");
