@@ -94,6 +94,10 @@ public class RecentGamePanel extends JPanel {
 		}
 	}
 	
+	public void disposeImage() {
+		image.flush();
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);

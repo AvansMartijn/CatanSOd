@@ -33,6 +33,23 @@ public class RecentGamesPanel extends JPanel {
 		setPreferredSize(new Dimension(PANEL_WIDTH, height));
 		
 	}
+	public void UpdateGames(ArrayList<Catan> newGames) {
+		for(RecentGamePanel g: gamePanels) {
+			g.disposeImage();
+			g.removeAll();
+		}
+		gamePanels.clear();
+		this.removeAll();
+		setBackground(textBackgroundColor);
+		for(Catan game: newGames) {
+			gamePanels.add(new RecentGamePanel(game));
+		}
+		
+		for(RecentGamePanel g: gamePanels) {
+			add(g);
+		}
+		revalidate();
+	}
 	
 	public ArrayList<RecentGamePanel> getGamePanels() {
 		return gamePanels;
