@@ -252,8 +252,8 @@ public class MainControl {
 	}
 
 	public void addPlayerToDB(int idGame, Player player) {
-		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString(),
-				player.getFollownr(), player.getPlayStatus().toString());
+		mainDA.createPlayer(player.getIdPlayer(), idGame, player.getUsername(), player.getColor().toString().toLowerCase(),
+				player.getFollownr(), player.getPlayStatus().toString().toLowerCase());
 	}
 
 	private void createDevelopmentCardsInDB(int gameID) {
