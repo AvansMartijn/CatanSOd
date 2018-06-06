@@ -988,7 +988,7 @@ public class GameControl {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
 						addLogMessage(
-								p.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+								p.getUsername() + " (" + p.getColor().toString().toLowerCase()
 										+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
 						enableEveryoneShouldRefresh();
@@ -1001,8 +1001,8 @@ public class GameControl {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
 						addLogMessage(
-								p.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-										+ ") is nu aan de Beurt.");
+								p.getUsername() + " (" + p.getColor().toString().toLowerCase()
+								+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
 						enableEveryoneShouldRefresh();
 						break;
@@ -1416,7 +1416,7 @@ public class GameControl {
 										catanGame.getSelfPlayer().getIdPlayer());
 								addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 										+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-										+ " heeft nu de grootste riddermacht");
+										+ ") heeft nu de grootste riddermacht");
 								anyoneHas = true;
 								enableEveryoneShouldRefresh();
 								break;
@@ -1429,7 +1429,7 @@ public class GameControl {
 					mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
 					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 							+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-							+ " heeft nu de grootste riddermacht");
+							+ ") heeft nu de grootste riddermacht");
 					anyoneHas = true;
 					enableEveryoneShouldRefresh();
 				}
@@ -1452,7 +1452,7 @@ public class GameControl {
 										catanGame.getSelfPlayer().getIdPlayer());
 								addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 										+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-										+ " heeft nu de langste handelsroute");
+										+ ") heeft nu de langste handelsroute");
 								anyoneHas = true;
 								enableEveryoneShouldRefresh();
 								break;
@@ -1466,7 +1466,7 @@ public class GameControl {
 					mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
 					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 							+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-							+ " heeft nu de langste handelsroute");
+							+ ") heeft nu de langste handelsroute");
 					anyoneHas = true;
 					enableEveryoneShouldRefresh();
 				}
