@@ -135,11 +135,13 @@ public class MainControl {
 		for (Player p : gameControl.getCatanGame().getPlayers()) {
 			if (p.getIdPlayer() == idPlayerLongestRoute) {
 				p.setHasLongestRoad(true);
+				System.out.println(p.getUsername() + "Has road");
 			}else {
 				p.setHasLongestRoad(false);
 			}
 			if (p.getIdPlayer() == idPlayerLargestArmy) {
 				p.setHasLargestArmy(true);
+				System.out.println(p.getUsername() + "Has army");
 			}else {
 				p.setHasLargestArmy(false);
 			}

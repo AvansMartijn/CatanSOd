@@ -1343,11 +1343,13 @@ public class GameControl {
 
 	public DevelopmentCard buyDevelopmentCard() {
 		DevelopmentCard developmentCard = catanGame.getBank().takeDevelopmentCard();
+		if (developmentCard != null) {
 		catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
 		mainDA.addDevelopmentCardToPlayer(developmentCard.getDevelopmentCardID(),
 				catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
-		if (developmentCard != null) {
 			payResources(DevelopmentCard.CARD_COST);
+		}else {
+			guiController.addSystemMessageToChat(Color.RED, "De bank heeft niet genoeg ontwikkelingskaarten");
 		}
 		return developmentCard;
 	}

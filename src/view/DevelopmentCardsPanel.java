@@ -49,6 +49,7 @@ public class DevelopmentCardsPanel extends JPanel {
 	}
 	
 	private void createDevelopmentCards() {
+		System.out.println("devCards: " + selfPlayer.getHand().getDevelopmentCards().size());
 		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
 			DevelopmentCard developmentCard = selfPlayer.getHand().getDevelopmentCards().get(i);
 			addDevelopmentCardButton(developmentCard);
@@ -60,7 +61,8 @@ public class DevelopmentCardsPanel extends JPanel {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
 		developmentCardButtons.add(developmentCardButton);
 		developmentCardButton.setEnabled(false); // TODO whats the point of having this line in 2 times?
-
+		developmentCardButton.setVisible(true);
+		System.out.println("card");
 		if(developmentCard.isPlayed()) {
 			developmentCardButton.setEnabled(false);
 			developmentCardButton.setBackground(new Color(0, 0, 0));
