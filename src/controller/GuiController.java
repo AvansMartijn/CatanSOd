@@ -396,8 +396,8 @@ public class GuiController {
 				if (invitePanel.getInvitedList().size() > 0 && invitePanel.getInvitedListSelectedIndex() >= 0) {
 					mainControl
 							.acceptInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
-					mainControl.loadInvites();
 					dialog.dispose();
+					mainControl.loadInvites();
 				}
 			}
 		});
@@ -407,16 +407,16 @@ public class GuiController {
 				if (invitePanel.getInvitedList().size() > 0 && invitePanel.getInvitedListSelectedIndex() >= 0) {
 					mainControl
 							.declineInvite(invitePanel.getInvitedList().get(invitePanel.getInvitedListSelectedIndex()));
-					mainControl.loadInvites();
 					dialog.dispose();
+					mainControl.loadInvites();
 				}
 			}
 		});
 		invitePanel.getRefreshButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainControl.loadInvites();
 				dialog.dispose();
+				mainControl.loadInvites();
 			}
 		});
 		this.invitePanel = invitePanel;
