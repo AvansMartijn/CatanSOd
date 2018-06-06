@@ -614,6 +614,9 @@ public class GameControl {
 		ArrayList<Resource> resourceCardsToGive = new ArrayList<>();
 
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
+		
+		System.out.println("resourceCardsToGive");
+		
 		if (resourceCardsToGive == null) {
 			guiController.addSystemMessageToChat(Color.RED,
 					"Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
@@ -685,10 +688,10 @@ public class GameControl {
 			case BAKSTEEN:
 				resources[0] = 2;
 				break;
-			case ERTS:
+			case WOL:
 				resources[1] = 2;
 				break;
-			case WOL:
+			case ERTS:
 				resources[2] = 2;
 				break;
 			case GRAAN:

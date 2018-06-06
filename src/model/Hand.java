@@ -17,12 +17,6 @@ public class Hand {
 		resources = new ArrayList<Resource>();
 	}
 
-	// public void addResource(Resource resource, int amount) {
-	// for (int i = 0; i < amount; i++) {
-	// addResource(resource);
-	// }
-	// }s
-
 	public HashMap<ResourceType, Integer> getAmountOfResources() {
 		HashMap<ResourceType, Integer> retMap = new HashMap<ResourceType, Integer>();
 		int brick = 0;
@@ -88,21 +82,6 @@ public class Hand {
 		return null;
 	}
 
-	// public int getAmountOfDevelopmentCardsPlayed(int cardType) {
-	// int amountOfDevelopmentCards = 0;
-	// for (int i = 0; i < playedDevelopmentCards.size(); i++) {
-	// if(playedDevelopmentCards.get(i).getDevelopmentCardType() == cardType) {
-	// amountOfDevelopmentCards++;
-	// }
-	// }
-	// return amountOfDevelopmentCards;
-	// }
-
-	// public void playDevelopmentCard(int cardType) {
-	// DevelopmentCard developmentCard = takeDevelopmentCard(cardType);
-	// playedDevelopmentCards.add(developmentCard);
-	// }
-
 	public void addDevelopmentCard(DevelopmentCard developmentCard) {
 		developmentCards.add(developmentCard);
 	}
@@ -136,31 +115,18 @@ public class Hand {
 		}
 		return null;
 	}
-
-	public ArrayList<Resource> takeMultipleResources(ResourceType rsType, int amount) {
-		ArrayList<Resource> rsToReturn = new ArrayList<>();
-		int counter = 0;
-		for (int i = 0; i < resources.size(); i++) {
-			if (resources.get(i).getRsType() == rsType) {
-				rsToReturn.add(resources.get(i));
-				System.out.println("add:" + resources.get(i));
-				counter++;
-				if (counter == amount) {
-					break;
-				}
+	
+public ArrayList<Resource> takeMultipleResources(ResourceType resourceType, int amount) {
+		
+		ArrayList<Resource> resourcesTaken = new ArrayList<>();
+		for (int i = 0; i < amount; i++) {
+			try {
+				resourcesTaken.add(takeResource(resourceType));
+			} catch (Exception e) {
+				return resourcesTaken;
 			}
 		}
-
-		if (rsToReturn.size() == amount) {
-			for (int x = 0; x < resources.size(); x++) {
-				if (resources.get(x).getRsType() == rsType) {
-					resources.remove(x);
-				}
-			}
-			System.out.println("tmr return: " + rsToReturn);
-			return rsToReturn;
-		}
-		return null;
+		return resourcesTaken;
 	}
 
 	public ArrayList<Resource> takeAllResourcesFromRsType(ResourceType rsType) {
@@ -177,7 +143,6 @@ public class Hand {
 			}
 		}
 		return rsToReturn;
-
 	}
 
 	public ArrayList<DevelopmentCard> getDevelopmentCards() {

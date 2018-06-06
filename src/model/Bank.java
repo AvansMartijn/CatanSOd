@@ -17,7 +17,7 @@ public class Bank {
 
 	public void addMultipleResources(ArrayList<Resource> resourcesToAdd) {
 		for (Resource rs : resourcesToAdd) {
-			System.out.println(rs.getRsType());
+			System.out.println(rs);
 			resources.add(rs);
 		}
 	}
@@ -36,6 +36,7 @@ public class Bank {
 	}
 
 	public ArrayList<Resource> takeMultipleResources(ResourceType resourceType, int amount) {
+		
 		ArrayList<Resource> resourcesTaken = new ArrayList<>();
 		for (int i = 0; i < amount; i++) {
 			try {
