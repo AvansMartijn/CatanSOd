@@ -70,14 +70,14 @@ public class GameControl {
 		}
 	}
 
-//	public boolean addPlayerMessage(String message, Player player) {
-//		message = player.getUsername() + ": " + message;
-//		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
+	// public boolean addPlayerMessage(String message, Player player) {
+	// message = player.getUsername() + ": " + message;
+	// if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// }
 
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
@@ -104,10 +104,12 @@ public class GameControl {
 		catanGame.rollDice();
 		int rolledValue = catanGame.getDice().getValue();
 
-		//This has to be before the if-statement, 
-		//otherwise first the message will be who gets the resources, and afterwards the value rolled. 
+		// This has to be before the if-statement,
+		// otherwise first the message will be who gets the resources, and afterwards
+		// the value rolled.
 		addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
-				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft " + rolledValue + " gegooid.");
+				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft " + rolledValue
+				+ " gegooid.");
 		if (rolledValue == 7) {
 			guiController.addSystemMessageToChat(Color.BLUE, "Je hebt 7 gegooit, Verplaats de Rover");
 			enableRobber();
@@ -190,18 +192,18 @@ public class GameControl {
 				return false;
 			}
 		}
-		
+
 		boolean hasFriendlyAdjacentStreet = false;
-		for(StreetLocation sl: buildingLocation.getAdjacentStreetLocations()) {
-			
-			if(sl.getStreet() != null) {
-				if(sl.getStreet().getPlayer().equals(catanGame.getSelfPlayer())) {
+		for (StreetLocation sl : buildingLocation.getAdjacentStreetLocations()) {
+
+			if (sl.getStreet() != null) {
+				if (sl.getStreet().getPlayer().equals(catanGame.getSelfPlayer())) {
 					hasFriendlyAdjacentStreet = true;
 				}
 			}
 		}
-		
-		if(!hasFriendlyAdjacentStreet) {
+
+		if (!hasFriendlyAdjacentStreet) {
 			return false;
 		}
 
@@ -613,7 +615,8 @@ public class GameControl {
 
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
 		if (resourceCardsToGive == null) {
-			guiController.addSystemMessageToChat(Color.RED,"Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
+			guiController.addSystemMessageToChat(Color.RED,
+					"Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
 			return;
 		}
 
@@ -621,9 +624,9 @@ public class GameControl {
 		try {
 			resourceCardToReceive = catanGame.getBank().takeResource(resourceTypeToReceive);
 
-		} 
-		catch (Exception e) {
-			guiController.addSystemMessageToChat(Color.RED,"De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
+		} catch (Exception e) {
+			guiController.addSystemMessageToChat(Color.RED,
+					"De bank heeft niet genoeg " + resourceTypeToReceive.name() + " kaarten");
 			return;
 		}
 
@@ -676,34 +679,34 @@ public class GameControl {
 
 	private void setResourceRatio(int[] resources, BuildingLocation buildingLocation) {
 
-        if (buildingLocation.getHarbour().getRsType() != null) {
-            switch (buildingLocation.getHarbour().getRsType()) {
+		if (buildingLocation.getHarbour().getRsType() != null) {
+			switch (buildingLocation.getHarbour().getRsType()) {
 
-            case BAKSTEEN:
-                resources[0] = 2;
-                break;
-            case ERTS:
-                resources[1] = 2;
-                break;
-            case WOL:
-                resources[2] = 2;
-                break;
-            case GRAAN:
-                resources[3] = 2;
-                break;
-            case HOUT:
-                resources[4] = 2;
-                break;
-            default:
-            }
-        } else {
-            for (int i = 0; i < resources.length; i++) {
-                if (resources[i] != 2) {
-                    resources[i] = 3;
-                }
-            }
-        }
-    }
+			case BAKSTEEN:
+				resources[0] = 2;
+				break;
+			case ERTS:
+				resources[1] = 2;
+				break;
+			case WOL:
+				resources[2] = 2;
+				break;
+			case GRAAN:
+				resources[3] = 2;
+				break;
+			case HOUT:
+				resources[4] = 2;
+				break;
+			default:
+			}
+		} else {
+			for (int i = 0; i < resources.length; i++) {
+				if (resources[i] != 2) {
+					resources[i] = 3;
+				}
+			}
+		}
+	}
 
 	public void createPlayerTradeRequest(int stoneGive, int woolGive, int ironGive, int wheatGive, int woodGive,
 			int stoneReceive, int woolReceive, int ironReceive, int wheatReceive, int woodReceive) {
@@ -891,7 +894,7 @@ public class GameControl {
 		catanGame.getTradeRequestArr().clear();
 		addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft het tegenaanbod van "
-				+ tradePlayer.getUsername() + " (" +catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+				+ tradePlayer.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
 				+ ") geaccepteerd");
 
 		// swap resources in code
@@ -945,8 +948,9 @@ public class GameControl {
 			mainDA.addResourceToPlayer(rs1.getResourceID(), catanGame.getIdGame(),
 					catanGame.getSelfPlayer().getIdPlayer());
 			catanGame.getSelfPlayer().getHand().addResource(rs1);
-			addLogMessage(catanGame.getSelfPlayer().getUsername() + " (" + 
-			catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft een uitvindingskaart gespeeld");
+			addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+					+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+					+ ") heeft een uitvindingskaart gespeeld");
 			addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 					+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft een "
 					+ rs1.getRsType().toString() + " kaart ontvangen van de bank");
@@ -983,8 +987,9 @@ public class GameControl {
 					if (p.getFollownr() == 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						addLogMessage(p.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-								+ ") is nu aan de Beurt.");
+						addLogMessage(
+								p.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+										+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
 						enableEveryoneShouldRefresh();
 						break;
@@ -995,8 +1000,9 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						addLogMessage(p.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-								+ ") is nu aan de Beurt.");
+						addLogMessage(
+								p.getUsername() + " (" + catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+										+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
 						enableEveryoneShouldRefresh();
 						break;
@@ -1018,8 +1024,8 @@ public class GameControl {
 				catanGame.getSelfPlayer().getIdPlayer());
 		guiController.refreshPlayerResources();
 		// TODO check if you have to show the rstype or just tell that he stole a card
-		addLogMessage(catanGame.getSelfPlayer().getUsername() + " (" +
-				catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft een "
+		addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") heeft een "
 				+ randomResource.getRsType().toString().toLowerCase() + " van " + player.getUsername() + " ("
 				+ player.getColor().toString().toLowerCase() + ") gestolen");
 		enableEveryoneShouldRefresh();
@@ -1090,7 +1096,7 @@ public class GameControl {
 				}
 			}
 		}
-		
+
 		logResources(resourcesHashMap);
 		enableEveryoneShouldRefresh();
 		guiController.refreshPlayerResources();
@@ -1148,10 +1154,11 @@ public class GameControl {
 				if (village.getBuildingLocation() == buildingLocation) {
 					try {
 						Resource resource = catanGame.getBank().takeResource(tile.getRsType());
-						if(resource.getRsType() != ResourceType.WOESTIJN) {
-							//Add to database
-							mainDA.addResourceToPlayer(resource.getResourceID(), catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-							//Add to model
+						if (resource.getRsType() != ResourceType.WOESTIJN) {
+							// Add to database
+							mainDA.addResourceToPlayer(resource.getResourceID(), catanGame.getIdGame(),
+									catanGame.getSelfPlayer().getIdPlayer());
+							// Add to model
 							catanGame.getSelfPlayer().getHand().addResource(resource);
 							resourcesGiven.add(resource);
 						}
@@ -1182,10 +1189,10 @@ public class GameControl {
 				resourcesGivenHashMap.put(resourceType, 0);
 			}
 			for (Resource resource2 : resources) {
-				if(resourceType == resource2.getRsType()) {
+				if (resourceType == resource2.getRsType()) {
 					int value = 0;
-					if(resourcesGivenHashMap.get(resourceType) != null) {
-						value = resourcesGivenHashMap.get(resourceType);						
+					if (resourcesGivenHashMap.get(resourceType) != null) {
+						value = resourcesGivenHashMap.get(resourceType);
 					}
 					resourcesGivenHashMap.put(resourceType, value + 1);
 				}
@@ -1227,11 +1234,12 @@ public class GameControl {
 					resourcesGivenHashMap.put(resourceType, 0);
 				}
 				for (Resource resource2 : resources) {
-					if(resourceType == resource2.getRsType()) {
+					if (resourceType == resource2.getRsType()) {
 						int value = 0;
-						//If the resourceType is not in the HashMap yet, it returns null, therefore the value will be 0
-						if(resourcesGivenHashMap.get(resourceType) != null) {
-							value = resourcesGivenHashMap.get(resourceType);							
+						// If the resourceType is not in the HashMap yet, it returns null, therefore the
+						// value will be 0
+						if (resourcesGivenHashMap.get(resourceType) != null) {
+							value = resourcesGivenHashMap.get(resourceType);
 						}
 						resourcesGivenHashMap.put(resourceType, value + 1);
 					}
@@ -1242,7 +1250,8 @@ public class GameControl {
 			for (ResourceType resourceType : ResourceType.values()) {
 				if (resourcesGivenHashMap.containsKey(resourceType)) {
 					logMessage += player.getUsername() + " (" + player.getColor().toString().toLowerCase() + ") krijgt "
-							+ resourcesGivenHashMap.get(resourceType) + " " + resourceType.toString().toLowerCase() + ", ";
+							+ resourcesGivenHashMap.get(resourceType) + " " + resourceType.toString().toLowerCase()
+							+ ", ";
 				}
 			}
 		}
@@ -1277,7 +1286,8 @@ public class GameControl {
 						catanGame.setTurn(p.getIdPlayer());
 						System.out.println("1 fw set next turn for " + p.getIdPlayer());
 						enableEveryoneShouldRefresh();
-						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase() + ") is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase()
+								+ ") is nu aan de Beurt.");
 						break;
 					}
 				}
@@ -1288,7 +1298,8 @@ public class GameControl {
 						catanGame.setTurn(p.getIdPlayer());
 						System.out.println("2 fw set next turn for " + p.getIdPlayer());
 						enableEveryoneShouldRefresh();
-						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase() + ") is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase()
+								+ ") is nu aan de Beurt.");
 						break;
 					}
 				}
@@ -1318,7 +1329,8 @@ public class GameControl {
 						System.out.println("3 bw set next turn for " + p.getIdPlayer());
 
 						enableEveryoneShouldRefresh();
-						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase() + ") is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase()
+								+ ") is nu aan de Beurt.");
 						break;
 					}
 				}
@@ -1357,16 +1369,16 @@ public class GameControl {
 	public DevelopmentCard buyDevelopmentCard() {
 		DevelopmentCard developmentCard = catanGame.getBank().takeDevelopmentCard();
 		if (developmentCard != null) {
-		catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
-		mainDA.addDevelopmentCardToPlayer(developmentCard.getDevelopmentCardID(),
-				catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
+			catanGame.getSelfPlayer().getHand().addDevelopmentCard(developmentCard);
+			mainDA.addDevelopmentCardToPlayer(developmentCard.getDevelopmentCardID(),
+					catanGame.getSelfPlayer().getIdPlayer(), catanGame.getIdGame());
 			payResources(DevelopmentCard.CARD_COST);
-		}else {
+		} else {
 			guiController.addSystemMessageToChat(Color.RED, "De bank heeft niet genoeg ontwikkelingskaarten");
 		}
 		return developmentCard;
 	}
-	
+
 	public void checkForWinner() {
 		Player winner = null;
 
@@ -1387,59 +1399,74 @@ public class GameControl {
 	}
 
 	public void calculateLargestArmy() {
-		if (catanGame.getSelfPlayer().getAmountOfKnights() >= 3) {
-			boolean anyoneHas = false;
-			for (Player p : catanGame.getPlayers()) {
-				if (p.getHasLargestArmy()) {
-					if (catanGame.getSelfPlayer().getAmountOfKnights() > p.getAmountOfKnights()) {
-						p.setHasLargestArmy(false);
-						catanGame.getSelfPlayer().setHasLargestArmy(true);
-						mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-						addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
-								+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-								+ " heeft nu de grootste riddermacht");
-						anyoneHas = true;
-						enableEveryoneShouldRefresh();
-						break;
+		if (!catanGame.getSelfPlayer().getHasLargestArmy()) {
+			if (catanGame.getSelfPlayer().getAmountOfKnights() >= 2) {
+				boolean anyoneHas = false;
+				for (Player p : catanGame.getPlayers()) {
+
+					if (!p.equals(catanGame.getSelfPlayer())) {
+						if (p.getHasLargestArmy()) {
+							if (catanGame.getSelfPlayer().getAmountOfKnights() > p.getAmountOfKnights()) {
+								p.setHasLargestArmy(false);
+								catanGame.getSelfPlayer().setHasLargestArmy(true);
+								mainDA.updateLargestArmy(catanGame.getIdGame(),
+										catanGame.getSelfPlayer().getIdPlayer());
+								addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+										+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+										+ " heeft nu de grootste riddermacht");
+								anyoneHas = true;
+								enableEveryoneShouldRefresh();
+								break;
+							}
+						}
 					}
 				}
-			}
-			if (!anyoneHas) {
-				catanGame.getSelfPlayer().setHasLargestArmy(true);
-				mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-				addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
-						+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-						+ " heeft nu de grootste riddermacht");
-				anyoneHas = true;
-				enableEveryoneShouldRefresh();
+				if (!anyoneHas) {
+					catanGame.getSelfPlayer().setHasLargestArmy(true);
+					mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+							+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+							+ " heeft nu de grootste riddermacht");
+					anyoneHas = true;
+					enableEveryoneShouldRefresh();
+				}
 			}
 		}
 	}
-	
+
 	public void calculateLongestTradeRoute() {
-		if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) >= 5) {
-			boolean anyoneHas = false;
-			for (Player p : catanGame.getPlayers()) {
-				if (p.getHasLongestRoad()) {
-					if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) > getTradeRouteLength(p.getUsername())) {
-						p.setHasLongestRoad(false);
-						catanGame.getSelfPlayer().setHasLongestRoad(true);
-						mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-						addLogMessage(catanGame.getSelfPlayer().getUsername() + " (" 
-						+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + " heeft nu de langste handelsroute");
-						anyoneHas = true;
-						enableEveryoneShouldRefresh();
-						break;
+		if (!catanGame.getSelfPlayer().getHasLongestRoad()) {
+			if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) >= 5) {
+				boolean anyoneHas = false;
+				for (Player p : catanGame.getPlayers()) {
+					if (!p.equals(catanGame.getSelfPlayer())) {
+						if (p.getHasLongestRoad()) {
+							if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) > getTradeRouteLength(
+									p.getUsername())) {
+								p.setHasLongestRoad(false);
+								catanGame.getSelfPlayer().setHasLongestRoad(true);
+								mainDA.updateLongestTradeRoute(catanGame.getIdGame(),
+										catanGame.getSelfPlayer().getIdPlayer());
+								addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+										+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+										+ " heeft nu de langste handelsroute");
+								anyoneHas = true;
+								enableEveryoneShouldRefresh();
+								break;
+							}
+
+						}
 					}
 				}
-			}
-			if (!anyoneHas) {
-				catanGame.getSelfPlayer().setHasLongestRoad(true);
-				mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-				addLogMessage(catanGame.getSelfPlayer().getUsername() + " (" 
-						+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + " heeft nu de langste handelsroute");
-				anyoneHas = true;
-				enableEveryoneShouldRefresh();
+				if (!anyoneHas) {
+					catanGame.getSelfPlayer().setHasLongestRoad(true);
+					mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+							+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+							+ " heeft nu de langste handelsroute");
+					anyoneHas = true;
+					enableEveryoneShouldRefresh();
+				}
 			}
 		}
 	}
