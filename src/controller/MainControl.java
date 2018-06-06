@@ -97,13 +97,10 @@ public class MainControl {
 
 					while (ingame) {
 						updateRefreshMessages();
-						// System.out.println("ingame: "+ ingame);
 						try {
 							boolean result = mainDA
 									.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 							if (result) {
-								// mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
-								// false);
 								updateRefreshTurn();
 								updateRefreshDice();
 								updateRefreshBoard();
@@ -117,7 +114,6 @@ public class MainControl {
 							try {
 								Thread.sleep(3000);
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						} catch (Exception e) {
@@ -161,9 +157,6 @@ public class MainControl {
 		}
 	}
 
-	// private void repaintAndValidate() {
-	// guiController.repaintAndValidate();
-	// }
 
 	public void createNewGame(ArrayList<String> playerUsernames, boolean randomBoard) {
 		Catan catanGame;

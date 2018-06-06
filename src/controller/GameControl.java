@@ -243,11 +243,6 @@ public class GameControl {
 				}
 			}
 		}
-		// x-1
-		// x+1 y+1
-		// y-1
-
-		// TODO check if there are streets connected to this location
 
 		buildingLocation.setVillage(catanGame.getSelfPlayer().getAvailableVillage());
 		village.setBuildingLocation(buildingLocation);
@@ -1401,43 +1396,6 @@ public class GameControl {
 	public void updateDevCardInDB(String developmentCardID) {
 		mainDA.useDevelopmentCard(developmentCardID, catanGame.getIdGame());
 	}
-
-//	public void calculateLargestArmy() {
-//		if (!catanGame.getSelfPlayer().getHasLargestArmy()) {
-//			
-//			if (catanGame.getSelfPlayer().getAmountOfKnights() >= 2) {
-//				boolean anyoneHas = false;
-//				for (Player p : catanGame.getPlayers()) {
-//
-//					if (!p.equals(catanGame.getSelfPlayer())) {
-//						if (p.getHasLargestArmy()) {
-//							if (catanGame.getSelfPlayer().getAmountOfKnights() > p.getAmountOfKnights()) {
-//								p.setHasLargestArmy(false);
-//								catanGame.getSelfPlayer().setHasLargestArmy(true);
-//								mainDA.updateLargestArmy(catanGame.getIdGame(),
-//										catanGame.getSelfPlayer().getIdPlayer());
-//								addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
-//										+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-//										+ ") heeft nu de grootste riddermacht");
-//								anyoneHas = true;
-//								enableEveryoneShouldRefresh();
-//								break;
-//							}
-//						}
-//					}
-//				}
-//				if (!anyoneHas) {
-//					catanGame.getSelfPlayer().setHasLargestArmy(true);
-//					mainDA.updateLargestArmy(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
-//					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
-//							+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-//							+ ") heeft nu de grootste riddermacht");
-//					anyoneHas = true;
-//					enableEveryoneShouldRefresh();
-//				}
-//			}
-//		}
-//	}
 	
 	public void calculateLargestArmy() {
 		System.out.println("largestArmy");
