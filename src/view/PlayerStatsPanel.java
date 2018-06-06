@@ -70,6 +70,7 @@ public class PlayerStatsPanel extends JPanel {
 	private void create() {
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridwidth = 4;
 		gridBagConstraints.insets = new Insets(2, 2, 2, 2);
 		gridBagConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
@@ -107,6 +108,7 @@ public class PlayerStatsPanel extends JPanel {
 		// Add images of buildings
 		gridBagConstraints.insets = new Insets(0, 5, 0, 2);
 		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridwidth = 1;
 		String[] urls = new String[] { "/images/Village-Icon.png", "/images/City-Icon.png", "/images/Road_Icon.png",
 				"/images/ResourceCards_Icon.png", "/images/DevelopmentCards_Icon.png" };
 
