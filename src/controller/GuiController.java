@@ -82,7 +82,7 @@ public class GuiController {
 	private Frame frame;
 	private GameSouthContainerPanel gameSouthContainerPanel;
 	private PlayerStatsPanel[] playerStatsPanels;
-	private RecentGamesTopPanel topOptionsPanel;
+	private RecentGamesTopPanel recentGamesTopPanel;
 	private BottomOptionsPanel bottomOptionsPanel;
 	private MainMenuGUI mainMenuGui;
 	private GameGUIPanel gameGUIPanel;
@@ -144,7 +144,6 @@ public class GuiController {
 					loginregisterPanel.setMessagelabel("Ongeldige gegevens ingevoerd");
 				} else {
 					mainControl.setMainMenu();
-					;
 				}
 			}
 		});
@@ -183,7 +182,6 @@ public class GuiController {
 				int result = JOptionPane.showOptionDialog(null, "Weet je zeker dat je het spel wilt afsluiten?",
 						"Waarschuwing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 				if (result == JOptionPane.YES_OPTION) {
-
 					System.exit(0);
 				}
 			}
@@ -194,15 +192,16 @@ public class GuiController {
 
 	public void setMainMenu(String username) {
 		mainControl.loadProfile(false);
-		topOptionsPanel = new RecentGamesTopPanel();
-		topOptionsPanel.getRecentButton().setSelected(true);
+		recentGamesTopPanel = new RecentGamesTopPanel();
+		recentGamesTopPanel.getRecentButton().setSelected(true);
 
 		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
-		topOptionsPanel.getCreateGameButton().addActionListener(new ActionListener() {
+		recentGamesTopPanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				newGamedialog = new JDialog();
 				newGamedialog.setTitle("Nieuw Spel");
+				newGamedialog.setResizable(false);
 				newGamedialog.setContentPane(newGamePanel);
 				newGamedialog.pack();
 				newGamedialog.setLocationRelativeTo(null);
@@ -211,7 +210,7 @@ public class GuiController {
 			}
 		});
 
-		topOptionsPanel.getInviteButton().addActionListener(new ActionListener() {
+		recentGamesTopPanel.getInviteButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -219,7 +218,7 @@ public class GuiController {
 			}
 		});
 
-		topOptionsPanel.getRecentButton().addActionListener(new ActionListener() {
+		recentGamesTopPanel.getRecentButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -228,7 +227,7 @@ public class GuiController {
 
 			}
 		});
-		topOptionsPanel.getClosedGameButton().addActionListener(new ActionListener() {
+		recentGamesTopPanel.getClosedGameButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -378,7 +377,7 @@ public class GuiController {
 			}
 		});
 
-		this.mainMenuGui = new MainMenuGUI(username, topOptionsPanel, bottomOptionsPanel);
+		this.mainMenuGui = new MainMenuGUI(username, recentGamesTopPanel, bottomOptionsPanel);
 		retrieveGames();
 
 		frame.setContentPane(mainMenuGui);
@@ -423,6 +422,7 @@ public class GuiController {
 
 		dialog.setTitle("Uitnodigingenbeheer");
 		dialog.setContentPane(this.invitePanel);
+		dialog.setResizable(false);
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.toFront();
@@ -1647,6 +1647,7 @@ public class GuiController {
 		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner));
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
+		dialog.setResizable(false);
 		dialog.toFront();
 		dialog.requestFocus();
 		dialog.setAlwaysOnTop(true);

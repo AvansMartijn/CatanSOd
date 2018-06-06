@@ -15,6 +15,7 @@ public class ManageInvitesFrame extends JFrame {
 		panel = new ManageInvitesPanel(availablePlayers, game);
 		this.setContentPane(panel);
 		this.setUndecorated(true);
+		this.setResizable(false);
 		this.pack();
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
