@@ -33,7 +33,6 @@ public class GameControl {
 	// private String username;
 	private Catan catanGame;
 	private Thread tradeRequestThread;
-	private boolean isInTurn;
 	private boolean firstRoundActive;
 
 	public GameControl(MainDA mainDA) {
@@ -41,7 +40,6 @@ public class GameControl {
 		// This will be added in the GuiController(). So it won't be null in the
 		// program.
 
-		isInTurn = false;
 		guiController = null;
 	}
 
@@ -63,6 +61,8 @@ public class GameControl {
 
 	public boolean addPlayerMessage(String message) {
 		message = catanGame.getSelfPlayer().getUsername() + ": " + message;
+		message = message.replace("\'", "");
+		message = message.replace("\\", "-");
 		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
 			return true;
 		} else {
@@ -70,14 +70,14 @@ public class GameControl {
 		}
 	}
 
-	public boolean addPlayerMessage(String message, Player player) {
-		message = player.getUsername() + ": " + message;
-		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public boolean addPlayerMessage(String message, Player player) {
+//		message = player.getUsername() + ": " + message;
+//		if (mainDA.addMessage(catanGame.getSelfPlayer().getIdPlayer(), message)) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
 	public void changeRobber(int idTile) {
 		catanGame.getGameboard().setRobber(idTile);
@@ -968,7 +968,6 @@ public class GameControl {
 	}
 
 	public void endTurn() {
-		isInTurn = false;
 		catanGame.setRolledDice(false);
 		try {
 			if (catanGame.getSelfPlayer().getFollownr() == 4) {
@@ -1018,7 +1017,7 @@ public class GameControl {
 	public void doTurn() {
 		if (!mainDA.hasThrown(catanGame.getIdGame())) {
 
-			isInTurn = true;
+			guiController.disablePlayerActionPanel();
 			guiController.enableDice();
 		}
 	}
@@ -1266,7 +1265,6 @@ public class GameControl {
 						System.out.println("1 fw set next turn for " + p.getIdPlayer());
 						enableEveryoneShouldRefresh();
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
-						isInTurn = false;
 						break;
 					}
 				}
@@ -1278,7 +1276,6 @@ public class GameControl {
 						System.out.println("2 fw set next turn for " + p.getIdPlayer());
 						enableEveryoneShouldRefresh();
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
-						isInTurn = false;
 						break;
 					}
 				}
@@ -1298,7 +1295,6 @@ public class GameControl {
 				System.out.println("firstround:  " + catanGame.isFirstRound());
 				mainDA.setFirstRound(0, catanGame.getIdGame());
 
-				isInTurn = false;
 				enableEveryoneShouldRefresh();
 				addLogMessage(catanGame.getSelfPlayer().getUsername() + " is nu aan de Beurt.");
 			} else {
@@ -1309,7 +1305,6 @@ public class GameControl {
 						System.out.println("3 bw set next turn for " + p.getIdPlayer());
 
 						enableEveryoneShouldRefresh();
-						isInTurn = false;
 						addLogMessage(p.getUsername() + " is nu aan de Beurt.");
 						break;
 					}

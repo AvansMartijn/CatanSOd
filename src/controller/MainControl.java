@@ -86,6 +86,7 @@ public class MainControl {
 		updateRefreshPlayers();
 		updateRefreshMessages();
 		updateRefreshTurn();
+		updateRefreshTradeRequest();
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 
@@ -398,6 +399,8 @@ public class MainControl {
 					gameControl.getCatanGame().addTradeRequest(tr);
 					guiController.showTradeReceiveDialog(tr);
 				}
+			}else if(tr != null && tr.getIdPlayer() == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				gameControl.countTradeOffers();
 			}
 			// }
 		} catch (Exception e) {
