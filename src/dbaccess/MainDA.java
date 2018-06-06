@@ -472,8 +472,8 @@ public class MainDA {
 			String playStatus) {
 
 		String insertquery = "INSERT INTO speler (idspeler, idspel, username, kleur, speelstatus, shouldrefresh, volgnr)"
-				+ " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor + "', '"
-				+ playStatus + "', " + false + ", " + followNR + ");";
+				+ " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor.toLowerCase() + "', '"
+				+ playStatus.toLowerCase() + "', " + false + ", " + followNR + ");";
 
 		if (!insertUpdateQuery(insertquery)) {
 			System.out.println("Adding player to DB failed");
