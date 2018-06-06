@@ -196,10 +196,10 @@ public class GuiController {
 		recentGamesTopPanel = new RecentGamesTopPanel();
 		recentGamesTopPanel.getRecentButton().setSelected(true);
 
-		NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
 		recentGamesTopPanel.getCreateGameButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				NewGamePanel newGamePanel = new NewGamePanel(mainControl.getAllAccounts(), mainControl.getAcccountUsername());
 				newGamedialog = new JDialog();
 				newGamedialog.setTitle("Nieuw Spel");
 				newGamedialog.setResizable(false);
@@ -208,6 +208,92 @@ public class GuiController {
 				newGamedialog.setLocationRelativeTo(null);
 				newGamedialog.setAlwaysOnTop(true);
 				newGamedialog.setVisible(true);
+				newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+
+						if (newGamePanel.getInvitedPlayers().size() == 4) {
+							String boardChoice = (String) newGamePanel.getBoardChoice();
+							if (boardChoice == "Random") {
+								mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
+							} else {
+								mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
+							}
+							frame.setContentPane(waitingRoom);
+							frame.pack();
+							newGamedialog.dispose();
+
+							manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
+									gameControl.getCatanGame());
+
+							ActionListener refreshListener = new ActionListener() {
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
+									int count = 0;
+									for (Player p : game.getPlayers()) {
+										if (p.getPlayStatus().toString().toLowerCase().equals("geaccepteerd")) {
+											count++;
+										}
+									}
+									if (count == 3) {
+										// Open Game
+										mainControl.joinGame(game);
+										manageInvitesFrame.dispose();
+									}
+									ActionListener listener = manageInvitesFrame.panel.getSaveInvitesButton()
+											.getActionListeners()[0];
+									manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
+									manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(this);
+									manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(listener);
+								}
+							};
+
+							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(refreshListener);
+
+							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
+
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									if (manageInvitesFrame.panel.getInvitedPlayers().size() < 4) {
+										JOptionPane.showConfirmDialog(null, "Te weinig spelers",
+												"Je moet minimaal 4 spelers hebben.", JOptionPane.OK_OPTION);
+									} else {
+										// Compare Lists and update in DB.
+										ArrayList<Player> playersToRemove = new ArrayList<>();
+										ArrayList<Player> playersToAdd = new ArrayList<>();
+										for (Player p : gameControl.getCatanGame().getPlayers()) {
+											if (!manageInvitesFrame.panel.getInvitedPlayers().stream()
+													.anyMatch(t -> t.getUsername().equals(p.getUsername()))) {
+												// Remove P
+												playersToRemove.add(p);
+											}
+										}
+										for (Player s : manageInvitesFrame.panel.getInvitedPlayers()) {
+											if (!gameControl.getCatanGame().getPlayers().stream()
+													.anyMatch(t -> t.getUsername().equals(s.getUsername()))) {
+												// Add S
+												playersToAdd.add(s);
+											}
+										}
+										if (playersToRemove.size() == playersToAdd.size()) {
+											mainControl.switchInvites(playersToAdd, playersToRemove,
+													gameControl.getCatanGame().getIdGame());
+											JOptionPane.showConfirmDialog(null, "Gelukt!", "De nieuwe mensen zijn uitgenodigd!",
+													JOptionPane.OK_OPTION);
+											Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
+											manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
+										}
+									}
+									manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(refreshListener);
+									manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(this);
+								}
+							});
+						}
+					}
+				});
 			}
 		});
 
@@ -238,92 +324,6 @@ public class GuiController {
 			}
 		});
 
-		newGamePanel.getCreateGameButton().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				if (newGamePanel.getInvitedPlayers().size() == 4) {
-					String boardChoice = (String) newGamePanel.getBoardChoice();
-					if (boardChoice == "Random") {
-						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), true);
-					} else {
-						mainControl.createNewGame(newGamePanel.getInvitedPlayers(), false);
-					}
-					frame.setContentPane(waitingRoom);
-					frame.pack();
-					newGamedialog.dispose();
-
-					manageInvitesFrame = new ManageInvitesFrame(mainControl.getAllAccounts(),
-							gameControl.getCatanGame());
-
-					ActionListener refreshListener = new ActionListener() {
-
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
-							int count = 0;
-							for (Player p : game.getPlayers()) {
-								if (p.getPlayStatus().toString().toLowerCase().equals("geaccepteerd")) {
-									count++;
-								}
-							}
-							if (count == 3) {
-								// Open Game
-								mainControl.joinGame(game);
-								manageInvitesFrame.dispose();
-							}
-							ActionListener listener = manageInvitesFrame.panel.getSaveInvitesButton()
-									.getActionListeners()[0];
-							manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
-							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(this);
-							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(listener);
-						}
-					};
-
-					manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(refreshListener);
-
-					manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(new ActionListener() {
-
-						@Override
-						public void actionPerformed(ActionEvent arg0) {
-							if (manageInvitesFrame.panel.getInvitedPlayers().size() < 4) {
-								JOptionPane.showConfirmDialog(null, "Te weinig spelers",
-										"Je moet minimaal 4 spelers hebben.", JOptionPane.OK_OPTION);
-							} else {
-								// Compare Lists and update in DB.
-								ArrayList<Player> playersToRemove = new ArrayList<>();
-								ArrayList<Player> playersToAdd = new ArrayList<>();
-								for (Player p : gameControl.getCatanGame().getPlayers()) {
-									if (!manageInvitesFrame.panel.getInvitedPlayers().stream()
-											.anyMatch(t -> t.getUsername().equals(p.getUsername()))) {
-										// Remove P
-										playersToRemove.add(p);
-									}
-								}
-								for (Player s : manageInvitesFrame.panel.getInvitedPlayers()) {
-									if (!gameControl.getCatanGame().getPlayers().stream()
-											.anyMatch(t -> t.getUsername().equals(s.getUsername()))) {
-										// Add S
-										playersToAdd.add(s);
-									}
-								}
-								if (playersToRemove.size() == playersToAdd.size()) {
-									mainControl.switchInvites(playersToAdd, playersToRemove,
-											gameControl.getCatanGame().getIdGame());
-									JOptionPane.showConfirmDialog(null, "Gelukt!", "De nieuwe mensen zijn uitgenodigd!",
-											JOptionPane.OK_OPTION);
-									Catan game = mainControl.getGameFromId(gameControl.getCatanGame().getIdGame());
-									manageInvitesFrame.UpdatePanel(mainControl.getAllAccounts(), game);
-								}
-							}
-							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(refreshListener);
-							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(this);
-						}
-					});
-				}
-			}
-		});
 
 		waitingRoom.getExitButton().addActionListener(new ActionListener() {
 
