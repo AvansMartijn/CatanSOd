@@ -1060,12 +1060,12 @@ public class GuiController {
 
 					gameControl.acceptTradeRequest(newTradeRequest);
 					gameControl.addLogMessage(
-							gameControl.getCatanGame().getSelfPlayer().getUsername()
-							+ " (" + gameControl.getCatanGame().getSelfPlayer().getColor().toString().toLowerCase()
+							gameControl.getCatanGame().getSelfPlayer().getUsername() + " ("
+							+ gameControl.getCatanGame().getSelfPlayer().getColor().toString().toLowerCase()
 							+ ") heeft het handelsaanbod van "
-									+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername()
-									+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getColor().toString().toLowerCase()
-									+ ") geaccepteerd");
+							+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " ("
+							+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getColor().toString().toLowerCase()
+							+ ") geaccepteerd");
 					tradeReceive.dispose();
 					gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 				}
