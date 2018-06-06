@@ -1155,10 +1155,14 @@ public class GuiController {
 				ResourceType resourceTypeToReceive = playerActionPanel.getTradeBankPanel()
 						.getSelectedResourceType(playerActionPanel.getTradeBankPanel().getReceiveButtonGroup());
 
+				System.out.println("ResourceRatio: " + resourceRatios);
+				
 				gameControl.getBankTradeRequest(resourceRatios, resourceTypeToGive, resourceTypeToReceive);
 
 				gameGUIPanel.getResourcesPanel().updateResourcesAmount();
 
+				playerActionPanel.setPlayerOptionMenuPanel();
+				
 				updatePlayerStats();
 			}
 		});
@@ -1334,7 +1338,6 @@ public class GuiController {
 				}
 				playerActionPanel.setBuildPanel();
 			}
-
 		});
 
 		playerActionPanel.getBuildPanel().getStreetButton().addActionListener(new ActionListener() {
