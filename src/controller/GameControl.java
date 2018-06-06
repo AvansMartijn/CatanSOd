@@ -1441,7 +1441,7 @@ public class GameControl {
 	
 	public void calculateLargestArmy() {
 		System.out.println("largestArmy");
-		if (catanGame.getSelfPlayer().getHasLongestRoad() == false) {
+		if (catanGame.getSelfPlayer().getHasLargestArmy() == false) {
 			System.out.println("Not biggest self");
 			Player currentLongest = null;
 			System.out.println(catanGame.getSelfPlayer().getAmountOfKnights());
