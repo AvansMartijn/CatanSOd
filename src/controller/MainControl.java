@@ -86,7 +86,7 @@ public class MainControl {
 		updateMessages();
 		guiController.setIngameGuiPanel();
 		updateRefreshTurn();
-		updateRefreshTradeRequest();
+		updateRefreshTradeRequest();	
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 

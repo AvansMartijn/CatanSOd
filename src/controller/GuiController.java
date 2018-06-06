@@ -766,7 +766,11 @@ public class GuiController {
 	private void addDevelopmentCardsPanelButtonListeners() {
 		ArrayList<DevelopmentCardButton> developmentCards = developmentCardsPanel.getDevelopmentCardButtons();
 		for (DevelopmentCardButton b : developmentCards) {
+			System.out.println(b.getDevelopmentCard().getDevelopmentCardID() + " " + b.getActionListeners().length);
 			if (b.getActionListeners() != null) {
+				for(ActionListener al: b.getActionListeners()) {
+					b.removeActionListener(al);
+				}
 				if (b.getDevelopmentCard().getDevelopmentCardType() != DevelopmentCardType.VICTORY_POINT) {
 					b.addActionListener(new ActionListener() {
 						@Override
@@ -795,7 +799,6 @@ public class GuiController {
 												gameControl.updateDevCardInDB(
 														b.getDevelopmentCard().getDevelopmentCardID());
 												b.setBackground(new Color(0, 0, 0));
-												gameControl.calculateLargestArmy();
 												break;
 											case ROAD_BUILDING:
 												addSystemMessageToChat(Color.BLUE,
@@ -827,6 +830,7 @@ public class GuiController {
 											}
 											b.getDevelopmentCard().setPlayed(true);
 											disableAllDevelopmentCards();
+											gameControl.calculateLargestArmy();
 											developmentCardsPanel.repaint();
 										}
 

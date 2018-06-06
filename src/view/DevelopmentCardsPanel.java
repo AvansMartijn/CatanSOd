@@ -52,12 +52,12 @@ public class DevelopmentCardsPanel extends JPanel {
 		System.out.println("devCards: " + selfPlayer.getHand().getDevelopmentCards().size());
 		for (int i = 0; i < selfPlayer.getHand().getDevelopmentCards().size(); i++) {
 			DevelopmentCard developmentCard = selfPlayer.getHand().getDevelopmentCards().get(i);
-			addDevelopmentCardButton(developmentCard);
+			addNewDevelopmentCardButton(developmentCard);
 		}
 	}
 
 	// Add development card
-	public void addDevelopmentCardButton(DevelopmentCard developmentCard) {
+	public void addNewDevelopmentCardButton(DevelopmentCard developmentCard) {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
 		developmentCardButtons.add(developmentCardButton);
 		developmentCardButton.setEnabled(true); // TODO whats the point of having this line in 2 times?
@@ -71,6 +71,24 @@ public class DevelopmentCardsPanel extends JPanel {
 		panel.add(developmentCardButton);
 		revalidate();
 	}
+	
+	public void addDevelopmentCardButton(DevelopmentCard developmentCard) {
+		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
+		developmentCardButtons.add(developmentCardButton);
+		developmentCardButton.setEnabled(false); // TODO whats the point of having this line in 2 times?
+		developmentCardButton.setVisible(true);
+		System.out.println("card");
+		if(developmentCard.isPlayed()) {
+			developmentCardButton.setEnabled(false);
+			developmentCardButton.setBackground(new Color(0, 0, 0));
+		}
+		setPanelSize();
+		panel.add(developmentCardButton);
+		revalidate();
+	}
+	
+	
+	
 	
 	private void setPanelSize() {
 		int size = (developmentCardButtons.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));
