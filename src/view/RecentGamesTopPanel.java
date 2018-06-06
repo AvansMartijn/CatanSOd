@@ -23,7 +23,7 @@ public class RecentGamesTopPanel extends JPanel {
 
 		setBackground(backgroundColor);
 		
-		createGameButton = new JButton("Game aanmaken");
+		createGameButton = new JButton("Spel aanmaken");
 		add(createGameButton);
 
 		inviteButton = new JButton("Uitnodigingen");
