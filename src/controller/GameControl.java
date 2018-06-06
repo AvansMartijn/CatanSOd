@@ -614,9 +614,9 @@ public class GameControl {
 		ArrayList<Resource> resourceCardsToGive = new ArrayList<>();
 
 		resourceCardsToGive = catanGame.getSelfPlayer().getHand().takeMultipleResources(resourceTypeToGive, ratio);
-		
+
 		System.out.println("resourceCardsToGive");
-		
+
 		if (resourceCardsToGive == null) {
 			guiController.addSystemMessageToChat(Color.RED,
 					"Je hebt niet genoeg " + resourceTypeToGive.name() + " kaarten");
@@ -990,9 +990,8 @@ public class GameControl {
 					if (p.getFollownr() == 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						addLogMessage(
-								p.getUsername() + " (" + p.getColor().toString().toLowerCase()
-										+ ") is nu aan de Beurt.");
+						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase()
+								+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
 						enableEveryoneShouldRefresh();
 						break;
@@ -1003,8 +1002,7 @@ public class GameControl {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() + 1) {
 						mainDA.setTurn(p.getIdPlayer(), catanGame.getIdGame());
 						catanGame.setTurn(p.getIdPlayer());
-						addLogMessage(
-								p.getUsername() + " (" + p.getColor().toString().toLowerCase()
+						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase()
 								+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
 						enableEveryoneShouldRefresh();
@@ -1444,39 +1442,37 @@ public class GameControl {
 		System.out.println("CalculateTradeRoute");
 		if (catanGame.getSelfPlayer().getHasLongestRoad() == false) {
 			System.out.println("Not longest self");
+			Player currentLongest = null;
 			if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) >= 5) {
 				System.out.println("More than 5 roads");
-				boolean anyoneHas = false;
 				for (Player p : catanGame.getPlayers()) {
-					System.out.println("Loops players");
-						if (p.getHasLongestRoad()) {
-							System.out.println(p.getUsername() +  "Has longest road");
-							System.out.println(getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) + " < YOU | CurrentOwner> " +  getTradeRouteLength(
-									p.getUsername()));
-							if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) > getTradeRouteLength(
-									p.getUsername())) {
-								p.setHasLongestRoad(false);
-								catanGame.getSelfPlayer().setHasLongestRoad(true);
-								mainDA.updateLongestTradeRoute(catanGame.getIdGame(),
-										catanGame.getSelfPlayer().getIdPlayer());
-								addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
-										+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
-										+ ") heeft nu de langste handelsroute");
-								anyoneHas = true;
-								enableEveryoneShouldRefresh();
-								break;
-							}
-
+					if (p.getHasLongestRoad()) {
+						System.out.println("Loops players");
+						currentLongest = p;
+						break;
 					}
-				}
-				if (!anyoneHas) {
+				}				
+				
+				if(currentLongest != null) {
+					System.out.println(currentLongest.getUsername() + "Has longest road");
+					System.out.println(getTradeRouteLength(catanGame.getSelfPlayer().getUsername())	+ " < YOU | CurrentOwner> " + getTradeRouteLength(currentLongest.getUsername()));
+					if (getTradeRouteLength(catanGame.getSelfPlayer().getUsername()) > getTradeRouteLength(currentLongest.getUsername())) {
+						currentLongest.setHasLongestRoad(false);
+						catanGame.getSelfPlayer().setHasLongestRoad(true);
+						mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
+						addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+								+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
+								+ ") heeft nu de langste handelsroute");
+						enableEveryoneShouldRefresh();
+						
+					}
+				} else {
 					System.out.println("Nobody has");
 					catanGame.getSelfPlayer().setHasLongestRoad(true);
 					mainDA.updateLongestTradeRoute(catanGame.getIdGame(), catanGame.getSelfPlayer().getIdPlayer());
 					addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 							+ catanGame.getSelfPlayer().getColor().toString().toLowerCase()
 							+ ") heeft nu de langste handelsroute");
-					anyoneHas = true;
 					enableEveryoneShouldRefresh();
 				}
 			}
