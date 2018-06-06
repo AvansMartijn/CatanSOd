@@ -400,7 +400,8 @@ public class MainControl {
 					guiController.showTradeReceiveDialog(tr);
 				}
 			}else if(tr != null && tr.getIdPlayer() == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-				gameControl.countTradeOffers();
+				gameControl.deleteTradeRequest();
+				gameControl.addLogMessage("Het handelsverzoek is afgebroken");
 			}
 			// }
 		} catch (Exception e) {
