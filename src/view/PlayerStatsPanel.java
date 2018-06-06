@@ -25,8 +25,8 @@ public class PlayerStatsPanel extends JPanel {
 	private final int PANEL_WIDTH = 210;
 	private final int PANEL_HEIGHT = 240;
 	private final int STATS_AMOUNT = 5;
-	private final int LARGEST_ARMY_IMAGE_SIZE = 80;
-	private final int LONGEST_ROAD_IMAGE_SIZE = 60;
+	private final int LARGEST_ARMY_IMAGE_SIZE = 60;
+	private final int LONGEST_ROAD_IMAGE_SIZE = 45;
 	private final int STAT_LABEL_DIMENSION = 35;
 
 	// Instance variables
