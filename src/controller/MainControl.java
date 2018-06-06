@@ -87,6 +87,7 @@ public class MainControl {
 		guiController.setIngameGuiPanel();
 		updateRefreshTurn();
 		updateRefreshTradeRequest();	
+		if(!game.getSelfPlayer().getPlayStatus().equals(PlayStatus.UITGESPEELD)) {
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 
@@ -125,7 +126,12 @@ public class MainControl {
 			}
 		});
 		ingameTimerThread.start();
-
+		} else {
+			guiController.disableAllDevelopmentCards();
+			guiController.disableDice();
+			guiController.disablePlayerActionPanel();
+			updateRefreshMessages();
+		}
 	}
 
 	private void updateRefreshArmyAndTradeRoute() {
