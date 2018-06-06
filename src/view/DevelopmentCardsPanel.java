@@ -60,7 +60,7 @@ public class DevelopmentCardsPanel extends JPanel {
 	public void addDevelopmentCardButton(DevelopmentCard developmentCard) {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
 		developmentCardButtons.add(developmentCardButton);
-		developmentCardButton.setEnabled(false); // TODO whats the point of having this line in 2 times?
+		developmentCardButton.setEnabled(true); // TODO whats the point of having this line in 2 times?
 		developmentCardButton.setVisible(true);
 		System.out.println("card");
 		if(developmentCard.isPlayed()) {

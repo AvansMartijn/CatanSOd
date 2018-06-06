@@ -823,6 +823,7 @@ public class GuiController {
 												break;
 											}
 											b.getDevelopmentCard().setPlayed(true);
+											disableAllDevelopmentCards();
 											developmentCardsPanel.repaint();
 										}
 

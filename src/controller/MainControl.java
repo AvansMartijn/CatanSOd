@@ -82,11 +82,11 @@ public class MainControl {
 		gameControl.updateBoard();
 		gameControl.getCatanGame().getGameboard()
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
-		guiController.setIngameGuiPanel();
 		updateRefreshPlayers();
 		updateRefreshMessages();
 		updateRefreshTurn();
 		updateRefreshTradeRequest();
+		guiController.setIngameGuiPanel();
 		ingame = true;
 		ingameTimerThread = new Thread(new Runnable() {
 
@@ -429,6 +429,7 @@ public class MainControl {
 						.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 				p.getHand().setDevelopmentCards(
 						mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
+				System.out.println(p.getUsername() + " " +mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()).size());
 			}
 			gameControl.getCatanGame().getBank()
 					.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
@@ -436,6 +437,7 @@ public class MainControl {
 					.setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), 0));
 			gameControl.checkForWinner();
 			guiController.refreshPlayerResources();
+//			guiController.
 			
 		} catch (Exception e) {
 			System.out.println("updateRefreshPlayers failed");
