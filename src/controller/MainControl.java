@@ -86,46 +86,47 @@ public class MainControl {
 		updateMessages();
 		guiController.setIngameGuiPanel();
 		updateRefreshTurn();
-		updateRefreshTradeRequest();	
-		if(!game.getSelfPlayer().getPlayStatus().equals(PlayStatus.UITGESPEELD)) {
-		ingame = true;
-		ingameTimerThread = new Thread(new Runnable() {
+		updateRefreshTradeRequest();
+		updateRefreshArmyAndTradeRoute();
+		if (!game.getSelfPlayer().getPlayStatus().equals(PlayStatus.UITGESPEELD)) {
+			ingame = true;
+			ingameTimerThread = new Thread(new Runnable() {
 
-			@Override
-			public void run() {
+				@Override
+				public void run() {
 
-				while (ingame) {
-					updateRefreshMessages();
-					// System.out.println("ingame: "+ ingame);
-					try {
-						boolean result = mainDA
-								.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
-						if (result) {
-							// mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
-							// false);
-							updateRefreshTurn();
-							updateRefreshDice();
-							updateRefreshBoard();
-							updateRefreshRobber();
-							updateRefreshPlayers();
-							updateRefreshTradeRequest();
-							updateRefreshArmyAndTradeRoute();
-
-							System.out.println("refresh");
-						}
+					while (ingame) {
+						updateRefreshMessages();
+						// System.out.println("ingame: "+ ingame);
 						try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							boolean result = mainDA
+									.getShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+							if (result) {
+								// mainDA.setShouldRefresh(gameControl.getCatanGame().getSelfPlayer().getIdPlayer(),
+								// false);
+								updateRefreshTurn();
+								updateRefreshDice();
+								updateRefreshBoard();
+								updateRefreshRobber();
+								updateRefreshPlayers();
+								updateRefreshTradeRequest();
+								updateRefreshArmyAndTradeRoute();
+
+								System.out.println("refresh");
+							}
+							try {
+								Thread.sleep(3000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						} catch (Exception e) {
+							System.out.println(e);
 						}
-					} catch (Exception e) {
-						System.out.println(e);
 					}
 				}
-			}
-		});
-		ingameTimerThread.start();
+			});
+			ingameTimerThread.start();
 		} else {
 			guiController.disableAllDevelopmentCards();
 			guiController.disableDice();
@@ -135,6 +136,12 @@ public class MainControl {
 	}
 
 	private void updateRefreshArmyAndTradeRoute() {
+		updateArmyAndTradeRoute();
+		guiController.refreshPlayerResources();
+
+	}
+
+	private void updateArmyAndTradeRoute() {
 		int idPlayerLongestRoute = mainDA.getPlayerWithLongestTradeRoute(gameControl.getCatanGame().getIdGame());
 		int idPlayerLargestArmy = mainDA.getPlayerWithLargestArmy(gameControl.getCatanGame().getIdGame());
 
@@ -142,18 +149,16 @@ public class MainControl {
 			if (p.getIdPlayer() == idPlayerLongestRoute) {
 				p.setHasLongestRoad(true);
 				System.out.println(p.getUsername() + "Has road");
-			}else {
+			} else {
 				p.setHasLongestRoad(false);
 			}
 			if (p.getIdPlayer() == idPlayerLargestArmy) {
 				p.setHasLargestArmy(true);
 				System.out.println(p.getUsername() + "Has army");
-			}else {
+			} else {
 				p.setHasLargestArmy(false);
 			}
 		}
-		guiController.refreshPlayerResources();
-
 	}
 
 	// private void repaintAndValidate() {
@@ -172,8 +177,8 @@ public class MainControl {
 
 		guiController.setWaitingRoom(players);
 		Gameboard gameBoard = gameControl.createBoardAndAddToDB(players, randomBoard);
-		for(Tile t: gameBoard.getTileArr()) {
-			if(t.getRsType().equals(ResourceType.WOESTIJN)) {
+		for (Tile t : gameBoard.getTileArr()) {
+			if (t.getRsType().equals(ResourceType.WOESTIJN)) {
 				mainDA.changeRobberLocation(gameID, t.getIdTile());
 			}
 		}
@@ -384,12 +389,12 @@ public class MainControl {
 			System.out.println("updateRefreshmessages failed");
 		}
 	}
-	
+
 	private void updateMessages() {
 		try {
-		ArrayList<String> messageList = new ArrayList<String>();
-		messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
-		gameControl.getCatanGame().setMessages(messageList);
+			ArrayList<String> messageList = new ArrayList<String>();
+			messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
+			gameControl.getCatanGame().setMessages(messageList);
 		} catch (Exception e) {
 			System.out.println("Updatemessages failed");
 		}
@@ -436,12 +441,13 @@ public class MainControl {
 		try {
 			updatePlayers();
 			guiController.refreshPlayerResources();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("updateRefreshPlayers failed");
 		}
 	}
+
 	private void updatePlayers() {
 		try {
 			for (Player p : gameControl.getCatanGame().getPlayers()) {
@@ -455,7 +461,7 @@ public class MainControl {
 			gameControl.getCatanGame().getBank()
 					.setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), 0));
 			gameControl.checkForWinner();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("updatePlayers failed");
