@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -54,26 +51,11 @@ public class LoginRegisterPanel extends JPanel {
 					Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 		}
-
-		playBackgroundMusic("Catan-The-Score-Soundtrack.wav");
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
-	}
-
-	private void playBackgroundMusic(String fileName) { // TODO make music class which handles this 
-		Clip clip = null;
-		try {
-		URL sound = getClass().getResource("/Music/" + fileName);
-		AudioInputStream audioInputStream = AudioSystem
-		.getAudioInputStream(sound);
-		clip = AudioSystem.getClip();
-		clip.open(audioInputStream);
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
-		} catch (Exception ex) {
-		}
 	}
 
 	public JButton getInlogButton() {

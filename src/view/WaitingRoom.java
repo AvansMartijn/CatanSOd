@@ -15,15 +15,15 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 import javax.swing.*;
+
+import controller.MusicPlayer;
 
 @SuppressWarnings("serial")
 public class WaitingRoom extends JPanel {
 
+	private MusicPlayer musicPlayer;
 	private Image image;
 	private Color bottomPanelBarColor = new Color(0, 0, 0, 65);
 	private final int BOTTOMPANELBAR_HEIGHT = 80;
@@ -34,6 +34,7 @@ public class WaitingRoom extends JPanel {
 	public WaitingRoom() {
 		this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
 		this.setLayout(new BorderLayout());
+		musicPlayer = new MusicPlayer();
 		exitButton = new JButton("Terug");
 		exitButton.setSize(20, 20);
 
@@ -92,72 +93,53 @@ public class WaitingRoom extends JPanel {
 		tauntButtons[0].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("BRUH - Original - Vine Version.wav");
+				musicPlayer.playTaunt("BRUH - Original - Vine Version.wav");
 			}
 		});
 
 		tauntButtons[1].addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("Funny Laugh Sound- No No No No.wav");
+				musicPlayer.playTaunt("Funny Laugh Sound- No No No No.wav");
 			}
 		});
 		tauntButtons[2].addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("hallelujahshort.swf.wav");
+				musicPlayer.playTaunt("hallelujahshort.swf.wav");
 			}
 		});
 		tauntButtons[3].addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("mlg-airhorn.wav");
+				musicPlayer.playTaunt("mlg-airhorn.wav");
 			}
 		});
 		tauntButtons[4].addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("no-god-please-no-noooooooooo.wav");
+				musicPlayer.playTaunt("no-god-please-no-noooooooooo.wav");
 			}
 		});
 		tauntButtons[5].addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("wrong.wav");
+				musicPlayer.playTaunt("wrong.wav");
 			}
 		});
 		tauntButtons[6].addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("thisissparta.wav");
+				musicPlayer.playTaunt("thisissparta.wav");
 			}
 		});
 
 		tauntButtons[7].addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playSound("metalgearsolid.wav");
+				musicPlayer.playTaunt("metalgearsolid.wav");
 			}
 		});
-	}
-
-	private void playSound(String fileName) { // TODO make music class which handles this
-		Clip clip = null;
-		try {
-			URL sound = getClass().getResource("/Music/" + fileName);
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(sound);
-			clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start();
-		} catch (Exception ex) {
-		}
 	}
 
 	public JButton getExitButton() {
