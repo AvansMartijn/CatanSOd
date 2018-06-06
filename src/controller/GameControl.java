@@ -1389,6 +1389,9 @@ public class GameControl {
 				addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase() + ") heeft gewonnen");
 				addLogMessage("Het spel is afgelopen");
 				guiController.setwinnerDialog(winner);
+				guiController.disablePlayerActionPanel();
+				guiController.disableAllDevelopmentCards();
+				guiController.disableDice();
 				return;
 			}
 		}
