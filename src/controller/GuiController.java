@@ -585,7 +585,6 @@ public class GuiController {
 								+ gameControl.getCatanGame().getSelfPlayer().getColor().toString().toLowerCase()
 								+ ") Heeft de struikrover verzet naar " + b.getTile().getIdTile());
 						enablePlayerActionPanel();
-						enableUnplayedDevelopmentCards();
 					} else {
 						addSystemMessageToChat(Color.RED, "Je moet de robber naar een ander vak verplaatsen!");
 					}
@@ -865,6 +864,7 @@ public class GuiController {
 	}
 
 	public void enableUnplayedDevelopmentCards() {
+		System.out.println("enable unplayed dev cards");
 		for (DevelopmentCardButton b : developmentCardsPanel.getDevelopmentCardButtons()) {
 			if (!b.getDevelopmentCard().isPlayed()) {
 				b.setEnabled(true);

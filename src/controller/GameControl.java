@@ -1444,7 +1444,6 @@ public class GameControl {
 		if (catanGame.getSelfPlayer().getHasLargestArmy() == false) {
 			System.out.println("Not biggest self");
 			Player currentLongest = null;
-			System.out.println(catanGame.getSelfPlayer().getAmountOfKnights());
 			if (catanGame.getSelfPlayer().getAmountOfKnights() >= 3) {
 				System.out.println("More than 3 knights");
 				for (Player p : catanGame.getPlayers()) {
