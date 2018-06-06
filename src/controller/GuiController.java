@@ -77,6 +77,7 @@ import view.DevelopmentCardsPanel;
 public class GuiController {
 
 	private GameControl gameControl;
+	private MusicPlayer musicPlayer;
 	private MainControl mainControl;
 	private Frame frame;
 	private GameSouthContainerPanel gameSouthContainerPanel;
@@ -108,6 +109,7 @@ public class GuiController {
 	public GuiController(MainControl mainControl, GameControl gameControl) {
 		this.mainControl = mainControl;
 		this.gameControl = gameControl;
+		musicPlayer = new MusicPlayer();
 		gameControl.setGuiController(this);
 		frame = new Frame();
 		waitingRoom = new WaitingRoom();
@@ -126,6 +128,8 @@ public class GuiController {
 
 	public void setInlogPanel() {
 		LoginRegisterPanel loginregisterPanel = new LoginRegisterPanel();
+		musicPlayer.playMusic();
+		
 		loginregisterPanel.getInlogButton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -314,10 +318,8 @@ public class GuiController {
 							}
 							manageInvitesFrame.panel.getRefreshInvitesButton().addActionListener(refreshListener);
 							manageInvitesFrame.panel.getSaveInvitesButton().addActionListener(this);
-
 						}
 					});
-
 				}
 			}
 		});
@@ -337,7 +339,6 @@ public class GuiController {
 					mainControl.abortGame();
 					frame.pack();
 				}
-
 			}
 		});
 
@@ -355,6 +356,7 @@ public class GuiController {
 				if (result == JOptionPane.YES_OPTION) {
 					mainControl.stopIngameTimer();
 					mainControl.logOut();
+					musicPlayer.stopMusic();
 					setInlogPanel();
 				}
 			}
@@ -463,7 +465,7 @@ public class GuiController {
 
 				if (gameSelect.getStandardGameButton().isSelected()) {
 					// create standard game
-				} else if (gameSelect.getRandomGameButton().isSelected()) { // TODO returns null
+				} else if (gameSelect.getRandomGameButton().isSelected()) { // FIXME returns null
 					// create random game
 				} else {
 					gameSelect.getWarningLabel().setText("Geen speelbord geselecteerd");
@@ -513,9 +515,7 @@ public class GuiController {
 				if (result == JOptionPane.NO_OPTION) {
 					System.exit(0);
 				}
-
 			}
-
 		});
 		this.playerOptionMenuPanel = new PlayerOptionMenuPanel();
 		this.buyPanel = new BuyPanel();
@@ -569,7 +569,6 @@ public class GuiController {
 
 		frame.setContentPane(gameGUIPanel);
 		frame.pack();
-
 	}
 
 	private void addTileListeners() {
@@ -678,7 +677,6 @@ public class GuiController {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (gameControl.getCatanGame().isFirstRound()) {
-						System.out.println("buildstreet first round");
 						if (!gameControl.buildInitialStreet(slb.getStreetLocation())) {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 						} else {
@@ -718,8 +716,6 @@ public class GuiController {
 							}
 						}
 					} else {
-
-						System.out.println("buildstreet normal");
 						if (!gameControl.buildStreet(slb.getStreetLocation())) {
 							addSystemMessageToChat(Color.RED, "Je kan hier geen straat bouwen");
 						} else {
@@ -747,7 +743,6 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
 				gameControl.rollDice();
 				disableDice();
 				refreshDice();
@@ -758,13 +753,11 @@ public class GuiController {
 	public void disableDice() {
 		diceDotPanel.getButton().setVisible(false);
 		diceDotPanel.revalidate();
-		System.out.println("disabled dice button");
 	}
 
 	public void enableDice() {
 		diceDotPanel.getButton().setVisible(true);
 		diceDotPanel.revalidate();
-		System.out.println("enabled dice button");
 	}
 
 	private void addDevelopmentCardsPanelButtonListeners() {
@@ -861,7 +854,6 @@ public class GuiController {
 			if (!b.getDevelopmentCard().isPlayed()) {
 				b.setEnabled(true);
 			}
-
 		}
 	}
 
@@ -869,7 +861,6 @@ public class GuiController {
 		for (DevelopmentCardButton b : developmentCardsPanel.getDevelopmentCardButtons()) {
 			b.setEnabled(false);
 		}
-
 	}
 
 	private void addPlayerActionBuyConfirmButtonListener() {
@@ -939,14 +930,12 @@ public class GuiController {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-
 							gameControl.robberTakeResource(playersToRob.get(y));
 							robberDialog.dispose();
 						}
 					});
 				}
 			}
-
 		}
 	}
 
@@ -1080,7 +1069,6 @@ public class GuiController {
 				gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername()
 						+ " heeft het handelsaanbod van "
 						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " afgewezen");
-				// gameControl.setShouldRefreshEnabled(tr.getIdPlayer());
 				tradeReceive.dispose();
 			}
 		});
@@ -1093,7 +1081,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-
 			}
 		});
 
@@ -1112,7 +1099,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradePlayerPanel();
-				System.out.println("trade1");
 
 			}
 		});
@@ -1122,7 +1108,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setPlayerOptionMenuPanel();
-				System.out.println("trade2");
 			}
 		});
 
@@ -1139,7 +1124,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
-
 			}
 		});
 
@@ -1159,7 +1143,6 @@ public class GuiController {
 				gameGUIPanel.getResourcesPanel().updateResourcesAmount();
 
 				updatePlayerStats();
-
 			}
 		});
 
@@ -1169,7 +1152,6 @@ public class GuiController {
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradeOptionsPanel();
 			}
-
 		});
 	}
 
@@ -1227,7 +1209,6 @@ public class GuiController {
 				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(1).getIdPlayer()), tradeRequestArr.get(1),
 				gameControl.getCatanGame().getPlayerByID(tradeRequestArr.get(2).getIdPlayer()), tradeRequestArr.get(2));
 
-		// gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(false);
 		disablePanelButtons();
 
 		tradeRespond.pack();
@@ -1478,7 +1459,6 @@ public class GuiController {
 				String resourceName1 = getSelectedButtonText(
 						yearOfPlentyDialog.getYearOfPlentyDialogPanel().getGetResourceButtons1());
 
-				System.out.println(resourceName1);
 				switch (resourceName1) {
 				case "BAKSTEEN":
 					resourceType1 = ResourceType.BAKSTEEN;
@@ -1643,8 +1623,10 @@ public class GuiController {
 		if (gameControl.getCatanGame().getSelfPlayer() == winner) {
 			dialog.setTitle("Winnaar!");
 			isWinner = true;
+			musicPlayer.playTaunt("Applause Crowd Cheering sound effect.wav");
 		} else {
 			dialog.setTitle("Verloren!");
+			musicPlayer.playTaunt("Super Mario Bros. - Game Over Sound Effect.wav");
 		}
 		dialog.setContentPane(new GameEndScreenPanel(isWinner, winner));
 		dialog.pack();
