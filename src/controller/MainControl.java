@@ -401,9 +401,6 @@ public class MainControl {
 					gameControl.getCatanGame().addTradeRequest(tr);
 					guiController.showTradeReceiveDialog(tr);
 				}
-			}else if(tr != null && tr.getIdPlayer() == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-				gameControl.deleteTradeRequest();
-				gameControl.addLogMessage("Het handelsverzoek is afgebroken");
 			}
 			// }
 		} catch (Exception e) {
