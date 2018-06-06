@@ -445,19 +445,16 @@ public class MainControl {
 	private void updatePlayers() {
 		try {
 			for (Player p : gameControl.getCatanGame().getPlayers()) {
-				System.out.println(p.getUsername());
 				p.getHand()
 						.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
 				p.getHand().setDevelopmentCards(
 						mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()));
-				System.out.println(p.getUsername() + " " +mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), p.getIdPlayer()).size());
 			}
 			gameControl.getCatanGame().getBank()
 					.setResources(mainDA.updateResources(gameControl.getCatanGame().getIdGame(), 0));
 			gameControl.getCatanGame().getBank()
 					.setDevelopmentCards(mainDA.updateDevelopmentCards(gameControl.getCatanGame().getIdGame(), 0));
 			gameControl.checkForWinner();
-			System.out.println("camehere");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

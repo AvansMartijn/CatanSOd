@@ -802,6 +802,7 @@ public class GuiController {
 											gameControl
 													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
 											b.setBackground(new Color(0, 0, 0));
+											b.getDevelopmentCard().setPlayed(true);
 											break;
 										case ROAD_BUILDING:
 											addSystemMessageToChat(Color.BLUE,
@@ -832,8 +833,11 @@ public class GuiController {
 											break;
 										}
 										b.getDevelopmentCard().setPlayed(true);
+										System.out.println("Played is true");
 										disableAllDevelopmentCards();
+										System.out.println("Disabled DevCards");
 										gameControl.calculateLargestArmy();
+										System.out.println("Calculated Army");
 										developmentCardsPanel.repaint();
 									}
 

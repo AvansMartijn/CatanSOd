@@ -360,11 +360,13 @@ public class Player {
 	public int getAmountOfKnights() {
 		int ret = 0;
 		for(DevelopmentCard d : getHand().getDevelopmentCards()) {
+			System.out.println("ID: " +  d.getDevelopmentCardID());
 			if(d.getDevelopmentCardType() == DevelopmentCardType.KNIGHT && d.isPlayed()) {
 				ret++;
+				System.out.println(d.getDevelopmentCardID() + " Played");
 			}
 		}
-		
+		System.out.println(ret);
 		return ret;
 		
 	}
