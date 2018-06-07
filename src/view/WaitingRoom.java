@@ -42,6 +42,17 @@ public class WaitingRoom extends JPanel {
 		this.createBottomPanel();
 	}
 
+	private void setImage() {
+		URL url = this.getClass().getResource("/images/wRBG.png");
+		
+		try {
+			image = ImageIO.read(url);
+			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
+					Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+		}
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
@@ -56,16 +67,6 @@ public class WaitingRoom extends JPanel {
 		this.add(bottomBarPanel, BorderLayout.SOUTH);
 	}
 
-	private void setImage() {
-		URL url = this.getClass().getResource("/images/WaitingRoomBackground.png");
-
-		try {
-			image = ImageIO.read(url);
-			image = image.getScaledInstance((int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight(),
-					Image.SCALE_DEFAULT);
-		} catch (IOException e) {
-		}
-	}
 
 	public void makeTauntbuttons() {
 

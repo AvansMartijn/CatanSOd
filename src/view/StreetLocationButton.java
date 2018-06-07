@@ -13,18 +13,14 @@ import model.StreetLocation;
 @SuppressWarnings("serial")
 public class StreetLocationButton extends JButton {
 	private StreetLocation streetLocation;
-	private int rotation;
+	private Polygon polygon;
 
-	// TODO: Combineren van de code
-
-	public StreetLocationButton(StreetLocation strLoc, int rotation) {
+	public StreetLocationButton(StreetLocation strLoc) {
 		this.streetLocation = strLoc;
-		this.rotation = rotation;
 		setContentAreaFilled(false);
 		setFocusPainted(false);
 		setBorderPainted(false);
 		setBackground(Color.BLACK);
-
 	}
 
 	int n = 4;
@@ -64,8 +60,6 @@ public class StreetLocationButton extends JButton {
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		graphics2d.drawPolygon(x, y, n);
 	}
-
-	Polygon polygon;
 
 	public boolean contains(int x1, int y1) {
 		if (polygon == null || !polygon.getBounds().equals(getBounds())) {

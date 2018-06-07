@@ -25,7 +25,6 @@ public class GameBoardControl {
 	public GameBoardControl(MainDA mainDA, int idGame) {
 		this.mainDA = mainDA;
 		this.idGame = idGame;
-
 	}
 
 	public Gameboard loadBoard() {

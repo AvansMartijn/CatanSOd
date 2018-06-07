@@ -140,7 +140,7 @@ public class BoardPanel extends JPanel {
 			int endXLoc = (int) endlocPoint.getX();
 			int endYLoc = (int) endlocPoint.getY();
 			Point streetLocationPoint = null;
-			int rotation = 0;
+
 			if (startXLoc < endXLoc) {
 
 				// xstart + ((endx - startx)/2)
@@ -148,23 +148,19 @@ public class BoardPanel extends JPanel {
 					// ystart + ((eindy - starty)/2)
 					streetLocationPoint = new Point((startXLoc + ((endXLoc - startXLoc) / 2)),
 							(startYLoc + ((endYLoc - startYLoc) / 2)));
-					rotation = 35;
 				} else if (startYLoc > endYLoc) {
 					// yeind + ((ystart - yeind)/2)
 					streetLocationPoint = new Point((startXLoc + ((endXLoc - startXLoc) / 2)),
 							(endYLoc + ((startYLoc - endYLoc) / 2)));
-					rotation = 85;
 				}
 
 			} else if (startXLoc > endXLoc) {
 				if (startYLoc < endYLoc) {
 					streetLocationPoint = new Point((endXLoc + ((startXLoc - endXLoc) / 2)),
 							(endYLoc + ((startYLoc - endYLoc) / 2)));
-					rotation = 85;
 				} else if (startYLoc > endYLoc) {
 					streetLocationPoint = new Point((startXLoc + ((endXLoc - startXLoc) / 2)),
 							(startYLoc + ((endYLoc - startYLoc) / 2)));
-					rotation = 35;
 				}
 			} else {
 				if (startYLoc < endYLoc) {
@@ -173,7 +169,7 @@ public class BoardPanel extends JPanel {
 					streetLocationPoint = new Point((endXLoc), (endYLoc + ((startYLoc - endYLoc) / 2)));
 				}
 			}
-			slb = new StreetLocationButton(sl, rotation);
+			slb = new StreetLocationButton(sl);
 			slb.setLocation((int) (streetLocationPoint.getX() - (streetWidth / 2)),
 					(int) (streetLocationPoint.getY() - (streetHeight / 2)));
 			slb.setSize(streetWidth, streetHeight);

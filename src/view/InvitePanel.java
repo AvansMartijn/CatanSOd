@@ -105,7 +105,6 @@ public class InvitePanel extends JPanel {
 			list.setPreferredSize(new Dimension(LIST_WIDTH, LIST_HEIGHT));
 			JScrollPane s = new JScrollPane(list);
 			s.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			JScrollPane scrollableList = new JScrollPane(list); // TODO make use of it!
 			list.setBackground(Color.WHITE);
 			list.setForeground(Color.DARK_GRAY);
 

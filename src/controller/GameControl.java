@@ -131,27 +131,6 @@ public class GameControl {
 		guiController.getBoardPanel().enableTileButtons();
 	}
 
-	private ArrayList<Player> getPlayersAroundTile(Tile tile) {
-		ArrayList<BuildingLocation> buildingLocations = tile.getBuildingLocArr();
-		ArrayList<Player> playersAtRobberTile = new ArrayList<>();
-		for (BuildingLocation buildingLocation : buildingLocations) {
-			if (buildingLocation.hasBuilding()) {
-				Player newPlayer = buildingLocation.getBuilding().getPlayer();
-				boolean playerExistsInArrray = false;
-				for (Player player : playersAtRobberTile) {
-					if (newPlayer == player) {
-						playerExistsInArrray = true;
-						break;
-					}
-				}
-				if (!playerExistsInArrray && newPlayer != catanGame.getSelfPlayer()) {
-					playersAtRobberTile.add(newPlayer);
-				}
-			}
-		}
-		return playersAtRobberTile;
-	}
-
 	public void takeAwayHalfResources() {
 		for (Player p : catanGame.getPlayers()) {
 			if (p.getHand().getResources().size() > SEVEN_CARD_RULE) {

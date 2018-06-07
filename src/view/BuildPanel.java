@@ -31,11 +31,10 @@ public class BuildPanel extends JPanel {
 		Image dorp = null;
 		Image stad = null;
 		try {
-			straat = ImageIO.read(getClass().getResource("/images/IMG_1263+straat+2-tone-enhance (1).png"));
-			dorp = ImageIO.read(getClass().getResource("/images/IMG_1263 dorp 1.png"));
-			stad = ImageIO.read(getClass().getResource("/images/IMG_1263 stad 1.png"));
+			straat = ImageIO.read(getClass().getResource("/images/streetCosts.png"));
+			dorp = ImageIO.read(getClass().getResource("/images/villageCosts.png"));
+			stad = ImageIO.read(getClass().getResource("/images/cityCosts.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		ImageIcon street = new ImageIcon(straat);
 		ImageIcon villages = new ImageIcon(dorp);
