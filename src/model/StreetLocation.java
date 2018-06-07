@@ -76,22 +76,45 @@ public class StreetLocation {
 	public boolean hasAdjecentFriendlyStreet(Player player) {
 		boolean hasStreet = false;
 
-		for (StreetLocation s : getBlStart().getAdjacentStreetLocations()) {
-			if (s.getStreet() != null) {
-				if (s.getStreet().getPlayer() == player) {
-					hasStreet = true;
+		if (getBlStart().getBuilding() != null) {
+			if (getBlStart().getBuilding().getPlayer() == player) {
+
+				for (StreetLocation s : getBlStart().getAdjacentStreetLocations()) {
+					if (s.getStreet() != null) {
+						if (s.getStreet().getPlayer() == player) {
+							hasStreet = true;
+						}
+					}
+				}
+			}
+		} else {
+			for (StreetLocation s : getBlStart().getAdjacentStreetLocations()) {
+				if (s.getStreet() != null) {
+					if (s.getStreet().getPlayer() == player) {
+						hasStreet = true;
+					}
 				}
 			}
 		}
-
-		for (StreetLocation s : getBlEnd().getAdjacentStreetLocations()) {
-			if (s.getStreet() != null) {
-				if (s.getStreet().getPlayer() == player) {
-					hasStreet = true;
+		if (getBlEnd().getBuilding() != null) {
+			if (getBlEnd().getBuilding().getPlayer() == player) {
+				for (StreetLocation s : getBlEnd().getAdjacentStreetLocations()) {
+					if (s.getStreet() != null) {
+						if (s.getStreet().getPlayer() == player) {
+							hasStreet = true;
+						}
+					}
+				}
+			}
+		} else {
+			for (StreetLocation s : getBlEnd().getAdjacentStreetLocations()) {
+				if (s.getStreet() != null) {
+					if (s.getStreet().getPlayer() == player) {
+						hasStreet = true;
+					}
 				}
 			}
 		}
-
 		return hasStreet;
 	}
 
