@@ -625,7 +625,7 @@ public class GuiController {
 						} else {
 							gameControl.addLogMessage(gameControl.getCatanGame().getSelfPlayer().getUsername() + " ("
 									+ gameControl.getCatanGame().getSelfPlayer().getColor().toString().toLowerCase()
-									+ ") Heeft een stad gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: "
+									+ ") Heeft een nederzetting gebouwd op X: " + blb.getBuildingLocation().getXLoc() + " Y: "
 									+ blb.getBuildingLocation().getYLoc());
 							boardPanel.disableBuildingLocButtons();
 							addPlayerColorToBuildingLocs();
@@ -811,74 +811,74 @@ public class GuiController {
 
 						b.getDevelopmentCardPlayDialog().getDevelopmentCardDialogPanel().getPlayButton()
 								.addActionListener(new ActionListener() {
-
-									@Override
-									public void actionPerformed(ActionEvent arg0) {
-										developmentCardPlayDialog.dispose();
-										System.out.println("clicked play");
-										DevelopmentCardType cardType = b.getDevelopmentCard().getDevelopmentCardType();
-										switch (cardType) {
-										case KNIGHT:
-											addSystemMessageToChat(Color.BLUE,
-													"Je hebt een ridder gespeeld, verplaats de struikrover");
-											gameControl.addLogMessage(
-													gameControl.getCatanGame().getSelfPlayer().getUsername()
-															+ " heeft een ridder gespeeld");
-											disablePlayerActionPanel();
-											gameControl.enableRobber();
-											b.setEnabled(false);
-											gameControl
-													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
-											b.setBackground(new Color(0, 0, 0));
-											b.getDevelopmentCard().setPlayed(true);
-											break;
-										case ROAD_BUILDING:
-											addSystemMessageToChat(Color.BLUE,
-													"Je hebt stratenbouw gespeeld, plaats 2 straten");
-											gameControl.addLogMessage(
-													gameControl.getCatanGame().getSelfPlayer().getUsername()
-															+ " heeft stratenbouw gespeeld");
-											gameControl.doDevCardRoadBuilding();
-											b.setVisible(false);
-											gameControl
-													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
-											break;
-										case VICTORY_POINT:
-											// don't do anything
-											break;
-										case YEAR_OF_PLENTY:
-											addSystemMessageToChat(Color.BLUE,
-													"Je hebt uitvinding gespeeld, kies 2 grondstofkaarten");
-											gameControl.addLogMessage(
-													gameControl.getCatanGame().getSelfPlayer().getUsername()
-															+ " heeft een uitvinding gespeeld");
-											drawYearOfPlentyDialog();
-											b.setVisible(false);
-											gameControl
-													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
-											break;
-										case MONOPOLY:
-											addSystemMessageToChat(Color.BLUE,
-													"Je hebt monopoly gespeeld, kies 1 grondstofkaart");
-											gameControl.addLogMessage(
-													gameControl.getCatanGame().getSelfPlayer().getUsername()
-															+ " heeft monopoly gespeeld");
-											drawMonopolyDialog();
-											b.setVisible(false);
-											gameControl
-													.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
-											break;
-										}
-										b.getDevelopmentCard().setPlayed(true);
-										System.out.println("Played is true");
-										disableAllDevelopmentCards();
-										System.out.println("Disabled DevCards");
-										
-										System.out.println("Calculated Army");
-										developmentCardsPanel.repaint();
-									}
-
-								});
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								developmentCardPlayDialog.dispose();
+								System.out.println("clicked play");
+								DevelopmentCardType cardType = b.getDevelopmentCard().getDevelopmentCardType();
+								switch (cardType) {
+								case KNIGHT:
+									addSystemMessageToChat(Color.BLUE,
+											"Je hebt een ridder gespeeld, verplaats de struikrover");
+									gameControl.addLogMessage(
+											gameControl.getCatanGame().getSelfPlayer().getUsername() + " ("
+											+ gameControl.getCatanGame().getSelfPlayer().getColor().toString().toLowerCase()
+											+ ") heeft een ridder gespeeld");
+									disablePlayerActionPanel();
+									gameControl.enableRobber();
+									b.setEnabled(false);
+									gameControl
+											.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
+									b.setBackground(new Color(0, 0, 0));
+									b.getDevelopmentCard().setPlayed(true);
+									break;
+								case ROAD_BUILDING:
+									addSystemMessageToChat(Color.BLUE,
+											"Je hebt stratenbouw gespeeld, plaats 2 straten");
+									gameControl.addLogMessage(
+											gameControl.getCatanGame().getSelfPlayer().getUsername() + " ("
+											+ gameControl.getCatanGame().getSelfPlayer().getColor().toString().toLowerCase()
+											+ ") heeft stratenbouw gespeeld");
+									gameControl.doDevCardRoadBuilding();
+									b.setVisible(false);
+									gameControl
+											.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
+									break;
+								case VICTORY_POINT:
+									// don't do anything
+									break;
+								case YEAR_OF_PLENTY:
+									addSystemMessageToChat(Color.BLUE,
+											"Je hebt uitvinding gespeeld, kies 2 grondstofkaarten");
+									gameControl.addLogMessage(
+											gameControl.getCatanGame().getSelfPlayer().getUsername() + " ("
+											+ gameControl.getCatanGame().getSelfPlayer().getColor().toString().toLowerCase()
+											+ ") heeft een uitvinding gespeeld");
+									drawYearOfPlentyDialog();
+									b.setVisible(false);
+									gameControl
+											.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
+									break;
+								case MONOPOLY:
+									addSystemMessageToChat(Color.BLUE,
+											"Je hebt monopoly gespeeld, kies 1 grondstofkaart");
+									gameControl.addLogMessage(
+											gameControl.getCatanGame().getSelfPlayer().getUsername() + " ("
+											+ gameControl.getCatanGame().getSelfPlayer().getColor().toString().toLowerCase()
+											+ ") heeft monopoly gespeeld");
+									drawMonopolyDialog();
+									b.setVisible(false);
+									gameControl
+											.updateDevCardInDB(b.getDevelopmentCard().getDevelopmentCardID());
+									break;
+								}
+								b.getDevelopmentCard().setPlayed(true);
+								System.out.println("Played is true");
+								disableAllDevelopmentCards();
+								System.out.println("Disabled DevCards");
+								developmentCardsPanel.repaint();
+							}
+						});
 					}
 				});
 			}
