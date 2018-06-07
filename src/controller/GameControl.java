@@ -1203,8 +1203,12 @@ public class GameControl {
 						+ resourceType.toString().toLowerCase() + ", ";
 			}
 		}
-
-		resourcesGivenString = resourcesGivenString.substring(0, resourcesGivenString.length() - 2);
+		if(resourcesGivenString.length() >= 2) {
+			resourcesGivenString = resourcesGivenString.substring(0, resourcesGivenString.length() - 2);			
+		}
+		else {
+			resourcesGivenString = " krijgt niets.";
+		}
 
 		addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
 				+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() + ") " + resourcesGivenString);
@@ -1251,7 +1255,12 @@ public class GameControl {
 				}
 			}
 		}
-		logMessage = logMessage.substring(0, logMessage.length() - 2);
+		if(logMessage.length() >= 2) {
+			logMessage = logMessage.substring(0, logMessage.length() - 2);			
+		}
+		else {
+			logMessage = "Niemand krijgt grondstoffen";
+		}
 		addLogMessage(logMessage);
 	}
 
