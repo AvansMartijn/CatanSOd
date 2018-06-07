@@ -1282,15 +1282,15 @@ public class GuiController {
 							HashMap<ResourceType, Integer> currentHand = gameControl.getCatanGame().getSelfPlayer()
 									.getHand().getAmountOfResources();
 							int brickGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1()
-									.getBrickGive();
+									.getBrickReceive();
 							int woolGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1()
-									.getWoolGive();
+									.getWoolReceive();
 							int ironGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1()
-									.getIronGive();
+									.getIronReceive();
 							int wheatGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1()
-									.getWheatGive();
+									.getWheatReceive();
 							int woodGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel1()
-									.getWoodGive();
+									.getWoodReceive();
 							if (currentHand.get(ResourceType.BAKSTEEN).intValue() < brickGive
 									|| currentHand.get(ResourceType.WOL).intValue() < woolGive
 									|| currentHand.get(ResourceType.ERTS).intValue() < ironGive
@@ -1330,15 +1330,15 @@ public class GuiController {
 							HashMap<ResourceType, Integer> currentHand = gameControl.getCatanGame().getSelfPlayer()
 									.getHand().getAmountOfResources();
 							int brickGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2()
-									.getBrickGive();
+									.getBrickReceive();
 							int woolGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2()
-									.getWoolGive();
+									.getWoolReceive();
 							int ironGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2()
-									.getIronGive();
+									.getIronReceive();
 							int wheatGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2()
-									.getWheatGive();
+									.getWheatReceive();
 							int woodGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel2()
-									.getWoodGive();
+									.getWoodReceive();
 							if (currentHand.get(ResourceType.BAKSTEEN).intValue() < brickGive
 									|| currentHand.get(ResourceType.WOL).intValue() < woolGive
 									|| currentHand.get(ResourceType.ERTS).intValue() < ironGive
@@ -1379,15 +1379,15 @@ public class GuiController {
 							HashMap<ResourceType, Integer> currentHand = gameControl.getCatanGame().getSelfPlayer()
 									.getHand().getAmountOfResources();
 							int brickGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3()
-									.getBrickGive();
+									.getBrickReceive();
 							int woolGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3()
-									.getWoolGive();
+									.getWoolReceive();
 							int ironGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3()
-									.getIronGive();
+									.getIronReceive();
 							int wheatGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3()
-									.getWheatGive();
+									.getWheatReceive();
 							int woodGive = tradeRespond.getTradeRespondPanels().getTradeRespondDialogPanel3()
-									.getWoodGive();
+									.getWoodReceive();
 							if (currentHand.get(ResourceType.BAKSTEEN).intValue() < brickGive
 									|| currentHand.get(ResourceType.WOL).intValue() < woolGive
 									|| currentHand.get(ResourceType.ERTS).intValue() < ironGive
