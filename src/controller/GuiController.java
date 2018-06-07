@@ -715,6 +715,7 @@ public class GuiController {
 							gameControl.endFirstRoundTurn();
 						}
 					} else if (gameControl.getCatanGame().isRoadBuilding()) {
+						System.out.println("started Buildvillage roadbuilding guic 718");
 						if (gameControl.getCatanGame().getSelfPlayer().getAmountAvailableStreets() == 0) {
 							addSystemMessageToChat(Color.RED, "Je hebt niet genoeg straten om te bouwen");
 							boardPanel.disableStreetLocButtons();
@@ -733,9 +734,11 @@ public class GuiController {
 												+ slb.getStreetLocation().getBlEnd().getYLoc());
 								playerActionPanel.setPlayerOptionMenuPanel();
 								if (gameControl.getCatanGame().isRoadBuildingFirst()) {
+									System.out.println("Disabled Roadbuilding First");
 									gameControl.getCatanGame().setRoadBuildingFirst(false);
 								} else {
 									boardPanel.disableStreetLocButtons();
+									System.out.println("Disabled Roadbuilding");
 									gameControl.getCatanGame().setRoadBuilding(false);
 								}
 								gameControl.calculateLongestTradeRoute();
