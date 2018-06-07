@@ -103,6 +103,7 @@ public class GameControl {
 	public void rollDice() {
 		catanGame.rollDice();
 		int rolledValue = catanGame.getDice().getValue();
+		guiController.enableUnplayedDevelopmentCards();
 
 		// This has to be before the if-statement,
 		// otherwise first the message will be who gets the resources, and afterwards
@@ -116,7 +117,6 @@ public class GameControl {
 			takeAwayHalfResources();
 		} else {
 			giveTurnResources(rolledValue);
-			guiController.enableUnplayedDevelopmentCards();
 			guiController.enablePlayerActionPanel();
 		}
 
