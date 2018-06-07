@@ -276,7 +276,6 @@ public class GameControl {
 				&& !streetLocation.hasAdjecentFriendlyStreet(catanGame.getSelfPlayer())) {
 			return false;
 		}
-		System.out.println("Build normal street");
 		payResources(Street.cost);
 
 		streetLocation.setStreet(street);
@@ -289,15 +288,12 @@ public class GameControl {
 	}
 
 	private void payResources(ResourceType[] cost) {
-		System.out.println("payResources");
 		ArrayList<Resource> toPay = new ArrayList<>();
 		for (ResourceType rsType : cost) {
-			System.out.println("payResource:" + rsType.toString());
 			Resource rs = catanGame.getSelfPlayer().getHand().takeResource(rsType);
 			toPay.add(rs);
 			mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
 		}
-		System.out.println(toPay);
 		catanGame.getBank().addMultipleResources(toPay);
 	}
 
@@ -1277,7 +1273,6 @@ public class GameControl {
 				&& !streetLocation.hasAdjecentFriendlyStreet(catanGame.getSelfPlayer())) {
 			return false;
 		}
-		System.out.println("Build initial street");
 		streetLocation.setStreet(street);
 		street.setStreetLocation(streetLocation);
 		mainDA.updateStreet(street.getIdBuilding(), street.getPlayer().getIdPlayer(),
