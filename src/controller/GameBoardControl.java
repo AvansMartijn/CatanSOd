@@ -39,7 +39,7 @@ public class GameBoardControl {
 	public void addBoardToDB() {
 		int count = 0;
 		int i = 1;
-		System.out.println(tileArr.size());
+
 		while (tileArr.size() > count) {
 			Tile tile = tileArr.get(count);
 			mainDA.addTile(idGame, i, tile.getX(), tile.getY(), tile.getRsType(), tile.getChipNumber());
@@ -56,7 +56,6 @@ public class GameBoardControl {
 		createBuildingLocations();
 		assignHarbours();
 		createStreetLocations();
-		printAllTilesAndLocs();
 		gameBoard = new Gameboard(tileArr, buildingLocArr, streetLocArr);
 		addBoardToDB();
 		return gameBoard;
@@ -118,11 +117,6 @@ public class GameBoardControl {
 			tileArr.get(i).setRsType(resourceTypes[i]);
 		}
 		
-//		for (int i = 0; i < tileArr.size(); i++) {
-//			if()
-//			System.out.println(resourceTypes[i]);
-//			tileArr.get(i).setChipNumber(numbers[i]);
-//		}
 		int index = 0;
 		for(Tile t: tileArr) {
 			if(t.getRsType().equals(ResourceType.WOESTIJN)) {
@@ -232,14 +226,11 @@ public class GameBoardControl {
 				if (!exists) {
 					tileArr.get(count).addBuildingLoc(locArr.get(locArrCount));
 					buildingLocArr.add(locArr.get(locArrCount));
-
 				}
-
 				locArrCount++;
 			}
 			count++;
 		}
-
 	}
 
 	public void assignHarbours() {
@@ -271,66 +262,10 @@ public class GameBoardControl {
 		buildingLocArr.get(30).setHarbour(generalHarbour);
 		buildingLocArr.get(14).setHarbour(generalHarbour);
 		buildingLocArr.get(17).setHarbour(generalHarbour);
-
-	}
-
-	public void printAllTilesAndLocs() {
-		for (Tile tile : tileArr) {
-			System.out.println("---------TILE-------------");
-			System.out.println("resource: " + tile.getRsType());
-			System.out.println("chip number: " + tile.getChipNumber());
-			System.out.println("loc_x: " + tile.getX());
-			System.out.println("loc_y: " + tile.getY());
-
-			for (BuildingLocation bl : tile.getBuildingLocArr()) {
-				System.out.println("------BUILDING LOC---------");
-				System.out.println("loc_x: " + bl.getXLoc());
-				System.out.println("loc_y: " + bl.getYLoc());
-
-				if (bl.getHarbour() != null) {
-					System.out.println("harbour: " + bl.getHarbour().getRsType());
-				}
-
-			}
-
-			for (StreetLocation sl : tile.getStreetLocArr()) {
-				System.out.println("------STREET LOC---------");
-				System.out.println("start: " + sl.getBlStart().getXLoc() + " " + sl.getBlStart().getYLoc());
-				System.out.println("end: " + sl.getBlEnd().getXLoc() + " " + sl.getBlEnd().getYLoc());
-
-			}
-			System.out.println("----------------------------");
-			System.out.println("");
-			System.out.println("");
-		}
 	}
 
 	public Gameboard getGameBoard() {
 		return gameBoard;
 	}
-
-	// public void addPlayerPiecesToDB(ArrayList<Player> players) {
-	// String idPiece;
-	// for (Player p : players) {
-	//
-	// for (int i = 1; i <= 5; i++) {
-	// idPiece = "d0" + i;
-	// mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-	// }
-	// for (int i = 1; i <= 4; i++) {
-	// idPiece = "c0" + i;
-	// mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-	// }
-	// for (int i = 1; i <= 15; i++) {
-	// if (i > 9) {
-	// idPiece = "r" + i;
-	// } else {
-	// idPiece = "r0" + i;
-	// }
-	// mainDA.addPlayerPiece(idPiece, p.getIdPlayer());
-	// }
-	// }
-	//
-	// }
 
 }
