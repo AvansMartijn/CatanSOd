@@ -811,7 +811,6 @@ public class GuiController {
 
 						b.getDevelopmentCardPlayDialog().getDevelopmentCardDialogPanel().getPlayButton()
 								.addActionListener(new ActionListener() {
-
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
 								developmentCardPlayDialog.dispose();
@@ -877,11 +876,8 @@ public class GuiController {
 								System.out.println("Played is true");
 								disableAllDevelopmentCards();
 								System.out.println("Disabled DevCards");
-								gameControl.calculateLargestArmy();
-								System.out.println("Calculated Army");
 								developmentCardsPanel.repaint();
 							}
-
 						});
 					}
 				});

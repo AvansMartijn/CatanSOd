@@ -187,19 +187,33 @@ public class GameControl {
 			return false;
 		}
 
-		for (StreetLocation sl : buildingLocation.getAdjacentStreetLocations()) {
-			if (sl.getBlEnd().getBuilding() != null) {
+		for (StreetLocation sl3 : buildingLocation.getAdjacentStreetLocations()) {
+			if (sl3.getBlEnd().getBuilding() != null) {
 				return false;
-			} else if (sl.getBlStart().getBuilding() != null) {
+			} else if (sl3.getBlStart().getBuilding() != null) {
 				return false;
+			}
+		}
+		
+		for(StreetLocation sl : buildingLocation.getAdjacentStreetLocations()) {
+			if(sl.getStreet() != null) {
+				if(!sl.getStreet().getPlayer().equals(catanGame.getSelfPlayer())) {
+					for(StreetLocation sl2: buildingLocation.getAdjacentStreetLocations()) {
+						if(!sl2.equals(sl)) {
+							if(sl2.getStreet().getPlayer().equals(sl.getStreet().getPlayer())) {
+							return false;
+							}
+						}
+					}
+				}
 			}
 		}
 
 		boolean hasFriendlyAdjacentStreet = false;
-		for (StreetLocation sl : buildingLocation.getAdjacentStreetLocations()) {
+		for (StreetLocation sl4 : buildingLocation.getAdjacentStreetLocations()) {
 
-			if (sl.getStreet() != null) {
-				if (sl.getStreet().getPlayer().equals(catanGame.getSelfPlayer())) {
+			if (sl4.getStreet() != null) {
+				if (sl4.getStreet().getPlayer().equals(catanGame.getSelfPlayer())) {
 					hasFriendlyAdjacentStreet = true;
 				}
 			}
@@ -317,12 +331,15 @@ public class GameControl {
 	}
 
 	private void payResources(ResourceType[] cost) {
+		System.out.println("payResources");
 		ArrayList<Resource> toPay = new ArrayList<>();
 		for (ResourceType rsType : cost) {
+			System.out.println("payResource:" + rsType.toString());
 			Resource rs = catanGame.getSelfPlayer().getHand().takeResource(rsType);
 			toPay.add(rs);
 			mainDA.removeResource(rs.getResourceID(), catanGame.getIdGame());
 		}
+		System.out.println(toPay);
 		catanGame.getBank().addMultipleResources(toPay);
 	}
 
@@ -990,6 +1007,7 @@ public class GameControl {
 						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase()
 								+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
+						calculateLargestArmy();
 						enableEveryoneShouldRefresh();
 						break;
 					}
@@ -1002,6 +1020,7 @@ public class GameControl {
 						addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase()
 								+ ") is nu aan de Beurt.");
 						mainDA.setThrownDice(0, catanGame.getIdGame());
+						calculateLargestArmy();
 						enableEveryoneShouldRefresh();
 						break;
 					}
