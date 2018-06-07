@@ -20,8 +20,6 @@ public class ChatTextPane extends JTextPane {
 	            doc.insertString(doc.getLength(), s, style);
 	        } 
 	        catch (BadLocationException e) {
-	            e.printStackTrace();
 	        }           
 	}
-
 }

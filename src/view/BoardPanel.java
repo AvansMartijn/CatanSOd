@@ -51,7 +51,6 @@ public class BoardPanel extends JPanel {
 		streetLocArray = gameBoard.getStreetLocArr();
 		setLayout(null);
 		
-		// TEST
 		setBackground(backGroundColor);
 		URL url = this.getClass().getResource("/images/ocean.png");
 		
@@ -66,7 +65,6 @@ public class BoardPanel extends JPanel {
 		background.setIcon(icon);
 		background.setBounds(0, 0, panelWidth, panelHeight);
 		add(background, -1);
-		// END TEST
 
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		createTiles();
@@ -88,9 +86,6 @@ public class BoardPanel extends JPanel {
 		return streetLocButtonArray;
 	}
 
-
-
-
 	// Create tiles and draw them
 	private void createTiles() {
 
@@ -108,11 +103,7 @@ public class BoardPanel extends JPanel {
 			tileButton.setEnabled(false);
 			tileButtonArrayList.add(tileButton);
 			add(tileButton, 0);
-
 		}
-
-
-		// disableTileButtons();
 
 		for (BuildingLocation bl : buildingLocArray) {
 			BuildingLocationButton blb = new BuildingLocationButton(bl);
@@ -127,9 +118,6 @@ public class BoardPanel extends JPanel {
 			buildingLocButtonArray.add(blb);
 			add(blb, 0);
 		}
-
-//		addBuildLocListeners();
-//		disableBuildingLocButtons();
 
 		for (StreetLocation sl : streetLocArray) {
 			StreetLocationButton slb;
@@ -177,10 +165,6 @@ public class BoardPanel extends JPanel {
 			streetLocButtonArray.add(slb);
 			add(slb, 0);
 		}
-
-//		addStreetLocListeners();
-//		disableStreetLocButtons();
-
 	}
 
 	private void fillCordMap() {
@@ -300,7 +284,6 @@ public class BoardPanel extends JPanel {
 	private ImageIcon createImageIcon(URL url) {
 		Image image = null;
 		try {
-
 			image = ImageIO.read(url);
 			image = image.getScaledInstance(tileImgWidth, tileImgHeight, Image.SCALE_DEFAULT);
 		} catch (IOException e) {

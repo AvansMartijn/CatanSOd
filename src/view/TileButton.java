@@ -26,6 +26,7 @@ public class TileButton extends JButton {
 	private int tileNumberY = 82;
 	private double angle = 2 * Math.PI / n;
 	private int tileNumber;
+	private Polygon polygon;
 
 	public TileButton(ImageIcon imageIcon, int tileNumber, Tile tile) {
 		this.tileNumber = tileNumber;
@@ -88,7 +89,6 @@ public class TileButton extends JButton {
 		}
 		g.drawPolygon(x, y, n);
 	}
-	Polygon polygon;
 
 	public boolean contains(int x1, int y1) {
 		if (polygon == null || !polygon.getBounds().equals(getBounds())) {

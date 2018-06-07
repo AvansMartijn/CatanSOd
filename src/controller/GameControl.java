@@ -365,7 +365,7 @@ public class GameControl {
 						int sl_start_y = sl.getBlStart().getYLoc();
 						int sl_end_x = sl.getBlEnd().getXLoc();
 						int sl_end_y = sl.getBlEnd().getYLoc();
-						// TODO Check both orientation !!!!!
+						
 						if (sl_start_x == s_start_x && sl_start_y == s_start_y && sl_end_x == s_end_x
 								&& sl_end_y == s_end_y) {
 							s.setStreetLocation(sl);

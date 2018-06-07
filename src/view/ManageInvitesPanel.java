@@ -96,7 +96,6 @@ public class ManageInvitesPanel extends JPanel {
 			label.setAlignmentX(Component.CENTER_ALIGNMENT);
 			this.add(label);
 			inviteInput.setAlignmentX(Component.CENTER_ALIGNMENT);
-			// this.add(inviteInput);
 			this.add(scrollPane);
 			inviteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			this.add(Box.createVerticalGlue());

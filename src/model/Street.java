@@ -18,8 +18,6 @@ public class Street extends Building{
 		this.db_yto = db_yto;
 	}
 	
-
-
 	public int getDb_xfrom() {
 		return db_xfrom;
 	}

@@ -59,7 +59,7 @@ public class DevelopmentCardsPanel extends JPanel {
 	public void addNewDevelopmentCardButton(DevelopmentCard developmentCard) {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
 		developmentCardButtons.add(developmentCardButton);
-		developmentCardButton.setEnabled(true); // TODO whats the point of having this line in 2 times?
+		developmentCardButton.setEnabled(true);
 		developmentCardButton.setVisible(true);
 		if(developmentCard.isPlayed()) {
 			developmentCardButton.setEnabled(false);
@@ -73,7 +73,7 @@ public class DevelopmentCardsPanel extends JPanel {
 	public void addDevelopmentCardButton(DevelopmentCard developmentCard) {
 		DevelopmentCardButton developmentCardButton = new DevelopmentCardButton(developmentCard);
 		developmentCardButtons.add(developmentCardButton);
-		developmentCardButton.setEnabled(false); // TODO whats the point of having this line in 2 times?
+		developmentCardButton.setEnabled(false);
 		developmentCardButton.setVisible(true);
 		if(developmentCard.isPlayed()) {
 			developmentCardButton.setEnabled(false);
@@ -83,9 +83,6 @@ public class DevelopmentCardsPanel extends JPanel {
 		panel.add(developmentCardButton);
 		revalidate();
 	}
-	
-	
-	
 	
 	private void setPanelSize() {
 		int size = (developmentCardButtons.size() * (CARD_WIDTH + SPACE_BETWEEN_CARDS));

@@ -48,7 +48,6 @@ public class DevelopmentCardDialogPanel extends JPanel {
 		case YEAR_OF_PLENTY:
 			return "Bij het spelen van deze kaart neem je direct twee grondstoffenkaarten naar keuze van de bank.";
 		default:
-			System.out.println("foutje");
 		}
 		return null;
 	}

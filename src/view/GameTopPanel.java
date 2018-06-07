@@ -24,7 +24,7 @@ public class GameTopPanel extends JPanel {
 	private Color TopBarColor = new Color(189, 133, 95);
 	private Color ButtonBackgroundColor = new Color(223, 190, 172);
 
-	private JButton ChatButton; // TODO make it a chatLabel
+	private JButton ChatButton;
 	private JLabel GameLabel;
 	private JButton GoToMainMenuButton;
 

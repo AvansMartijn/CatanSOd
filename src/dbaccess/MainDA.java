@@ -27,7 +27,6 @@ public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
 	private static final String user = "mfghaneg";
 	private static final String password = "Ab12345";
-	// protected Connection myConn;
 	protected C3P0DataSource connectionPool;
 
 	public MainDA() {

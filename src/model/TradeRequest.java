@@ -47,7 +47,6 @@ public class TradeRequest {
 		this.w_wheat = w_wheat;
 		this.w_wood = w_wood;
 		this.accepted = accepted;
-
 	}
 	
 	

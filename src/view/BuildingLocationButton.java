@@ -27,8 +27,6 @@ public class BuildingLocationButton extends JButton {
 		setContentAreaFilled(false);
 		setFocusPainted(false);
 		setBorderPainted(false);
-		// setPreferredSize(new Dimension(WIDTH, LENGTH));
-		// setIcon(new ImageIcon(image));
 		setBackground(Color.black);
 	}
 

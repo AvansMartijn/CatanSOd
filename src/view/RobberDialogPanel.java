@@ -35,8 +35,6 @@ public class RobberDialogPanel extends JPanel {
 		
 		ArrayList<Player> players = playersToRob;
 		
-		System.out.println(players);
-
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(backgroundColor);
 
@@ -59,7 +57,6 @@ public class RobberDialogPanel extends JPanel {
 		
 		for(Player p: players) {
 			JButton playerButton = new JButton(p.getUsername());
-			System.out.println(p.getUsername() + " ars: " + p.getHand().getResources().size());
 			playerButton.setFont(new Font("SansSerif", Font.BOLD, 20));
 			playerButton.setBackground(textBackgroundColor);
 			playerButton.setForeground(TextColor);

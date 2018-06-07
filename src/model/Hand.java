@@ -8,9 +8,7 @@ public class Hand {
 
 	// Instance variables
 	private ArrayList<DevelopmentCard> developmentCards;
-
 	private ArrayList<Resource> resources;
-	// private ArrayList<DevelopmentCard> playedDevelopmentCards;
 
 	public Hand() {
 		developmentCards = new ArrayList<DevelopmentCard>();
@@ -84,12 +82,6 @@ public class Hand {
 
 	public void addDevelopmentCard(DevelopmentCard developmentCard) {
 		developmentCards.add(developmentCard);
-	}
-
-	// TODO randomdraw
-	// Randomly draw card
-	public void drawCardRandomly() {
-
 	}
 
 	public void setResources(ArrayList<Resource> resources) {

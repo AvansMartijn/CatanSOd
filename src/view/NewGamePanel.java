@@ -147,7 +147,6 @@ public class NewGamePanel extends JPanel {
 							inviteButton.setEnabled(true);
 						}
 						UpdateInvitedPlayers();
-						
 					}
 				});
 				panel.add(name);

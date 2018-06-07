@@ -118,7 +118,6 @@ public class TradePlayerPanel extends JPanel {
 		resourceTypes = getResourceAmount();
 
 		for (int i = 0; i < resourceTypes.length; i++) {
-			System.out.println("resourceType amount" + resourceTypes[i]);
 			formatters[i] = new NumberFormatter(format);
 			formatters[i].setValueClass(Integer.class);
 			formatters[i].setMinimum(0);
@@ -126,7 +125,6 @@ public class TradePlayerPanel extends JPanel {
 			formatters[i].setAllowsInvalid(true);
 			formatters[i].setCommitsOnValidEdit(true);
 			formatters[i].setOverwriteMode(true);
-
 		}
 
 		subTitleLabel1 = new JLabel("grondstoffen:");
@@ -252,9 +250,7 @@ public class TradePlayerPanel extends JPanel {
 	}
 
 	public int getWoodGive() {
-		System.out.println("unparsed:" + woodGive.getText());
 		int parsed = Integer.parseInt(woodGive.getText());
-		System.out.println("parsed:" + parsed);
 		return parsed;
 	}
 
