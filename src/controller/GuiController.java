@@ -104,6 +104,7 @@ public class GuiController {
 	private WaitingRoom waitingRoom;
 	private JDialog newGamedialog;
 	private ManageInvitesFrame manageInvitesFrame;
+	private boolean tradeActive;
 
 	private ArrayList<Catan> gameList;
 	private ArrayList<RecentGamePanel> gamePanels;
@@ -115,6 +116,7 @@ public class GuiController {
 		gameControl.setGuiController(this);
 		frame = new Frame();
 		waitingRoom = new WaitingRoom();
+		tradeActive = false;
 		setInlogPanel();
 
 		frame.dispose();
@@ -122,6 +124,14 @@ public class GuiController {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
+	}
+
+	public boolean isTradeActive() {
+		return tradeActive;
+	}
+
+	public void setTradeActive(boolean tradeActive) {
+		this.tradeActive = tradeActive;
 	}
 
 	public void addSystemMessageToChat(Color c, String s) {
@@ -1101,6 +1111,7 @@ public class GuiController {
 									.toLowerCase()
 							+ ") geaccepteerd");
 					tradeReceive.dispose();
+					setTradeActive(false);
 					gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 				}
 			}

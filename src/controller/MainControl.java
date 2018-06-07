@@ -112,7 +112,7 @@ public class MainControl {
 								System.out.println("refresh");
 							}
 							try {
-								Thread.sleep(4000);
+								Thread.sleep(3000);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -409,8 +409,12 @@ public class MainControl {
 			TradeRequest tr = gameControl.updateTradeRequests();
 			if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
 				if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) == null) {
+					if(!guiController.isTradeActive()) {
+						guiController.setTradeActive(true);
 					gameControl.getCatanGame().addTradeRequest(tr);
+					
 					guiController.showTradeReceiveDialog(tr);
+					}
 				}
 			}
 			// }
