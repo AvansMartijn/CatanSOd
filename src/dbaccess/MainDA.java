@@ -24,9 +24,9 @@ import model.TradeRequest;
 import model.Village;
 
 public class MainDA {
-	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
-	private static final String user = "mfghaneg";
-	private static final String password = "Ab12345";
+	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/1_soprj4_catan?useSSL=false";
+	private static final String user = "42IN04SOd";
+	private static final String password = "duurzaamheid";
 	protected C3P0DataSource connectionPool;
 
 	public MainDA() {
