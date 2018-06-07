@@ -29,7 +29,6 @@ public class MainControl {
 		gameControl = new GameControl(mainDA);
 		guiController = new GuiController(this, gameControl);
 		ingame = false;
-
 	}
 
 	public boolean loginAccount(String username, String password) {
@@ -67,13 +66,10 @@ public class MainControl {
 
 		}
 		guiController.setGameList(catanGames);
-		// }
-
 	}
 
 	public void setMainMenu() {
 		guiController.setMainMenu(account.getUsername());
-
 	}
 
 	public void joinGame(Catan game) {
@@ -108,16 +104,12 @@ public class MainControl {
 								updateRefreshPlayers();
 								updateRefreshTradeRequest();
 								updateRefreshArmyAndTradeRoute();
-
-								System.out.println("refresh");
 							}
 							try {
 								Thread.sleep(3000);
 							} catch (InterruptedException e) {
-								e.printStackTrace();
 							}
 						} catch (Exception e) {
-							System.out.println(e);
 						}
 					}
 				}
@@ -144,13 +136,11 @@ public class MainControl {
 		for (Player p : gameControl.getCatanGame().getPlayers()) {
 			if (p.getIdPlayer() == idPlayerLongestRoute) {
 				p.setHasLongestRoad(true);
-				System.out.println(p.getUsername() + "Has road");
 			} else {
 				p.setHasLongestRoad(false);
 			}
 			if (p.getIdPlayer() == idPlayerLargestArmy) {
 				p.setHasLargestArmy(true);
-				System.out.println(p.getUsername() + "Has army");
 			} else {
 				p.setHasLargestArmy(false);
 			}
@@ -194,7 +184,6 @@ public class MainControl {
 		String playStatus = null;
 
 		if (lastPlayerNumber == -1) {
-			System.out.println("Color error");
 		} else {
 			switch (lastPlayerNumber) {
 			case 0:
@@ -297,7 +286,7 @@ public class MainControl {
 	}
 
 	public void createPlayerPiecesInDB(ArrayList<Player> players) {
-		// TODO Auto-generated method stub
+		
 		String idPiece;
 		for (Player p : players) {
 			for (int i = 1; i <= 5; i++) {
@@ -342,7 +331,6 @@ public class MainControl {
 					.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 			guiController.refreshRobber();
 		} catch (Exception e) {
-			System.out.println("updaterefreshRobber failed");
 		}
 	}
 
@@ -350,13 +338,10 @@ public class MainControl {
 		try {
 			int turn = mainDA.getTurn(gameControl.getCatanGame().getIdGame());
 			gameControl.getCatanGame().setTurn(turn);
-			System.out.println(
-					"idturn" + turn + " idplayer: " + gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 			if (turn == gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
 				if (mainDA.getFirstRound(gameControl.getCatanGame().getIdGame()) == 1) {
 					if (gameControl.isFirstRoundActive() == false) {
 						gameControl.setFirstRoundActive(true);
-						System.out.println("playFirstsRound");
 						gameControl.getCatanGame().setFirstRound(true);
 
 						gameControl.playFirstRound();
@@ -364,13 +349,9 @@ public class MainControl {
 				} else {
 					gameControl.getCatanGame().setFirstRound(false);
 					gameControl.doTurn();
-					System.out.println("doTurn");
-
-					// guiController.refreshDice();
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("updateRefreshTurn failed");
 		}
 	}
 
@@ -379,7 +360,6 @@ public class MainControl {
 			updateMessages();
 			guiController.refreshChat();
 		} catch (Exception e) {
-			System.out.println("updateRefreshmessages failed");
 		}
 	}
 
@@ -389,7 +369,6 @@ public class MainControl {
 			messageList = mainDA.getMessages(gameControl.getCatanGame().getIdGame());
 			gameControl.getCatanGame().setMessages(messageList);
 		} catch (Exception e) {
-			System.out.println("Updatemessages failed");
 		}
 	}
 
@@ -398,22 +377,15 @@ public class MainControl {
 			gameControl.updateBoard();
 			guiController.refreshBoard();
 		} catch (Exception e) {
-			System.out.println("updateRefreshBoard failed");
 		}
 	}
 
 	private void updateRefreshTradeRequest() {
 		try {
-			// if (mainDA.getAmountOfOpenRequests(gameControl.getCatanGame().getIdGame()) ==
-			// 1) {
-			System.out.println("updateRefreshTradeRequest");
 			TradeRequest tr = gameControl.updateTradeRequests();
 			if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
-				System.out.println("not yourself");
 				if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) == null) {
-					System.out.println("no counter yet");
 					if(!guiController.isTradeActive()) {
-						System.out.println("tradepanel not active");
 						guiController.setTradeActive(true);
 					gameControl.getCatanGame().addTradeRequest(tr);
 					
@@ -421,10 +393,7 @@ public class MainControl {
 					}
 				}
 			}
-			// }
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("updateRefreshTradeRequest failed");
 		}
 	}
 
@@ -434,7 +403,6 @@ public class MainControl {
 			gameControl.getCatanGame().setRolledDice(mainDA.hasThrown(gameControl.getCatanGame().getIdGame()));
 			guiController.refreshDice();
 		} catch (Exception e) {
-			System.out.println("updaterefresh dice failed");
 		}
 	}
 
@@ -444,8 +412,6 @@ public class MainControl {
 			guiController.refreshPlayerResources();
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("updateRefreshPlayers failed");
 		}
 	}
 
@@ -464,8 +430,6 @@ public class MainControl {
 			gameControl.checkForWinner();
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("updatePlayers failed");
 		}
 	}
 
