@@ -65,7 +65,6 @@ public class TradeOptionsPanel extends JPanel {
 		backButton.setBackground(textBackgroundColor);
 		backButton.setForeground(TextColor);
 		add(backButton);
-
 	}
 
 	public JButton getBankButton() {

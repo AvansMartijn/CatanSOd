@@ -10,7 +10,6 @@ public class Account {
 	public Account(String username) {
 		this.username = username;
 	}
-
 	
 	public void addGame(Catan catan) {
 		games.add(catan);

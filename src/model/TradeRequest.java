@@ -2,7 +2,6 @@ package model;
 
 public class TradeRequest {
 	
-
 	private int idPlayer;
 	private int g_brick = 0;
 	private int g_wool = 0;
@@ -29,8 +28,6 @@ public class TradeRequest {
 		this.w_iron = w_iron;
 		this.w_wheat = w_wheat;
 		this.w_wood = w_wood;
-		
-		
 	}
 
 	public TradeRequest(int idPlayer, int g_brick, int g_wool, int g_iron, int g_wheat, int g_wood, int w_brick,
@@ -47,7 +44,6 @@ public class TradeRequest {
 		this.w_wheat = w_wheat;
 		this.w_wood = w_wood;
 		this.accepted = accepted;
-
 	}
 	
 	

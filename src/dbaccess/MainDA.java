@@ -27,11 +27,9 @@ public class MainDA {
 	private static final String url = "jdbc:mysql://databases.aii.avans.nl:3306/mfghaneg_db?useSSL=false";
 	private static final String user = "mfghaneg";
 	private static final String password = "Ab12345";
-	// protected Connection myConn;
 	protected C3P0DataSource connectionPool;
 
 	public MainDA() {
-		// myConn = null;
 		connectionPool = C3P0DataSource.getInstance();
 	}
 
@@ -43,7 +41,6 @@ public class MainDA {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-			System.out.println("Unable to load Database Driver");
 			return false;
 		}
 		return true;
@@ -62,11 +59,8 @@ public class MainDA {
 				comboPooledDataSource.setInitialPoolSize(2);
 				comboPooledDataSource.setMinPoolSize(2);
 				comboPooledDataSource.setMaxPoolSize(2);
-				// comboPooledDataSource.setMaxIdleTimeExcessConnections(3600);
-
 				comboPooledDataSource.setPassword(password);
 			} catch (PropertyVetoException ex1) {
-				ex1.printStackTrace();
 			}
 		}
 
@@ -81,7 +75,6 @@ public class MainDA {
 			try {
 				con = comboPooledDataSource.getConnection();
 			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 			return con;
 		}
@@ -98,7 +91,6 @@ public class MainDA {
 			stmt = myConn.createStatement();
 			stmt.executeUpdate(query);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			queryResult = false;
 		} finally {
 			try {
@@ -129,10 +121,8 @@ public class MainDA {
 			while (myRs.next()) {
 				String username = myRs.getString("username"); // Name of column
 				String password = myRs.getString(2); // Number of column
-				System.out.println(username + " pw: " + password);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				myRs.close();
@@ -167,7 +157,6 @@ public class MainDA {
 				idGame = myRs.getInt(1) + 1;
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable get last game ID from DB");
 		} finally {
 			try {
 				myRs.close();
@@ -185,7 +174,6 @@ public class MainDA {
 		String insertquery = "INSERT INTO spel (idspel, israndomboard, eersteronde)" + " VALUES(" + idGame + ", "
 				+ randomBoard + ", " + true + ");";
 		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("Adding game to DB failed");
 		}
 		return idGame;
 	}
@@ -204,7 +192,6 @@ public class MainDA {
 				idPlayer = myRs.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get last player ID");
 		} finally {
 			try {
 				myRs.close();
@@ -241,7 +228,6 @@ public class MainDA {
 				lastTimeStamp = myRs.getString(2);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get last player ID");
 		} finally {
 			try {
 				myRs.close();
@@ -263,10 +249,7 @@ public class MainDA {
 			query = "INSERT INTO chatregel (tijdstip, idspeler, bericht) VALUES (DATE_ADD(\"" + lastTimeStamp
 					+ "\", INTERVAL 1 second), " + idPlayer + ", '" + bericht + "');";
 		}
-		System.out.println(query);
 		if (!insertUpdateQuery(query)) {
-
-			System.out.println("Adding message to DB failed");
 			return false;
 		}
 		return true;
@@ -295,8 +278,6 @@ public class MainDA {
 				retList.add(timestamp + " " + bericht);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -330,9 +311,7 @@ public class MainDA {
 		}
 
 		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to add tile");
 		}
-		;
 	}
 
 	/**
@@ -341,13 +320,7 @@ public class MainDA {
 	public void addPlayerPiece(String idPiece, int idPlayer) {
 
 		String query = "INSERT INTO spelerstuk (idstuk, idspeler, x_van, y_van, x_naar, y_naar)" + " VALUES " + "('"
-				+ idPiece + "' , " + idPlayer + ", null, null, null, null);";
-		System.out.println(query);
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to add Building");
-		}
-		;
-
+				+ idPiece + "' , " + idPlayer + ", null, null, null, null);";		
 	}
 
 	public void addResourceCard(String idResourceCard, int idGame) {
@@ -355,10 +328,7 @@ public class MainDA {
 		String query = "INSERT INTO spelergrondstofkaart (idspel, idgrondstofkaart, idspeler)" + " VALUES " + "("
 				+ idGame + ", '" + idResourceCard + "' , null);";
 		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to add resourceCard");
 		}
-		;
-
 	}
 
 	public void addDevelopmentCard(String idDevelopmentCard, int idGame) {
@@ -366,10 +336,7 @@ public class MainDA {
 		String query = "INSERT INTO spelerontwikkelingskaart (idspel, idontwikkelingskaart, idspeler, gespeeld)"
 				+ " VALUES " + "(" + idGame + ", '" + idDevelopmentCard + "' , null, 0);";
 		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to add Building");
 		}
-		;
-
 	}
 
 	/**
@@ -396,7 +363,6 @@ public class MainDA {
 				returnTile.add(new Tile(idTile, xCord, yCord, idResource, chipNumber));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				myRs.close();
@@ -447,7 +413,6 @@ public class MainDA {
 				return false;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				myRs.close();
@@ -474,18 +439,10 @@ public class MainDA {
 		String insertquery = "INSERT INTO speler (idspeler, idspel, username, kleur, speelstatus, shouldrefresh, volgnr)"
 				+ " " + "VALUES (" + idPlayer + ", " + idGame + ", '" + username + "', '" + playerColor.toLowerCase() + "', '"
 				+ playStatus.toLowerCase() + "', " + false + ", " + followNR + ");";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("Adding player to DB failed");
-		}
 	}
 
 	public void setTurn(int idPlayer, int idGame) {
 		String insertquery = "UPDATE spel SET beurt_idspeler = '" + idPlayer + "' WHERE idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("Changing turn to DB failed");
-		}
 	}
 
 	public int getTurn(int idGame) {
@@ -501,7 +458,6 @@ public class MainDA {
 				idPlayer = myRs.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get last player ID");
 		} finally {
 			try {
 				myRs.close();
@@ -521,18 +477,10 @@ public class MainDA {
 
 	public void setThrownDice(int thrown, int idGame) {
 		String insertquery = "UPDATE spel SET gedobbeld = '" + thrown + "' WHERE idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("Changing thrownDice to DB failed");
-		}
 	}
 
 	public void setFirstRound(int firstRound, int idGame) {
 		String insertquery = "UPDATE spel SET eersteronde = '" + firstRound + "' WHERE idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("Changing firstround to DB failed");
-		}
 	}
 
 	public int getFirstRound(int idGame) {
@@ -549,7 +497,6 @@ public class MainDA {
 				firstround = myRs.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get first round");
 		} finally {
 			try {
 				myRs.close();
@@ -581,7 +528,6 @@ public class MainDA {
 				idPlayer = myRs.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get last player ID");
 		} finally {
 			try {
 				myRs.close();
@@ -617,7 +563,6 @@ public class MainDA {
 				lastNR = myRs.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get last follownumber from database");
 		} finally {
 			try {
 				myRs.close();
@@ -662,7 +607,6 @@ public class MainDA {
 				retList.add(idGame);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get GameId's");
 		} finally {
 			try {
 				myRs.close();
@@ -699,7 +643,6 @@ public class MainDA {
 				retList.add(idGame);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get GameId's");
 		} finally {
 			try {
 				myRs.close();
@@ -741,7 +684,6 @@ public class MainDA {
 						PlayStatus.valueOf(playStatus)));
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get gameplayers");
 		} finally {
 			try {
 				myRs.close();
@@ -784,7 +726,6 @@ public class MainDA {
 				return true;
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to check if username exists");
 		} finally {
 			try {
 				myRs.close();
@@ -805,10 +746,6 @@ public class MainDA {
 	public void changeRobberLocation(int idGame, int idTile) {
 
 		String query = "UPDATE spel SET struikrover_idtegel = " + idTile + " WHERE idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to change robberlocation");
-		}
 	}
 
 	public int getRobberLocation(int idGame) {
@@ -824,7 +761,6 @@ public class MainDA {
 				streetRobberIdTile = myRs.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get players");
 		} finally {
 			try {
 				myRs.close();
@@ -846,10 +782,6 @@ public class MainDA {
 	public void setLastThrow(int throw1, int throw2, int idGame) {
 		String query = "UPDATE spel SET laatste_worp_steen1 = " + throw1 + ", laatste_worp_steen2 = " + throw2
 				+ " WHERE idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to change last throw");
-		}
 	}
 
 	public int[] getLastThrows(int idGame) {
@@ -866,7 +798,6 @@ public class MainDA {
 				lastThrows[1] = myRs.getInt(2);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get last throws");
 		} finally {
 			try {
 				myRs.close();
@@ -898,7 +829,6 @@ public class MainDA {
 				shouldRefresh = myRs.getBoolean(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get shouldRefresh");
 		} finally {
 			try {
 				myRs.close();
@@ -924,7 +854,6 @@ public class MainDA {
 		String query = "UPDATE speler SET shouldrefresh = " + shouldRefresh + " WHERE idspeler = " + playerID + ";";
 
 		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to change shouldRefresh");
 			return false;
 		}
 		return true;
@@ -939,21 +868,12 @@ public class MainDA {
 			query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From + " WHERE idspeler = '" + idPlayer
 					+ "' AND idstuk = '" + idPiece + "';";
 		}
-		System.out.println(query);
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to update Building");
-		}
-
 	}
 
 	public void updateStreet(String idPiece, int idPlayer, int x_From, int y_From, int x_to, int y_to) {
 
 		String query = "UPDATE spelerstuk SET x_van = " + x_From + ", y_van = " + y_From + ", x_naar = " + x_to
 				+ ", y_naar = " + y_to + " WHERE idspeler ='" + idPlayer + "' AND idstuk = '" + idPiece + "';";
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to add Street");
-		}
-
 	}
 
 	public ArrayList<City> getCitiesFromPlayer(int playerID) {
@@ -976,7 +896,6 @@ public class MainDA {
 				retArr.add(city);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				myRs.close();
@@ -1013,7 +932,6 @@ public class MainDA {
 				retArr.add(village);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				myRs.close();
@@ -1050,7 +968,6 @@ public class MainDA {
 				retArr.add(city);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				myRs.close();
@@ -1088,7 +1005,6 @@ public class MainDA {
 				retArr.add(new Street(idpiece, x_from, y_from, x_to, y_to));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				myRs.close();
@@ -1121,8 +1037,6 @@ public class MainDA {
 				retList.add(username);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Failed to get accounts from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -1162,8 +1076,6 @@ public class MainDA {
 				retList.add(new Resource(resourceID));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -1184,19 +1096,11 @@ public class MainDA {
 	public void removeResource(String idResource, int idGame) {
 		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = null WHERE idgrondstofkaart = '" + idResource
 				+ "' AND idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("Removing resource in DB failed");
-		}
 	}
 
 	public void addResourceToPlayer(String idResource, int idGame, int idPlayer) {
 		String insertquery = "UPDATE spelergrondstofkaart SET idspeler = '" + idPlayer + "' WHERE idgrondstofkaart = '"
 				+ idResource + "' AND idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("adding resource to player in DB failed");
-		}
 	}
 
 	public ArrayList<DevelopmentCard> updateDevelopmentCards(int idGame, int idPlayer) {
@@ -1222,8 +1126,6 @@ public class MainDA {
 				retList.add(new DevelopmentCard(developmentCardID, played));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -1254,7 +1156,6 @@ public class MainDA {
 				shouldRefresh = myRs.getBoolean(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Unable to get has Thrown");
 		} finally {
 			try {
 				myRs.close();
@@ -1290,80 +1191,26 @@ public class MainDA {
 					+ tR.getG_iron() + ", " + tR.getG_wheat() + ", " + tR.getG_wood() + ", " + tR.getW_brick() + ", "
 					+ tR.getW_wool() + ", " + tR.getW_iron() + ", " + tR.getW_wheat() + ", " + tR.getW_wood() + ");";
 		}
-		System.out.println(query);
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to add tradeRequest");
-		}
 	}
 
 	public void deleteTradeRequests(int idGame) {
 
 		String query = "DELETE FROM ruilaanbod WHERE idspeler IN(SELECT idspeler FROM speler WHERE idspel = " + idGame
 				+ ");";
-		System.out.println(query);
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to delete tradeRequest");
-		}
 	}
-
-//	public ArrayList<DevelopmentCard> getTradeRequests(int idGame, int idPlayer) {
-//
-//		ArrayList<DevelopmentCard> retList = new ArrayList<DevelopmentCard>();
-//		Connection myConn = connectionPool.getConnection();
-//		Statement stmt = null;
-//		ResultSet myRs = null;
-//		String query = "SELECT * FROM ruilaanbod WHERE idspel = " + idGame + " AND idspeler IS NULL;";
-//		try {
-//			stmt = myConn.createStatement();
-//			myRs = stmt.executeQuery(query);
-//			while (myRs.next()) {
-//				String developmentCardID = myRs.getString(1);
-//				boolean played = myRs.getBoolean(2);
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			// System.out.println("Failed to get messages from Database");
-//		} finally {
-//			try {
-//				myRs.close();
-//			} catch (Exception e) {
-//				/* ignored */ }
-//			try {
-//				stmt.close();
-//			} catch (Exception e) {
-//				/* ignored */ }
-//			try {
-//				myConn.close();
-//			} catch (Exception e) {
-//				/* ignored */ }
-//		}
-//		return retList;
-//	}
 
 	public void acceptInvite(int playerId) {
 		String query = "UPDATE speler SET speelstatus = 'geaccepteerd' WHERE idspeler = " + playerId + ";";
-
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to change playstatus");
-		}
 	}
 
 	public void declineInvite(int playerId) {
 		String query = "UPDATE speler SET speelstatus = 'geweigerd' WHERE idspeler = " + playerId + ";";
-
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to change playstatus");
-		}
 	}
 
 	public void switchPlayer(String originalUsername, String newUsername, int gameId) {
 		String query = "UPDATE speler SET username = '" + newUsername
 				+ "', speelstatus = 'uitgedaagde'  WHERE username = '" + originalUsername + "' AND idspel = " + gameId
 				+ ";";
-
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to switch player");
-		}
 	}
 
 	public TradeRequest getInitialTradeRequest(int idGame) {
@@ -1393,8 +1240,6 @@ public class MainDA {
 						woolreceive, ironreceive, wheatreceive, woodreceive);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -1439,8 +1284,6 @@ public class MainDA {
 						woolreceive, ironreceive, wheatreceive, woodreceive, accepted);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -1471,10 +1314,7 @@ public class MainDA {
 			while (myRs.next()) {
 				amount = myRs.getInt(1);
 			}
-			System.out.println("amount retrieved from DB: " + amount);
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -1495,56 +1335,31 @@ public class MainDA {
 	public void abortGame(int[] playerids) {
 		for (int playerId : playerids) {
 			String query = "UPDATE speler SET speelstatus = 'afgebroken' WHERE idspeler = " + playerId + ";";
-
-			if (!insertUpdateQuery(query)) {
-				System.out.println("Unable to change playstatus");
-			}
 		}
 	}
 
 	public void finishGame(int idGame) {
 		String query = "UPDATE speler SET speelstatus = 'uitgespeeld' WHERE idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(query)) {
-			System.out.println("Unable to change playstatus");
-		}
 	}
 
 	public void addDevelopmentCardToPlayer(String developmentCardID, int idPlayer, int idGame) {
 		String insertquery = "UPDATE spelerontwikkelingskaart SET idspeler = '" + idPlayer + "' WHERE idontwikkelingskaart = '"
-				+ developmentCardID + "' AND idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("adding resource to player in DB failed");
-		}
-		
+				+ developmentCardID + "' AND idspel = " + idGame + ";";	
 	}
 	
 	public void useDevelopmentCard(String developmentCardID, int idGame) {
 		String insertquery = "UPDATE spelerontwikkelingskaart SET gespeeld = '1' WHERE idontwikkelingskaart = '"
 				+ developmentCardID + "' AND idspel = " + idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("updating resource to player in DB failed");
-		}
 	}
 	
 	public void updateLargestArmy(int idGame, int idPlayer) {
 		String insertquery = "UPDATE spel SET grootste_rm_idspeler = " + idPlayer + "  WHERE idspel = "
 				+ idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("updating largest army in DB failed");
-		}
 	}
 	
 	public void updateLongestTradeRoute(int idGame, int idPlayer) {
 		String insertquery = "UPDATE spel SET langste_hr_idspeler = " + idPlayer + "  WHERE idspel = "
 				+ idGame + ";";
-
-		if (!insertUpdateQuery(insertquery)) {
-			System.out.println("updating largest army in DB failed");
-		}
 	}
 	
 	public int getPlayerWithLongestTradeRoute(int idGame) {
@@ -1562,8 +1377,6 @@ public class MainDA {
 				
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -1593,11 +1406,8 @@ public class MainDA {
 			myRs = stmt.executeQuery(query);
 			while (myRs.next()) {
 				 playerID = myRs.getInt(1);
-				
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			// System.out.println("Failed to get messages from Database");
 		} finally {
 			try {
 				myRs.close();
@@ -1614,5 +1424,4 @@ public class MainDA {
 		}
 		return playerID;
 	}
-
 }

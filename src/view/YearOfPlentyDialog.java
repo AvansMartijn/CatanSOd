@@ -10,7 +10,7 @@ public class YearOfPlentyDialog extends JDialog {
 
 	public YearOfPlentyDialog() {
 
-	yearOfPlentyDialogPanel = new YearOfPlentyDialogPanel();
+		yearOfPlentyDialogPanel = new YearOfPlentyDialogPanel();
 		
 		setUndecorated(true);		
 		setContentPane(yearOfPlentyDialogPanel);
@@ -18,7 +18,6 @@ public class YearOfPlentyDialog extends JDialog {
 		setLocationRelativeTo(null);
 		setAlwaysOnTop(true);
 		setVisible(true);
-
 	}
 
 	public YearOfPlentyDialogPanel getYearOfPlentyDialogPanel() {

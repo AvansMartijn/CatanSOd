@@ -58,7 +58,6 @@ public class DevelopmentCardButton extends JButton {
 		case YEAR_OF_PLENTY:
 			return "/images/Year_Of_Plenty.jpg";
 		default:
-			System.out.println("foutje");
 		}
 		return null;
 	}
@@ -66,6 +65,4 @@ public class DevelopmentCardButton extends JButton {
 	public DevelopmentCard getDevelopmentCard() {
 		return developmentCard;
 	}
-	
-	
 }

@@ -31,7 +31,7 @@ public class RecentGamePanel extends JPanel {
 	private Color backgroundColor = new Color(240, 226, 223);
 	private Image image;
 
-	public RecentGamePanel(Catan game) { // TODO optimize by putting every label in an array and then a for loop
+	public RecentGamePanel(Catan game) {
 		this.game = game;
 		this.setBackground(Color.WHITE);
 		this.setLayout(new GridBagLayout());
@@ -51,7 +51,7 @@ public class RecentGamePanel extends JPanel {
 		this.add(label, c);
 
 		ArrayList<Player> playerArray = game.getPlayers();
-		String[] displayStringArr = new String[4]; // TODO constant for length
+		String[] displayStringArr = new String[4];
 		String turnUsername = "";
 		for (Player p : playerArray) {
 			if (p.getIdPlayer() == game.getTurn()) {

@@ -19,7 +19,7 @@ public class BuildingLocationButton extends JButton {
 	private double angle = 2 * Math.PI / n;
 	//if false state is village, if true state is city
 	private boolean state;
-
+	private Polygon polygon;
 	
 
 	public BuildingLocationButton(BuildingLocation buildLoc) {
@@ -27,8 +27,6 @@ public class BuildingLocationButton extends JButton {
 		setContentAreaFilled(false);
 		setFocusPainted(false);
 		setBorderPainted(false);
-		// setPreferredSize(new Dimension(WIDTH, LENGTH));
-		// setIcon(new ImageIcon(image));
 		setBackground(Color.black);
 	}
 
@@ -68,8 +66,6 @@ public class BuildingLocationButton extends JButton {
 			setCityBorder(g);
 		}
 	}
-
-	Polygon polygon;
 
 	public boolean contains(int x1, int y1) {
 		if (polygon == null || !polygon.getBounds().equals(getBounds())) {

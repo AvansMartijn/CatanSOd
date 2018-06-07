@@ -22,7 +22,7 @@ public class PlayerOptionMenuPanel extends JPanel {
 	private Color backgroundColor = new Color(189, 133, 100);
 	private Color textBackgroundColor = new Color(223, 190, 172);
 
-	private ArrayList<JButton> playerActionButtons; // TODO make it an normal array size 4
+	private ArrayList<JButton> playerActionButtons;
 
 	public PlayerOptionMenuPanel() {
 

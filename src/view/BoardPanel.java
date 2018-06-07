@@ -51,7 +51,6 @@ public class BoardPanel extends JPanel {
 		streetLocArray = gameBoard.getStreetLocArr();
 		setLayout(null);
 		
-		// TEST
 		setBackground(backGroundColor);
 		URL url = this.getClass().getResource("/images/ocean.png");
 		
@@ -66,15 +65,10 @@ public class BoardPanel extends JPanel {
 		background.setIcon(icon);
 		background.setBounds(0, 0, panelWidth, panelHeight);
 		add(background, -1);
-		// END TEST
 
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		createTiles();
 	}
-	
-
-
-	
 
 	public ArrayList<TileButton> getTileButtonArrayList() {
 		return tileButtonArrayList;
@@ -87,9 +81,6 @@ public class BoardPanel extends JPanel {
 	public ArrayList<StreetLocationButton> getStreetLocationButtonArrayList(){
 		return streetLocButtonArray;
 	}
-
-
-
 
 	// Create tiles and draw them
 	private void createTiles() {
@@ -111,9 +102,6 @@ public class BoardPanel extends JPanel {
 
 		}
 
-
-		// disableTileButtons();
-
 		for (BuildingLocation bl : buildingLocArray) {
 			BuildingLocationButton blb = new BuildingLocationButton(bl);
 
@@ -128,9 +116,6 @@ public class BoardPanel extends JPanel {
 			add(blb, 0);
 		}
 
-//		addBuildLocListeners();
-//		disableBuildingLocButtons();
-
 		for (StreetLocation sl : streetLocArray) {
 			StreetLocationButton slb;
 			Point startlocPoint = cordMap.get(new Point(sl.getBlStart().getXLoc(), sl.getBlStart().getYLoc()));
@@ -140,7 +125,6 @@ public class BoardPanel extends JPanel {
 			int endXLoc = (int) endlocPoint.getX();
 			int endYLoc = (int) endlocPoint.getY();
 			Point streetLocationPoint = null;
-			int rotation = 0;
 			if (startXLoc < endXLoc) {
 
 				// xstart + ((endx - startx)/2)
@@ -148,23 +132,19 @@ public class BoardPanel extends JPanel {
 					// ystart + ((eindy - starty)/2)
 					streetLocationPoint = new Point((startXLoc + ((endXLoc - startXLoc) / 2)),
 							(startYLoc + ((endYLoc - startYLoc) / 2)));
-					rotation = 35;
 				} else if (startYLoc > endYLoc) {
 					// yeind + ((ystart - yeind)/2)
 					streetLocationPoint = new Point((startXLoc + ((endXLoc - startXLoc) / 2)),
 							(endYLoc + ((startYLoc - endYLoc) / 2)));
-					rotation = 85;
 				}
 
 			} else if (startXLoc > endXLoc) {
 				if (startYLoc < endYLoc) {
 					streetLocationPoint = new Point((endXLoc + ((startXLoc - endXLoc) / 2)),
 							(endYLoc + ((startYLoc - endYLoc) / 2)));
-					rotation = 85;
 				} else if (startYLoc > endYLoc) {
 					streetLocationPoint = new Point((startXLoc + ((endXLoc - startXLoc) / 2)),
 							(startYLoc + ((endYLoc - startYLoc) / 2)));
-					rotation = 35;
 				}
 			} else {
 				if (startYLoc < endYLoc) {
@@ -173,7 +153,7 @@ public class BoardPanel extends JPanel {
 					streetLocationPoint = new Point((endXLoc), (endYLoc + ((startYLoc - endYLoc) / 2)));
 				}
 			}
-			slb = new StreetLocationButton(sl, rotation);
+			slb = new StreetLocationButton(sl);
 			slb.setLocation((int) (streetLocationPoint.getX() - (streetWidth / 2)),
 					(int) (streetLocationPoint.getY() - (streetHeight / 2)));
 			slb.setSize(streetWidth, streetHeight);
@@ -181,10 +161,6 @@ public class BoardPanel extends JPanel {
 			streetLocButtonArray.add(slb);
 			add(slb, 0);
 		}
-
-//		addStreetLocListeners();
-//		disableStreetLocButtons();
-
 	}
 
 	private void fillCordMap() {

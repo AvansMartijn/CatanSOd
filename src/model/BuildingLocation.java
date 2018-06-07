@@ -11,7 +11,6 @@ public class BuildingLocation {
 
 	public BuildingLocation(int x, int y) {
 		adjecentStreets = new ArrayList<StreetLocation>();
-//		streetLocArr = new ArrayList<>();
 		this.x = x;
 		this.y = y;	
 	}
@@ -66,7 +65,6 @@ public class BuildingLocation {
 		this.building = village;
 	}	
 	
-// 	public ArrayList<StreetLocation> getAdjacentStreets() {
 	public ArrayList<StreetLocation> getAdjacentStreetLocations() {
 		return adjecentStreets;
 	}

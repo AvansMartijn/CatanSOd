@@ -32,6 +32,4 @@ public class Resource {
 	public String getResourceID() {
 		return resourceID;
 	}
-	
-
 }

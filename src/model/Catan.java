@@ -16,11 +16,7 @@ public class Catan {
 	private boolean firstRound;
 	private boolean roadBuilding;
 	private boolean roadBuildingFirst;
-	
-	
 
-
-	//TODO Make sure that a conversion from playerID is made to the turn 
 	//get the followNr of the player of which it is it's turn. 
 	/** Player's turn in order: 1-4 */
 	private int turn;
@@ -95,65 +91,6 @@ public class Catan {
 		return null;
 	}
 	
-	//TODO These should be GameControl methods
-	/*
-	public void setup() {
-//		player 0,1,2,3 does their turn.
-		for(int playerNr = 0; playerNr < players.length; playerNr++) {
-			players[playerNr].setUpTurn();
-		}
-//		player 3,2,1,0 does their turn
-		for(int playerNr = players.length; playerNr > 0; playerNr--) {
-			Village v = players[playerNr].setUpTurn();
-			players[playerNr].getStartResources(v);
-		}
-	}
-
-	public void turn() {
-		turn++;
-		int roll = dice.roll();
-//		The distributeResources method makes an array of all players which contains an ArrayList of resources they get. 
-		ArrayList<Resource>[] harvest = gameboard.distributeResources(roll);
-		distributeResources(harvest);
-		players[getPlayerTurn()].doTurn();
-	}
-
-	public Player[] getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(Player[] players) {
-		this.players = players;
-	}
-
-//	private void distributeResources(ArrayList<Resource>[] harvest) {
-//		for(int playerNr = 0; playerNr < harvest.length; playerNr++) {
-//			//This is not a for loop, because the harvest[playerNr] ArrayList reduces in size every time an item is removed.
-//			//It just continues until the the size of the harvest[playerNr] ArrayList reaches 0. 
-//			while(harvest[playerNr].size() > 0) {
-//				players[playerNr].getHand().addResource((harvest[playerNr].remove(0)));
-//			}
-//		}
-//	}
-
-//	private int getPlayerTurn() {
-//		int playerTurn = turn % AMOUNT_OF_PLAYERS;
-//		return playerTurn;
-//	}
-	
-	
-	private void distributeResources(ArrayList<Resource>[] harvest) {
-		for(int playerNr = 0; playerNr < harvest.length; playerNr++) {
-			//This is not a for loop, because the harvest[playerNr] ArrayList reduces in size every time an item is removed.
-			//It just continues until the the size of the harvest[playerNr] ArrayList reaches 0. 
-			while(harvest[playerNr].size() > 0) {
-				players[playerNr].getHand().addResource((harvest[playerNr].remove(0)));
-			}
-		}
-	}
-
-	*/
-	
 	public void rollDice() {
 		dice.roll();	
 	}
@@ -172,11 +109,6 @@ public class Catan {
 	public void setRoadBuilding(boolean roadBuilding) {
 		this.roadBuilding = roadBuilding;
 	}
-	
-//	public int getPlayerTurn() {
-//		int playerTurn = 4;
-//		return playerTurn;
-//	}
 
 	public Player getSelfPlayer() {
 		return selfPlayer;
@@ -234,16 +166,6 @@ public class Catan {
 		this.rolledDice = rolledDice;
 	}
 
-//	public void endTurn() {
-//		rolledDice = false;
-//		/*
-//		 * Turn 1-4 % 4 -> Turn 0-3
-//		 * turn++ -> turn 1-4 (turn 4 -> 1)
-//		 */
-//		turn = turn % 4;
-//		turn++;
-//	}
-//	
 	/**
 	 * Set this method to return true for testing, so you can test everything all the time. 
 	 * 

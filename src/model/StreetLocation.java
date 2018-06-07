@@ -5,22 +5,11 @@ public class StreetLocation {
 	private BuildingLocation blStart;
 	private BuildingLocation blEnd;
 	private Street street;
-	// private int xStart;
-	// private int yStart;
-	//
-	// private int xEnd;
-	// private int yEnd;
 
 	public StreetLocation(BuildingLocation blStart, BuildingLocation blEnd) {
 
 		this.blStart = blStart;
 		this.blEnd = blEnd;
-		// this.xStart = xStart;
-		// this.yStart = yStart;
-		//
-		// this.xEnd = xEnd;
-		// this.yEnd = yEnd;
-
 	}
 
 	public BuildingLocation getBlStart() {
@@ -117,5 +106,4 @@ public class StreetLocation {
 		}
 		return hasStreet;
 	}
-
 }

@@ -91,22 +91,18 @@ public class GameSelect extends JPanel {
 	}
 
 	public JTextField getCreateNewGameButton() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public AbstractButton getStandardGameButton() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public AbstractButton getRandomGameButton() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public JTextComponent getWarningLabel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

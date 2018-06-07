@@ -6,7 +6,6 @@ public abstract class Building {
 	protected String idBuilding;
 	protected int victoryPoint;
 	protected Player player;
-
 	
 	public Player getPlayer() {
 		return player;

@@ -12,9 +12,7 @@ import javax.swing.JRadioButton;
 public class RecentGamesTopPanel extends JPanel {
 
 	private JButton createGameButton, inviteButton;
-
 	private JRadioButton recentButton, closedGameButton;
-
 	private Color backgroundColor = new Color(189, 133, 100);
 
 	public RecentGamesTopPanel() {

@@ -17,7 +17,6 @@ public class Bank {
 
 	public void addMultipleResources(ArrayList<Resource> resourcesToAdd) {
 		for (Resource rs : resourcesToAdd) {
-			System.out.println(rs);
 			resources.add(rs);
 		}
 	}
@@ -50,14 +49,11 @@ public class Bank {
 
 	public DevelopmentCard takeDevelopmentCard() {
 		if (developmentCards.size() > 0) {
-			System.out.println(developmentCards.size());
 			int index = random.nextInt(developmentCards.size());
-			System.out.println(index);
 			return developmentCards.remove(index);
 		} else {
 			return null;
 		}
-
 	}
 
 	public void addResource(Resource resourceToAdd) {

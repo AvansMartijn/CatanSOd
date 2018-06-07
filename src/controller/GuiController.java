@@ -482,7 +482,7 @@ public class GuiController {
 
 				if (gameSelect.getStandardGameButton().isSelected()) {
 					// create standard game
-				} else if (gameSelect.getRandomGameButton().isSelected()) { // FIXME returns null
+				} else if (gameSelect.getRandomGameButton().isSelected()) {
 					// create random game
 				} else {
 					gameSelect.getWarningLabel().setText("Geen speelbord geselecteerd");
@@ -632,7 +632,6 @@ public class GuiController {
 							try {
 								Thread.sleep(1000);
 							} catch (InterruptedException e1) {
-								e1.printStackTrace();
 							}
 							boardPanel.enableStreetLocButtons();
 							addSystemMessageToChat(Color.BLUE, "Klik op een straatlocatie om je straat te bouwen");
@@ -814,7 +813,6 @@ public class GuiController {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
 								developmentCardPlayDialog.dispose();
-								System.out.println("clicked play");
 								DevelopmentCardType cardType = b.getDevelopmentCard().getDevelopmentCardType();
 								switch (cardType) {
 								case KNIGHT:
@@ -873,9 +871,7 @@ public class GuiController {
 									break;
 								}
 								b.getDevelopmentCard().setPlayed(true);
-								System.out.println("Played is true");
 								disableAllDevelopmentCards();
-								System.out.println("Disabled DevCards");
 								developmentCardsPanel.repaint();
 							}
 						});
@@ -902,7 +898,6 @@ public class GuiController {
 	}
 
 	public void enableUnplayedDevelopmentCards() {
-		System.out.println("enable unplayed dev cards");
 		for (DevelopmentCardButton b : developmentCardsPanel.getDevelopmentCardButtons()) {
 			if (!b.getDevelopmentCard().isPlayed()) {
 				b.setEnabled(true);
@@ -923,8 +918,6 @@ public class GuiController {
 				if (gameControl.canBuy(DevelopmentCard.CARD_COST)) {
 					DevelopmentCard dc = gameControl.buyDevelopmentCard();
 					if (dc != null) {
-						System.out.println("Bought developmentcard");
-
 						playerActionPanel.setPlayerOptionMenuPanel();
 						developmentCardsPanel.addDevelopmentCardButton(dc);
 						addDevelopmentCardsPanelButtonListeners();
@@ -995,8 +988,6 @@ public class GuiController {
 	}
 
 	public void drawMonopolyDialog() {
-		System.out.println("drawmonopoly dialog");
-
 		MonopolyDialog monopolyDialog = new MonopolyDialog();
 
 		ArrayList<JButton> resourceButtons = monopolyDialog.getMonopolyDialogPanel().getResourceButtons();
@@ -1201,8 +1192,6 @@ public class GuiController {
 				ResourceType resourceTypeToReceive = playerActionPanel.getTradeBankPanel()
 						.getSelectedResourceType(playerActionPanel.getTradeBankPanel().getReceiveButtonGroup());
 
-				System.out.println("ResourceRatio: " + resourceRatios);
-
 				gameControl.getBankTradeRequest(resourceRatios, resourceTypeToGive, resourceTypeToReceive);
 
 				gameGUIPanel.getResourcesPanel().updateResourcesAmount();
@@ -1256,9 +1245,6 @@ public class GuiController {
 					if (result == JOptionPane.CANCEL_OPTION) {
 					}
 				} else {
-
-					System.out.println(brickGive + woolGive + ironGive + wheatGive + woodGive + stoneReceive
-							+ woolReceive + ironReceive + wheatReceive + woodReceive);
 					gameControl.createPlayerTradeRequest(brickGive, woolGive, ironGive, wheatGive, woodGive,
 							stoneReceive, woolReceive, ironReceive, wheatReceive, woodReceive);
 
@@ -1510,12 +1496,8 @@ public class GuiController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				// cityBoolean = true;
 				boardPanel.enableBuildingLocButtons(true);
-
 				playerActionPanel.setReturnToBuildPanel();
-				System.out.println("test");
 			}
 		});
 
@@ -1678,9 +1660,8 @@ public class GuiController {
 	public String getSelectedButtonText(ButtonGroup buttonGroup) {
 		for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
 			AbstractButton button = buttons.nextElement();
-			System.out.println("button: " + button);
+
 			if (button.isSelected()) {
-				System.out.println("button text: " + button.getText());
 				return button.getText();
 			}
 		}
@@ -1689,13 +1670,11 @@ public class GuiController {
 
 	public void enablePlayerActionPanel() {
 		playerActionPanel.setVisible(true);
-		System.out.println("Enabled Panel");
 		playerActionPanel.revalidate();
 	}
 
 	public void disablePlayerActionPanel() {
 		playerActionPanel.setVisible(false);
-		System.out.println("Disabled Panel");
 		playerActionPanel.revalidate();
 	}
 

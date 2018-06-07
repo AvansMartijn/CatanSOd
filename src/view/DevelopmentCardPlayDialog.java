@@ -16,7 +16,6 @@ public class DevelopmentCardPlayDialog extends JDialog {
 		setLocationRelativeTo(null);
 		setAlwaysOnTop(true);
 		setVisible(false);
-
 	}
 
 	public DevelopmentCardDialogPanel getDevelopmentCardDialogPanel() {

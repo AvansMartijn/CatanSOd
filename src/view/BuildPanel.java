@@ -35,7 +35,6 @@ public class BuildPanel extends JPanel {
 			dorp = ImageIO.read(getClass().getResource("/images/IMG_1263 dorp 1.png"));
 			stad = ImageIO.read(getClass().getResource("/images/IMG_1263 stad 1.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		ImageIcon street = new ImageIcon(straat);
 		ImageIcon villages = new ImageIcon(dorp);
