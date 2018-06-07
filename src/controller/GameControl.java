@@ -156,6 +156,8 @@ public class GameControl {
 		for (Player p : catanGame.getPlayers()) {
 			if (p.getHand().getResources().size() > SEVEN_CARD_RULE) {
 				int amountOfResourcesToTake = p.getHand().getResources().size() / HALF_RESOURCES_TAKEN;
+				addLogMessage(p.getUsername() + " (" + p.getColor().toString().toLowerCase()
+						+ ") moet " + amountOfResourcesToTake + " afstaan");
 				for (int i = 0; i < amountOfResourcesToTake; i++) {
 					Resource rs = p.getHand().takeRandomResource();
 					catanGame.getBank().addResource(rs);
@@ -1321,11 +1323,14 @@ public class GameControl {
 				catanGame.setRolledDice(false);
 
 				catanGame.setFirstRound(false);
+				addLogMessage("De eerste ronde is nu voorbij.");
 				System.out.println("firstround:  " + catanGame.isFirstRound());
 				mainDA.setFirstRound(0, catanGame.getIdGame());
 
 				enableEveryoneShouldRefresh();
-				addLogMessage(catanGame.getSelfPlayer().getUsername() + " is nu aan de Beurt.");
+				addLogMessage(catanGame.getSelfPlayer().getUsername() + " ("
+						+ catanGame.getSelfPlayer().getColor().toString().toLowerCase() 
+						+ ") is nu aan de Beurt.");
 			} else {
 				for (Player p : catanGame.getPlayers()) {
 					if (p.getFollownr() == catanGame.getSelfPlayer().getFollownr() - 1) {
