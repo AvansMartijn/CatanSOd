@@ -1131,6 +1131,7 @@ public class GuiController {
 						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getUsername() + " ("
 						+ gameControl.getCatanGame().getPlayerByID(tr.getIdPlayer()).getColor().toString().toLowerCase()
 						+ ") afgewezen");
+				setTradeActive(false);
 				tradeReceive.dispose();
 			}
 		});

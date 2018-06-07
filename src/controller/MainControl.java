@@ -406,10 +406,14 @@ public class MainControl {
 		try {
 			// if (mainDA.getAmountOfOpenRequests(gameControl.getCatanGame().getIdGame()) ==
 			// 1) {
+			System.out.println("updateRefreshTradeRequest");
 			TradeRequest tr = gameControl.updateTradeRequests();
 			if (tr != null && tr.getIdPlayer() != gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) {
+				System.out.println("not yourself");
 				if (mainDA.getSingleTradeRequest(gameControl.getCatanGame().getSelfPlayer().getIdPlayer()) == null) {
+					System.out.println("no counter yet");
 					if(!guiController.isTradeActive()) {
+						System.out.println("tradepanel not active");
 						guiController.setTradeActive(true);
 					gameControl.getCatanGame().addTradeRequest(tr);
 					
