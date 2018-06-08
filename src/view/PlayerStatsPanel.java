@@ -156,7 +156,7 @@ public class PlayerStatsPanel extends JPanel {
 		}
 		String[] playerStats = new String[] { "" + player.getAmountBuildVillages(), "" + player.getAmountBuildCities(),
 				"" + player.getAmountBuildStreets(), "" + player.getHand().getResources().size(),
-				"" + player.getHand().getDevelopmentCards().size() };
+				"" + player.getHand().getDevelopmentCards().size() + " R: " + player.getHand().getPlayedKnights()};
 
 		for (int i = 0; i < statLabels.length; i++) {
 			statLabels[i].setText(playerStats[i]);

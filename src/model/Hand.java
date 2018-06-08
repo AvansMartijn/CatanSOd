@@ -14,6 +14,16 @@ public class Hand {
 		developmentCards = new ArrayList<DevelopmentCard>();
 		resources = new ArrayList<Resource>();
 	}
+	
+	public int getPlayedKnights() {
+		int i = 0;
+		for(DevelopmentCard d: developmentCards) {
+			if(d.getDevelopmentCardType().equals(DevelopmentCardType.KNIGHT) && d.isPlayed()) {
+				i++;
+			}
+		}
+		return i;
+	}
 
 	public HashMap<ResourceType, Integer> getAmountOfResources() {
 		HashMap<ResourceType, Integer> retMap = new HashMap<ResourceType, Integer>();
