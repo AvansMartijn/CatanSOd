@@ -80,9 +80,8 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		updatePlayers();
 		updateMessages();
-		updateRefreshTurn();
-		gameControl.setShouldRefreshEnabled(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
 		guiController.setIngameGuiPanel();
+		updateRefreshTurn();
 		updateRefreshTradeRequest();
 		updateRefreshArmyAndTradeRoute();
 		if (!game.getSelfPlayer().getPlayStatus().equals(PlayStatus.UITGESPEELD)) {
