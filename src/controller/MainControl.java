@@ -46,7 +46,7 @@ public class MainControl {
 	public Player getSelfPlayer(ArrayList<Player> players) {
 		Player selfPlayer = null;
 		for (Player p : players) {
-			if (p.getUsername().equals(account.getUsername())) {
+			if (p.getUsername().toLowerCase().equals(account.getUsername().toLowerCase())) {
 				selfPlayer = p;
 				break;
 			}
@@ -80,8 +80,9 @@ public class MainControl {
 				.setRobber(mainDA.getRobberLocation(gameControl.getCatanGame().getIdGame()));
 		updatePlayers();
 		updateMessages();
-		guiController.setIngameGuiPanel();
 		updateRefreshTurn();
+		gameControl.setShouldRefreshEnabled(gameControl.getCatanGame().getSelfPlayer().getIdPlayer());
+		guiController.setIngameGuiPanel();
 		updateRefreshTradeRequest();
 		updateRefreshArmyAndTradeRoute();
 		if (!game.getSelfPlayer().getPlayStatus().equals(PlayStatus.UITGESPEELD)) {

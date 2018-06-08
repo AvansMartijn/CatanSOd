@@ -241,6 +241,11 @@ public class MainDA {
 			while (myRs.next()) {
 				Timestamp tijdstip = myRs.getTimestamp(1);
 				String bericht = myRs.getString(2);
+				if(bericht.substring(0, 1).equals(":")) {
+					bericht = bericht.substring(1);
+				}
+				bericht = bericht.replace("/", "");
+				bericht = bericht.replace("\n", "");
 				String timestamp = tijdstip.toString().substring(11, tijdstip.toString().length() - 2);
 				retList.add(timestamp + " " + bericht);
 			}
