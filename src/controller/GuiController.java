@@ -1147,7 +1147,6 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradePlayerPanel();
-				disablePlayerActionPanel();
 
 			}
 		});
@@ -1194,6 +1193,7 @@ public class GuiController {
 				playerActionPanel.setPlayerOptionMenuPanel();
 
 				updatePlayerStats();
+				
 			}
 		});
 
@@ -1245,6 +1245,7 @@ public class GuiController {
 
 					gameControl.countTradeOffers();
 					playerActionPanel.setPlayerOptionMenuPanel();
+					disablePlayerActionPanel();
 				}
 			}
 		});
