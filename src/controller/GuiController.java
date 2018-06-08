@@ -1147,6 +1147,7 @@ public class GuiController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerActionPanel.setTradePlayerPanel();
+				disablePlayerActionPanel();
 
 			}
 		});
@@ -1304,6 +1305,7 @@ public class GuiController {
 
 							} else {
 								gameControl.commenceTrade(0);
+								enablePlayerActionPanel();
 								refreshPlayerResources();
 
 								gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
@@ -1353,6 +1355,7 @@ public class GuiController {
 							} else {
 								gameControl.commenceTrade(1);
 								refreshPlayerResources();
+								enablePlayerActionPanel();
 
 								gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 								enablePanelButtons();
@@ -1402,6 +1405,7 @@ public class GuiController {
 							} else {
 								gameControl.commenceTrade(2);
 								refreshPlayerResources();
+								enablePlayerActionPanel();
 
 								gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
 								enablePanelButtons();
@@ -1420,6 +1424,7 @@ public class GuiController {
 				gameControl.deleteTradeRequest();
 
 				gameGUIPanel.getGameTopPanel().getGoToMainMenuButton().setEnabled(true);
+				enablePlayerActionPanel();
 				enablePanelButtons();
 
 				tradeRespond.dispose();
